@@ -4,6 +4,8 @@ project:
 execute: 
   #echo: false
   warning: false
+#filters: 
+  #- webr
 book:
   title: "Smart Choices for Measurement Models"
   subtitle: "Dynamic Tutorial for your Confirmatory Factor Analysis in R Environment"
@@ -56,8 +58,6 @@ format:
     fig-align: left
   
   pdf:
-    title: "PLS-SEM Interactive Tutorial"
-    subtitle: "Step-by-Step with cSEM package"
     documentclass: article
     papersize: A4
     #abstract: "Working in progress"
