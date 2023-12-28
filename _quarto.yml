@@ -6,12 +6,13 @@ execute:
   warning: false
 #filters: 
   #- webr
+  #- abstract-section:
 book:
   title: "Smart Choices for Measurement Models"
   subtitle: "Dynamic Tutorial for your Confirmatory Factor Analysis in R Environment"
   author: "Pablo Rogers"
-  date: last-modified
-  date-format: "DD/MM/YY"
+  date: 12/27/2023
+  date-format: long
   #doi:
   cover-image: img/cover.png
   downloads: pdf
