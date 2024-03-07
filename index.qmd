@@ -1,4 +1,6 @@
-# Abstract {.unnumbered}
+Citation:
+
+# Abstract {.unnumbered .unlisted}
 
 This is a Quarto article.
 
@@ -8,4 +10,3 @@ To learn more about Quarto books visit <https://quarto.org/docs/books>.
 1 + 1
 ```
 
-### Citation {.unnumbered} 

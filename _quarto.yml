@@ -4,6 +4,7 @@ project:
 execute: 
   #echo: false
   warning: false
+  cache: true
 #filters: 
   #- webr
   #- abstract-section:
