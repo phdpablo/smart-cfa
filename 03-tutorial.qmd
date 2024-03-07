@@ -1,0 +1,13 @@
+# Executable Manuscript
+
+## Measurement Model Selection
+
+## Power Analysis
+
+## Pre-processing
+
+## Estimation Process
+
+## Model Fit
+
+## Model Comparisons and Modifications

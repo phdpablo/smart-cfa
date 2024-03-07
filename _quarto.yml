@@ -10,9 +10,9 @@ execute:
   #- abstract-section:
 book:
   title: "Smart Choices for Measurement Models"
-  subtitle: "Dynamic Tutorial for your Confirmatory Factor Analysis in R Environment"
+  subtitle: "Executable Manuscript Tutorial for your Confirmatory Factor Analysis in R Environment"
   author: "Pablo Rogers"
-  date: 12/27/2023
+  date: 03/07/2024
   date-format: long
   #doi:
   cover-image: img/cover.png
@@ -34,9 +34,8 @@ book:
     - index.qmd
     - 01-intro.qmd
     - 02-smart-choices.qmd
-    - 03-model.qmd
-    - 04-tutorial.qmd
-    - 05-considerations.qmd
+    - 03-tutorial.qmd
+    - 04-considerations.qmd
     - references.qmd
 
 bibliography: references.bib

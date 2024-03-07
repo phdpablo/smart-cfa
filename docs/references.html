@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -49,7 +49,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./05-considerations.html" rel="prev">
+<link href="./04-considerations.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -67,7 +67,13 @@ div.csl-indent {
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -76,6 +82,7 @@ div.csl-indent {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -84,7 +91,7 @@ div.csl-indent {
 
 
 <meta property="og:title" content="Smart Choices for Measurement Models - References">
-<meta property="og:site-name" content="Smart Choices for Measurement Models">
+<meta property="og:site_name" content="Smart Choices for Measurement Models">
 </head>
 
 <body class="nav-sidebar floating">
@@ -93,12 +100,12 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./references.html">References</a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./references.html">References</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -108,13 +115,13 @@ div.csl-indent {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Smart Choices for Measurement Models</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="https://github.com/phdpablo/smart-cfa/" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-    <a href="./Smart-Choices-for-Measurement-Models.pdf" rel="" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+    <a href="https://github.com/phdpablo/smart-cfa/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="./Smart-Choices-for-Measurement-Models.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
     <div class="dropdown">
       <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
       <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
@@ -169,25 +176,19 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./02-smart-choices.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Smart Choices</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Smart Choices in CFA</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-model.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Conceptual Model</span></span></a>
+  <a href="./03-tutorial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Executable Manuscript</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04-tutorial.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Dynamic Tutorial</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./05-considerations.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Final Considerations</span></span></a>
+  <a href="./04-considerations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Final Considerations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -199,7 +200,7 @@ div.csl-indent {
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
@@ -212,10 +213,594 @@ div.csl-indent {
 
 </header>
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-knuth84" class="csl-entry" role="listitem">
-Knuth, Donald E. 1984. <span>“Literate Programming.”</span> <em>Comput.
-J.</em> 27 (2): 97–111. <a href="https://doi.org/10.1093/comjnl/27.2.97">https://doi.org/10.1093/comjnl/27.2.97</a>.
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-aera1999" class="csl-entry" role="listitem">
+AERA, APA, and NCME. 1999. <span>“Standards for <span>Educational</span>
+and <span>Psychological Testing</span>.”</span> Washington: American
+Educational Research Association, American Psychological Association,
+&amp; National Council on Measurement in Education.
+</div>
+<div id="ref-aera2014" class="csl-entry" role="listitem">
+———. 2014. <span>“Standards for <span>Educational</span> and
+<span>Pshychological Testing</span>.”</span> Washington: American
+Educational Research Association, American Psychological Association
+&amp; National Council on Measurement in Education.
+</div>
+<div id="ref-arbuckle2019" class="csl-entry" role="listitem">
+Arbuckle, J. L. 2019. <span>“Amos.”</span> Chicago: IBM Corp.
+</div>
+<div id="ref-bandalos2014" class="csl-entry" role="listitem">
+Bandalos, Deborah L. 2014. <span>“Relative <span>Performance</span> of
+<span>Categorical Diagonally Weighted Least Squares</span> and
+<span>Robust Maximum Likelihood Estimation</span>.”</span>
+<em>Structural Equation Modeling</em> 21 (1): 102–16. <a href="https://doi.org/10.1080/10705511.2014.859510">https://doi.org/10.1080/10705511.2014.859510</a>.
+</div>
+<div id="ref-bandalos2018" class="csl-entry" role="listitem">
+———. 2018. <em>Measurement Theory and Applications for the Social
+Sciences</em>. New York: Guilford Press.
+</div>
+<div id="ref-bell2023" class="csl-entry" role="listitem">
+Bell, Stephanie M., R. Philip Chalmers, and David B. Flora. 2023.
+<span>“The <span>Impact</span> of <span>Measurement Model
+Misspecification</span> on <span>Coefficient Omega Estimates</span> of
+<span>Composite Reliability</span>.”</span> <em>Educational and
+Psychological Measurement</em>, 1–36. <a href="https://doi.org/10.1177/00131644231155804">https://doi.org/10.1177/00131644231155804</a>.
+</div>
+<div id="ref-bentler2020" class="csl-entry" role="listitem">
+Bentler, Peter M., and Erik Wu. 2020. <span>“<span>EQS</span> 6.4 for
+<span>Windows</span>.”</span> Multivariate Software, Inc. <a href="https://mvsoft.com">https://mvsoft.com</a>.
+</div>
+<div id="ref-brown2015" class="csl-entry" role="listitem">
+Brown, Timothy A. 2015. <em>Confirmatory <span>Factor Analysis</span>
+for <span>Applied Research</span></em>. New York: The Guilford Press.
+</div>
+<div id="ref-brown2023" class="csl-entry" role="listitem">
+———. 2023. <span>“Confirmatory <span>Factor Analysis</span>.”</span> In
+<em>Handbook of <span>Structural Equation Modeling</span></em>, edited
+by Rick H. Hoyle. New York: The Guilford Press.
+</div>
+<div id="ref-cho2022" class="csl-entry" role="listitem">
+Cho, Eunseong. 2022. <span>“Reliability and <span>Omega
+Hierarchical</span> in <span>Multidimensional Data</span>: <span>A
+Comparison</span> of <span>Various Estimators</span>.”</span>
+<em>Psychological Methods</em>. <a href="https://doi.org/10.1037/met0000525">https://doi.org/10.1037/met0000525</a>.
+</div>
+<div id="ref-cohen2022" class="csl-entry" role="listitem">
+Cohen, Ronald Jay, Joel W. Schneider, and Renée M. Tobin. 2022.
+<em>Psychological <span>Testing</span> and <span>Assessment</span>:
+<span>An Introduction</span> to <span>Test</span> and
+<span>Measurement</span></em>. New York: McGraw Hill LLC.
+</div>
+<div id="ref-collier2020" class="csl-entry" role="listitem">
+Collier, Joel E. 2020. <em>Applied <span>Structural Equation Modeling
+Using AMOS</span>: <span>Basic</span> to <span>Advanced
+Techniques</span></em>. New York: Routledge.
+</div>
+<div id="ref-crede2019" class="csl-entry" role="listitem">
+Crede, Marcus, and Peter Harms. 2019. <span>“Questionable Research
+Practices When Using Confirmatory Factor Analysis.”</span> <em>Journal
+of Managerial Psychology</em> 34 (1): 18–30. <a href="https://doi.org/10.1108/JMP-06-2018-0272">https://doi.org/10.1108/JMP-06-2018-0272</a>.
+</div>
+<div id="ref-davvetas2020" class="csl-entry" role="listitem">
+Davvetas, Vasileios, Adamantios Diamantopoulos, Ghasem Zaefarian, and
+Christina Sichtmann. 2020. <span>“Ten Basic Questions about Structural
+Equations Modeling You Should Know the Answers to – <span>But</span>
+Perhaps You Don’t.”</span> <em>Industrial Marketing Management</em> 90
+(October): 252–63. <a href="https://doi.org/10.1016/j.indmarman.2020.07.016">https://doi.org/10.1016/j.indmarman.2020.07.016</a>.
+</div>
+<div id="ref-dunn2014" class="csl-entry" role="listitem">
+Dunn, Thomas J., Thom Baguley, and Vivienne Brunsden. 2014. <span>“From
+Alpha to Omega: <span>A</span> Practical Solution to the Pervasive
+Problem of Internal Consistency Estimation.”</span> <em>British Journal
+of Psychology</em> 105 (3): 399–412. <a href="https://doi.org/10.1111/bjop.12046">https://doi.org/10.1111/bjop.12046</a>.
+</div>
+<div id="ref-enders2023" class="csl-entry" role="listitem">
+Enders, Craig. 2023. <span>“Fitting Structural <span>Equation
+Models</span> with <span>Missing</span> Data.”</span> In <em>Handbook of
+<span>Structural Equation Modeling</span></em>, edited by Rick H. Hoyle.
+New York: The Guilford Press.
+</div>
+<div id="ref-feng2023" class="csl-entry" role="listitem">
+Feng, Yi, and Gregory R. Hancock. 2023. <span>“Power
+<span>Analysis</span> Within a <span>Structural Equation Modeling
+Framework</span>.”</span> In <em>Handbook of <span>Structural Equation
+Modeling</span></em>, edited by Rick H. Hoyle. New York: The Guilford
+Press.
+</div>
+<div id="ref-flake2022" class="csl-entry" role="listitem">
+Flake, Jessica Kay, Ian J. Davidson, Octavia Wong, and Jolynn Pek. 2022.
+<span>“Construct Validity and the Validity of Replication Studies:
+<span>A</span> Systematic Review.”</span> <em>American Psychologist</em>
+77 (4): 576–88. <a href="https://doi.org/10.1037/amp0001006">https://doi.org/10.1037/amp0001006</a>.
+</div>
+<div id="ref-flake2020" class="csl-entry" role="listitem">
+Flake, Jessica Kay, and Eiko I. Fried. 2020. <span>“Measurement
+<span>Schmeasurement</span>: <span>Questionable Measurement
+Practices</span> and <span>How</span> to <span>Avoid
+Them</span>.”</span> <em>Advances in Methods and Practices in
+Psychological Science</em> 3 (4): 456–65. <a href="https://doi.org/10.1177/2515245920952393">https://doi.org/10.1177/2515245920952393</a>.
+</div>
+<div id="ref-flake2017" class="csl-entry" role="listitem">
+Flake, Jessica K., Jolynn Pek, and Eric Hehman. 2017. <span>“Construct
+<span>Validation</span> in <span>Social</span> and <span>Personality
+Research</span>: <span>Current Practices</span> and
+<span>Recommendations</span>.”</span> <em>Social Psychological and
+Personality Science</em> 8 (4): 370–78. <a href="https://doi.org/10.1177/1948550617693063">https://doi.org/10.1177/1948550617693063</a>.
+</div>
+<div id="ref-flora2020" class="csl-entry" role="listitem">
+Flora, David B. 2020. <span>“Your <span>Coefficient Alpha Is Probably
+Wrong</span>, but <span>Which Coefficient Omega Is Right</span>? <span>A
+Tutorial</span> on <span>Using R</span> to <span>Obtain Better
+Reliability Estimates</span>.”</span> <em>Advances in Methods and
+Practices in Psychological Science</em> 3 (4): 484–501. <a href="https://doi.org/10.1177/2515245920951747">https://doi.org/10.1177/2515245920951747</a>.
+</div>
+<div id="ref-flora2017" class="csl-entry" role="listitem">
+Flora, David B., and Jessica K. Flake. 2017. <span>“The Purpose and
+Practice of Exploratory and Confirmatory Factor Analysis in
+Psychological Research: <span>Decisions</span> for Scale Development and
+Validation.”</span> <em>Canadian Journal of Behavioural Science</em> 49
+(2): 78–88. <a href="https://doi.org/10.1037/cbs0000069">https://doi.org/10.1037/cbs0000069</a>.
+</div>
+<div id="ref-fox2022" class="csl-entry" role="listitem">
+Fox, John. 2022. <span>“Sem: <span>Structural Equation
+Modeling</span>.”</span> R package. <a href="https://cran.r-project.org/web/packages/sem/">https://cran.r-project.org/web/packages/sem/</a>.
+</div>
+<div id="ref-furr2021" class="csl-entry" role="listitem">
+Furr, Michael R. 2021. <em>Psychometrics: <span>An
+Introduction</span></em>. SAGE Publications.
+</div>
+<div id="ref-gilroy2019" class="csl-entry" role="listitem">
+Gilroy, Shawn P., and Brent A. Kaplan. 2019. <span>“Furthering
+<span>Open Science</span> in <span>Behavior Analysis</span>: <span>An
+Introduction</span> and <span>Tutorial</span> for <span>Using
+GitHub</span> in <span>Research</span>.”</span> <em>Perspectives on
+Behavior Science</em> 42 (3): 565–81. <a href="https://doi.org/10.1007/s40614-019-00202-5">https://doi.org/10.1007/s40614-019-00202-5</a>.
+</div>
+<div id="ref-goodboy2020" class="csl-entry" role="listitem">
+Goodboy, Alan K., and Matthew M. Martin. 2020. <span>“Omega over Alpha
+for Reliability Estimation of Unidimensional Communication
+Measures.”</span> <em>Annals of the International Communication
+Association</em> 44 (4): 422–39. <a href="https://doi.org/10.1080/23808985.2020.1846135">https://doi.org/10.1080/23808985.2020.1846135</a>.
+</div>
+<div id="ref-green1997" class="csl-entry" role="listitem">
+Green, Samuel B., Theresa M. Akey, Kandace K. Fleming, Scott L.
+Hershberger, and Janet G. Marquis. 1997. <span>“Effect of the Number of
+Scale Points on Chi-Square Fit Indices in Confirmatory Factor
+Analysis.”</span> <em>Structural Equation Modeling: A Multidisciplinary
+Journal</em> 4 (2): 108–20. <a href="https://doi.org/10.1080/10705519709540064">https://doi.org/10.1080/10705519709540064</a>.
+</div>
+<div id="ref-green2015" class="csl-entry" role="listitem">
+Green, Samuel B., and Yanyun Yang. 2015. <span>“Evaluation of
+<span>Dimensionality</span> in the <span>Assessment</span> of
+<span>Internal Consistency Reliability</span>: <span>Coefficient
+Alpha</span> and <span>Omega Coefficients</span>.”</span>
+<em>Educational Measurement: Issues and Practice</em> 34 (4): 14–20. <a href="https://doi.org/10.1111/emip.12100">https://doi.org/10.1111/emip.12100</a>.
+</div>
+<div id="ref-groskurth2023" class="csl-entry" role="listitem">
+Groskurth, Katharina, Matthias Bluemke, and Clemens M. Lechner. 2023.
+<span>“Why We Need to Abandon Fixed Cutoffs for Goodness-of-Fit Indices:
+<span>An</span> Extensive Simulation and Possible Solutions.”</span>
+<em>Behavior Research Methods</em>, August. <a href="https://doi.org/10.3758/s13428-023-02193-3">https://doi.org/10.3758/s13428-023-02193-3</a>.
+</div>
+<div id="ref-hair2022" class="csl-entry" role="listitem">
+Hair, Joseph F., Tomas M. G. Hult, Christian M. Ringle, and Marko
+Sarstedt. 2022. <em>A <span>Primer</span> on <span>Partial Least Squares
+Structural Equation Modeling</span> (<span>PLS-SEM</span>)</em>.
+Thousand Oaks: Sage Publications.
+</div>
+<div id="ref-hair2017" class="csl-entry" role="listitem">
+Hair, Joseph F., Marko Sarstedt, Christian Ringle, and Siegfried P.
+Gudergan. 2017. <em>Advanced <span>Issues</span> in <span>Partial Least
+Squares Structural Equation Modeling</span></em>. London: SAGE
+Publications, Inc.
+</div>
+<div id="ref-harrington2009" class="csl-entry" role="listitem">
+Harrington, Donna. 2009. <em>Confirmatory <span>Factor
+Analysis</span></em>. New York: Oxford University Press.
+</div>
+<div id="ref-hayes2020" class="csl-entry" role="listitem">
+Hayes, Andrew F., and Jacob J. Coutts. 2020. <span>“Use <span>Omega
+Rather</span> Than <span>Cronbach</span>’s <span>Alpha</span> for
+<span>Estimating Reliability</span>.
+<span>But</span><span>…</span>.”</span> <em>Communication Methods and
+Measures</em> 14 (1): 1–24. <a href="https://doi.org/10.1080/19312458.2020.1718629">https://doi.org/10.1080/19312458.2020.1718629</a>.
+</div>
+<div id="ref-henseler2021" class="csl-entry" role="listitem">
+Henseler, Jörg. 2021. <em>Composite-<span>Based Structural Equation
+Modeling</span>: <span>Analyzing Latent</span> and <span>Emergent
+Variables</span></em>. New York: The Guilford Press.
+</div>
+<div id="ref-holgado-tello2016" class="csl-entry" role="listitem">
+Holgado-Tello, F., M. Morata-Ramirez, and M. García. 2016. <span>“Robust
+<span>Estimation Methods</span> in <span>Confirmatory Factor</span>
+<span>Analysis</span> of <span>Likert Scales</span>: <span>A Simulation
+Study</span>.”</span> <em>International Review of Social Sciences and
+Humanities</em> 11 (2): 80–96.
+</div>
+<div id="ref-hoyle2023cap1" class="csl-entry" role="listitem">
+Hoyle, Rick H. 2023. <span>“Structural <span>Equation Modeling</span>:
+<span>An Overview</span>.”</span> In <em>Handbook of <span>Structural
+Equation Modeling</span></em>, edited by Rick H. Hoyle. New Yoirk:
+Guilford Press.
+</div>
+<div id="ref-huang2017" class="csl-entry" role="listitem">
+Huang, Po-Hsien. 2017. <span>“Asymptotics of <span>AIC</span>,
+<span>BIC</span>, and <span>RMSEA</span> for <span>Model
+Selection</span> in <span>Structural Equation Modeling</span>.”</span>
+<em>Psychometrika</em> 82 (2): 407–26. <a href="https://doi.org/10.1007/s11336-017-9572-y">https://doi.org/10.1007/s11336-017-9572-y</a>.
+</div>
+<div id="ref-hughes2018" class="csl-entry" role="listitem">
+Hughes, David J. 2018. <span>“Psychometric <span>Validity</span>:
+<span>Establishing</span> the <span>Accuracy</span> and
+<span>Appropriateness</span> of <span>Psychometric
+Measures</span>.”</span> In <em>The <span>Wiley Handbook</span> of
+<span>Psychometric Testing</span>: <span>A Multidisciplinary
+Reference</span> on <span>Survey</span>, <span>Scale</span> and
+<span>Test Development</span></em>, edited by Paul Irwing, Tom Booth,
+and David J. Hughes. John Wiley &amp; Sons Ltd.
+</div>
+<div id="ref-jackson2009" class="csl-entry" role="listitem">
+Jackson, Dennis L., J. Arthur Gillaspy, and Rebecca Purc-Stephenson.
+2009. <span>“Reporting Practices in Confirmatory Factor Analysis:
+<span>An</span> Overview and Some Recommendations.”</span>
+<em>Psychological Methods</em> 14 (1). <a href="https://doi.org/10.1037/a0014694">https://doi.org/10.1037/a0014694</a>.
+</div>
+<div id="ref-jak2021" class="csl-entry" role="listitem">
+Jak, Suzanne, Terrence D Jorgensen, Mathilde G E Verdam, Frans J Oort,
+and Louise Elffers. 2021. <span>“Analytical Power Calculations for
+Structural Equation Modeling: <span>A</span> Tutorial and
+<span>Shiny</span> App.”</span> <em>Behavior Research Mehods</em> 53:
+1385–1406. <a href="https://doi.org/10.3758/s13428-020-01479-0/Published">https://doi.org/10.3758/s13428-020-01479-0/Published</a>.
+</div>
+<div id="ref-jasp2023" class="csl-entry" role="listitem">
+JASP Team. 2023. <span>“<span>JASP</span>.”</span> [Computer Software].
+<a href="https://jasp-stats.org/">https://jasp-stats.org/</a>.
+</div>
+<div id="ref-jobst2023" class="csl-entry" role="listitem">
+Jobst, Lisa J., Martina Bader, and Morten Moshagen. 2023. <span>“A
+Tutorial on Assessing Statistical Power and Determining Sample Size for
+Structural Equation Models.”</span> <em>Psychological Methods</em> 28
+(1): 207–21. <a href="https://doi.org/10.1037/met0000423">https://doi.org/10.1037/met0000423</a>.
+</div>
+<div id="ref-joreskog2022" class="csl-entry" role="listitem">
+Jöreskog, K. G., and D. Sörbom. 2022. <span>“<span>LISREL</span> 12 for
+<span>Windows</span>.”</span> Scientific Software International, Inc. <a href="https://ssicentral.com/index.php/products/lisrel/">https://ssicentral.com/index.php/products/lisrel/</a>.
+</div>
+<div id="ref-kalkbrenner2023" class="csl-entry" role="listitem">
+Kalkbrenner, Michael T. 2023. <span>“Alpha, <span>Omega</span>, and
+<span>H Internal Consistency Reliability Estimates</span>:
+<span>Reviewing These Options</span> and <span>When</span> to <span>Use
+Them</span>.”</span> <em>Counseling Outcome Research and Evaluation</em>
+14 (1): 77–88. <a href="https://doi.org/10.1080/21501378.2021.1940118">https://doi.org/10.1080/21501378.2021.1940118</a>.
+</div>
+<div id="ref-kathawalla2021" class="csl-entry" role="listitem">
+Kathawalla, Ummul-Kiram, Priya Silverstein, and Moin Syed. 2021.
+<span>“Easing <span>Into Open Science</span>: <span>A Guide</span> for
+<span>Graduate Students</span> and <span>Their Advisors</span>.”</span>
+<em>Collabra: Psychology</em> 7 (1): 18684. <a href="https://doi.org/10.1525/collabra.18684">https://doi.org/10.1525/collabra.18684</a>.
+</div>
+<div id="ref-klein2018" class="csl-entry" role="listitem">
+Klein, Olivier, Tom E. Hardwicke, Frederik Aust, Johannes Breuer, Henrik
+Danielsson, Alicia Hofelich Mohr, Hans IJzerman, Gustav Nilsonne, Wolf
+Vanpaemel, and Michael C. Frank. 2018. <span>“A <span>Practical
+Guide</span> for <span>Transparency</span> in <span>Psychological
+Science</span>.”</span> Edited by Michéle Nuijten and Simine Vazire.
+<em>Collabra: Psychology</em> 4 (1): 20. <a href="https://doi.org/10.1525/collabra.158">https://doi.org/10.1525/collabra.158</a>.
+</div>
+<div id="ref-kline2016" class="csl-entry" role="listitem">
+Kline, Rex B. 2016. <em>Principles and <span>Pratice</span> of
+<span>Structural Equation Modeling</span></em>. New York: The Guilford
+Press.
+</div>
+<div id="ref-kline2023" class="csl-entry" role="listitem">
+———. 2023. <em>Principles and <span>Pratice</span> of <span>Structural
+Equation Modeling</span></em>. Fifth Edition. New York: The Guilford
+Press.
+</div>
+<div id="ref-kyriazos2018" class="csl-entry" role="listitem">
+Kyriazos, Theodoros A. 2018. <span>“Applied <span>Psychometrics</span>:
+<span>Sample Size</span> and <span>Sample Power Considerations</span> in
+<span>Factor Analysis</span> (<span>EFA</span>, <span>CFA</span>) and
+<span>SEM</span> in <span>General</span>.”</span> <em>Psychology</em> 09
+(08): 2207–30. <a href="https://doi.org/10.4236/psych.2018.98126">https://doi.org/10.4236/psych.2018.98126</a>.
+</div>
+<div id="ref-lai2020nonnested" class="csl-entry" role="listitem">
+Lai, Keke. 2020. <span>“Confidence <span>Interval</span> for
+<span>RMSEA</span> or <span>CFI Difference Between Nonnested
+Models</span>.”</span> <em>Structural Equation Modeling: A
+Multidisciplinary Journal</em> 27 (1): 16–32. <a href="https://doi.org/10.1080/10705511.2019.1631704">https://doi.org/10.1080/10705511.2019.1631704</a>.
+</div>
+<div id="ref-lai2021fit" class="csl-entry" role="listitem">
+———. 2021. <span>“Fit <span>Difference Between Nonnested Models Given
+Categorical Data</span>: <span>Measures</span> and
+<span>Estimation</span>.”</span> <em>Structural Equation Modeling: A
+Multidisciplinary Journal</em> 28 (1): 99–120. <a href="https://doi.org/10.1080/10705511.2020.1763802">https://doi.org/10.1080/10705511.2020.1763802</a>.
+</div>
+<div id="ref-leite2023" class="csl-entry" role="listitem">
+Leite, Walter L., Deborah L. Bandalos, and Zuchao Shen. 2023.
+<span>“Simulation <span>Methods</span> in <span>Structural Equation
+Modeling</span>.”</span> In <em>Handbook of <span>Structural Equation
+Modeling</span></em>, edited by Rick H. Hoyle. New York: The Guilford
+Press.
+</div>
+<div id="ref-li2016cfa" class="csl-entry" role="listitem">
+Li, Cheng Hsien. 2016. <span>“Confirmatory Factor Analysis with Ordinal
+Data: <span>Comparing</span> Robust Maximum Likelihood and Diagonally
+Weighted Least Squares.”</span> <em>Behavior Research Methods</em> 48
+(3): 936–49. <a href="https://doi.org/10.3758/s13428-015-0619-7">https://doi.org/10.3758/s13428-015-0619-7</a>.
+</div>
+<div id="ref-mai2021" class="csl-entry" role="listitem">
+Mai, Robert, Thomas Niemand, and Sascha Kraus. 2021. <span>“A
+Tailored-Fit Model Evaluation Strategy for Better Decisions about
+Structural Equation Models.”</span> <em>Technological Forecasting and
+Social Change</em> 173 (December): 121142. <a href="https://doi.org/10.1016/j.techfore.2021.121142">https://doi.org/10.1016/j.techfore.2021.121142</a>.
+</div>
+<div id="ref-martins2021" class="csl-entry" role="listitem">
+Martins, Henrique Castro. 2021. <span>“Tutorial-<span>Articles</span>:
+<span>The Importance</span> of <span>Data</span> and <span>Code
+Sharing</span>.”</span> <em>Revista de
+Administra<span>ç</span><span>ã</span>o Contempor<span>â</span>nea</em>
+25 (1): e200212. <a href="https://doi.org/10.1590/1982-7849rac2021200212">https://doi.org/10.1590/1982-7849rac2021200212</a>.
+</div>
+<div id="ref-maydeu-olivares2017a" class="csl-entry" role="listitem">
+Maydeu-Olivares, Alberto, Amanda J. Fairchild, and Alexander G. Hall.
+2017. <span>“Goodness of <span>Fit</span> in <span>Item Factor
+Analysis</span>: <span>Effect</span> of the <span>Number</span> of
+<span>Response Alternatives</span>.”</span> <em>Structural Equation
+Modeling: A Multidisciplinary Journal</em> 24 (4): 495–505. <a href="https://doi.org/10.1080/10705511.2017.1289816">https://doi.org/10.1080/10705511.2017.1289816</a>.
+</div>
+<div id="ref-mcneish2018" class="csl-entry" role="listitem">
+McNeish, Daniel. 2018. <span>“Thanks Coefficient Alpha,
+<span>We</span>’ll Take It from Here.”</span> <em>Psychological
+Methods</em> 23 (3): 412–33. <a href="https://doi.org/10.1037/met0000144">https://doi.org/10.1037/met0000144</a>.
+</div>
+<div id="ref-mcneish2023likert" class="csl-entry" role="listitem">
+———. 2023a. <span>“Dynamic <span>Fit Index Cutoffs</span> for
+<span>Factor Analysis</span> with <span>Likert</span>,
+<span>Ordinal</span>, or <span>Binary Responses</span>.”</span>
+<em>PsyArXiv Preprints</em>. <a href="https://doi.org/10.31234/osf.io/tp35s">https://doi.org/10.31234/osf.io/tp35s</a>.
+</div>
+<div id="ref-mcneish2023geral" class="csl-entry" role="listitem">
+———. 2023b. <span>“Generalizability of <span>Dynamic Fit Index</span>,
+<span>Equivalence Testing</span>, and <span>Hu</span> &amp;
+<span>Bentler Cutoffs</span> for <span>Evaluating Fit</span> in
+<span>Factor Analysis</span>.”</span> <em>Multivariate Behavioral
+Research</em> 58 (1): 195–219. <a href="https://doi.org/10.1080/00273171.2022.2163477">https://doi.org/10.1080/00273171.2022.2163477</a>.
+</div>
+<div id="ref-mcneishwolf2023cfa" class="csl-entry" role="listitem">
+McNeish, Daniel, and Melissa G. Wolf. 2023a. <span>“Dynamic Fit Index
+Cutoffs for Confirmatory Factor Analysis Models.”</span>
+<em>Psychological Methods</em> 28 (1): 61–88. <a href="https://doi.org/10.1037/met0000425">https://doi.org/10.1037/met0000425</a>.
+</div>
+<div id="ref-mcneishwolf2023dddf" class="csl-entry" role="listitem">
+McNeish, Daniel, and Melissa Gordon Wolf. 2023b. <span>“Direct
+<span>Discrepancy Dynamic Fit Index Cutoffs</span> for <span>Arbitrary
+Covariance Structure Models</span>.”</span> Preprint. PsyArXiv. <a href="https://doi.org/10.31234/osf.io/4r9fq">https://doi.org/10.31234/osf.io/4r9fq</a>.
+</div>
+<div id="ref-mendes-da-silva2023" class="csl-entry" role="listitem">
+Mendes-Da-Silva, Wesley. 2023. <span>“What <span>Lectures</span> and
+<span>Research</span> in <span>Business Management Need</span> to
+<span>Know About Open Science</span>.”</span> <em>Revista de
+Administra<span>ç</span><span>ã</span>o de Empresas</em> 63 (4):
+e0000–0033. <a href="https://doi.org/10.1590/s0034-759020230408x">https://doi.org/10.1590/s0034-759020230408x</a>.
+</div>
+<div id="ref-moshagen2023" class="csl-entry" role="listitem">
+Moshagen, Morten, and Martina Bader. 2023. <span>“<span class="nocase">semPower</span>: <span>General</span> Power Analysis for
+Structural Equation Models.”</span> <em>Behavior Research Methods</em>,
+November. <a href="https://doi.org/10.3758/s13428-023-02254-7">https://doi.org/10.3758/s13428-023-02254-7</a>.
+</div>
+<div id="ref-muthen2023" class="csl-entry" role="listitem">
+Muthén, L. K., and B. O. Muthén. 2023. <span>“Mplus Version 8.9 User’s
+Guide.”</span>
+</div>
+<div id="ref-nalbantoglu-yilmaz2019" class="csl-entry" role="listitem">
+Nalbantoğlu-Yılmaz, Funda. 2019. <span>“Comparison of <span>Different
+Estimation Methods Used</span> in <span>Confirmatory Factor
+Analyses</span> in <span>Non-Normal Data</span>: <span>A Monte Carlo
+Study</span>.”</span> <em>International Online Journal of Educational
+Sciences</em> 11 (4). <a href="https://doi.org/10.15345/iojes.2019.04.010">https://doi.org/10.15345/iojes.2019.04.010</a>.
+</div>
+<div id="ref-neale2016" class="csl-entry" role="listitem">
+Neale, Michael C., Michael D. Hunter, Joshua N. Pritikin, Mahsa Zahery,
+Timothy R. Brick, Robert M. Kirkpatrick, Ryne Estabrook, Timothy C.
+Bates, Hermine H. Maes, and Steven M. Boker. 2016.
+<span>“<span>OpenMx</span> 2.0: <span>Extended Structural
+Equation</span> and <span>Statistical Modeling</span>.”</span>
+<em>Psychometrika</em> 81 (2): 535–49. <a href="https://doi.org/10.1007/s11336-014-9435-8">https://doi.org/10.1007/s11336-014-9435-8</a>.
+</div>
+<div id="ref-niemand2018" class="csl-entry" role="listitem">
+Niemand, Thomas, and Robert Mai. 2018. <span>“Flexible Cutoff Values for
+Fit Indices in the Evaluation of Structural Equation Models.”</span>
+<em>Journal of the Academy of Marketing Science</em> 46 (6): 1148–72. <a href="https://doi.org/10.1007/s11747-018-0602-9">https://doi.org/10.1007/s11747-018-0602-9</a>.
+</div>
+<div id="ref-nye2022" class="csl-entry" role="listitem">
+Nye, Christopher D. 2022. <span>“Reviewer <span>Resources</span>:
+<span>Confirmatory Factor Analysis</span>.”</span> <em>Organizational
+Research Methods</em>, August, 109442812211205. <a href="https://doi.org/10.1177/10944281221120541">https://doi.org/10.1177/10944281221120541</a>.
+</div>
+<div id="ref-pilcher2023" class="csl-entry" role="listitem">
+Pilcher, Nick, and Martin Cortazzi. 2023.
+<span>“’<span>Qualitative</span>’ and ’Quantitative’ Methods and
+Approaches Across Subject Fields: Implications for Research Values,
+Assumptions, and Practices.”</span> <em>Quality &amp; Quantity</em>,
+September. <a href="https://doi.org/10.1007/s11135-023-01734-4">https://doi.org/10.1007/s11135-023-01734-4</a>.
+</div>
+<div id="ref-pornprasertmanit2022" class="csl-entry" role="listitem">
+Pornprasertmanit, Sunthud, Patrick Miller, Terrence D. Jorgensen, and
+Quick Corbin. 2022. <span>“Simsem: <span>SIMulated Structural Equation
+Modeling</span>.”</span> R package. <a href="https://www.simsem.org">www.simsem.org</a>.
+</div>
+<div id="ref-preacher2023" class="csl-entry" role="listitem">
+Preacher, Kristopher J., and Haley E. Yaremych. 2023. <span>“Model
+<span>Selection</span> in <span>Structural Equation
+Modeling</span>.”</span> In <em>Handbook of <span>Structural Equation
+Modeling</span></em>, edited by Rick H. Hoyle. New York: The Guilford
+Press.
+</div>
+<div id="ref-price2017" class="csl-entry" role="listitem">
+Price, Larry R. 2017. <em>Psychometric <span>Methods</span>:
+<span>Theory</span> into <span>Practice</span></em>. 1st Edition.
+Methodology in the Social Sciences. New York: The Guilford Press.
+</div>
+<div id="ref-reeves2016" class="csl-entry" role="listitem">
+Reeves, Todd D., and Gili Marbach-Ad. 2016. <span>“Contemporary Test
+Validity in Theory and Practice: <span>A</span> Primer for
+Discipline-Based Education Researchers.”</span> <em>CBE Life Sciences
+Education</em> 15 (1). <a href="https://doi.org/10.1187/cbe.15-08-0183">https://doi.org/10.1187/cbe.15-08-0183</a>.
+</div>
+<div id="ref-rhemtulla2012" class="csl-entry" role="listitem">
+Rhemtulla, Mijke, Patricia É Brosseau-Liard, and Victoria Savalei. 2012.
+<span>“When Can Categorical Variables Be Treated as Continuous?
+<span>A</span> Comparison of Robust Continuous and Categorical
+<span>SEM</span> Estimation Methods Under Suboptimal Conditions.”</span>
+<em>Psychological Methods</em> 17 (3): 354–73. <a href="https://doi.org/10.1037/a0029315">https://doi.org/10.1037/a0029315</a>.
+</div>
+<div id="ref-ringle2022" class="csl-entry" role="listitem">
+Ringle, Christian M., Sven Wende, and Jan Michael Becker. 2022.
+<span>“<span>SmartPLS</span> 4.”</span> Oststeinbek: SmartPLS. <a href="https://www.smartpls.com">https://www.smartpls.com</a>.
+</div>
+<div id="ref-rios2014" class="csl-entry" role="listitem">
+Rios, Joseph, and Craig Wells. 2014. <span>“Validity Evidence Based on
+Internal Structure.”</span> <em>Psicothema</em> 26 (1): 108–16. <a href="https://doi.org/10.7334/psicothema2013.260">https://doi.org/10.7334/psicothema2013.260</a>.
+</div>
+<div id="ref-robitzsch2020" class="csl-entry" role="listitem">
+Robitzsch, Alexander. 2020. <span>“Why <span>Ordinal Variables
+Can</span> (<span>Almost</span>) <span>Always Be Treated</span> as
+<span>Continuous Variables</span>: <span>Clarifying Assumptions</span>
+of <span>Robust Continuous</span> and <span>Ordinal Factor Analysis
+Estimation Methods</span>.”</span> <em>Frontiers in Education</em> 5
+(October). <a href="https://doi.org/10.3389/feduc.2020.589965">https://doi.org/10.3389/feduc.2020.589965</a>.
+</div>
+<div id="ref-robitzsch2022" class="csl-entry" role="listitem">
+———. 2022. <span>“On the <span>Bias</span> in <span>Confirmatory Factor
+Analysis When Treating Discrete Variables</span> as <span>Ordinal
+Instead</span> of <span>Continuous</span>.”</span> <em>Axioms</em> 11
+(4). <a href="https://doi.org/10.3390/axioms11040162">https://doi.org/10.3390/axioms11040162</a>.
+</div>
+<div id="ref-rogers2022" class="csl-entry" role="listitem">
+Rogers, Pablo. 2022. <span>“Best <span>Practices</span> for <span>Your
+Exploratory Factor Analysis</span>: <span>A Factor
+Tutorial</span>.”</span> <em>Revista de
+Administra<span>ç</span><span>ã</span>o Contempor<span>â</span>nea</em>
+26 (6). <a href="https://doi.org/10.1590/1982-7849rac2022210085.en">https://doi.org/10.1590/1982-7849rac2022210085.en</a>.
+</div>
+<div id="ref-rogers2023" class="csl-entry" role="listitem">
+———. 2023. <span>“Best <span>Practices</span> for Your
+<span>Confirmatory Factor Analysis</span>: <span>A JASP</span> and
+Lavaan <span>Tutorial</span>.”</span> Preprint. Open Science Framework.
+<a href="https://doi.org/10.31219/osf.io/57efj">https://doi.org/10.31219/osf.io/57efj</a>.
+</div>
+<div id="ref-rosseel2012" class="csl-entry" role="listitem">
+Rosseel, Yves. 2012. <span>“Lavaan: <span>An R</span> Package for
+Structural Equation Modeling.”</span> <em>Journal of Statistical
+Software</em> 48 (2): 1–36. <a href="https://doi.org/10.18637/jss.v048.i02">https://doi.org/10.18637/jss.v048.i02</a>.
+</div>
+<div id="ref-schumacker2021" class="csl-entry" role="listitem">
+Schumacker, Randall E., Stefanie A. Wind, and Lauren F. Holmes. 2021.
+<span>“Resources for <span>Identifying Measurement Instruments</span>
+for <span>Social Science Research</span>.”</span> <em>Measurement:
+Interdisciplinary Research and Perspectives</em> 19 (4): 250–57. <a href="https://doi.org/10.1080/15366367.2021.1950486">https://doi.org/10.1080/15366367.2021.1950486</a>.
+</div>
+<div id="ref-sireci2013" class="csl-entry" role="listitem">
+Sireci, Stephen G., and Tia Sukin. 2013. <span>“Test Validity.”</span>
+In <em><span>APA</span> Handbook of Testing and Assessment in
+Psychology, <span>Vol</span>. 1: <span>Test</span> Theory and Testing
+and Assessment in Industrial and Organizational Psychology.</em>, 61–84.
+Washington: American Psychological Association. <a href="https://doi.org/10.1037/14047-004">https://doi.org/10.1037/14047-004</a>.
+</div>
+<div id="ref-jamovi2023" class="csl-entry" role="listitem">
+The jamovi project. 2023. <span>“Jamovi.”</span> [Computer Software]. <a href="https://www.jamovi.org">https://www.jamovi.org</a>.
+</div>
+<div id="ref-trizano-hermosilla2016" class="csl-entry" role="listitem">
+Trizano-Hermosilla, Italo, and Jesús M. Alvarado. 2016. <span>“Best
+Alternatives to <span>Cronbach</span>’s Alpha Reliability in Realistic
+Conditions: <span>Congeneric</span> and Asymmetrical
+Measurements.”</span> <em>Frontiers in Psychology</em> 7 (MAY). <a href="https://doi.org/10.3389/fpsyg.2016.00769">https://doi.org/10.3389/fpsyg.2016.00769</a>.
+</div>
+<div id="ref-urbina2014" class="csl-entry" role="listitem">
+Urbina, Susana. 2014. <em>Essentials of <span>Psychological
+Testing</span></em>. Hoboken, New Jersey: John Wiley &amp; Sons.
+</div>
+<div id="ref-wang2021" class="csl-entry" role="listitem">
+Wang, Y. Andre, and Mijke Rhemtulla. 2021. <span>“Power
+<span>Analysis</span> for <span>Parameter Estimation</span> in
+<span>Structural Equation Modeling</span>: <span>A Discussion</span> and
+<span>Tutorial</span>.”</span> <em>Advances in Methods and Practices in
+Psychological Science</em> 4 (1): 1–17. <a href="https://doi.org/10.1177/2515245920918253">https://doi.org/10.1177/2515245920918253</a>.
+</div>
+<div id="ref-wang2023" class="csl-entry" role="listitem">
+Wang, Yilin Andre. 2023. <span>“How to <span>Conduct Power
+Analysis</span> for <span>Structural Equation Models</span>: <span>A
+Practical Primer</span>.”</span> Preprint. PsyArXiv. <a href="https://doi.org/10.31234/osf.io/4n3uk">https://doi.org/10.31234/osf.io/4n3uk</a>.
+</div>
+<div id="ref-west2023" class="csl-entry" role="listitem">
+West, Stephen G., Wei Wu, Daniel McNeish, and Andrea Savord. 2023.
+<span>“Model <span>Fit</span> in <span>Structural Equation
+Modeling</span>.”</span> In <em>Handbook of <span>Structural Equation
+Modeling</span></em>, edited by Rick H. Hoyle. New York: The Guilford
+Press.
+</div>
+<div id="ref-westland2010" class="csl-entry" role="listitem">
+Westland, Christopher J. 2010. <span>“Lower Bounds on Sample Size in
+Structural Equation Modeling.”</span> <em>Electronic Commerce Research
+and Applications</em> 9 (6). <a href="https://doi.org/10.1016/j.elerap.2010.07.003">https://doi.org/10.1016/j.elerap.2010.07.003</a>.
+</div>
+<div id="ref-whittaker2022" class="csl-entry" role="listitem">
+Whittaker, Tiffany A., and Randall E. Schumacker. 2022. <em>A
+<span>Beginner</span>’s <span>Guide</span> to <span>Structural Equation
+Modeling</span></em>. Fifth Edition. New York: Routledge Taylor &amp;
+Francis Group.
+</div>
+<div id="ref-widodo2018" class="csl-entry" role="listitem">
+Widodo, Estu. 2018. <span>“Some <span>Notes</span> on the
+<span>Contemporary Views</span> of <span>Validity</span> in
+<span>Psychological</span> and <span>Educational
+Assessment</span>.”</span> <em>Advances in Social Science, Education and
+Humanities Research</em> 231: 732–34. <a href="https://doi.org/10.3968/8877">https://doi.org/10.3968/8877</a>.
+</div>
+<div id="ref-wilkinson2016" class="csl-entry" role="listitem">
+Wilkinson, Mark D., Michel Dumontier, IJsbrand Jan Aalbersberg,
+Gabrielle Appleton, Myles Axton, Arie Baak, Niklas Blomberg, et al.
+2016. <span>“The <span>FAIR Guiding Principles</span> for Scientific
+Data Management and Stewardship.”</span> <em>Scientific Data</em> 3 (1):
+160018. <a href="https://doi.org/10.1038/sdata.2016.18">https://doi.org/10.1038/sdata.2016.18</a>.
+</div>
+<div id="ref-xia2018" class="csl-entry" role="listitem">
+Xia, Yan, and Yanyun Yang. 2018. <span>“The <span>Influence</span> of
+<span>Number</span> of <span>Categories</span> and <span>Threshold
+Values</span> on <span>Fit Indices</span> in <span>Structural Equation
+Modeling</span> with <span>Ordered Categorical Data</span>.”</span>
+<em>Multivariate Behavioral Research</em> 53 (5): 731–55. <a href="https://doi.org/10.1080/00273171.2018.1480346">https://doi.org/10.1080/00273171.2018.1480346</a>.
+</div>
+<div id="ref-xia2019" class="csl-entry" role="listitem">
+———. 2019. <span>“<span>RMSEA</span>, <span>CFI</span>, and
+<span>TLI</span> in Structural Equation Modeling with Ordered
+Categorical Data: <span>The</span> Story They Tell Depends on the
+Estimation Methods.”</span> <em>Behavior Research Methods</em> 51 (1):
+409–28. <a href="https://doi.org/10.3758/s13428-018-1055-2">https://doi.org/10.3758/s13428-018-1055-2</a>.
+</div>
+<div id="ref-yang2013" class="csl-entry" role="listitem">
+Yang, Yanyun, and Xinya Liang. 2013. <span>“Confirmatory Factor Analysis
+Under Violations of Distributional and Structural Assumptions.”</span>
+<em>Int. J. Quantitative Research in Education</em> 1 (1): 61–84.
+</div>
+<div id="ref-yang-wallentin2010" class="csl-entry" role="listitem">
+Yang-Wallentin, Fan, Karl G. Jöreskog, and Hao Luo. 2010.
+<span>“Confirmatory Factor Analysis of Ordinal Variables with
+Misspecified Models.”</span> <em>Structural Equation Modeling</em> 17
+(3): 392–423. <a href="https://doi.org/10.1080/10705511.2010.489003">https://doi.org/10.1080/10705511.2010.489003</a>.
+</div>
+<div id="ref-yuan2016" class="csl-entry" role="listitem">
+Yuan, Ke Hai, Wai Chan, George A. Marcoulides, and Peter M. Bentler.
+2016. <span>“Assessing <span>Structural Equation Models</span> by
+<span>Equivalence Testing With Adjusted Fit Indexes</span>.”</span>
+<em>Structural Equation Modeling</em> 23 (3): 319–30. <a href="https://doi.org/10.1080/10705511.2015.1065414">https://doi.org/10.1080/10705511.2015.1065414</a>.
+</div>
+<div id="ref-zhang2018" class="csl-entry" role="listitem">
+Zhang, Zhiyong, and Ke-Hai Yuan. 2018. <em>Practical Statistical Power
+Analysis Using <span>Webpower</span> and <span>R</span></em>. Indiana:
+ISDSA Press. <a href="https://doi.org/10.35566/power">https://doi.org/10.35566/power</a>.
 </div>
 </div>
 
@@ -263,6 +848,33 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       } else {
         el.classList.add('notransition');
       }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
     }
   }
   const toggleColorMode = (alternate) => {
@@ -331,13 +943,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return localAlternateSentinel;
     }
   }
-  let localAlternateSentinel = 'default';
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
   // Dark / light mode switch
   window.quartoToggleColorScheme = () => {
     // Read the current dark / light value 
     let toAlternate = !hasAlternateSentinel();
     toggleColorMode(toAlternate);
     setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
   };
   // Ensure there is a toggle, if there isn't float one in the top right
   if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
@@ -416,10 +1030,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/phdpablo\.github\.io\/smart-cfa\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -429,8 +1060,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -443,6 +1083,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -486,6 +1245,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -511,6 +1271,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -568,26 +1354,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       });
     }
   }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-      var filterRegex = new RegExp("https:\/\/phdpablo\.github\.io\/smart-cfa\/");
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-          // target, if specified
-          link.setAttribute("target", "_blank");
-      }
-    }
 });
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./05-considerations.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Final Considerations</span></span>
+      <a href="./04-considerations.html" class="pagination-link" aria-label="Final Considerations">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Final Considerations</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
@@ -596,13 +1368,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-    <div class="nav-footer-left"><a href="https://www.phdpablo.com">by Pablo Rogers</a></div>   
+    <div class="nav-footer-left">
+<p><a href="https://www.phdpablo.com">by Pablo Rogers</a></p>
+</div>   
     <div class="nav-footer-center">
       &nbsp;
     </div>
-    <div class="nav-footer-right">This article was built with <a href="https://quarto.org/">Quarto</a></div>
+    <div class="nav-footer-right">
+<p>This article was built with <a href="https://quarto.org/">Quarto</a></p>
+</div>
   </div>
 </footer>
+
 
 
 

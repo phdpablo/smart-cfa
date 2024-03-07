@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -20,44 +20,11 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -102,7 +69,13 @@ div.csl-indent {
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -111,6 +84,7 @@ div.csl-indent {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -120,7 +94,7 @@ div.csl-indent {
 
 <meta property="og:title" content="Smart Choices for Measurement Models - 1&nbsp; Introduction">
 <meta property="og:description" content="">
-<meta property="og:site-name" content="Smart Choices for Measurement Models">
+<meta property="og:site_name" content="Smart Choices for Measurement Models">
 </head>
 
 <body class="nav-sidebar floating">
@@ -129,12 +103,12 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -144,13 +118,13 @@ div.csl-indent {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Smart Choices for Measurement Models</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="https://github.com/phdpablo/smart-cfa/" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-    <a href="./Smart-Choices-for-Measurement-Models.pdf" rel="" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+    <a href="https://github.com/phdpablo/smart-cfa/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="./Smart-Choices-for-Measurement-Models.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
     <div class="dropdown">
       <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
       <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
@@ -205,25 +179,19 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./02-smart-choices.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Smart Choices</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Smart Choices in CFA</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-model.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Conceptual Model</span></span></a>
+  <a href="./03-tutorial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Executable Manuscript</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04-tutorial.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Dynamic Tutorial</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./05-considerations.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Final Considerations</span></span></a>
+  <a href="./04-considerations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Final Considerations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -235,7 +203,7 @@ div.csl-indent {
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
@@ -248,19 +216,163 @@ div.csl-indent {
 
 </header>
 
-<p>This is a book created from markdown and executable code.</p>
-<p>See <span class="citation" data-cites="knuth84">Knuth (<a href="references.html#ref-knuth84" role="doc-biblioref">1984</a>)</span> for additional discussion of literate programming.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
-</div>
-</div>
+
+<p>Confirmatory Factor Analysis (CFA) is a key method for assessing the validity of a measurement instrument through its internal structure <span class="citation" data-cites="bandalos2018 hughes2018 sireci2013">(<a href="references.html#ref-bandalos2018" role="doc-biblioref">Bandalos 2018</a>; <a href="references.html#ref-hughes2018" role="doc-biblioref">Hughes 2018</a>; <a href="references.html#ref-sireci2013" role="doc-biblioref">Sireci and Sukin 2013</a>)</span>. Validity is arguably the most crucial characteristic of a measurement model <span class="citation" data-cites="furr2021">(<a href="references.html#ref-furr2021" role="doc-biblioref">Furr 2021</a>)</span>, as it addresses the essential question of what measuring instruments truly assess <span class="citation" data-cites="bandalos2018">(<a href="references.html#ref-bandalos2018" role="doc-biblioref">Bandalos 2018</a>)</span>. This concern is closely linked with the classical definition of validity: the degree to which a test measures what it claims to measure <span class="citation" data-cites="bandalos2018 furr2021 sireci2013 urbina2014">(<a href="references.html#ref-bandalos2018" role="doc-biblioref">Bandalos 2018</a>; <a href="references.html#ref-furr2021" role="doc-biblioref">Furr 2021</a>; <a href="references.html#ref-sireci2013" role="doc-biblioref">Sireci and Sukin 2013</a>; <a href="references.html#ref-urbina2014" role="doc-biblioref">Urbina 2014</a>)</span>, aligning with the tripartite model still embraced by numerous scholars <span class="citation" data-cites="widodo2018">(<a href="references.html#ref-widodo2018" role="doc-biblioref">Widodo 2018</a>)</span>.</p>
+<p>The tripartite model of validity frames the concept using three categories of evidence: content, criterion, and construct <span class="citation" data-cites="bandalos2018">(<a href="references.html#ref-bandalos2018" role="doc-biblioref">Bandalos 2018</a>)</span>. Content validity pertains to the adequacy and representativeness of test items relative to the domain or objective under investigation <span class="citation" data-cites="cohen2022">(<a href="references.html#ref-cohen2022" role="doc-biblioref">Cohen, Schneider, and Tobin 2022</a>)</span>. Criterion validity is the correlation between test outcomes and a significant external criterion, such as performance on another measure or future occurrences <span class="citation" data-cites="cohen2022">(<a href="references.html#ref-cohen2022" role="doc-biblioref">Cohen, Schneider, and Tobin 2022</a>)</span>. Construct validity evaluates the test’s capacity to measure the theoretical construct it is intended to assess, taking into account related hypotheses and empirical data <span class="citation" data-cites="cohen2022">(<a href="references.html#ref-cohen2022" role="doc-biblioref">Cohen, Schneider, and Tobin 2022</a>)</span>.</p>
+<p>Introduced in the American Psychological Association (APA) “Standards for Educational and Psychological Testing” in 1966, the tripartite concept of validity has been a cornerstone in the social sciences for decades <span class="citation" data-cites="bandalos2018">(<a href="references.html#ref-bandalos2018" role="doc-biblioref">Bandalos 2018</a>)</span>. However, its fragmented and confusing nature has led to widespread criticism, prompting a shift towards a more holistic view of validity <span class="citation" data-cites="sireci2013">(<a href="references.html#ref-sireci2013" role="doc-biblioref">Sireci and Sukin 2013</a>)</span>. This evolution was signified by the publication of the 1999 standards <span class="citation" data-cites="aera1999">(<a href="references.html#ref-aera1999" role="doc-biblioref">AERA, APA, and NCME 1999</a>)</span>, and further by the 2014 standards <span class="citation" data-cites="aera2014">(<a href="references.html#ref-aera2014" role="doc-biblioref">AERA, APA, and NCME 2014</a>)</span>, which redefined test validity in terms of the interpretations and uses of test scores <span class="citation" data-cites="furr2021">(<a href="references.html#ref-furr2021" role="doc-biblioref">Furr 2021</a>)</span>. Under this new paradigm, validation requires diverse theoretical and empirical evidence, recognizing validity as a unified concept – construct validity – encompassing various evidence sources for evaluating potential interpretations of test scores for specific purposes <span class="citation" data-cites="furr2021 urbina2014">(<a href="references.html#ref-furr2021" role="doc-biblioref">Furr 2021</a>; <a href="references.html#ref-urbina2014" role="doc-biblioref">Urbina 2014</a>)</span>.</p>
+<p>Thus, key authorities in psychological assessment now define validity as the degree to which evidence and theory support the interpretations of test scores for their intended purposes <span class="citation" data-cites="aera2014">(<a href="references.html#ref-aera2014" role="doc-biblioref">AERA, APA, and NCME 2014</a>)</span>. Validity involves a comprehensive evaluation of how well empirical evidence and theoretical rationales uphold the conclusions and actions derived from test scores or other assessment types <span class="citation" data-cites="bandalos2018 furr2021 urbina2014">(<a href="references.html#ref-bandalos2018" role="doc-biblioref">Bandalos 2018</a>; <a href="references.html#ref-furr2021" role="doc-biblioref">Furr 2021</a>; <a href="references.html#ref-urbina2014" role="doc-biblioref">Urbina 2014</a>)</span>.</p>
+<p>According to APA guidelines <span class="citation" data-cites="aera2014">(<a href="references.html#ref-aera2014" role="doc-biblioref">AERA, APA, and NCME 2014</a>)</span>, five types of validity evidence are critical: content, response process, association with external variables, consequences of test use, and internal structure. Content validity examines the extent to which test content accurately represents the domain of interest exclusively <span class="citation" data-cites="furr2021">(<a href="references.html#ref-furr2021" role="doc-biblioref">Furr 2021</a>)</span>. The response process refers to the link between the construct and the specifics of the examinees’ responses <span class="citation" data-cites="sireci2013">(<a href="references.html#ref-sireci2013" role="doc-biblioref">Sireci and Sukin 2013</a>)</span>. Validity based on external variables concerns the test’s correlation with other measures or constructs expected to be related or unrelated to the evaluated construct <span class="citation" data-cites="furr2021">(<a href="references.html#ref-furr2021" role="doc-biblioref">Furr 2021</a>)</span>. The implications of test use focus on the positive or negative effects on the individuals or groups assessed <span class="citation" data-cites="bandalos2018">(<a href="references.html#ref-bandalos2018" role="doc-biblioref">Bandalos 2018</a>)</span>.</p>
+<p>Evidence based on internal structure assesses how well the interactions among test items and their components align with the theoretical framework used to explain the outcomes of the measurement instrument <span class="citation" data-cites="aera2014 rios2014">(<a href="references.html#ref-aera2014" role="doc-biblioref">AERA, APA, and NCME 2014</a>; <a href="references.html#ref-rios2014" role="doc-biblioref">Rios and Wells 2014</a>)</span>. Sources of internal structural validity evidence may include analyses of reliability, dimensionality, and measurement invariance.</p>
+<p>Reliability is gauged by internal consistency, reflecting i) the reproducibility of test scores under consistent conditions and ii) the ratio of true score variance to observed score variance <span class="citation" data-cites="rios2014">(<a href="references.html#ref-rios2014" role="doc-biblioref">Rios and Wells 2014</a>)</span>. Dimensionality analysis aims to verify if item interrelations support the inferences made by the measurement model’s scores, which are assumed to be unidimensional <span class="citation" data-cites="rios2014">(<a href="references.html#ref-rios2014" role="doc-biblioref">Rios and Wells 2014</a>)</span>. Measurement invariance confirms that item properties remain consistent across specified groups, such as gender or ethnicity.</p>
+<p>CFA facilitates the integration of these diverse sources to substantiate the validity of the internal structure <span class="citation" data-cites="bandalos2018 flora2017 hughes2018 reeves2016 rios2014">(<a href="references.html#ref-bandalos2018" role="doc-biblioref">Bandalos 2018</a>; <a href="references.html#ref-flora2017" role="doc-biblioref">Flora and Flake 2017</a>; <a href="references.html#ref-hughes2018" role="doc-biblioref">Hughes 2018</a>; <a href="references.html#ref-reeves2016" role="doc-biblioref">Reeves and Marbach-Ad 2016</a>; <a href="references.html#ref-rios2014" role="doc-biblioref">Rios and Wells 2014</a>)</span>. In the applied social sciences, researchers often have a theoretical dimensional structure in mind <span class="citation" data-cites="sireci2013">(<a href="references.html#ref-sireci2013" role="doc-biblioref">Sireci and Sukin 2013</a>)</span>, and CFA is employed to align the structure of the hypothesized measurement model with the observed data <span class="citation" data-cites="rios2014">(<a href="references.html#ref-rios2014" role="doc-biblioref">Rios and Wells 2014</a>)</span>.</p>
+<p>CFA constitutes a fundamental aspect of the covariance-based Structural Equation Modeling (SEM) framework (CB-SEM) <span class="citation" data-cites="brown2023 harrington2009 jackson2009 kline2023 nye2022">(<a href="references.html#ref-brown2023" role="doc-biblioref">Brown 2023</a>; <a href="references.html#ref-harrington2009" role="doc-biblioref">Harrington 2009</a>; <a href="references.html#ref-jackson2009" role="doc-biblioref">Jackson, Gillaspy, and Purc-Stephenson 2009</a>; <a href="references.html#ref-kline2023" role="doc-biblioref">Kline 2023</a>; <a href="references.html#ref-nye2022" role="doc-biblioref">Nye 2022</a>)</span>. SEM is a prevalent statistical approach in the applied social sciences <span class="citation" data-cites="hoyle2023cap1 kline2023">(<a href="references.html#ref-hoyle2023cap1" role="doc-biblioref">Hoyle 2023</a>; <a href="references.html#ref-kline2023" role="doc-biblioref">Kline 2023</a>)</span>, serving as a generalization of multiple regression and factor analysis <span class="citation" data-cites="hoyle2023cap1">(<a href="references.html#ref-hoyle2023cap1" role="doc-biblioref">Hoyle 2023</a>)</span>. This methodology facilitates the examination of complex relationships between variables and the consideration of measurement error, aligning with the requirements for measurement model validation <span class="citation" data-cites="hoyle2023cap1">(<a href="references.html#ref-hoyle2023cap1" role="doc-biblioref">Hoyle 2023</a>)</span>.</p>
+<p>Applications of CFA present significant complexities <span class="citation" data-cites="crede2019 flake2017 flake2020 jackson2009 nye2022 rogers2023">(<a href="references.html#ref-crede2019" role="doc-biblioref">Crede and Harms 2019</a>; <a href="references.html#ref-flake2017" role="doc-biblioref">Jessica K. Flake, Pek, and Hehman 2017</a>; <a href="references.html#ref-flake2020" role="doc-biblioref">Jessica Kay Flake and Fried 2020</a>; <a href="references.html#ref-jackson2009" role="doc-biblioref">Jackson, Gillaspy, and Purc-Stephenson 2009</a>; <a href="references.html#ref-nye2022" role="doc-biblioref">Nye 2022</a>; <a href="references.html#ref-rogers2023" role="doc-biblioref">Rogers 2023</a>)</span>, influenced by data structure, measurement level of items, research goals, and other factors. CFA can proceed smoothly in scenarios involving unidimensional measurement models with continuous items and large samples, but may encounter challenges, such as diminished SEM flexibility, when dealing with multidimensional models with ordinal items and small sample sizes <span class="citation" data-cites="rogers2023">(<a href="references.html#ref-rogers2023" role="doc-biblioref">Rogers 2023</a>)</span>.</p>
+<p>This leads to an important question: Can certain strategies within CFA applications simplify the process for social scientists seeking evidence of validity in the internal structure of a measurement model? This inquiry does not suggest that research objectives should conform to quantitative methods. Rather, research aims guide scientific inquiry, defining our learning targets and priorities. Quantitative methods serve as tools towards these ends, not as objectives themselves. They represent one among many tools available to researchers, with the study’s purpose dictating method selection <span class="citation" data-cites="pilcher2023">(<a href="references.html#ref-pilcher2023" role="doc-biblioref">Pilcher and Cortazzi 2023</a>)</span>.</p>
+<p>However, as the scientific method is an ongoing journey of discovery, many questions, especially in Psychometrics concerning measurement model validation, remain open-ended. The lack of consensus on complex and varied topics suggests researchers should opt for paths offering maximal analytical flexibility, enabling exploration of diverse methodologies and solutions while keeping research objectives forefront <span class="citation" data-cites="price2017">(<a href="references.html#ref-price2017" role="doc-biblioref">Price 2017</a>)</span>.</p>
+<p>A recurrent topic in Factor Analysis (FA) is how to handle the measurement level of scale items. Empirical studies <span class="citation" data-cites="rhemtulla2012 robitzsch2022 robitzsch2020">(<a href="references.html#ref-rhemtulla2012" role="doc-biblioref">Rhemtulla, Brosseau-Liard, and Savalei 2012</a>; <a href="references.html#ref-robitzsch2022" role="doc-biblioref">Robitzsch 2022</a>, <a href="references.html#ref-robitzsch2020" role="doc-biblioref">2020</a>)</span> advocating for the treatment of scales with five or more response options as continuous variables have shown to enhance CFA flexibility and address validity evidence for the internal structure. The FA literature acknowledges methodological dilemmas faced when dealing with binary and/or ordinal response items with fewer than five options <span class="citation" data-cites="rogers2023 rogers2022">(<a href="references.html#ref-rogers2023" role="doc-biblioref">Rogers 2023</a>, <a href="references.html#ref-rogers2022" role="doc-biblioref">2022</a>)</span>.</p>
+<p>For continuous scale items, the maximum likelihood (ML) estimator and its robust variations are applicable. For non-continuous items, estimators from the Least Squares (cat-LS) family are recommended <span class="citation" data-cites="nye2022 rogers2023 rogers2022">(<a href="references.html#ref-nye2022" role="doc-biblioref">Nye 2022</a>; <a href="references.html#ref-rogers2023" role="doc-biblioref">Rogers 2023</a>, <a href="references.html#ref-rogers2022" role="doc-biblioref">2022</a>)</span>. Though cat-LS estimators impose fewer assumptions on data, they require larger sample sizes, more computational power, and greater researcher expertise <span class="citation" data-cites="robitzsch2020">(<a href="references.html#ref-robitzsch2020" role="doc-biblioref">Robitzsch 2020</a>)</span>.</p>
+<p>Assessing model fit is more challenging with cat-LS estimated models compared to those estimated by ML, which are better established and more familiar to researchers <span class="citation" data-cites="rhemtulla2012">(<a href="references.html#ref-rhemtulla2012" role="doc-biblioref">Rhemtulla, Brosseau-Liard, and Savalei 2012</a>)</span>. Despite their increasing popularity, cat-LS models are newer, less recognized, and seldom available in software <span class="citation" data-cites="rhemtulla2012">(<a href="references.html#ref-rhemtulla2012" role="doc-biblioref">Rhemtulla, Brosseau-Liard, and Savalei 2012</a>)</span>. Handling missing data remains straightforward with ML models using the Full Information ML (FIML) method but is problematic with ordinal data <span class="citation" data-cites="rogers2023">(<a href="references.html#ref-rogers2023" role="doc-biblioref">Rogers 2023</a>)</span>.</p>
+<p>Thus, we can optimize the potential of some of the available software <span class="citation" data-cites="arbuckle2019 bentler2020 fox2022 jasp2023 joreskog2022 muthen2023 neale2016 ringle2022 rosseel2012 jamovi2023">(<a href="references.html#ref-arbuckle2019" role="doc-biblioref">Arbuckle 2019</a>; <a href="references.html#ref-bentler2020" role="doc-biblioref">Bentler and Wu 2020</a>; <a href="references.html#ref-fox2022" role="doc-biblioref">Fox 2022</a>; <a href="references.html#ref-jasp2023" role="doc-biblioref">JASP Team 2023</a>; <a href="references.html#ref-joreskog2022" role="doc-biblioref">Jöreskog and Sörbom 2022</a>; <a href="references.html#ref-muthen2023" role="doc-biblioref">Muthén and Muthén 2023</a>; <a href="references.html#ref-neale2016" role="doc-biblioref">Neale et al. 2016</a>; <a href="references.html#ref-ringle2022" role="doc-biblioref">Ringle, Wende, and Becker 2022</a>; <a href="references.html#ref-rosseel2012" role="doc-biblioref">Rosseel 2012</a>; <a href="references.html#ref-jamovi2023" role="doc-biblioref">The jamovi project 2023</a>)</span> and overcome many of the limitations for ordinal and nominal data, which are still present in some of them <span class="citation" data-cites="arbuckle2019 bentler2020 neale2016 ringle2022">(<a href="references.html#ref-arbuckle2019" role="doc-biblioref">Arbuckle 2019</a>; <a href="references.html#ref-bentler2020" role="doc-biblioref">Bentler and Wu 2020</a>; <a href="references.html#ref-neale2016" role="doc-biblioref">Neale et al. 2016</a>; <a href="references.html#ref-ringle2022" role="doc-biblioref">Ringle, Wende, and Becker 2022</a>)</span>.</p>
+<p>This discussion does not intend to oversimplify, digress, or claim superiority of one software over another. Rather, it underscores a fundamental statistical principle: transitioning from nominal to ordinal and then to scalar measurement levels increases the flexibility of statistical methods. Empirical studies in CFA support these clarifications <span class="citation" data-cites="rhemtulla2012 robitzsch2022 robitzsch2020">(<a href="references.html#ref-rhemtulla2012" role="doc-biblioref">Rhemtulla, Brosseau-Liard, and Savalei 2012</a>; <a href="references.html#ref-robitzsch2022" role="doc-biblioref">Robitzsch 2022</a>, <a href="references.html#ref-robitzsch2020" role="doc-biblioref">2020</a>)</span>.</p>
+<p>This article assists applied social scientists in decision-making from selecting a measurement model to comparing and updating models for enhanced CFA flexibility. It addresses power analysis, data preprocessing, estimation procedures, and model modification from three angles: smart choices or recommended practices <span class="citation" data-cites="flake2017 nye2022 rogers2023">(<a href="references.html#ref-flake2017" role="doc-biblioref">Jessica K. Flake, Pek, and Hehman 2017</a>; <a href="references.html#ref-nye2022" role="doc-biblioref">Nye 2022</a>; <a href="references.html#ref-rogers2023" role="doc-biblioref">Rogers 2023</a>)</span>, pitfalls to avoid <span class="citation" data-cites="crede2019 rogers2023">(<a href="references.html#ref-crede2019" role="doc-biblioref">Crede and Harms 2019</a>; <a href="references.html#ref-rogers2023" role="doc-biblioref">Rogers 2023</a>)</span>, and essential reporting elements <span class="citation" data-cites="flake2020 jackson2009 rogers2023">(<a href="references.html#ref-flake2020" role="doc-biblioref">Jessica Kay Flake and Fried 2020</a>; <a href="references.html#ref-jackson2009" role="doc-biblioref">Jackson, Gillaspy, and Purc-Stephenson 2009</a>; <a href="references.html#ref-rogers2023" role="doc-biblioref">Rogers 2023</a>)</span>.</p>
+<p>The aim is to guide researchers through CFA to access the underlying structure of measurement models without falling into common traps at any stage of the validation process. Early-stage decisions can preempt later limitations, while missteps may necessitate exploratory research or additional efforts in subsequent phases.</p>
+<p>Practically, this includes an R tutorial utilizing the lavaan package <span class="citation" data-cites="rosseel2012">(<a href="references.html#ref-rosseel2012" role="doc-biblioref">Rosseel 2012</a>)</span>, adhering to reproducibility, replicability, and transparency standards of the Open Science movement <span class="citation" data-cites="gilroy2019 kathawalla2021 klein2018">(<a href="references.html#ref-gilroy2019" role="doc-biblioref">Gilroy and Kaplan 2019</a>; <a href="references.html#ref-kathawalla2021" role="doc-biblioref">Kathawalla, Silverstein, and Syed 2021</a>; <a href="references.html#ref-klein2018" role="doc-biblioref">Klein et al. 2018</a>)</span>.</p>
+<p>Tutorial articles, following the FAIR principles (Findable, Accessible, Interoperable, and Reusable) <span class="citation" data-cites="wilkinson2016">(<a href="references.html#ref-wilkinson2016" role="doc-biblioref">Wilkinson et al. 2016</a>)</span>, play a vital role in promoting open science <span class="citation" data-cites="martins2021 mendes-da-silva2023">(<a href="references.html#ref-martins2021" role="doc-biblioref">Martins 2021</a>; <a href="references.html#ref-mendes-da-silva2023" role="doc-biblioref">Mendes-Da-Silva 2023</a>)</span>, by detailing significant methods or application areas in an accessible yet comprehensive manner. This encourages adherence to best practices among researchers, minimizing the impact of positive publication bias.</p>
+<p>This tutorial is structured into three sections, beyond the introductory discussion. It includes a thorough review of CFA recommended practices, an example of real-world research application in the R ecosystem, and final considerations, following Martins’ (2021) format for tutorial articles. This approach, combined with workflow recommendations for reproducibility, aims to support the applied social sciences community in effectively utilizing CFA <span class="citation" data-cites="martins2021 mendes-da-silva2023">(<a href="references.html#ref-martins2021" role="doc-biblioref">Martins 2021</a>; <a href="references.html#ref-mendes-da-silva2023" role="doc-biblioref">Mendes-Da-Silva 2023</a>)</span>.</p>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
-<div id="ref-knuth84" class="csl-entry" role="listitem">
-Knuth, Donald E. 1984. <span>“Literate Programming.”</span> <em>Comput. J.</em> 27 (2): 97–111. <a href="https://doi.org/10.1093/comjnl/27.2.97">https://doi.org/10.1093/comjnl/27.2.97</a>.
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-aera1999" class="csl-entry" role="listitem">
+AERA, APA, and NCME. 1999. <span>“Standards for <span>Educational</span> and <span>Psychological Testing</span>.”</span> Washington: American Educational Research Association, American Psychological Association, &amp; National Council on Measurement in Education.
+</div>
+<div id="ref-aera2014" class="csl-entry" role="listitem">
+———. 2014. <span>“Standards for <span>Educational</span> and <span>Pshychological Testing</span>.”</span> Washington: American Educational Research Association, American Psychological Association &amp; National Council on Measurement in Education.
+</div>
+<div id="ref-arbuckle2019" class="csl-entry" role="listitem">
+Arbuckle, J. L. 2019. <span>“Amos.”</span> Chicago: IBM Corp.
+</div>
+<div id="ref-bandalos2018" class="csl-entry" role="listitem">
+Bandalos, Deborah L. 2018. <em>Measurement Theory and Applications for the Social Sciences</em>. New York: Guilford Press.
+</div>
+<div id="ref-bentler2020" class="csl-entry" role="listitem">
+Bentler, Peter M., and Erik Wu. 2020. <span>“<span>EQS</span> 6.4 for <span>Windows</span>.”</span> Multivariate Software, Inc. <a href="https://mvsoft.com">https://mvsoft.com</a>.
+</div>
+<div id="ref-brown2023" class="csl-entry" role="listitem">
+Brown, Timothy A. 2023. <span>“Confirmatory <span>Factor Analysis</span>.”</span> In <em>Handbook of <span>Structural Equation Modeling</span></em>, edited by Rick H. Hoyle. New York: The Guilford Press.
+</div>
+<div id="ref-cohen2022" class="csl-entry" role="listitem">
+Cohen, Ronald Jay, Joel W. Schneider, and Renée M. Tobin. 2022. <em>Psychological <span>Testing</span> and <span>Assessment</span>: <span>An Introduction</span> to <span>Test</span> and <span>Measurement</span></em>. New York: McGraw Hill LLC.
+</div>
+<div id="ref-crede2019" class="csl-entry" role="listitem">
+Crede, Marcus, and Peter Harms. 2019. <span>“Questionable Research Practices When Using Confirmatory Factor Analysis.”</span> <em>Journal of Managerial Psychology</em> 34 (1): 18–30. <a href="https://doi.org/10.1108/JMP-06-2018-0272">https://doi.org/10.1108/JMP-06-2018-0272</a>.
+</div>
+<div id="ref-flake2020" class="csl-entry" role="listitem">
+Flake, Jessica Kay, and Eiko I. Fried. 2020. <span>“Measurement <span>Schmeasurement</span>: <span>Questionable Measurement Practices</span> and <span>How</span> to <span>Avoid Them</span>.”</span> <em>Advances in Methods and Practices in Psychological Science</em> 3 (4): 456–65. <a href="https://doi.org/10.1177/2515245920952393">https://doi.org/10.1177/2515245920952393</a>.
+</div>
+<div id="ref-flake2017" class="csl-entry" role="listitem">
+Flake, Jessica K., Jolynn Pek, and Eric Hehman. 2017. <span>“Construct <span>Validation</span> in <span>Social</span> and <span>Personality Research</span>: <span>Current Practices</span> and <span>Recommendations</span>.”</span> <em>Social Psychological and Personality Science</em> 8 (4): 370–78. <a href="https://doi.org/10.1177/1948550617693063">https://doi.org/10.1177/1948550617693063</a>.
+</div>
+<div id="ref-flora2017" class="csl-entry" role="listitem">
+Flora, David B., and Jessica K. Flake. 2017. <span>“The Purpose and Practice of Exploratory and Confirmatory Factor Analysis in Psychological Research: <span>Decisions</span> for Scale Development and Validation.”</span> <em>Canadian Journal of Behavioural Science</em> 49 (2): 78–88. <a href="https://doi.org/10.1037/cbs0000069">https://doi.org/10.1037/cbs0000069</a>.
+</div>
+<div id="ref-fox2022" class="csl-entry" role="listitem">
+Fox, John. 2022. <span>“Sem: <span>Structural Equation Modeling</span>.”</span> R package. <a href="https://cran.r-project.org/web/packages/sem/">https://cran.r-project.org/web/packages/sem/</a>.
+</div>
+<div id="ref-furr2021" class="csl-entry" role="listitem">
+Furr, Michael R. 2021. <em>Psychometrics: <span>An Introduction</span></em>. SAGE Publications.
+</div>
+<div id="ref-gilroy2019" class="csl-entry" role="listitem">
+Gilroy, Shawn P., and Brent A. Kaplan. 2019. <span>“Furthering <span>Open Science</span> in <span>Behavior Analysis</span>: <span>An Introduction</span> and <span>Tutorial</span> for <span>Using GitHub</span> in <span>Research</span>.”</span> <em>Perspectives on Behavior Science</em> 42 (3): 565–81. <a href="https://doi.org/10.1007/s40614-019-00202-5">https://doi.org/10.1007/s40614-019-00202-5</a>.
+</div>
+<div id="ref-harrington2009" class="csl-entry" role="listitem">
+Harrington, Donna. 2009. <em>Confirmatory <span>Factor Analysis</span></em>. New York: Oxford University Press.
+</div>
+<div id="ref-hoyle2023cap1" class="csl-entry" role="listitem">
+Hoyle, Rick H. 2023. <span>“Structural <span>Equation Modeling</span>: <span>An Overview</span>.”</span> In <em>Handbook of <span>Structural Equation Modeling</span></em>, edited by Rick H. Hoyle. New Yoirk: Guilford Press.
+</div>
+<div id="ref-hughes2018" class="csl-entry" role="listitem">
+Hughes, David J. 2018. <span>“Psychometric <span>Validity</span>: <span>Establishing</span> the <span>Accuracy</span> and <span>Appropriateness</span> of <span>Psychometric Measures</span>.”</span> In <em>The <span>Wiley Handbook</span> of <span>Psychometric Testing</span>: <span>A Multidisciplinary Reference</span> on <span>Survey</span>, <span>Scale</span> and <span>Test Development</span></em>, edited by Paul Irwing, Tom Booth, and David J. Hughes. John Wiley &amp; Sons Ltd.
+</div>
+<div id="ref-jackson2009" class="csl-entry" role="listitem">
+Jackson, Dennis L., J. Arthur Gillaspy, and Rebecca Purc-Stephenson. 2009. <span>“Reporting Practices in Confirmatory Factor Analysis: <span>An</span> Overview and Some Recommendations.”</span> <em>Psychological Methods</em> 14 (1). <a href="https://doi.org/10.1037/a0014694">https://doi.org/10.1037/a0014694</a>.
+</div>
+<div id="ref-jasp2023" class="csl-entry" role="listitem">
+JASP Team. 2023. <span>“<span>JASP</span>.”</span> [Computer Software]. <a href="https://jasp-stats.org/">https://jasp-stats.org/</a>.
+</div>
+<div id="ref-joreskog2022" class="csl-entry" role="listitem">
+Jöreskog, K. G., and D. Sörbom. 2022. <span>“<span>LISREL</span> 12 for <span>Windows</span>.”</span> Scientific Software International, Inc. <a href="https://ssicentral.com/index.php/products/lisrel/">https://ssicentral.com/index.php/products/lisrel/</a>.
+</div>
+<div id="ref-kathawalla2021" class="csl-entry" role="listitem">
+Kathawalla, Ummul-Kiram, Priya Silverstein, and Moin Syed. 2021. <span>“Easing <span>Into Open Science</span>: <span>A Guide</span> for <span>Graduate Students</span> and <span>Their Advisors</span>.”</span> <em>Collabra: Psychology</em> 7 (1): 18684. <a href="https://doi.org/10.1525/collabra.18684">https://doi.org/10.1525/collabra.18684</a>.
+</div>
+<div id="ref-klein2018" class="csl-entry" role="listitem">
+Klein, Olivier, Tom E. Hardwicke, Frederik Aust, Johannes Breuer, Henrik Danielsson, Alicia Hofelich Mohr, Hans IJzerman, Gustav Nilsonne, Wolf Vanpaemel, and Michael C. Frank. 2018. <span>“A <span>Practical Guide</span> for <span>Transparency</span> in <span>Psychological Science</span>.”</span> Edited by Michéle Nuijten and Simine Vazire. <em>Collabra: Psychology</em> 4 (1): 20. <a href="https://doi.org/10.1525/collabra.158">https://doi.org/10.1525/collabra.158</a>.
+</div>
+<div id="ref-kline2023" class="csl-entry" role="listitem">
+Kline, Rex B. 2023. <em>Principles and <span>Pratice</span> of <span>Structural Equation Modeling</span></em>. Fifth Edition. New York: The Guilford Press.
+</div>
+<div id="ref-martins2021" class="csl-entry" role="listitem">
+Martins, Henrique Castro. 2021. <span>“Tutorial-<span>Articles</span>: <span>The Importance</span> of <span>Data</span> and <span>Code Sharing</span>.”</span> <em>Revista de Administra<span>ç</span><span>ã</span>o Contempor<span>â</span>nea</em> 25 (1): e200212. <a href="https://doi.org/10.1590/1982-7849rac2021200212">https://doi.org/10.1590/1982-7849rac2021200212</a>.
+</div>
+<div id="ref-mendes-da-silva2023" class="csl-entry" role="listitem">
+Mendes-Da-Silva, Wesley. 2023. <span>“What <span>Lectures</span> and <span>Research</span> in <span>Business Management Need</span> to <span>Know About Open Science</span>.”</span> <em>Revista de Administra<span>ç</span><span>ã</span>o de Empresas</em> 63 (4): e0000–0033. <a href="https://doi.org/10.1590/s0034-759020230408x">https://doi.org/10.1590/s0034-759020230408x</a>.
+</div>
+<div id="ref-muthen2023" class="csl-entry" role="listitem">
+Muthén, L. K., and B. O. Muthén. 2023. <span>“Mplus Version 8.9 User’s Guide.”</span>
+</div>
+<div id="ref-neale2016" class="csl-entry" role="listitem">
+Neale, Michael C., Michael D. Hunter, Joshua N. Pritikin, Mahsa Zahery, Timothy R. Brick, Robert M. Kirkpatrick, Ryne Estabrook, Timothy C. Bates, Hermine H. Maes, and Steven M. Boker. 2016. <span>“<span>OpenMx</span> 2.0: <span>Extended Structural Equation</span> and <span>Statistical Modeling</span>.”</span> <em>Psychometrika</em> 81 (2): 535–49. <a href="https://doi.org/10.1007/s11336-014-9435-8">https://doi.org/10.1007/s11336-014-9435-8</a>.
+</div>
+<div id="ref-nye2022" class="csl-entry" role="listitem">
+Nye, Christopher D. 2022. <span>“Reviewer <span>Resources</span>: <span>Confirmatory Factor Analysis</span>.”</span> <em>Organizational Research Methods</em>, August, 109442812211205. <a href="https://doi.org/10.1177/10944281221120541">https://doi.org/10.1177/10944281221120541</a>.
+</div>
+<div id="ref-pilcher2023" class="csl-entry" role="listitem">
+Pilcher, Nick, and Martin Cortazzi. 2023. <span>“’<span>Qualitative</span>’ and ’Quantitative’ Methods and Approaches Across Subject Fields: Implications for Research Values, Assumptions, and Practices.”</span> <em>Quality &amp; Quantity</em>, September. <a href="https://doi.org/10.1007/s11135-023-01734-4">https://doi.org/10.1007/s11135-023-01734-4</a>.
+</div>
+<div id="ref-price2017" class="csl-entry" role="listitem">
+Price, Larry R. 2017. <em>Psychometric <span>Methods</span>: <span>Theory</span> into <span>Practice</span></em>. 1st Edition. Methodology in the Social Sciences. New York: The Guilford Press.
+</div>
+<div id="ref-reeves2016" class="csl-entry" role="listitem">
+Reeves, Todd D., and Gili Marbach-Ad. 2016. <span>“Contemporary Test Validity in Theory and Practice: <span>A</span> Primer for Discipline-Based Education Researchers.”</span> <em>CBE Life Sciences Education</em> 15 (1). <a href="https://doi.org/10.1187/cbe.15-08-0183">https://doi.org/10.1187/cbe.15-08-0183</a>.
+</div>
+<div id="ref-rhemtulla2012" class="csl-entry" role="listitem">
+Rhemtulla, Mijke, Patricia É Brosseau-Liard, and Victoria Savalei. 2012. <span>“When Can Categorical Variables Be Treated as Continuous? <span>A</span> Comparison of Robust Continuous and Categorical <span>SEM</span> Estimation Methods Under Suboptimal Conditions.”</span> <em>Psychological Methods</em> 17 (3): 354–73. <a href="https://doi.org/10.1037/a0029315">https://doi.org/10.1037/a0029315</a>.
+</div>
+<div id="ref-ringle2022" class="csl-entry" role="listitem">
+Ringle, Christian M., Sven Wende, and Jan Michael Becker. 2022. <span>“<span>SmartPLS</span> 4.”</span> Oststeinbek: SmartPLS. <a href="https://www.smartpls.com">https://www.smartpls.com</a>.
+</div>
+<div id="ref-rios2014" class="csl-entry" role="listitem">
+Rios, Joseph, and Craig Wells. 2014. <span>“Validity Evidence Based on Internal Structure.”</span> <em>Psicothema</em> 26 (1): 108–16. <a href="https://doi.org/10.7334/psicothema2013.260">https://doi.org/10.7334/psicothema2013.260</a>.
+</div>
+<div id="ref-robitzsch2020" class="csl-entry" role="listitem">
+Robitzsch, Alexander. 2020. <span>“Why <span>Ordinal Variables Can</span> (<span>Almost</span>) <span>Always Be Treated</span> as <span>Continuous Variables</span>: <span>Clarifying Assumptions</span> of <span>Robust Continuous</span> and <span>Ordinal Factor Analysis Estimation Methods</span>.”</span> <em>Frontiers in Education</em> 5 (October). <a href="https://doi.org/10.3389/feduc.2020.589965">https://doi.org/10.3389/feduc.2020.589965</a>.
+</div>
+<div id="ref-robitzsch2022" class="csl-entry" role="listitem">
+———. 2022. <span>“On the <span>Bias</span> in <span>Confirmatory Factor Analysis When Treating Discrete Variables</span> as <span>Ordinal Instead</span> of <span>Continuous</span>.”</span> <em>Axioms</em> 11 (4). <a href="https://doi.org/10.3390/axioms11040162">https://doi.org/10.3390/axioms11040162</a>.
+</div>
+<div id="ref-rogers2022" class="csl-entry" role="listitem">
+Rogers, Pablo. 2022. <span>“Best <span>Practices</span> for <span>Your Exploratory Factor Analysis</span>: <span>A Factor Tutorial</span>.”</span> <em>Revista de Administra<span>ç</span><span>ã</span>o Contempor<span>â</span>nea</em> 26 (6). <a href="https://doi.org/10.1590/1982-7849rac2022210085.en">https://doi.org/10.1590/1982-7849rac2022210085.en</a>.
+</div>
+<div id="ref-rogers2023" class="csl-entry" role="listitem">
+———. 2023. <span>“Best <span>Practices</span> for Your <span>Confirmatory Factor Analysis</span>: <span>A JASP</span> and Lavaan <span>Tutorial</span>.”</span> Preprint. Open Science Framework. <a href="https://doi.org/10.31219/osf.io/57efj">https://doi.org/10.31219/osf.io/57efj</a>.
+</div>
+<div id="ref-rosseel2012" class="csl-entry" role="listitem">
+Rosseel, Yves. 2012. <span>“Lavaan: <span>An R</span> Package for Structural Equation Modeling.”</span> <em>Journal of Statistical Software</em> 48 (2): 1–36. <a href="https://doi.org/10.18637/jss.v048.i02">https://doi.org/10.18637/jss.v048.i02</a>.
+</div>
+<div id="ref-sireci2013" class="csl-entry" role="listitem">
+Sireci, Stephen G., and Tia Sukin. 2013. <span>“Test Validity.”</span> In <em><span>APA</span> Handbook of Testing and Assessment in Psychology, <span>Vol</span>. 1: <span>Test</span> Theory and Testing and Assessment in Industrial and Organizational Psychology.</em>, 61–84. Washington: American Psychological Association. <a href="https://doi.org/10.1037/14047-004">https://doi.org/10.1037/14047-004</a>.
+</div>
+<div id="ref-jamovi2023" class="csl-entry" role="listitem">
+The jamovi project. 2023. <span>“Jamovi.”</span> [Computer Software]. <a href="https://www.jamovi.org">https://www.jamovi.org</a>.
+</div>
+<div id="ref-urbina2014" class="csl-entry" role="listitem">
+Urbina, Susana. 2014. <em>Essentials of <span>Psychological Testing</span></em>. Hoboken, New Jersey: John Wiley &amp; Sons.
+</div>
+<div id="ref-widodo2018" class="csl-entry" role="listitem">
+Widodo, Estu. 2018. <span>“Some <span>Notes</span> on the <span>Contemporary Views</span> of <span>Validity</span> in <span>Psychological</span> and <span>Educational Assessment</span>.”</span> <em>Advances in Social Science, Education and Humanities Research</em> 231: 732–34. <a href="https://doi.org/10.3968/8877">https://doi.org/10.3968/8877</a>.
+</div>
+<div id="ref-wilkinson2016" class="csl-entry" role="listitem">
+Wilkinson, Mark D., Michel Dumontier, IJsbrand Jan Aalbersberg, Gabrielle Appleton, Myles Axton, Arie Baak, Niklas Blomberg, et al. 2016. <span>“The <span>FAIR Guiding Principles</span> for Scientific Data Management and Stewardship.”</span> <em>Scientific Data</em> 3 (1): 160018. <a href="https://doi.org/10.1038/sdata.2016.18">https://doi.org/10.1038/sdata.2016.18</a>.
 </div>
 </div>
 
@@ -306,6 +418,33 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       } else {
         el.classList.add('notransition');
       }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
     }
   }
   const toggleColorMode = (alternate) => {
@@ -374,13 +513,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return localAlternateSentinel;
     }
   }
-  let localAlternateSentinel = 'default';
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
   // Dark / light mode switch
   window.quartoToggleColorScheme = () => {
     // Read the current dark / light value 
     let toAlternate = !hasAlternateSentinel();
     toggleColorMode(toAlternate);
     setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
   };
   // Ensure there is a toggle, if there isn't float one in the top right
   if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
@@ -459,10 +600,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/phdpablo\.github\.io\/smart-cfa\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -472,8 +630,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -486,6 +653,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -529,6 +815,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -554,6 +841,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -611,44 +924,35 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       });
     }
   }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-      var filterRegex = new RegExp("https:\/\/phdpablo\.github\.io\/smart-cfa\/");
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-          // target, if specified
-          link.setAttribute("target", "_blank");
-      }
-    }
 });
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link">
+      <a href="./index.html" class="pagination-link" aria-label="Abstract">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Abstract</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./02-smart-choices.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Smart Choices</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./02-smart-choices.html" class="pagination-link" aria-label="Smart Choices in CFA">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Smart Choices in CFA</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-    <div class="nav-footer-left"><a href="https://www.phdpablo.com">by Pablo Rogers</a></div>   
+    <div class="nav-footer-left">
+<p><a href="https://www.phdpablo.com">by Pablo Rogers</a></p>
+</div>   
     <div class="nav-footer-center">
       &nbsp;
     </div>
-    <div class="nav-footer-right">This article was built with <a href="https://quarto.org/">Quarto</a></div>
+    <div class="nav-footer-right">
+<p>This article was built with <a href="https://quarto.org/">Quarto</a></p>
+</div>
   </div>
 </footer>
+
 
 
 

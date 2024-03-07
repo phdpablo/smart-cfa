@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Smart Choices for Measurement Models - 2&nbsp; Smart Choices</title>
+<title>Smart Choices for Measurement Models - 2&nbsp; Smart Choices in CFA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,41 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
 }
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
 }
-</style>
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -64,7 +50,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./03-model.html" rel="next">
+<link href="./03-tutorial.html" rel="next">
 <link href="./01-intro.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -83,7 +69,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -92,16 +84,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<meta property="og:title" content="Smart Choices for Measurement Models - 2&nbsp; Smart Choices">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="Smart Choices for Measurement Models - 2&nbsp; Smart Choices in CFA">
 <meta property="og:description" content="">
-<meta property="og:site-name" content="Smart Choices for Measurement Models">
+<meta property="og:site_name" content="Smart Choices for Measurement Models">
 </head>
 
 <body class="nav-sidebar floating">
@@ -110,12 +132,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02-smart-choices.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Smart Choices</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02-smart-choices.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Smart Choices in CFA</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -125,13 +147,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Smart Choices for Measurement Models</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="https://github.com/phdpablo/smart-cfa/" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-    <a href="./Smart-Choices-for-Measurement-Models.pdf" rel="" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+    <a href="https://github.com/phdpablo/smart-cfa/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="./Smart-Choices-for-Measurement-Models.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
     <div class="dropdown">
       <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
       <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
@@ -186,25 +208,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./02-smart-choices.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Smart Choices</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Smart Choices in CFA</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-model.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Conceptual Model</span></span></a>
+  <a href="./03-tutorial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Executable Manuscript</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04-tutorial.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Dynamic Tutorial</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./05-considerations.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Final Considerations</span></span></a>
+  <a href="./04-considerations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Final Considerations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -216,28 +232,306 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#measurement-model-selection" id="toc-measurement-model-selection" class="nav-link active" data-scroll-target="#measurement-model-selection"><span class="header-section-number">2.1</span> Measurement Model Selection</a></li>
+  <li><a href="#power-analysis" id="toc-power-analysis" class="nav-link" data-scroll-target="#power-analysis"><span class="header-section-number">2.2</span> Power Analysis</a></li>
+  <li><a href="#pre-processing" id="toc-pre-processing" class="nav-link" data-scroll-target="#pre-processing"><span class="header-section-number">2.3</span> Pre-processing</a></li>
+  <li><a href="#estimation-process" id="toc-estimation-process" class="nav-link" data-scroll-target="#estimation-process"><span class="header-section-number">2.4</span> Estimation Process</a></li>
+  <li><a href="#model-fit" id="toc-model-fit" class="nav-link" data-scroll-target="#model-fit"><span class="header-section-number">2.5</span> Model Fit</a></li>
+  <li><a href="#model-comparisons-and-modifications" id="toc-model-comparisons-and-modifications" class="nav-link" data-scroll-target="#model-comparisons-and-modifications"><span class="header-section-number">2.6</span> Model Comparisons and Modifications</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header">
-<h1 class="title display-7"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Smart Choices</span></h1>
+<h1 class="title display-7"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Smart Choices in CFA</span></h1>
 
 </header>
 
-<p>In summary, this book has no content whatsoever.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
-</div>
-</div>
+
+<p>This paper presents a comprehensive approach to conducting a standard CFA within the applied social sciences, following the guidelines outlined by <span class="citation" data-cites="rogers2023">Rogers (<a href="references.html#ref-rogers2023" role="doc-biblioref">2023</a>)</span>. According to <span class="citation" data-cites="rogers2023">Rogers (<a href="references.html#ref-rogers2023" role="doc-biblioref">2023</a>)</span>, a typical CFA study seeks to fit a reflective common factor model with a predefined multifactor structure, established psychometric properties, and a maximum of five Likert-type response options. This scenario frequently occurs in research endeavors where the measurement model facilitates the examination of hypotheses derived from the structural model.</p>
+<p>The initial phase in such research involves data preprocessing. Specifically, for categorical data, <span class="citation" data-cites="rogers2023">Rogers (<a href="references.html#ref-rogers2023" role="doc-biblioref">2023</a>)</span> advises employing multiple imputation to handle missing data, taking into consideration the limitations posed by available software and methodologies <span class="citation" data-cites="rogers2023">(<a href="references.html#ref-rogers2023" role="doc-biblioref">Rogers 2023</a>)</span>. When a measurement model allows for the treatment of items as continuous variables, addressing this challenge can be deferred to the estimation process stage through the selection of an appropriate estimator <span class="citation" data-cites="robitzsch2022">(<a href="references.html#ref-robitzsch2022" role="doc-biblioref">Robitzsch 2022</a>)</span>.</p>
+<p>This paper reinterprets the insights from <span class="citation" data-cites="rogers2023">Rogers (<a href="references.html#ref-rogers2023" role="doc-biblioref">2023</a>)</span> for CFAs that accommodate continuous item treatment. Thus, a strategic choice involves opting for measurement models that permit this approach, thereby circumventing methodological hurdles <span class="citation" data-cites="robitzsch2022 robitzsch2020">(<a href="references.html#ref-robitzsch2022" role="doc-biblioref">Robitzsch 2022</a>, <a href="references.html#ref-robitzsch2020" role="doc-biblioref">2020</a>)</span> associated with binary and/or ordinal response items with up to four or five gradations. Such a decision influences various aspects of the research process, including the choice of software, power analysis, estimation techniques, criteria for model adjustment, and model comparisons. These choices, in turn, affect requirements concerning sample size, computational resources, and the researcher’s expertise <span class="citation" data-cites="robitzsch2020">(<a href="references.html#ref-robitzsch2020" role="doc-biblioref">Robitzsch 2020</a>)</span>.</p>
+<p>Subsequent sections delve into themes previously summarized by <span class="citation" data-cites="rogers2023">Rogers (<a href="references.html#ref-rogers2023" role="doc-biblioref">2023</a>)</span>, specifically concerning CFAs with ordinal items. These themes are explored in terms of recommended practices <span class="citation" data-cites="flake2017 nye2022 rogers2023">(<a href="references.html#ref-flake2017" role="doc-biblioref">Jessica K. Flake, Pek, and Hehman 2017</a>; <a href="references.html#ref-nye2022" role="doc-biblioref">Nye 2022</a>; <a href="references.html#ref-rogers2023" role="doc-biblioref">Rogers 2023</a>)</span>, pitfalls to avoid <span class="citation" data-cites="crede2019 rogers2023">(<a href="references.html#ref-crede2019" role="doc-biblioref">Crede and Harms 2019</a>; <a href="references.html#ref-rogers2023" role="doc-biblioref">Rogers 2023</a>)</span>, and reporting guidelines <span class="citation" data-cites="flake2020 jackson2009 rogers2023">(<a href="references.html#ref-flake2020" role="doc-biblioref">Jessica Kay Flake and Fried 2020</a>; <a href="references.html#ref-jackson2009" role="doc-biblioref">Jackson, Gillaspy, and Purc-Stephenson 2009</a>; <a href="references.html#ref-rogers2023" role="doc-biblioref">Rogers 2023</a>)</span>, all within the context of selecting measurement models that accommodate continuous data interpretation.</p>
+<p>Assuming that readers possess a foundational understanding of the topic, this paper omits certain technical details, directing readers to authoritative texts <span class="citation" data-cites="brown2015 kline2023">(<a href="references.html#ref-brown2015" role="doc-biblioref">Brown 2015</a>; <a href="references.html#ref-kline2023" role="doc-biblioref">Kline 2023</a>)</span> and scholarly articles that provide an introduction to Covariance-Based Structural Equation Modeling (CB-SEM) <span class="citation" data-cites="davvetas2020 shek2014a">(<a href="references.html#ref-davvetas2020" role="doc-biblioref">Davvetas et al. 2020</a>; <a href="references.html#ref-shek2014a" role="doc-biblioref"><strong>shek2014a?</strong></a>)</span>. The discussion is framed within the CB-SEM paradigm <span class="citation" data-cites="brown2015 jackson2009 kline2023 nye2022">(<a href="references.html#ref-brown2015" role="doc-biblioref">Brown 2015</a>; <a href="references.html#ref-jackson2009" role="doc-biblioref">Jackson, Gillaspy, and Purc-Stephenson 2009</a>; <a href="references.html#ref-kline2023" role="doc-biblioref">Kline 2023</a>; <a href="references.html#ref-nye2022" role="doc-biblioref">Nye 2022</a>)</span>, with a focus on CFA. The paper explicitly excludes discussions on measurement model modifications in Variance-Based SEM (VB-SEM), which are predominantly addressed in the literature on Partial Least Squares SEM (PLS-SEM) <span class="citation" data-cites="hair2022 hair2017 henseler2021">(<a href="references.html#ref-hair2022" role="doc-biblioref">Hair et al. 2022</a>, <a href="references.html#ref-hair2017" role="doc-biblioref">2017</a>; <a href="references.html#ref-henseler2021" role="doc-biblioref">Henseler 2021</a>)</span>.</p>
+<section id="measurement-model-selection" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="measurement-model-selection"><span class="header-section-number">2.1</span> Measurement Model Selection</h2>
+<p>Selecting an appropriate measurement model is a critical initial step in the research process. For robust analysis, it is advisable to prioritize models that provide five or more ordinal response options. Research has shown that a higher number of response gradations enhances the ability to detect inaccurately defined models <span class="citation" data-cites="green1997 maydeu-olivares2017a">(<a href="references.html#ref-green1997" role="doc-biblioref">Green et al. 1997</a>; <a href="references.html#ref-maydeu-olivares2017a" role="doc-biblioref">Maydeu-Olivares, Fairchild, and Hall 2017</a>)</span>, even when using estimators designed for ordinal items <span class="citation" data-cites="xia2018">(<a href="references.html#ref-xia2018" role="doc-biblioref">Xia and Yang 2018</a>)</span>. This strategy also mitigates some of the methodological challenges associated with the analysis of ordinal data in CFA <span class="citation" data-cites="rhemtulla2012 robitzsch2022 robitzsch2020">(<a href="references.html#ref-rhemtulla2012" role="doc-biblioref">Rhemtulla, Brosseau-Liard, and Savalei 2012</a>; <a href="references.html#ref-robitzsch2022" role="doc-biblioref">Robitzsch 2022</a>, <a href="references.html#ref-robitzsch2020" role="doc-biblioref">2020</a>)</span>.</p>
+<p>When choosing a measurement scale, it is crucial to select ones that have been validated in the language of application and with the study’s target audience <span class="citation" data-cites="flake2017">(<a href="references.html#ref-flake2017" role="doc-biblioref">Jessica K. Flake, Pek, and Hehman 2017</a>)</span>. Avoid scales that are proprietary or specific to certain professions. An examination of your country’s Psychological Test Assessment System can be an effective starting point. If the desired scale is not found within these resources, consider looking into scales developed with the support of public institutions, non-governmental organizations, research centers, or universities, as these entities often invest significant resources in validating measurement models for broader public policy purposes.</p>
+<p>An extensive literature review is essential for selecting a suitable measurement model. This should include consulting specialized journals, books, technical reports, and academic dissertations or theses. <span class="citation" data-cites="schumacker2021">Schumacker, Wind, and Holmes (<a href="references.html#ref-schumacker2021" role="doc-biblioref">2021</a>)</span> provide a detailed guide for initiating this search. Consideration should also be given to systematic reviews or meta-analyses focusing on measurement models related to your topic of interest. It is important to review both the original articles on the scales and subsequent applications. <span class="citation" data-cites="kline2016">Kline (<a href="references.html#ref-kline2016" role="doc-biblioref">2016</a>)</span> offers a useful checklist for assessing various measurement methods.</p>
+<p>Incorporate control questions, such as requiring respondents to select “strongly agree” on specific items, and monitor survey response times to gauge participant engagement <span class="citation" data-cites="collier2020">(<a href="references.html#ref-collier2020" role="doc-biblioref">Collier 2020</a>)</span>.</p>
+<p>Avoid adopting measurement models designed for narrow purposes or those lacking rigorous psychometric validation <span class="citation" data-cites="flake2020 kline2016">(<a href="references.html#ref-flake2020" role="doc-biblioref">Jessica Kay Flake and Fried 2020</a>; <a href="references.html#ref-kline2016" role="doc-biblioref">Kline 2016</a>)</span>. The mere existence of a scale does not ensure its validity <span class="citation" data-cites="flake2017">(<a href="references.html#ref-flake2017" role="doc-biblioref">Jessica K. Flake, Pek, and Hehman 2017</a>)</span>. Also, steer clear of seldom-used or outdated scales, as they may have compromised psychometric properties. Translating a scale from another language for immediate use without thorough translation and retranslation processes is inadvisable. Be cautious of overlooking alternative factorial structures (e.g., higher-order or bifactor models) that could potentially salvage the research if considered thoroughly <span class="citation" data-cites="crede2019">(<a href="references.html#ref-crede2019" role="doc-biblioref">Crede and Harms 2019</a>)</span>.</p>
+<p>When selecting a scale, justify its choice by highlighting its strong psychometric properties, including previous empirical evidence of its application within the target population and its reliability and validity metrics <span class="citation" data-cites="flake2020 jackson2009 kline2016">(<a href="references.html#ref-flake2020" role="doc-biblioref">Jessica Kay Flake and Fried 2020</a>; <a href="references.html#ref-jackson2009" role="doc-biblioref">Jackson, Gillaspy, and Purc-Stephenson 2009</a>; <a href="references.html#ref-kline2016" role="doc-biblioref">Kline 2016</a>)</span>. If the scale has multiple potential factorial structures, provide a rationale for the chosen model to prevent the misuse of CFA for exploratory purposes <span class="citation" data-cites="jackson2009">(<a href="references.html#ref-jackson2009" role="doc-biblioref">Jackson, Gillaspy, and Purc-Stephenson 2009</a>)</span>.</p>
+<p>Clearly specify the selected model and rationalize your choice by detailing its advantages over other theoretical models. Illustrating the models under consideration can further clarify your research approach <span class="citation" data-cites="jackson2009">(<a href="references.html#ref-jackson2009" role="doc-biblioref">Jackson, Gillaspy, and Purc-Stephenson 2009</a>)</span>. Finally, identify and explain any potential cross-loadings based on prior empirical evidence <span class="citation" data-cites="brown2023 nye2022">(<a href="references.html#ref-brown2023" role="doc-biblioref">Brown 2023</a>; <a href="references.html#ref-nye2022" role="doc-biblioref">Nye 2022</a>)</span>, ensuring a comprehensive and well-justified methodological foundation for your study.</p>
+</section>
+<section id="power-analysis" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="power-analysis"><span class="header-section-number">2.2</span> Power Analysis</h2>
+<p>When addressing Power Analysis (PA) in CFA and SEM, it’s essential to move beyond general rules of thumb for determining sample sizes. Commonly cited guidelines suggesting minimum sizes or specific ratios of observations to parameters (e.g., 50, 100, 200, 300, 400, 500, 1000 for sample sizes or 20/1, 10/1, 5/1 for observation/parameter ratios) <span class="citation" data-cites="kline2023 kyriazos2018">(<a href="references.html#ref-kline2023" role="doc-biblioref">Kline 2023</a>; <a href="references.html#ref-kyriazos2018" role="doc-biblioref">Kyriazos 2018</a>)</span> are based on controlled conditions that may not directly transfer to your study’s context.</p>
+<p>Reliance on lower-bound sample sizes as a substitute for thorough PA risks inadequate power for detecting meaningful effects in your model <span class="citation" data-cites="westland2010 wang2023">(<a href="references.html#ref-westland2010" role="doc-biblioref">Westland 2010</a>; <a href="references.html#ref-wang2023" role="doc-biblioref">Yilin Andre Wang 2023</a>)</span>. Tools like Soper’s calculator (<a href="https://www.danielsoper.com/statcalc/" class="uri">https://www.danielsoper.com/statcalc/</a>), while popular and frequently cited (as of 02/20/2024, with almost four years of existence, it had collected more than 1,000 citations on Google Scholar), should not replace a tailored PA approach. Such calculators, despite their utility, may not fully accommodate the complexities and specific requirements of your research design <span class="citation" data-cites="kyriazos2018 feng2023 moshagen2023">(<a href="references.html#ref-kyriazos2018" role="doc-biblioref">Kyriazos 2018</a>; <a href="references.html#ref-feng2023" role="doc-biblioref">Feng and Hancock 2023</a>; <a href="references.html#ref-moshagen2023" role="doc-biblioref">Moshagen and Bader 2023</a>)</span>.</p>
+<p>A modern perspective on sample size determination emphasizes customizing power calculations to fit the unique aspects of each study, incorporating specific research settings and questions <span class="citation" data-cites="feng2023 moshagen2023">(<a href="references.html#ref-feng2023" role="doc-biblioref">Feng and Hancock 2023</a>; <a href="references.html#ref-moshagen2023" role="doc-biblioref">Moshagen and Bader 2023</a>)</span>. This approach underscores that there is no universal sample size or minimum that applies across all research scenarios <span class="citation" data-cites="kline2023">(<a href="references.html#ref-kline2023" role="doc-biblioref">Kline 2023</a>)</span>.</p>
+<p>Planning for PA should ideally precede data collection, enhancing the researcher’s understanding of the study and facilitating informed decisions regarding the measurement model based on existing literature and known population characteristics <span class="citation" data-cites="feng2023 leite2023">(<a href="references.html#ref-feng2023" role="doc-biblioref">Feng and Hancock 2023</a>; <a href="references.html#ref-leite2023" role="doc-biblioref">Leite, Bandalos, and Shen 2023</a>)</span>. A priori PA not only ensures adequate sample size for detecting the intended effects, minimizing Type II errors, but also aids in budgeting for data collection and enhancing overall research design <span class="citation" data-cites="feng2023">(<a href="references.html#ref-feng2023" role="doc-biblioref">Feng and Hancock 2023</a>)</span>.</p>
+<p>PA in SEM can be approached analytically, using asymptotic theory, or through simulation methods. Analytical methods require specifying the effect size in relation to the non-centrality parameter, while simulated PA leverages a population model to empirically estimate power <span class="citation" data-cites="moshagen2023 feng2023">(<a href="references.html#ref-moshagen2023" role="doc-biblioref">Moshagen and Bader 2023</a>; <a href="references.html#ref-feng2023" role="doc-biblioref">Feng and Hancock 2023</a>)</span>. These approaches are applicable to assessing both global model fit and specific model parameters.</p>
+<p>For CFA, evaluating the power related to the global fit of the measurement model is recommended <span class="citation" data-cites="nye2022">(<a href="references.html#ref-nye2022" role="doc-biblioref">Nye 2022</a>)</span>. Although analytical solutions have their limitations, they can serve as preliminary steps, complemented by simulation techniques for a more comprehensive PA <span class="citation" data-cites="feng2023 moshagen2023">(<a href="references.html#ref-feng2023" role="doc-biblioref">Feng and Hancock 2023</a>; <a href="references.html#ref-moshagen2023" role="doc-biblioref">Moshagen and Bader 2023</a>)</span>.</p>
+<p>Several resources offer analytical solutions for global fit PA, including ShinyApps by <span class="citation" data-cites="jak2021">Jak et al. (<a href="references.html#ref-jak2021" role="doc-biblioref">2021</a>)</span>, <span class="citation" data-cites="moshagen2023">Moshagen and Bader (<a href="references.html#ref-moshagen2023" role="doc-biblioref">2023</a>)</span>, <span class="citation" data-cites="wang2021">Y. Andre Wang and Rhemtulla (<a href="references.html#ref-wang2021" role="doc-biblioref">2021</a>)</span>, and <span class="citation" data-cites="zhang2018">Zhang and Yuan (<a href="references.html#ref-zhang2018" role="doc-biblioref">2018</a>)</span>, with the last application providing a comprehensive suite for Monte Carlo Simulation (SMC) that accommodates missing data, non-normal distributions, and facilitates model testing without extensive coding <span class="citation" data-cites="wang2021">(<a href="references.html#ref-wang2021" role="doc-biblioref">Y. Andre Wang and Rhemtulla 2021</a>)</span>. For an overview of these solutions and a discussion of analytical approaches, see <span class="citation" data-cites="feng2023">Feng and Hancock (<a href="references.html#ref-feng2023" role="doc-biblioref">2023</a>)</span>, <span class="citation" data-cites="jak2021">Jak et al. (<a href="references.html#ref-jak2021" role="doc-biblioref">2021</a>)</span>, <span class="citation" data-cites="nye2022">Nye (<a href="references.html#ref-nye2022" role="doc-biblioref">2022</a>)</span>, and <span class="citation" data-cites="wang2023">Yilin Andre Wang (<a href="references.html#ref-wang2023" role="doc-biblioref">2023</a>)</span>.</p>
+<p>However, it is a smart decision to run an SMC for the PA of your CFA model using solutions that are consistent with the results’ reproducible and replicability. In this way, even analytical solutions that the researcher may use as a starting point are recommended in the R environment via the semTools packages <span class="citation" data-cites="jak2021">(<a href="references.html#ref-jak2021" role="doc-biblioref">Jak et al. 2021</a>)</span> and semPower 2 <span class="citation" data-cites="jobst2023 moshagen2023">(<a href="references.html#ref-jobst2023" role="doc-biblioref">Jobst, Bader, and Moshagen 2023</a>; <a href="references.html#ref-moshagen2023" role="doc-biblioref">Moshagen and Bader 2023</a>)</span>. The first option is compatible with the lavaan syntax and looks to be enough. The second, albeit including SMC in some cases, has a more difficult syntax.</p>
+<p>For detailed and tailored PA, especially in complex models or unique study designs, the simsem package offers a robust solution, allowing for the relaxation of traditional assumptions and supporting the use of robust estimators. This package, which utilizes the familiar lavaan syntax, simplifies the learning curve for researchers already accustomed to SEM analyses, providing a user-friendly interface for conducting SMC <span class="citation" data-cites="pornprasertmanit2022">(<a href="references.html#ref-pornprasertmanit2022" role="doc-biblioref">Pornprasertmanit et al. 2022</a>)</span>.</p>
+<p>Publishing the sampling design and methodology enhances the reproducibility and replicability of research, contributing to the scientific community’s collective understanding and validation of measurement models <span class="citation" data-cites="flake2017 flake2022 flake2020 leite2023">(<a href="references.html#ref-flake2017" role="doc-biblioref">Jessica K. Flake, Pek, and Hehman 2017</a>; <a href="references.html#ref-flake2022" role="doc-biblioref">Jessica Kay Flake et al. 2022</a>; <a href="references.html#ref-flake2020" role="doc-biblioref">Jessica Kay Flake and Fried 2020</a>; <a href="references.html#ref-leite2023" role="doc-biblioref">Leite, Bandalos, and Shen 2023</a>)</span>. In the context of CFA, acknowledging the power limitations of your study can signal potential concerns for the broader inferences drawn from your research, emphasizing the importance of external validity and the relevance of the outcomes over mere precision <span class="citation" data-cites="leite2023">(<a href="references.html#ref-leite2023" role="doc-biblioref">Leite, Bandalos, and Shen 2023</a>)</span>.</p>
+</section>
+<section id="pre-processing" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="pre-processing"><span class="header-section-number">2.3</span> Pre-processing</h2>
+<p>Upon gathering and tabulating original data, ideally in non-binary formats such as CSV, TXT, or JSON, the first step in data preprocessing should be to eliminate responses from participants who have abandoned the study. This identification often occurs at the end of preprocessing, where these incomplete responses can offer insights into handling missing data, outliers, and multicollinearity.</p>
+<p>Incorporating control questions and measuring response time allows researchers to further refine their dataset by excluding participants who fail control items or complete the survey unusually quickly <span class="citation" data-cites="collier2020">(<a href="references.html#ref-collier2020" role="doc-biblioref">Collier 2020</a>)</span>. Calculating individual response variability (standard deviation) can identify respondents who may not have engaged meaningfully with the survey, indicated by minimal variation in their responses.</p>
+<p>These preliminary data cleaning steps are fundamental yet frequently overlooked in empirical research. They can significantly enhance data quality before engaging in more complex statistical analyses. Visual and descriptive examination of measurement model items is implicitly beneficial for any statistical investigation and should be considered standard practice.</p>
+<p>While data transformation methods like linearization or normalization are available, they are generally not necessary given the robust estimation processes that can handle non-normal data <span class="citation" data-cites="brown2015">(<a href="references.html#ref-brown2015" role="doc-biblioref">Brown 2015</a>)</span>. Parceling items is also discouraged due to its potential to obscure underlying multidimensional structures <span class="citation" data-cites="brown2015 crede2019">(<a href="references.html#ref-brown2015" role="doc-biblioref">Brown 2015</a>; <a href="references.html#ref-crede2019" role="doc-biblioref">Crede and Harms 2019</a>)</span>.</p>
+<p>Addressing missing data, outliers, and multicollinearity is critical. Single imputation methods should be avoided as they underestimate error variance and can lead to identification problems in your model <span class="citation" data-cites="enders2023">(<a href="references.html#ref-enders2023" role="doc-biblioref">Enders 2023</a>)</span>. For missing data under 5%, the impact may be minimal, but for higher rates, Full Information ML (FIML) or Multiple Imputation (MI) should be utilized, with FIML often being the most straightforward and effective choice for CFA <span class="citation" data-cites="brown2015 kline2023">(<a href="references.html#ref-brown2015" role="doc-biblioref">Brown 2015</a>; <a href="references.html#ref-kline2023" role="doc-biblioref">Kline 2023</a>)</span>.</p>
+<p>FIML and MI are preferred for handling missing data due to their ability to produce consistent and efficient parameter estimates under conditions similar to MI <span class="citation" data-cites="enders2023 kline2023">(<a href="references.html#ref-enders2023" role="doc-biblioref">Enders 2023</a>; <a href="references.html#ref-kline2023" role="doc-biblioref">Kline 2023</a>)</span>. FIML it can be adapted for non-normal data using robust estimators <span class="citation" data-cites="brown2015">(<a href="references.html#ref-brown2015" role="doc-biblioref">Brown 2015</a>)</span>.</p>
+<p>Calculating the Variance Inflation Factor (VIF) helps identify items with problematic multicollinearity (VIF &gt; 10), which should be addressed to prevent model convergence issues and misinterpretations <span class="citation" data-cites="kline2016 whittaker2022">(<a href="references.html#ref-kline2016" role="doc-biblioref">Kline 2016</a>; <a href="references.html#ref-whittaker2022" role="doc-biblioref">Whittaker and Schumacker 2022</a>)</span>. Reflective constructs in CFA require some level of item correlation but not to the extent that it causes statistical or validity concerns.</p>
+<p>Consider multivariate outliers rather than univariate ones, identifying and assessing their exclusion based on sample characteristics. Reporting all data cleaning processes, including any loss of items and strategies for assessing respondent engagement, is crucial for transparency. Additionally, documenting signs of multicollinearity and the software or packages used (with versions) enhances the reproducibility and credibility of the research <span class="citation" data-cites="flake2020 jackson2009">(<a href="references.html#ref-flake2020" role="doc-biblioref">Jessica Kay Flake and Fried 2020</a>; <a href="references.html#ref-jackson2009" role="doc-biblioref">Jackson, Gillaspy, and Purc-Stephenson 2009</a>)</span>.</p>
+<p>Finally, making raw data public adheres to the principles of open science, promoting transparency and allowing for independent validation of research findings <span class="citation" data-cites="crede2019 flake2022 flake2020">(<a href="references.html#ref-crede2019" role="doc-biblioref">Crede and Harms 2019</a>; <a href="references.html#ref-flake2022" role="doc-biblioref">Jessica Kay Flake et al. 2022</a>; <a href="references.html#ref-flake2020" role="doc-biblioref">Jessica Kay Flake and Fried 2020</a>)</span>. This practice not only contributes to the scientific community’s collective knowledge base but also reinforces the integrity and reliability of the research conducted.</p>
+</section>
+<section id="estimation-process" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="estimation-process"><span class="header-section-number">2.4</span> Estimation Process</h2>
+<p>In CFA with ordinal items, such as those involving Likert-type scales with up to five points, <span class="citation" data-cites="rogers2023">Rogers (<a href="references.html#ref-rogers2023" role="doc-biblioref">2023</a>)</span> advocates for the use of estimators from the Ordinary Least Squares (OLS) family. Specifically, for smaller samples, the recommendation is to utilize the Unweighted Least Squares (ULS) in its robust form (RULS), and for larger samples, the Diagonally Weighted Least Squares (DWLS) in its robust version (RDWLS), citing substantial supporting research.</p>
+<p>Despite this, empirical evidence <span class="citation" data-cites="rhemtulla2012 robitzsch2022">(<a href="references.html#ref-rhemtulla2012" role="doc-biblioref">Rhemtulla, Brosseau-Liard, and Savalei 2012</a>; <a href="references.html#ref-robitzsch2022" role="doc-biblioref">Robitzsch 2022</a>)</span> and theoretical considerations <span class="citation" data-cites="robitzsch2020">(<a href="references.html#ref-robitzsch2020" role="doc-biblioref">Robitzsch 2020</a>)</span> suggest that treating ordinal data as continuous can yield acceptable outcomes when the response options number five or more. Particularly with 6-7 categories, comparisons between methods under various conditions reveal little difference, and it is recommended to use a greater number of response alternatives (≥5) to enhance the power for detecting model misspecifications <span class="citation" data-cites="maydeu-olivares2017a">(<a href="references.html#ref-maydeu-olivares2017a" role="doc-biblioref">Maydeu-Olivares, Fairchild, and Hall 2017</a>)</span>.</p>
+<p>The ML estimator, noted for its robustness to minor deviations from normality <span class="citation" data-cites="brown2015">(<a href="references.html#ref-brown2015" role="doc-biblioref">Brown 2015</a>)</span>, is further improved by using robust versions like MLR (employing Huber-White standard errors and Yuan-Bentler scaled <span class="math inline">\(\chi^2\)</span>. This adjustment allows for generating robust standard errors and adjusted test statistics, with MLR offering extensive applicability including in scenarios of missing data (RFIML) or where data breaches the independence of observations assumption <span class="citation" data-cites="brown2015 rosseel2012">(<a href="references.html#ref-brown2015" role="doc-biblioref">Brown 2015</a>; <a href="references.html#ref-rosseel2012" role="doc-biblioref">Rosseel 2012</a>)</span>. Comparative empirical studies have supported the effectiveness of MLR against alternative estimators <span class="citation" data-cites="bandalos2014 holgado-tello2016 li2016cfa nalbantoglu-yilmaz2019 yang2013 yang-wallentin2010">(<a href="references.html#ref-bandalos2014" role="doc-biblioref">Bandalos 2014</a>; <a href="references.html#ref-holgado-tello2016" role="doc-biblioref">Holgado-Tello, Morata-Ramirez, and García 2016</a>; <a href="references.html#ref-li2016cfa" role="doc-biblioref">Li 2016</a>; <a href="references.html#ref-nalbantoglu-yilmaz2019" role="doc-biblioref">Nalbantoğlu-Yılmaz 2019</a>; <a href="references.html#ref-yang2013" role="doc-biblioref">Yang and Liang 2013</a>; <a href="references.html#ref-yang-wallentin2010" role="doc-biblioref">Yang-Wallentin, Jöreskog, and Luo 2010</a>)</span>.</p>
+<p>Researchers are advised to carefully describe and justify the chosen estimation method based on the data characteristics and the specific model being evaluated <span class="citation" data-cites="crede2019">(<a href="references.html#ref-crede2019" role="doc-biblioref">Crede and Harms 2019</a>)</span>. It is also critical to report any estimation challenges encountered, such as algorithm non-convergence or model misidentification <span class="citation" data-cites="nye2022">(<a href="references.html#ref-nye2022" role="doc-biblioref">Nye 2022</a>)</span>. In case of estimation difficulties, alternative approaches like MLM estimators (employing robust standard errors and Satorra-Bentler scaled <span class="math inline">\(\chi^2\)</span>) or the default ML with non-parametric bootstrapping, as proposed by Bollen-Stine, can be considered. This latter approach is also capable of accommodating missing data <span class="citation" data-cites="brown2015 kline2023">(<a href="references.html#ref-brown2015" role="doc-biblioref">Brown 2015</a>; <a href="references.html#ref-kline2023" role="doc-biblioref">Kline 2023</a>)</span>.</p>
+<p>Additionally, it is important to clarify whether the variance of a marker variable was fixed (=1) to scale the latent variables <span class="citation" data-cites="jackson2009">(<a href="references.html#ref-jackson2009" role="doc-biblioref">Jackson, Gillaspy, and Purc-Stephenson 2009</a>)</span>, and to provide both standardized and unstandardized parameter estimates <span class="citation" data-cites="nye2022">(<a href="references.html#ref-nye2022" role="doc-biblioref">Nye 2022</a>)</span>. These steps are crucial for ensuring transparency, reproducibility, and the ability to critically assess the validity of the CFA results.</p>
+</section>
+<section id="model-fit" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="model-fit"><span class="header-section-number">2.5</span> Model Fit</h2>
+<p>In conducting CFA with ordinal items, such as Likert-type scales, it’s crucial to approach model evaluation with nuance and avoid reliance on rigid cutoff values for fit indices. Adhering strictly to traditional cutoffs – whether more conservative (e.g., SRMR ≤ .06, RMSEA ≤ .06, CFI ≥ .95) or less conservative (e.g., RMSEA ≤ .08, CFI ≥ .90, SRMR ≤ .08) – should not be the sole criterion for model acceptance <span class="citation" data-cites="xia2019">(<a href="references.html#ref-xia2019" role="doc-biblioref">Xia and Yang 2019</a>)</span>. The origins of these thresholds are in simulation studies with specific configurations (up to three factors, fifteen items, factor loadings between 0.7 and 0.8) <span class="citation" data-cites="west2023">(<a href="references.html#ref-west2023" role="doc-biblioref">West et al. 2023</a>)</span>, and may not universally apply due to the variance in the number of items, factors, model degrees of freedom, misfit types, and presence of missing data <span class="citation" data-cites="groskurth2023 niemand2018 west2023">(<a href="references.html#ref-groskurth2023" role="doc-biblioref">Groskurth, Bluemke, and Lechner 2023</a>; <a href="references.html#ref-niemand2018" role="doc-biblioref">Niemand and Mai 2018</a>; <a href="references.html#ref-west2023" role="doc-biblioref">West et al. 2023</a>)</span>.</p>
+<p>Evaluation of global fit indices (SRMR, RMSEA, CFI) should be done in a collective manner, rather than fixating on any single index. A deviation from traditional cutoffs warrants further investigation into whether the discrepancy is attributable to data characteristics or limitations of the index, rather than indicating a fundamental model misspecification <span class="citation" data-cites="nye2022">(<a href="references.html#ref-nye2022" role="doc-biblioref">Nye 2022</a>)</span>. Interpreting fit indices as effect sizes can offer a more meaningful assessment of model fit, aligning with their original conceptualization <span class="citation" data-cites="mcneishwolf2023cfa mcneish2023geral">(<a href="references.html#ref-mcneishwolf2023cfa" role="doc-biblioref">McNeish and Wolf 2023a</a>; <a href="references.html#ref-mcneish2023geral" role="doc-biblioref">McNeish 2023b</a>)</span>.</p>
+<p>The SRMR is noted for its robustness across various conditions, including non-normality and different measurement levels of items. Pairing SRMR with CFI can help balance Type I and Type II errors, but reliance on alternative indices may increase the risk of Type I error <span class="citation" data-cites="mai2021 niemand2018">(<a href="references.html#ref-mai2021" role="doc-biblioref">Mai, Niemand, and Kraus 2021</a>; <a href="references.html#ref-niemand2018" role="doc-biblioref">Niemand and Mai 2018</a>)</span>.</p>
+<p>Emerging methods like the Dynamic Fit Index (DFI) and Flexible Cutoffs (FCO) offer tailored approaches to evaluating global fit. DFI, based on simulation, provides model-specific cutoff points, adjusting simulations to match the empirical model’s characteristics <span class="citation" data-cites="mcneish2023likert mcneishwolf2023dddf mcneishwolf2023cfa">(<a href="references.html#ref-mcneish2023likert" role="doc-biblioref">McNeish 2023a</a>; <a href="references.html#ref-mcneishwolf2023dddf" role="doc-biblioref">McNeish and Wolf 2023b</a>; <a href="references.html#ref-mcneishwolf2023cfa" role="doc-biblioref">McNeish and Wolf 2023a</a>)</span>. FCO, while not requiring identification of a misspecified model like DFI, conservatively defines misfit, shifting focus from approximate to accurate fit <span class="citation" data-cites="mcneishwolf2023dddf">(<a href="references.html#ref-mcneishwolf2023dddf" role="doc-biblioref">McNeish and Wolf 2023b</a>)</span>.</p>
+<p>For those hesitant to delve into simulation-based methods, Equivalence Testing (EQT) presents an alternative. EQT aligns with the analytical mindset of PA and incorporates DFI principles, challenging the conventional hypothesis testing framework by considering model specification and misspecification size control <span class="citation" data-cites="yuan2016">(<a href="references.html#ref-yuan2016" role="doc-biblioref">Yuan et al. 2016</a>)</span>.</p>
+<p>When addressing reliability, Cronbach’s Alpha should not be the default measure due to its limitations. Instead, consider McDonald’s Omega or the Greatest Lower Bound (GLB) for a more accurate reliability assessment within the CFA context <span class="citation" data-cites="bell2023 cho2022 dunn2014 flora2020 goodboy2020 green2015 hayes2020 kalkbrenner2023 mcneish2018 trizano-hermosilla2016">(<a href="references.html#ref-bell2023" role="doc-biblioref">Bell, Chalmers, and Flora 2023</a>; <a href="references.html#ref-cho2022" role="doc-biblioref">Cho 2022</a>; <a href="references.html#ref-dunn2014" role="doc-biblioref">Dunn, Baguley, and Brunsden 2014</a>; <a href="references.html#ref-flora2020" role="doc-biblioref">Flora 2020</a>; <a href="references.html#ref-goodboy2020" role="doc-biblioref">Goodboy and Martin 2020</a>; <a href="references.html#ref-green2015" role="doc-biblioref">Green and Yang 2015</a>; <a href="references.html#ref-hayes2020" role="doc-biblioref">Hayes and Coutts 2020</a>; <a href="references.html#ref-kalkbrenner2023" role="doc-biblioref">Kalkbrenner 2023</a>; <a href="references.html#ref-mcneish2018" role="doc-biblioref">McNeish 2018</a>; <a href="references.html#ref-trizano-hermosilla2016" role="doc-biblioref">Trizano-Hermosilla and Alvarado 2016</a>)</span>.</p>
+<p>Before modifying the model, first check for Heywood instances, which are standardized factor loadings greater than one or negative variances <span class="citation" data-cites="nye2022">(<a href="references.html#ref-nye2022" role="doc-biblioref">Nye 2022</a>)</span> and document the chosen cutoffs for evaluation. Tools and resources like ShinyApp for DFI and the FCO package in R can facilitate the application of these advanced methodologies <span class="citation" data-cites="mcneishwolf2023cfa mai2021 niemand2018">(<a href="references.html#ref-mcneishwolf2023cfa" role="doc-biblioref">McNeish and Wolf 2023a</a>; <a href="references.html#ref-mai2021" role="doc-biblioref">Mai, Niemand, and Kraus 2021</a>; <a href="references.html#ref-niemand2018" role="doc-biblioref">Niemand and Mai 2018</a>)</span>. Always report corrected chi-square and degrees of freedom, alongside a minimum of three global fit indices (RMSEA, CFI, SRMR) and local fit measures to provide a comprehensive view of model fit and adjustment decisions <span class="citation" data-cites="crede2019 flake2020">(<a href="references.html#ref-crede2019" role="doc-biblioref">Crede and Harms 2019</a>; <a href="references.html#ref-flake2020" role="doc-biblioref">Jessica Kay Flake and Fried 2020</a>)</span>.</p>
+</section>
+<section id="model-comparisons-and-modifications" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="model-comparisons-and-modifications"><span class="header-section-number">2.6</span> Model Comparisons and Modifications</h2>
+<p>Researchers embarking on CFA should avoid prematurely committing to a specific factor structure without thoroughly evaluating and comparing alternate configurations. It’s advisable to consider various potential structures early in the study design, ensuring the selected model is based on its merits relative to competing theories <span class="citation" data-cites="jackson2009">(<a href="references.html#ref-jackson2009" role="doc-biblioref">Jackson, Gillaspy, and Purc-Stephenson 2009</a>)</span>. Since models are inherently approximations of reality, adopting the most effective “working hypothesis” is a dynamic process, contingent on ongoing assessments against emerging alternatives <span class="citation" data-cites="preacher2023">(<a href="references.html#ref-preacher2023" role="doc-biblioref">Preacher and Yaremych 2023</a>)</span>.</p>
+<p>Good models are characterized not only by their interpretability, simplicity, and generalizability but notably by their capacity to surpass competing models in critical aspects. This competitive advantage frames the selected theory as the prevailing hypothesis until a more compelling alternative is identified <span class="citation" data-cites="preacher2023">(<a href="references.html#ref-preacher2023" role="doc-biblioref">Preacher and Yaremych 2023</a>)</span>.</p>
+<p>The evaluation of model fit should extend beyond isolated assessments using fit indices. A comprehensive approach involves comparing multiple models, each grounded in substantiated theories, to discern the most accurate representation of the underlying structure. This comparative analysis is preferred over singular model evaluations, fostering a more holistic understanding of the phenomena under study <span class="citation" data-cites="preacher2023">(<a href="references.html#ref-preacher2023" role="doc-biblioref">Preacher and Yaremych 2023</a>)</span>.</p>
+<p>Uniform application of models across the same dataset, utilizing identical software and sample size, ensures consistency in the researcher’s analytical freedom, mitigating the risk of results manipulation. This standardized approach underpins a more rigorous and transparent investigative process <span class="citation" data-cites="preacher2023">(<a href="references.html#ref-preacher2023" role="doc-biblioref">Preacher and Yaremych 2023</a>)</span>.</p>
+<p>Model selection is instrumental in pinpointing the most effective explanatory framework for the observed phenomena, enabling the dismissal of less performance models while retaining promising ones for further exploration. This methodological flexibility enhances the depth of analysis, contributing to the advancement of knowledge within the social sciences <span class="citation" data-cites="preacher2023">(<a href="references.html#ref-preacher2023" role="doc-biblioref">Preacher and Yaremych 2023</a>)</span>.</p>
+<p>Adjustments to a model, particularly in response to unsatisfactory fit indices, should be theoretically grounded and reflective of findings from prior research. Blind adherence to a pre-established model or making hasty modifications can adversely affect the structural model’s integrity. Thoughtful adjustments, potentially revisiting exploratory factor analysis (EFA) or considering Exploratory SEM (ESEM) for cross-loadings representation, are preferable to drastic changes that might shift the study from confirmatory to exploratory research <span class="citation" data-cites="brown2023 flake2017 jackson2009 crede2019">(<a href="references.html#ref-brown2023" role="doc-biblioref">Brown 2023</a>; <a href="references.html#ref-flake2017" role="doc-biblioref">Jessica K. Flake, Pek, and Hehman 2017</a>; <a href="references.html#ref-jackson2009" role="doc-biblioref">Jackson, Gillaspy, and Purc-Stephenson 2009</a>; <a href="references.html#ref-crede2019" role="doc-biblioref">Crede and Harms 2019</a>)</span>.</p>
+<p>All modifications to the measurement model, especially those enhancing model fit, must be meticulously documented to maintain transparency and support reproducibility <span class="citation" data-cites="flake2020">(<a href="references.html#ref-flake2020" role="doc-biblioref">Jessica Kay Flake and Fried 2020</a>)</span>. Openly reporting these adjustments, including item exclusions and inter-item correlations, is vital for the scientific integrity of the research <span class="citation" data-cites="nye2022 flake2022">(<a href="references.html#ref-nye2022" role="doc-biblioref">Nye 2022</a>; <a href="references.html#ref-flake2022" role="doc-biblioref">Jessica Kay Flake et al. 2022</a>)</span>.</p>
+<p>Regarding model comparison and selection, traditional fit indices (SRMR, RMSEA, CFI) have limitations for direct model comparisons. Adjusted chi-square tests and information criteria like AIC and BIC are more suitable for this purpose, balancing model fit and parsimony. These criteria, however, should be applied with an understanding of their constraints and complemented by theoretical judgment to inform model selection decisions <span class="citation" data-cites="preacher2023 brown2015 huang2017 lai2020nonnested lai2021fit">(<a href="references.html#ref-preacher2023" role="doc-biblioref">Preacher and Yaremych 2023</a>; <a href="references.html#ref-brown2015" role="doc-biblioref">Brown 2015</a>; <a href="references.html#ref-huang2017" role="doc-biblioref">Huang 2017</a>; <a href="references.html#ref-lai2020nonnested" role="doc-biblioref">Lai 2020</a>, <a href="references.html#ref-lai2021fit" role="doc-biblioref">2021</a>)</span>.</p>
+<p>Ultimately, model selection in SEM is a nuanced process, blending empirical evidence with theoretical insights. Researchers are encouraged to leverage a range of models based on theoretical foundations, ensuring that the eventual model selection is not solely determined by statistical criteria but is also informed by substantive theory and expertise <span class="citation" data-cites="preacher2023">(<a href="references.html#ref-preacher2023" role="doc-biblioref">Preacher and Yaremych 2023</a>)</span>. This balanced approach underscores the importance of theory-driven research in the social sciences, guiding the interpretation and application of findings derived from chosen models.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-bandalos2014" class="csl-entry" role="listitem">
+Bandalos, Deborah L. 2014. <span>“Relative <span>Performance</span> of <span>Categorical Diagonally Weighted Least Squares</span> and <span>Robust Maximum Likelihood Estimation</span>.”</span> <em>Structural Equation Modeling</em> 21 (1): 102–16. <a href="https://doi.org/10.1080/10705511.2014.859510">https://doi.org/10.1080/10705511.2014.859510</a>.
+</div>
+<div id="ref-bell2023" class="csl-entry" role="listitem">
+Bell, Stephanie M., R. Philip Chalmers, and David B. Flora. 2023. <span>“The <span>Impact</span> of <span>Measurement Model Misspecification</span> on <span>Coefficient Omega Estimates</span> of <span>Composite Reliability</span>.”</span> <em>Educational and Psychological Measurement</em>, 1–36. <a href="https://doi.org/10.1177/00131644231155804">https://doi.org/10.1177/00131644231155804</a>.
+</div>
+<div id="ref-brown2015" class="csl-entry" role="listitem">
+Brown, Timothy A. 2015. <em>Confirmatory <span>Factor Analysis</span> for <span>Applied Research</span></em>. New York: The Guilford Press.
+</div>
+<div id="ref-brown2023" class="csl-entry" role="listitem">
+———. 2023. <span>“Confirmatory <span>Factor Analysis</span>.”</span> In <em>Handbook of <span>Structural Equation Modeling</span></em>, edited by Rick H. Hoyle. New York: The Guilford Press.
+</div>
+<div id="ref-cho2022" class="csl-entry" role="listitem">
+Cho, Eunseong. 2022. <span>“Reliability and <span>Omega Hierarchical</span> in <span>Multidimensional Data</span>: <span>A Comparison</span> of <span>Various Estimators</span>.”</span> <em>Psychological Methods</em>. <a href="https://doi.org/10.1037/met0000525">https://doi.org/10.1037/met0000525</a>.
+</div>
+<div id="ref-collier2020" class="csl-entry" role="listitem">
+Collier, Joel E. 2020. <em>Applied <span>Structural Equation Modeling Using AMOS</span>: <span>Basic</span> to <span>Advanced Techniques</span></em>. New York: Routledge.
+</div>
+<div id="ref-crede2019" class="csl-entry" role="listitem">
+Crede, Marcus, and Peter Harms. 2019. <span>“Questionable Research Practices When Using Confirmatory Factor Analysis.”</span> <em>Journal of Managerial Psychology</em> 34 (1): 18–30. <a href="https://doi.org/10.1108/JMP-06-2018-0272">https://doi.org/10.1108/JMP-06-2018-0272</a>.
+</div>
+<div id="ref-davvetas2020" class="csl-entry" role="listitem">
+Davvetas, Vasileios, Adamantios Diamantopoulos, Ghasem Zaefarian, and Christina Sichtmann. 2020. <span>“Ten Basic Questions about Structural Equations Modeling You Should Know the Answers to – <span>But</span> Perhaps You Don’t.”</span> <em>Industrial Marketing Management</em> 90 (October): 252–63. <a href="https://doi.org/10.1016/j.indmarman.2020.07.016">https://doi.org/10.1016/j.indmarman.2020.07.016</a>.
+</div>
+<div id="ref-dunn2014" class="csl-entry" role="listitem">
+Dunn, Thomas J., Thom Baguley, and Vivienne Brunsden. 2014. <span>“From Alpha to Omega: <span>A</span> Practical Solution to the Pervasive Problem of Internal Consistency Estimation.”</span> <em>British Journal of Psychology</em> 105 (3): 399–412. <a href="https://doi.org/10.1111/bjop.12046">https://doi.org/10.1111/bjop.12046</a>.
+</div>
+<div id="ref-enders2023" class="csl-entry" role="listitem">
+Enders, Craig. 2023. <span>“Fitting Structural <span>Equation Models</span> with <span>Missing</span> Data.”</span> In <em>Handbook of <span>Structural Equation Modeling</span></em>, edited by Rick H. Hoyle. New York: The Guilford Press.
+</div>
+<div id="ref-feng2023" class="csl-entry" role="listitem">
+Feng, Yi, and Gregory R. Hancock. 2023. <span>“Power <span>Analysis</span> Within a <span>Structural Equation Modeling Framework</span>.”</span> In <em>Handbook of <span>Structural Equation Modeling</span></em>, edited by Rick H. Hoyle. New York: The Guilford Press.
+</div>
+<div id="ref-flake2022" class="csl-entry" role="listitem">
+Flake, Jessica Kay, Ian J. Davidson, Octavia Wong, and Jolynn Pek. 2022. <span>“Construct Validity and the Validity of Replication Studies: <span>A</span> Systematic Review.”</span> <em>American Psychologist</em> 77 (4): 576–88. <a href="https://doi.org/10.1037/amp0001006">https://doi.org/10.1037/amp0001006</a>.
+</div>
+<div id="ref-flake2020" class="csl-entry" role="listitem">
+Flake, Jessica Kay, and Eiko I. Fried. 2020. <span>“Measurement <span>Schmeasurement</span>: <span>Questionable Measurement Practices</span> and <span>How</span> to <span>Avoid Them</span>.”</span> <em>Advances in Methods and Practices in Psychological Science</em> 3 (4): 456–65. <a href="https://doi.org/10.1177/2515245920952393">https://doi.org/10.1177/2515245920952393</a>.
+</div>
+<div id="ref-flake2017" class="csl-entry" role="listitem">
+Flake, Jessica K., Jolynn Pek, and Eric Hehman. 2017. <span>“Construct <span>Validation</span> in <span>Social</span> and <span>Personality Research</span>: <span>Current Practices</span> and <span>Recommendations</span>.”</span> <em>Social Psychological and Personality Science</em> 8 (4): 370–78. <a href="https://doi.org/10.1177/1948550617693063">https://doi.org/10.1177/1948550617693063</a>.
+</div>
+<div id="ref-flora2020" class="csl-entry" role="listitem">
+Flora, David B. 2020. <span>“Your <span>Coefficient Alpha Is Probably Wrong</span>, but <span>Which Coefficient Omega Is Right</span>? <span>A Tutorial</span> on <span>Using R</span> to <span>Obtain Better Reliability Estimates</span>.”</span> <em>Advances in Methods and Practices in Psychological Science</em> 3 (4): 484–501. <a href="https://doi.org/10.1177/2515245920951747">https://doi.org/10.1177/2515245920951747</a>.
+</div>
+<div id="ref-goodboy2020" class="csl-entry" role="listitem">
+Goodboy, Alan K., and Matthew M. Martin. 2020. <span>“Omega over Alpha for Reliability Estimation of Unidimensional Communication Measures.”</span> <em>Annals of the International Communication Association</em> 44 (4): 422–39. <a href="https://doi.org/10.1080/23808985.2020.1846135">https://doi.org/10.1080/23808985.2020.1846135</a>.
+</div>
+<div id="ref-green1997" class="csl-entry" role="listitem">
+Green, Samuel B., Theresa M. Akey, Kandace K. Fleming, Scott L. Hershberger, and Janet G. Marquis. 1997. <span>“Effect of the Number of Scale Points on Chi-Square Fit Indices in Confirmatory Factor Analysis.”</span> <em>Structural Equation Modeling: A Multidisciplinary Journal</em> 4 (2): 108–20. <a href="https://doi.org/10.1080/10705519709540064">https://doi.org/10.1080/10705519709540064</a>.
+</div>
+<div id="ref-green2015" class="csl-entry" role="listitem">
+Green, Samuel B., and Yanyun Yang. 2015. <span>“Evaluation of <span>Dimensionality</span> in the <span>Assessment</span> of <span>Internal Consistency Reliability</span>: <span>Coefficient Alpha</span> and <span>Omega Coefficients</span>.”</span> <em>Educational Measurement: Issues and Practice</em> 34 (4): 14–20. <a href="https://doi.org/10.1111/emip.12100">https://doi.org/10.1111/emip.12100</a>.
+</div>
+<div id="ref-groskurth2023" class="csl-entry" role="listitem">
+Groskurth, Katharina, Matthias Bluemke, and Clemens M. Lechner. 2023. <span>“Why We Need to Abandon Fixed Cutoffs for Goodness-of-Fit Indices: <span>An</span> Extensive Simulation and Possible Solutions.”</span> <em>Behavior Research Methods</em>, August. <a href="https://doi.org/10.3758/s13428-023-02193-3">https://doi.org/10.3758/s13428-023-02193-3</a>.
+</div>
+<div id="ref-hair2022" class="csl-entry" role="listitem">
+Hair, Joseph F., Tomas M. G. Hult, Christian M. Ringle, and Marko Sarstedt. 2022. <em>A <span>Primer</span> on <span>Partial Least Squares Structural Equation Modeling</span> (<span>PLS-SEM</span>)</em>. Thousand Oaks: Sage Publications.
+</div>
+<div id="ref-hair2017" class="csl-entry" role="listitem">
+Hair, Joseph F., Marko Sarstedt, Christian Ringle, and Siegfried P. Gudergan. 2017. <em>Advanced <span>Issues</span> in <span>Partial Least Squares Structural Equation Modeling</span></em>. London: SAGE Publications, Inc.
+</div>
+<div id="ref-hayes2020" class="csl-entry" role="listitem">
+Hayes, Andrew F., and Jacob J. Coutts. 2020. <span>“Use <span>Omega Rather</span> Than <span>Cronbach</span>’s <span>Alpha</span> for <span>Estimating Reliability</span>. <span>But</span><span>…</span>.”</span> <em>Communication Methods and Measures</em> 14 (1): 1–24. <a href="https://doi.org/10.1080/19312458.2020.1718629">https://doi.org/10.1080/19312458.2020.1718629</a>.
+</div>
+<div id="ref-henseler2021" class="csl-entry" role="listitem">
+Henseler, Jörg. 2021. <em>Composite-<span>Based Structural Equation Modeling</span>: <span>Analyzing Latent</span> and <span>Emergent Variables</span></em>. New York: The Guilford Press.
+</div>
+<div id="ref-holgado-tello2016" class="csl-entry" role="listitem">
+Holgado-Tello, F., M. Morata-Ramirez, and M. García. 2016. <span>“Robust <span>Estimation Methods</span> in <span>Confirmatory Factor</span> <span>Analysis</span> of <span>Likert Scales</span>: <span>A Simulation Study</span>.”</span> <em>International Review of Social Sciences and Humanities</em> 11 (2): 80–96.
+</div>
+<div id="ref-huang2017" class="csl-entry" role="listitem">
+Huang, Po-Hsien. 2017. <span>“Asymptotics of <span>AIC</span>, <span>BIC</span>, and <span>RMSEA</span> for <span>Model Selection</span> in <span>Structural Equation Modeling</span>.”</span> <em>Psychometrika</em> 82 (2): 407–26. <a href="https://doi.org/10.1007/s11336-017-9572-y">https://doi.org/10.1007/s11336-017-9572-y</a>.
+</div>
+<div id="ref-jackson2009" class="csl-entry" role="listitem">
+Jackson, Dennis L., J. Arthur Gillaspy, and Rebecca Purc-Stephenson. 2009. <span>“Reporting Practices in Confirmatory Factor Analysis: <span>An</span> Overview and Some Recommendations.”</span> <em>Psychological Methods</em> 14 (1). <a href="https://doi.org/10.1037/a0014694">https://doi.org/10.1037/a0014694</a>.
+</div>
+<div id="ref-jak2021" class="csl-entry" role="listitem">
+Jak, Suzanne, Terrence D Jorgensen, Mathilde G E Verdam, Frans J Oort, and Louise Elffers. 2021. <span>“Analytical Power Calculations for Structural Equation Modeling: <span>A</span> Tutorial and <span>Shiny</span> App.”</span> <em>Behavior Research Mehods</em> 53: 1385–1406. <a href="https://doi.org/10.3758/s13428-020-01479-0/Published">https://doi.org/10.3758/s13428-020-01479-0/Published</a>.
+</div>
+<div id="ref-jobst2023" class="csl-entry" role="listitem">
+Jobst, Lisa J., Martina Bader, and Morten Moshagen. 2023. <span>“A Tutorial on Assessing Statistical Power and Determining Sample Size for Structural Equation Models.”</span> <em>Psychological Methods</em> 28 (1): 207–21. <a href="https://doi.org/10.1037/met0000423">https://doi.org/10.1037/met0000423</a>.
+</div>
+<div id="ref-kalkbrenner2023" class="csl-entry" role="listitem">
+Kalkbrenner, Michael T. 2023. <span>“Alpha, <span>Omega</span>, and <span>H Internal Consistency Reliability Estimates</span>: <span>Reviewing These Options</span> and <span>When</span> to <span>Use Them</span>.”</span> <em>Counseling Outcome Research and Evaluation</em> 14 (1): 77–88. <a href="https://doi.org/10.1080/21501378.2021.1940118">https://doi.org/10.1080/21501378.2021.1940118</a>.
+</div>
+<div id="ref-kline2016" class="csl-entry" role="listitem">
+Kline, Rex B. 2016. <em>Principles and <span>Pratice</span> of <span>Structural Equation Modeling</span></em>. New York: The Guilford Press.
+</div>
+<div id="ref-kline2023" class="csl-entry" role="listitem">
+———. 2023. <em>Principles and <span>Pratice</span> of <span>Structural Equation Modeling</span></em>. Fifth Edition. New York: The Guilford Press.
+</div>
+<div id="ref-kyriazos2018" class="csl-entry" role="listitem">
+Kyriazos, Theodoros A. 2018. <span>“Applied <span>Psychometrics</span>: <span>Sample Size</span> and <span>Sample Power Considerations</span> in <span>Factor Analysis</span> (<span>EFA</span>, <span>CFA</span>) and <span>SEM</span> in <span>General</span>.”</span> <em>Psychology</em> 09 (08): 2207–30. <a href="https://doi.org/10.4236/psych.2018.98126">https://doi.org/10.4236/psych.2018.98126</a>.
+</div>
+<div id="ref-lai2020nonnested" class="csl-entry" role="listitem">
+Lai, Keke. 2020. <span>“Confidence <span>Interval</span> for <span>RMSEA</span> or <span>CFI Difference Between Nonnested Models</span>.”</span> <em>Structural Equation Modeling: A Multidisciplinary Journal</em> 27 (1): 16–32. <a href="https://doi.org/10.1080/10705511.2019.1631704">https://doi.org/10.1080/10705511.2019.1631704</a>.
+</div>
+<div id="ref-lai2021fit" class="csl-entry" role="listitem">
+———. 2021. <span>“Fit <span>Difference Between Nonnested Models Given Categorical Data</span>: <span>Measures</span> and <span>Estimation</span>.”</span> <em>Structural Equation Modeling: A Multidisciplinary Journal</em> 28 (1): 99–120. <a href="https://doi.org/10.1080/10705511.2020.1763802">https://doi.org/10.1080/10705511.2020.1763802</a>.
+</div>
+<div id="ref-leite2023" class="csl-entry" role="listitem">
+Leite, Walter L., Deborah L. Bandalos, and Zuchao Shen. 2023. <span>“Simulation <span>Methods</span> in <span>Structural Equation Modeling</span>.”</span> In <em>Handbook of <span>Structural Equation Modeling</span></em>, edited by Rick H. Hoyle. New York: The Guilford Press.
+</div>
+<div id="ref-li2016cfa" class="csl-entry" role="listitem">
+Li, Cheng Hsien. 2016. <span>“Confirmatory Factor Analysis with Ordinal Data: <span>Comparing</span> Robust Maximum Likelihood and Diagonally Weighted Least Squares.”</span> <em>Behavior Research Methods</em> 48 (3): 936–49. <a href="https://doi.org/10.3758/s13428-015-0619-7">https://doi.org/10.3758/s13428-015-0619-7</a>.
+</div>
+<div id="ref-mai2021" class="csl-entry" role="listitem">
+Mai, Robert, Thomas Niemand, and Sascha Kraus. 2021. <span>“A Tailored-Fit Model Evaluation Strategy for Better Decisions about Structural Equation Models.”</span> <em>Technological Forecasting and Social Change</em> 173 (December): 121142. <a href="https://doi.org/10.1016/j.techfore.2021.121142">https://doi.org/10.1016/j.techfore.2021.121142</a>.
+</div>
+<div id="ref-maydeu-olivares2017a" class="csl-entry" role="listitem">
+Maydeu-Olivares, Alberto, Amanda J. Fairchild, and Alexander G. Hall. 2017. <span>“Goodness of <span>Fit</span> in <span>Item Factor Analysis</span>: <span>Effect</span> of the <span>Number</span> of <span>Response Alternatives</span>.”</span> <em>Structural Equation Modeling: A Multidisciplinary Journal</em> 24 (4): 495–505. <a href="https://doi.org/10.1080/10705511.2017.1289816">https://doi.org/10.1080/10705511.2017.1289816</a>.
+</div>
+<div id="ref-mcneish2018" class="csl-entry" role="listitem">
+McNeish, Daniel. 2018. <span>“Thanks Coefficient Alpha, <span>We</span>’ll Take It from Here.”</span> <em>Psychological Methods</em> 23 (3): 412–33. <a href="https://doi.org/10.1037/met0000144">https://doi.org/10.1037/met0000144</a>.
+</div>
+<div id="ref-mcneish2023likert" class="csl-entry" role="listitem">
+———. 2023a. <span>“Dynamic <span>Fit Index Cutoffs</span> for <span>Factor Analysis</span> with <span>Likert</span>, <span>Ordinal</span>, or <span>Binary Responses</span>.”</span> <em>PsyArXiv Preprints</em>. <a href="https://doi.org/10.31234/osf.io/tp35s">https://doi.org/10.31234/osf.io/tp35s</a>.
+</div>
+<div id="ref-mcneish2023geral" class="csl-entry" role="listitem">
+———. 2023b. <span>“Generalizability of <span>Dynamic Fit Index</span>, <span>Equivalence Testing</span>, and <span>Hu</span> &amp; <span>Bentler Cutoffs</span> for <span>Evaluating Fit</span> in <span>Factor Analysis</span>.”</span> <em>Multivariate Behavioral Research</em> 58 (1): 195–219. <a href="https://doi.org/10.1080/00273171.2022.2163477">https://doi.org/10.1080/00273171.2022.2163477</a>.
+</div>
+<div id="ref-mcneishwolf2023cfa" class="csl-entry" role="listitem">
+McNeish, Daniel, and Melissa G. Wolf. 2023a. <span>“Dynamic Fit Index Cutoffs for Confirmatory Factor Analysis Models.”</span> <em>Psychological Methods</em> 28 (1): 61–88. <a href="https://doi.org/10.1037/met0000425">https://doi.org/10.1037/met0000425</a>.
+</div>
+<div id="ref-mcneishwolf2023dddf" class="csl-entry" role="listitem">
+McNeish, Daniel, and Melissa Gordon Wolf. 2023b. <span>“Direct <span>Discrepancy Dynamic Fit Index Cutoffs</span> for <span>Arbitrary Covariance Structure Models</span>.”</span> Preprint. PsyArXiv. <a href="https://doi.org/10.31234/osf.io/4r9fq">https://doi.org/10.31234/osf.io/4r9fq</a>.
+</div>
+<div id="ref-moshagen2023" class="csl-entry" role="listitem">
+Moshagen, Morten, and Martina Bader. 2023. <span>“<span class="nocase">semPower</span>: <span>General</span> Power Analysis for Structural Equation Models.”</span> <em>Behavior Research Methods</em>, November. <a href="https://doi.org/10.3758/s13428-023-02254-7">https://doi.org/10.3758/s13428-023-02254-7</a>.
+</div>
+<div id="ref-nalbantoglu-yilmaz2019" class="csl-entry" role="listitem">
+Nalbantoğlu-Yılmaz, Funda. 2019. <span>“Comparison of <span>Different Estimation Methods Used</span> in <span>Confirmatory Factor Analyses</span> in <span>Non-Normal Data</span>: <span>A Monte Carlo Study</span>.”</span> <em>International Online Journal of Educational Sciences</em> 11 (4). <a href="https://doi.org/10.15345/iojes.2019.04.010">https://doi.org/10.15345/iojes.2019.04.010</a>.
+</div>
+<div id="ref-niemand2018" class="csl-entry" role="listitem">
+Niemand, Thomas, and Robert Mai. 2018. <span>“Flexible Cutoff Values for Fit Indices in the Evaluation of Structural Equation Models.”</span> <em>Journal of the Academy of Marketing Science</em> 46 (6): 1148–72. <a href="https://doi.org/10.1007/s11747-018-0602-9">https://doi.org/10.1007/s11747-018-0602-9</a>.
+</div>
+<div id="ref-nye2022" class="csl-entry" role="listitem">
+Nye, Christopher D. 2022. <span>“Reviewer <span>Resources</span>: <span>Confirmatory Factor Analysis</span>.”</span> <em>Organizational Research Methods</em>, August, 109442812211205. <a href="https://doi.org/10.1177/10944281221120541">https://doi.org/10.1177/10944281221120541</a>.
+</div>
+<div id="ref-pornprasertmanit2022" class="csl-entry" role="listitem">
+Pornprasertmanit, Sunthud, Patrick Miller, Terrence D. Jorgensen, and Quick Corbin. 2022. <span>“Simsem: <span>SIMulated Structural Equation Modeling</span>.”</span> R package. <a href="https://www.simsem.org">www.simsem.org</a>.
+</div>
+<div id="ref-preacher2023" class="csl-entry" role="listitem">
+Preacher, Kristopher J., and Haley E. Yaremych. 2023. <span>“Model <span>Selection</span> in <span>Structural Equation Modeling</span>.”</span> In <em>Handbook of <span>Structural Equation Modeling</span></em>, edited by Rick H. Hoyle. New York: The Guilford Press.
+</div>
+<div id="ref-rhemtulla2012" class="csl-entry" role="listitem">
+Rhemtulla, Mijke, Patricia É Brosseau-Liard, and Victoria Savalei. 2012. <span>“When Can Categorical Variables Be Treated as Continuous? <span>A</span> Comparison of Robust Continuous and Categorical <span>SEM</span> Estimation Methods Under Suboptimal Conditions.”</span> <em>Psychological Methods</em> 17 (3): 354–73. <a href="https://doi.org/10.1037/a0029315">https://doi.org/10.1037/a0029315</a>.
+</div>
+<div id="ref-robitzsch2020" class="csl-entry" role="listitem">
+Robitzsch, Alexander. 2020. <span>“Why <span>Ordinal Variables Can</span> (<span>Almost</span>) <span>Always Be Treated</span> as <span>Continuous Variables</span>: <span>Clarifying Assumptions</span> of <span>Robust Continuous</span> and <span>Ordinal Factor Analysis Estimation Methods</span>.”</span> <em>Frontiers in Education</em> 5 (October). <a href="https://doi.org/10.3389/feduc.2020.589965">https://doi.org/10.3389/feduc.2020.589965</a>.
+</div>
+<div id="ref-robitzsch2022" class="csl-entry" role="listitem">
+———. 2022. <span>“On the <span>Bias</span> in <span>Confirmatory Factor Analysis When Treating Discrete Variables</span> as <span>Ordinal Instead</span> of <span>Continuous</span>.”</span> <em>Axioms</em> 11 (4). <a href="https://doi.org/10.3390/axioms11040162">https://doi.org/10.3390/axioms11040162</a>.
+</div>
+<div id="ref-rogers2023" class="csl-entry" role="listitem">
+Rogers, Pablo. 2023. <span>“Best <span>Practices</span> for Your <span>Confirmatory Factor Analysis</span>: <span>A JASP</span> and Lavaan <span>Tutorial</span>.”</span> Preprint. Open Science Framework. <a href="https://doi.org/10.31219/osf.io/57efj">https://doi.org/10.31219/osf.io/57efj</a>.
+</div>
+<div id="ref-rosseel2012" class="csl-entry" role="listitem">
+Rosseel, Yves. 2012. <span>“Lavaan: <span>An R</span> Package for Structural Equation Modeling.”</span> <em>Journal of Statistical Software</em> 48 (2): 1–36. <a href="https://doi.org/10.18637/jss.v048.i02">https://doi.org/10.18637/jss.v048.i02</a>.
+</div>
+<div id="ref-schumacker2021" class="csl-entry" role="listitem">
+Schumacker, Randall E., Stefanie A. Wind, and Lauren F. Holmes. 2021. <span>“Resources for <span>Identifying Measurement Instruments</span> for <span>Social Science Research</span>.”</span> <em>Measurement: Interdisciplinary Research and Perspectives</em> 19 (4): 250–57. <a href="https://doi.org/10.1080/15366367.2021.1950486">https://doi.org/10.1080/15366367.2021.1950486</a>.
+</div>
+<div id="ref-trizano-hermosilla2016" class="csl-entry" role="listitem">
+Trizano-Hermosilla, Italo, and Jesús M. Alvarado. 2016. <span>“Best Alternatives to <span>Cronbach</span>’s Alpha Reliability in Realistic Conditions: <span>Congeneric</span> and Asymmetrical Measurements.”</span> <em>Frontiers in Psychology</em> 7 (MAY). <a href="https://doi.org/10.3389/fpsyg.2016.00769">https://doi.org/10.3389/fpsyg.2016.00769</a>.
+</div>
+<div id="ref-wang2021" class="csl-entry" role="listitem">
+Wang, Y. Andre, and Mijke Rhemtulla. 2021. <span>“Power <span>Analysis</span> for <span>Parameter Estimation</span> in <span>Structural Equation Modeling</span>: <span>A Discussion</span> and <span>Tutorial</span>.”</span> <em>Advances in Methods and Practices in Psychological Science</em> 4 (1): 1–17. <a href="https://doi.org/10.1177/2515245920918253">https://doi.org/10.1177/2515245920918253</a>.
+</div>
+<div id="ref-wang2023" class="csl-entry" role="listitem">
+Wang, Yilin Andre. 2023. <span>“How to <span>Conduct Power Analysis</span> for <span>Structural Equation Models</span>: <span>A Practical Primer</span>.”</span> Preprint. PsyArXiv. <a href="https://doi.org/10.31234/osf.io/4n3uk">https://doi.org/10.31234/osf.io/4n3uk</a>.
+</div>
+<div id="ref-west2023" class="csl-entry" role="listitem">
+West, Stephen G., Wei Wu, Daniel McNeish, and Andrea Savord. 2023. <span>“Model <span>Fit</span> in <span>Structural Equation Modeling</span>.”</span> In <em>Handbook of <span>Structural Equation Modeling</span></em>, edited by Rick H. Hoyle. New York: The Guilford Press.
+</div>
+<div id="ref-westland2010" class="csl-entry" role="listitem">
+Westland, Christopher J. 2010. <span>“Lower Bounds on Sample Size in Structural Equation Modeling.”</span> <em>Electronic Commerce Research and Applications</em> 9 (6). <a href="https://doi.org/10.1016/j.elerap.2010.07.003">https://doi.org/10.1016/j.elerap.2010.07.003</a>.
+</div>
+<div id="ref-whittaker2022" class="csl-entry" role="listitem">
+Whittaker, Tiffany A., and Randall E. Schumacker. 2022. <em>A <span>Beginner</span>’s <span>Guide</span> to <span>Structural Equation Modeling</span></em>. Fifth Edition. New York: Routledge Taylor &amp; Francis Group.
+</div>
+<div id="ref-xia2018" class="csl-entry" role="listitem">
+Xia, Yan, and Yanyun Yang. 2018. <span>“The <span>Influence</span> of <span>Number</span> of <span>Categories</span> and <span>Threshold Values</span> on <span>Fit Indices</span> in <span>Structural Equation Modeling</span> with <span>Ordered Categorical Data</span>.”</span> <em>Multivariate Behavioral Research</em> 53 (5): 731–55. <a href="https://doi.org/10.1080/00273171.2018.1480346">https://doi.org/10.1080/00273171.2018.1480346</a>.
+</div>
+<div id="ref-xia2019" class="csl-entry" role="listitem">
+———. 2019. <span>“<span>RMSEA</span>, <span>CFI</span>, and <span>TLI</span> in Structural Equation Modeling with Ordered Categorical Data: <span>The</span> Story They Tell Depends on the Estimation Methods.”</span> <em>Behavior Research Methods</em> 51 (1): 409–28. <a href="https://doi.org/10.3758/s13428-018-1055-2">https://doi.org/10.3758/s13428-018-1055-2</a>.
+</div>
+<div id="ref-yang2013" class="csl-entry" role="listitem">
+Yang, Yanyun, and Xinya Liang. 2013. <span>“Confirmatory Factor Analysis Under Violations of Distributional and Structural Assumptions.”</span> <em>Int. J. Quantitative Research in Education</em> 1 (1): 61–84.
+</div>
+<div id="ref-yang-wallentin2010" class="csl-entry" role="listitem">
+Yang-Wallentin, Fan, Karl G. Jöreskog, and Hao Luo. 2010. <span>“Confirmatory Factor Analysis of Ordinal Variables with Misspecified Models.”</span> <em>Structural Equation Modeling</em> 17 (3): 392–423. <a href="https://doi.org/10.1080/10705511.2010.489003">https://doi.org/10.1080/10705511.2010.489003</a>.
+</div>
+<div id="ref-yuan2016" class="csl-entry" role="listitem">
+Yuan, Ke Hai, Wai Chan, George A. Marcoulides, and Peter M. Bentler. 2016. <span>“Assessing <span>Structural Equation Models</span> by <span>Equivalence Testing With Adjusted Fit Indexes</span>.”</span> <em>Structural Equation Modeling</em> 23 (3): 319–30. <a href="https://doi.org/10.1080/10705511.2015.1065414">https://doi.org/10.1080/10705511.2015.1065414</a>.
+</div>
+<div id="ref-zhang2018" class="csl-entry" role="listitem">
+Zhang, Zhiyong, and Ke-Hai Yuan. 2018. <em>Practical Statistical Power Analysis Using <span>Webpower</span> and <span>R</span></em>. Indiana: ISDSA Press. <a href="https://doi.org/10.35566/power">https://doi.org/10.35566/power</a>.
+</div>
+</div>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -281,6 +575,33 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       } else {
         el.classList.add('notransition');
       }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
     }
   }
   const toggleColorMode = (alternate) => {
@@ -349,13 +670,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return localAlternateSentinel;
     }
   }
-  let localAlternateSentinel = 'default';
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
   // Dark / light mode switch
   window.quartoToggleColorScheme = () => {
     // Read the current dark / light value 
     let toAlternate = !hasAlternateSentinel();
     toggleColorMode(toAlternate);
     setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
   };
   // Ensure there is a toggle, if there isn't float one in the top right
   if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
@@ -434,10 +757,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/phdpablo\.github\.io\/smart-cfa\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -447,8 +787,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -461,6 +810,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -504,6 +972,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -529,6 +998,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -586,44 +1081,35 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       });
     }
   }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-      var filterRegex = new RegExp("https:\/\/phdpablo\.github\.io\/smart-cfa\/");
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-          // target, if specified
-          link.setAttribute("target", "_blank");
-      }
-    }
 });
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./01-intro.html" class="pagination-link">
+      <a href="./01-intro.html" class="pagination-link" aria-label="Introduction">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./03-model.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Conceptual Model</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./03-tutorial.html" class="pagination-link" aria-label="Executable Manuscript">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Executable Manuscript</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-    <div class="nav-footer-left"><a href="https://www.phdpablo.com">by Pablo Rogers</a></div>   
+    <div class="nav-footer-left">
+<p><a href="https://www.phdpablo.com">by Pablo Rogers</a></p>
+</div>   
     <div class="nav-footer-center">
       &nbsp;
     </div>
-    <div class="nav-footer-right">This article was built with <a href="https://quarto.org/">Quarto</a></div>
+    <div class="nav-footer-right">
+<p>This article was built with <a href="https://quarto.org/">Quarto</a></p>
+</div>
   </div>
 </footer>
+
 
 
 
