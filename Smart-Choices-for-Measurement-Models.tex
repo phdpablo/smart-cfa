@@ -207,13 +207,13 @@ framework. This framework enables readers to access the article's source
 code, utilized data, analytical execution codes, and various reading
 media. We anticipate that by employing this pedagogical approach,
 developed entirely within an open environment (utilizing
-Git/Github/RStudio/Quarto/packages R + lavaan/Docker), researchers
+Git/Github/RStudio/Quarto/R packages + lavaan/Docker), researchers
 proficient in specific statistical techniques relevant to their domains
 will adopt and disseminate this proposal, thereby benefiting their
 colleagues.
 
 \textbf{Keywords:} Confirmatory Factor Analysis, Structural Equation
-Modeling, Internal Structure Validity, \emph{lavaan}.
+Modeling, Internal Structure Validity, Open Science, \emph{lavaan}.
 
 \bookmarksetup{startatroot}
 
@@ -315,12 +315,12 @@ requirements for measurement model validation (Hoyle 2023).
 Applications of CFA present significant complexities (Crede and Harms
 2019; Jessica K. Flake, Pek, and Hehman 2017; Jessica Kay Flake and
 Fried 2020; Jackson, Gillaspy, and Purc-Stephenson 2009; Nye 2022;
-Rogers 2023), influenced by data structure, measurement level of items,
+Rogers 2024), influenced by data structure, measurement level of items,
 research goals, and other factors. CFA can proceed smoothly in scenarios
 involving unidimensional measurement models with continuous items and
 large samples, but may encounter challenges, such as diminished SEM
 flexibility, when dealing with multidimensional models with ordinal
-items and small sample sizes (Rogers 2023).
+items and small sample sizes (Rogers 2024).
 
 This leads to an important question: Can certain strategies within CFA
 applications simplify the process for social scientists seeking evidence
@@ -346,12 +346,12 @@ the treatment of scales with five or more response options as continuous
 variables have shown to enhance CFA flexibility and address validity
 evidence for the internal structure. The FA literature acknowledges
 methodological dilemmas faced when dealing with binary and/or ordinal
-response items with fewer than five options (Rogers 2023, 2022).
+response items with fewer than five options (Rogers 2024, 2022).
 
 For continuous scale items, the maximum likelihood (ML) estimator and
 its robust variations are applicable. For non-continuous items,
 estimators from the Least Squares (cat-LS) family are recommended (Nye
-2022; Rogers 2023, 2022). Though cat-LS estimators impose fewer
+2022; Rogers 2024, 2022). Though cat-LS estimators impose fewer
 assumptions on data, they require larger sample sizes, more
 computational power, and greater researcher expertise (Robitzsch 2020).
 
@@ -362,7 +362,7 @@ Despite their increasing popularity, cat-LS models are newer, less
 recognized, and seldom available in software (Rhemtulla, Brosseau-Liard,
 and Savalei 2012). Handling missing data remains straightforward with ML
 models using the Full Information ML (FIML) method but is problematic
-with ordinal data (Rogers 2023).
+with ordinal data (Rogers 2024).
 
 Thus, we can optimize the potential of some of the available software
 (Arbuckle 2019; Bentler and Wu 2020; Fox 2022; JASP Team 2023; Jöreskog
@@ -385,10 +385,10 @@ selecting a measurement model to comparing and updating models for
 enhanced CFA flexibility. It addresses power analysis, data
 preprocessing, estimation procedures, and model modification from three
 angles: smart choices or recommended practices (Jessica K. Flake, Pek,
-and Hehman 2017; Nye 2022; Rogers 2023), pitfalls to avoid (Crede and
-Harms 2019; Rogers 2023), and essential reporting elements (Jessica Kay
+and Hehman 2017; Nye 2022; Rogers 2024), pitfalls to avoid (Crede and
+Harms 2019; Rogers 2024), and essential reporting elements (Jessica Kay
 Flake and Fried 2020; Jackson, Gillaspy, and Purc-Stephenson 2009;
-Rogers 2023).
+Rogers 2024).
 
 The aim is to guide researchers through CFA to access the underlying
 structure of measurement models without falling into common traps at any
@@ -411,10 +411,11 @@ researchers, minimizing the impact of positive publication bias.
 This tutorial is structured into three sections, beyond the introductory
 discussion. It includes a thorough review of CFA recommended practices,
 an example of real-world research application in the R ecosystem, and
-final considerations, following Martins' (2021) format for tutorial
-articles. This approach, combined with workflow recommendations for
-reproducibility, aims to support the applied social sciences community
-in effectively utilizing CFA (Martins 2021; Mendes-Da-Silva 2023).
+final considerations, following (\textbf{Martins2021?}) format for
+tutorial articles. This approach, combined with workflow recommendations
+for reproducibility, aims to support the applied social sciences
+community in effectively utilizing CFA (Martins 2021; Mendes-Da-Silva
+2023).
 
 \bookmarksetup{startatroot}
 
@@ -422,7 +423,7 @@ in effectively utilizing CFA (Martins 2021; Mendes-Da-Silva 2023).
 
 This paper presents a comprehensive approach to conducting a standard
 CFA within the applied social sciences, following the guidelines
-outlined by Rogers (2023). According to Rogers (2023), a typical CFA
+outlined by Rogers (2024). According to Rogers (2024), a typical CFA
 study seeks to fit a reflective common factor model with a predefined
 multifactor structure, established psychometric properties, and a
 maximum of five Likert-type response options. This scenario frequently
@@ -430,15 +431,15 @@ occurs in research endeavors where the measurement model facilitates the
 examination of hypotheses derived from the structural model.
 
 The initial phase in such research involves data preprocessing.
-Specifically, for categorical data, Rogers (2023) advises employing
+Specifically, for categorical data, Rogers (2024) advises employing
 multiple imputation to handle missing data, taking into consideration
 the limitations posed by available software and methodologies (Rogers
-2023). When a measurement model allows for the treatment of items as
+2024). When a measurement model allows for the treatment of items as
 continuous variables, addressing this challenge can be deferred to the
 estimation process stage through the selection of an appropriate
 estimator (Robitzsch 2022).
 
-This paper reinterprets the insights from Rogers (2023) for CFAs that
+This paper reinterprets the insights from Rogers (2024) for CFAs that
 accommodate continuous item treatment. Thus, a strategic choice involves
 opting for measurement models that permit this approach, thereby
 circumventing methodological hurdles (Robitzsch 2022, 2020) associated
@@ -451,19 +452,19 @@ computational resources, and the researcher's expertise (Robitzsch
 2020).
 
 Subsequent sections delve into themes previously summarized by Rogers
-(2023), specifically concerning CFAs with ordinal items. These themes
+(2024), specifically concerning CFAs with ordinal items. These themes
 are explored in terms of recommended practices (Jessica K. Flake, Pek,
-and Hehman 2017; Nye 2022; Rogers 2023), pitfalls to avoid (Crede and
-Harms 2019; Rogers 2023), and reporting guidelines (Jessica Kay Flake
+and Hehman 2017; Nye 2022; Rogers 2024), pitfalls to avoid (Crede and
+Harms 2019; Rogers 2024), and reporting guidelines (Jessica Kay Flake
 and Fried 2020; Jackson, Gillaspy, and Purc-Stephenson 2009; Rogers
-2023), all within the context of selecting measurement models that
+2024), all within the context of selecting measurement models that
 accommodate continuous data interpretation.
 
 Assuming that readers possess a foundational understanding of the topic,
 this paper omits certain technical details, directing readers to
 authoritative texts (Brown 2015; Kline 2023) and scholarly articles that
 provide an introduction to Covariance-Based Structural Equation Modeling
-(CB-SEM) (Davvetas et al. 2020; \textbf{shek2014a?}). The discussion is
+(CB-SEM) (Davvetas et al. 2020; Shek and Yu 2014). The discussion is
 framed within the CB-SEM paradigm (Brown 2015; Jackson, Gillaspy, and
 Purc-Stephenson 2009; Kline 2023; Nye 2022), with a focus on CFA. The
 paper explicitly excludes discussions on measurement model modifications
@@ -696,7 +697,7 @@ also reinforces the integrity and reliability of the research conducted.
 \subsection{Estimation Process}\label{estimation-process}
 
 In CFA with ordinal items, such as those involving Likert-type scales
-with up to five points, Rogers (2023) advocates for the use of
+with up to five points, Rogers (2024) advocates for the use of
 estimators from the Ordinary Least Squares (OLS) family. Specifically,
 for smaller samples, the recommendation is to utilize the Unweighted
 Least Squares (ULS) in its robust form (RULS), and for larger samples,
@@ -716,7 +717,7 @@ detecting model misspecifications (Maydeu-Olivares, Fairchild, and Hall
 The ML estimator, noted for its robustness to minor deviations from
 normality (Brown 2015), is further improved by using robust versions
 like MLR (employing Huber-White standard errors and Yuan-Bentler scaled
-χ\^{}2). This adjustment allows for generating robust standard errors
+\(\chi^2\). This adjustment allows for generating robust standard errors
 and adjusted test statistics, with MLR offering extensive applicability
 including in scenarios of missing data (RFIML) or where data breaches
 the independence of observations assumption (Brown 2015; Rosseel 2012).
@@ -731,8 +732,8 @@ model being evaluated (Crede and Harms 2019). It is also critical to
 report any estimation challenges encountered, such as algorithm
 non-convergence or model misidentification (Nye 2022). In case of
 estimation difficulties, alternative approaches like MLM estimators
-(employing robust standard errors and Satorra-Bentler scaled χ\^{}2) or
-the default ML with non-parametric bootstrapping, as proposed by
+(employing robust standard errors and Satorra-Bentler scaled \(\chi^2\))
+or the default ML with non-parametric bootstrapping, as proposed by
 Bollen-Stine, can be considered. This latter approach is also capable of
 accommodating missing data (Brown 2015; Kline 2023).
 
@@ -843,7 +844,7 @@ transparent investigative process (Preacher and Yaremych 2023).
 
 Model selection is instrumental in pinpointing the most effective
 explanatory framework for the observed phenomena, enabling the dismissal
-of less performant models while retaining promising ones for further
+of less performance models while retaining promising ones for further
 exploration. This methodological flexibility enhances the depth of
 analysis, contributing to the advancement of knowledge within the social
 sciences (Preacher and Yaremych 2023).
@@ -1368,10 +1369,10 @@ Analysis}: {A Factor Tutorial}.''} \emph{Revista de Administra{ç}{ã}o
 Contempor{â}nea} 26 (6).
 \url{https://doi.org/10.1590/1982-7849rac2022210085.en}.
 
-\bibitem[\citeproctext]{ref-rogers2023}
----------. 2023. {``Best {Practices} for Your {Confirmatory Factor
-Analysis}: {A JASP} and Lavaan {Tutorial}.''} Preprint. Open Science
-Framework. \url{https://doi.org/10.31219/osf.io/57efj}.
+\bibitem[\citeproctext]{ref-rogers2024}
+---------. 2024. {``Best Practices for Your Confirmatory Factor
+Analysis: {A JASP} and Lavaan Tutorial.''} \emph{Behavior Research
+Methods}, March. \url{https://doi.org/10.3758/s13428-024-02375-7}.
 
 \bibitem[\citeproctext]{ref-rosseel2012}
 Rosseel, Yves. 2012. {``Lavaan: {An R} Package for Structural Equation
@@ -1384,6 +1385,12 @@ Schumacker, Randall E., Stefanie A. Wind, and Lauren F. Holmes. 2021.
 Science Research}.''} \emph{Measurement: Interdisciplinary Research and
 Perspectives} 19 (4): 250--57.
 \url{https://doi.org/10.1080/15366367.2021.1950486}.
+
+\bibitem[\citeproctext]{ref-shek2014}
+Shek, Daniel T. L., and Lu Yu. 2014. {``Use of Structural Equation
+Modeling in Human Development Research.''} \emph{International Journal
+on Disability and Human Development} 13 (2): 157--67.
+\url{https://doi.org/10.1515/ijdhd-2014-0302}.
 
 \bibitem[\citeproctext]{ref-sireci2013}
 Sireci, Stephen G., and Tia Sukin. 2013. {``Test Validity.''} In
