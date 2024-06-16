@@ -44,14 +44,28 @@
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \setcounter{secnumdepth}{5}
 % Make \paragraph and \subparagraph free-standing
+\makeatletter
 \ifx\paragraph\undefined\else
   \let\oldparagraph\paragraph
-  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
 \fi
 \ifx\subparagraph\undefined\else
   \let\oldsubparagraph\subparagraph
-  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
 \fi
+\makeatother
 
 
 \providecommand{\tightlist}{%
@@ -206,14 +220,21 @@ through recent literature and presented within a dynamic document
 framework. This framework enables readers to access the article's source
 code, utilized data, analytical execution codes, and various reading
 media. We anticipate that by employing this pedagogical approach,
-developed entirely within an open environment (utilizing
-Git/Github/RStudio/Quarto/R packages + lavaan/Docker), researchers
-proficient in specific statistical techniques relevant to their domains
-will adopt and disseminate this proposal, thereby benefiting their
-colleagues.
+developed entirely within an open environment
+(\href{https://github.com/phdpablo/smart-cfa/}{https://phdpablo.github.io/smart-cfa/}),
+researchers proficient in specific statistical techniques relevant to
+their domains will adopt and disseminate this proposal, thereby
+benefiting their colleagues.
 
 \textbf{Keywords:} Confirmatory Factor Analysis, Structural Equation
 Modeling, Internal Structure Validity, Open Science, \emph{lavaan}.
+
+\emph{How to cite this article:}
+
+Rogers, P. (2024, June 10). Smart Choices for Measurement Models:
+Executable Manuscript Tutorial for your Confirmatory Factor Analysis in
+R Environment. \emph{PsyArXiv Preprints.}
+\url{https://doi.org/10.31234/osf.io/2dy3z}
 
 \bookmarksetup{startatroot}
 
@@ -411,11 +432,10 @@ researchers, minimizing the impact of positive publication bias.
 This tutorial is structured into three sections, beyond the introductory
 discussion. It includes a thorough review of CFA recommended practices,
 an example of real-world research application in the R ecosystem, and
-final considerations, following (\textbf{Martins2021?}) format for
-tutorial articles. This approach, combined with workflow recommendations
-for reproducibility, aims to support the applied social sciences
-community in effectively utilizing CFA (Martins 2021; Mendes-Da-Silva
-2023).
+final considerations, following Martins (2021) format for tutorial
+articles. This approach, combined with workflow recommendations for
+reproducibility, aims to support the applied social sciences community
+in effectively utilizing CFA (Martins 2021; Mendes-Da-Silva 2023).
 
 \bookmarksetup{startatroot}
 
