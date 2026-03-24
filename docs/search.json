@@ -140,16 +140,6 @@
     ]
   },
   {
-    "objectID": "05-conclusion.html",
-    "href": "05-conclusion.html",
-    "title": "5  Conclusion",
-    "section": "",
-    "text": "This section summarizes the purpose and benefits of the ARTE: Article Reproducibility Template & Envorinment.\nThis template provides a comprehensive and structured pathway for researchers to create dynamic, reproducible research articles. By integrating tools like Quarto, TIER Protocol 4.0, Git/GitHub, and Docker, it addresses the core requirements for modern, transparent, and robust scientific communication.\nAlthough your project must be auditable and replicable by your scripts and data, keep in mind that not everything in your scripts needs to be explicitly shown in your main narrative document. You can maintain detailed analysis workflows in the Scripts/ folder. The main narrative (.qmd files) should focus on the story you are trying to tell, embedding only the most critical results and insights.\nThe key advantages of using this template are:\n\nEnhanced Reproducibility: The combination of renv package and Docker ensures that your work can be replicated exactly by others. MyBinder eliminates technical barriers to reproducibility verification.\nImproved Organization: The predefined folder structure (TIER Protocol 4.0) makes projects easier to navigate and understand.\nStreamlined Workflow: Integration with RStudio and Quarto provides a smooth environment for writing, coding, and publishing.\nEasy Sharing and Publishing: Built-in support for GitHub Pages and OSF facilitates open science practices.\nReduced Setup Time: Researchers can start new projects quickly with a pre-configured environment.\n\nThis template is a practical tool for implementing the principles of reproducible research and open science. It lowers the technical barriers, allowing researchers to focus on their core research questions while ensuring best practices for transparency and replication are followed.",
-    "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Conclusion</span>"
-    ]
-  },
-  {
     "objectID": "references.html",
     "href": "references.html",
     "title": "References",

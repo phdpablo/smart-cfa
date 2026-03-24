@@ -35,9 +35,9 @@ book: # https://quarto.org/docs/books/index.html
   # edit or exclude this footer
     left: <a href="https://www.phdpablo.com">by Pablo Rogers</a> # Content for the left side of the footer.
     right: This article was built with <a href="https://quarto.org/">Quarto</a> # Content for the right side of the footer.
-  site-url: "https://phdpablo.github.io/article-template/" # edit your site URL
+  site-url: "https://phdpablo.github.io/smart-cfa/" # edit your site URL
   # The base URL where the website will be published.
-  repo-url: "https://github.com/phdpablo/article-template/" # edit your repo URL
+  repo-url: "https://github.com/phdpablo/smart-cfa" # edit your repo URL
   # Link to the source code repository for this project.
   sharing: [twitter, facebook, linkedin] # edit or exclude this sharing
   # Enables sharing buttons for specified social media platforms.
