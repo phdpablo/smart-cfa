@@ -93,8 +93,7 @@ jobs:
       # Install TinyTeX if it's not already present (either first run or cache miss)
       # TinyTeX automatically installs missing LaTeX packages on-demand during rendering
       - name: Install TinyTeX
-        run: |
-          Rscript -e 'if (!tinytex:: is_tinytex()) tinytex::install_tinytex()'
+        run: quarto install tinytex
 
       # --- Step 8: Cache Quarto ---
       # Cache Quarto's internal files to speed up subsequent renders
@@ -105,7 +104,7 @@ jobs:
         uses: actions/cache@v4 # Use the official cache action
         with:
           path: |
-            . quarto
+            .quarto
             _freeze
           key: ${{ runner.os }}-quarto-${{ hashFiles('**/*.qmd') }}
           restore-keys: |
