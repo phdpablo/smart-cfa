@@ -10,9 +10,6 @@ This repository contains the **fully reproducible source code** for the tutorial
 
 The manuscript is structured as a Quarto book and built using the [ARTE template](https://github.com/phdpablo/article-template) (Article Reproducibility Template & Environment), which encapsulates the entire computational environment via Docker and `renv`. The live rendered version is available at: <https://phdpablo.github.io/smart-cfa/>
 
-![ARTE workflow folder structure](Output/arte-folders.jpg)
-
-![Roadmap for ARTE workflow](Output/roadmap2.jpg)
 
 ## Table of Contents
 

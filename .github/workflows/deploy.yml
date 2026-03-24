@@ -77,14 +77,7 @@ jobs:
         with: 
           cache-version: 2 # Cache version number (increment to invalidate cache if needed)
 
-      # --- Step 5: Install Additional R Packages ---
-      # Install any additional R packages not included in renv.lock
-      # This step checks if the package is already installed before attempting installation
-      - name: Install additional R packages
-        run: |
-          Rscript -e 'if (!require("ggplot2")) install.packages("ggplot2")'
-
-      # --- Step 6: Cache TinyTeX ---
+      # --- Step 5: Cache TinyTeX ---
       # Cache the TinyTeX LaTeX distribution to avoid reinstalling on every run
       # TinyTeX is a lightweight LaTeX distribution (~100MB) used for PDF generation
       # The cache key includes a hash of . qmd files to detect when LaTeX requirements might change
