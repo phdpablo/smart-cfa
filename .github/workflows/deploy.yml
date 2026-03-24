@@ -1,0 +1,137 @@
+# This workflow file automates the process of building and deploying
+# your Quarto website to GitHub Pages whenever you make changes. 
+
+# --- Workflow Metadata ---
+# Give the workflow a descriptive name that appears on GitHub
+name: Deploy Smart CFA Website
+
+# --- Trigger Events ---
+# Define when this workflow should run automatically
+on: 
+  # Run the workflow when commits are pushed to the 'main' branch
+  push: 
+    branches: [main]
+  # Also allow manual triggering of the workflow from the GitHub Actions web interface
+  workflow_dispatch: 
+
+# --- Permissions ---
+# Grant necessary permissions to the workflow for interacting with GitHub features
+permissions:
+  # Permission to modify the repository's contents (needed for gh-pages branch)
+  contents: write
+  # Permission to update GitHub Pages settings and content
+  pages: write
+  # Permission to request a GitHub ID token for authentication
+  id-token: write
+
+# --- Concurrency Control ---
+# Manage workflow runs to prevent conflicts
+concurrency:
+  # Group runs under the name "pages"
+  group: "pages"
+  # If a new run is triggered while one is in progress, cancel the older one
+  cancel-in-progress:  true
+
+# --- Job Definition ---
+# Define the sequence of tasks (a single job named 'deploy' in this case)
+jobs:
+  deploy:
+    # Specify the virtual machine environment to run the job on
+    runs-on:  ubuntu-latest # Use the latest Ubuntu Linux environment
+    # Set environment variables for the entire job
+    env:
+      # Provide GitHub token for authenticated operations (e.g., installing packages from private repos)
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    # List the individual steps to perform within the job
+    steps:
+      # --- Step 1: Get Code ---
+      # Check out (download) your repository's code into the runner's workspace
+      - name: Check out repository
+        uses:  actions/checkout@v4 # Use the official checkout action
+
+      # --- Step 2: Install System Dependencies ---
+      # Install Pandoc, a document conversion tool required by Quarto
+      - name:  Install pandoc
+        run: sudo apt-get update && sudo apt-get install -y pandoc
+
+      # --- Step 3: Setup Tools ---
+      # Install and set up a specific version of Quarto
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2 # Use the official Quarto setup action
+        with: 
+          version: 1.8.25 # Specify the Quarto version to use
+
+      # Install and set up a specific version of R
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2 # Use the official R setup action
+        with: 
+          r-version: '4.5.2' # Specify the R version to use
+          use-public-rspm:  true # Use RStudio Package Manager for faster binary package installation
+
+      # --- Step 4:  Restore R Packages with Cache ---
+      # Automatically restore R packages defined in renv.lock with intelligent caching
+      # This action reads the renv.lock file and restores all project dependencies
+      # Cached packages are reused across workflow runs, significantly speeding up the build
+      - name: Setup renv and restore packages
+        uses: r-lib/actions/setup-renv@v2 # Use the official renv setup action
+        with: 
+          cache-version: 2 # Cache version number (increment to invalidate cache if needed)
+
+      # --- Step 5: Install Additional R Packages ---
+      # Install any additional R packages not included in renv.lock
+      # This step checks if the package is already installed before attempting installation
+      - name: Install additional R packages
+        run: |
+          Rscript -e 'if (!require("ggplot2")) install.packages("ggplot2")'
+
+      # --- Step 6: Cache TinyTeX ---
+      # Cache the TinyTeX LaTeX distribution to avoid reinstalling on every run
+      # TinyTeX is a lightweight LaTeX distribution (~100MB) used for PDF generation
+      # The cache key includes a hash of . qmd files to detect when LaTeX requirements might change
+      - name: Cache TinyTeX
+        uses: actions/cache@v4 # Use the official cache action
+        with:
+          path: ~/.TinyTeX # Directory where TinyTeX is installed
+          key: ${{ runner. os }}-tinytex-${{ hashFiles('**/*.qmd') }}
+          restore-keys: |
+            ${{ runner. os }}-tinytex-
+
+      # --- Step 7: Install TinyTeX ---
+      # Install TinyTeX if it's not already present (either first run or cache miss)
+      # TinyTeX automatically installs missing LaTeX packages on-demand during rendering
+      - name: Install TinyTeX
+        run: |
+          Rscript -e 'if (!tinytex:: is_tinytex()) tinytex::install_tinytex()'
+
+      # --- Step 8: Cache Quarto ---
+      # Cache Quarto's internal files to speed up subsequent renders
+      # . quarto:  Contains Quarto's metadata and rendering cache
+      # _freeze: Contains frozen computational results (if freeze is enabled)
+      # This helps avoid re-rendering unchanged content
+      - name: Cache Quarto
+        uses: actions/cache@v4 # Use the official cache action
+        with:
+          path: |
+            . quarto
+            _freeze
+          key: ${{ runner.os }}-quarto-${{ hashFiles('**/*.qmd') }}
+          restore-keys: |
+            ${{ runner.os }}-quarto-
+
+      # --- Step 9: Render Website ---
+      # Execute the Quarto command to build your website
+      # This reads your _quarto.yml and . qmd files to generate the output
+      # (usually HTML files placed in a directory like _book or docs).
+      - name: Render Quarto Website
+        run: quarto render
+
+      # --- Step 10: Deploy to GitHub Pages ---
+      # Publish the rendered website files to the special 'gh-pages' branch,
+      # which GitHub Pages uses to serve your site. 
+      - name: Publish to GitHub Pages
+        uses: quarto-dev/quarto-actions/publish@v2 # Use the official Quarto publish action
+        with:
+          target: gh-pages # Specify the target branch for GitHub Pages
+        # Provide an authentication token so the action can push to your repository
+        env:
+          GITHUB_TOKEN: ${{ secrets. GITHUB_TOKEN }} # Use the automatically provided token

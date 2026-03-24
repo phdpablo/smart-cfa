@@ -6,4 +6,4 @@ This article aims to accomplish three objectives: first, to compile guidelines f
 
 *How to cite this article:*
 
-Rogers, P. (2024, June 10). Smart Choices for Measurement Models: Executable Manuscript Tutorial for your Confirmatory Factor Analysis in R Environment. *PsyArXiv Preprints.* <https://doi.org/10.31234/osf.io/2dy3z>
+Rogers, P., & Georgeto, S. M. (2024, June 10). Smart Choices for Measurement Models: Executable Manuscript Tutorial for your Confirmatory Factor Analysis in R Environment. <https://doi.org/10.31234/osf.io/2dy3z>

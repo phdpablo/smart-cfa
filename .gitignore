@@ -1,7 +1,24 @@
-.Rproj.user
+# R/RStudio
+.Rproj.user/
 .Rhistory
 .RData
 .Ruserdata
+
+# Quarto and builds
+.quarto/
+_book/
+_site/
+_temp/
+_freeze/
+/site_libs/
+/04-results_files/
+docs/
+*.tex
+
+# Management
+deploy.sh
+adm/
+!adm/README.md
 /.quarto/
-/_book/
-/texto/
+
+**/*.quarto_ipynb

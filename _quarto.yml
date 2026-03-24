@@ -1,86 +1,95 @@
-project:
-  type: book
-  output-dir: docs
-execute: 
-  #echo: false
-  warning: false
-  cache: true
-#filters: 
-  #- webr
-  #- abstract-section:
-book:
-  title: "Smart Choices for Measurement Models"
-  subtitle: "Executable Manuscript Tutorial for your Confirmatory Factor Analysis in R Environment"
-  author: "Pablo Rogers"
-  date: 03/07/2024
-  date-format: long
-  #doi:
-  cover-image: img/cover.png
-  downloads: pdf
-  reader-mode: true
-  sidebar:
-    align: left
-    collapse-level: 1
-  page-footer:
-    left: <a href="https://www.phdpablo.com">by Pablo Rogers</a>
-    right: This article was built with <a href="https://quarto.org/">Quarto</a> 
-  site-url: "https://phdpablo.github.io/smart-cfa/"
-  repo-url: "https://github.com/phdpablo/smart-cfa/"
-  #repo-actions: [edit,issue]
-  sharing: [twitter, facebook, linkedin]
-  open-graph: true
+project: # https://quarto.org/docs/projects/quarto-projects.html
+  type: book # Specifies this project is a book format.
+  # if change this key, maybe you have a problem with the structure output
+  output-dir: docs # Directory where the rendered output files will be placed.
+  # not change this key if you want to deploy in GitHub Pages
+  post-render: render_cleanup.R # Script to run automatically after rendering is complete.
+  # for clean the output directory after render
+resources: # https://quarto.org/docs/projects/quarto-projects.html#project-resources
+  # List of directories containing files needed for rendering (e.g., data, scripts).
+  # These are copied to the output directory.
+  - Data/
+  - Output/
+  - Scripts/
+execute: # https://quarto.org/docs/computations/execution-options.html
+  freeze: auto # Automatically manage code execution based on changes.
+  cache: true # Enables caching of code chunks to speed up rendering.
+  warning: false # Prevent R code chunk warnings from appearing in the output.
+book: # https://quarto.org/docs/books/index.html
+  google-analytics: "G-2MWSHLX73Q" # replace with your Google Analytics tracking ID or remove this line
+  favicon: cover.jpg # edit or exclude this image/line
+  title: "Smart Choices for Measurement Models" # edit your title
+  subtitle: "Executable Manuscript Tutorial for your Confirmatory Factor Analysis in R Environment" # edit your subtitle
+  author: "Pablo Rogers and Sérgio Georgeto" # edit your name
+  date: 03/24/2026 # https://quarto.org/docs/reference/dates.html
+  date-format: long # Format for displaying the date (e.g., "August 8, 2024").
+  doi: 10.17605/OSF.IO/NJDQ5 # put your DOI
+  cover-image: cover.jpg # edit ou exclude this image
+  downloads: pdf # https://quarto.org/docs/books/book-output.html#reader-tools
+  # Adds a button to download the document as a PDF.
+  reader-mode: true # Enables a distraction-free reading mode.
+  sidebar: # Configuration for the website navigation sidebar.
+    align: left # Aligns the sidebar to the left side of the page.
+    collapse-level: 1 # Level of headings to initially collapse in the sidebar.
+  page-footer: # https://quarto.org/docs/reference/formats/html.html#appearance
+  # edit or exclude this footer
+    left: <a href="https://www.phdpablo.com">by Pablo Rogers</a> # Content for the left side of the footer.
+    right: This article was built with <a href="https://quarto.org/">Quarto</a> # Content for the right side of the footer.
+  site-url: "https://phdpablo.github.io/article-template/" # edit your site URL
+  # The base URL where the website will be published.
+  repo-url: "https://github.com/phdpablo/article-template/" # edit your repo URL
+  # Link to the source code repository for this project.
+  sharing: [twitter, facebook, linkedin] # edit or exclude this sharing
+  # Enables sharing buttons for specified social media platforms.
+  open-graph: true # Generates Open Graph metadata for better social media previews.
   
-  chapters:
-    - index.qmd
-    - 01-intro.qmd
-    - 02-smart-choices.qmd
-    - 03-tutorial.qmd
-    - 04-considerations.qmd
-    - references.qmd
+  chapters: # https://quarto.org/docs/books/book-structure.html
+    - index.qmd # The main landing page of the book/website.
+    - 01-intro.qmd # Introduction chapter.
+    - 02-background.qmd # Background/Theory chapter.
+    - 03-methods.qmd # Methods chapter.
+    - 04-results.qmd # Results chapter.
+    - 05-conclusion.qmd # Conclusion chapter.
+    - references.qmd # References/Bibliography page.
 
-bibliography: references.bib
+bibliography: references.bib # https://quarto.org/docs/authoring/citations.html
+# File containing the bibliographic references in BibTeX format.
+csl: apa7ed.csl # Citation Style Language file defining the citation format (APA 7th ed.).
+# See others at https://www.zotero.org/styles
 
-format:
-  html:
-    title-block-style: none
-    toc: true
-    collapse: true
-    html-math-method: mathjax
-    #include-in-header: header-includes.html
-    #css: style.css
-    #code-link: true
-    theme:
-      light: flatly
-      dark: darkly
-    number-sections: true
-    link-external-newwindow: true
-    fig-width: 5
-    fig-height: 5
-    fig-align: left
+format: # https://quarto.org/docs/reference/formats/html.html
+  html: # Configuration for HTML output format.
+    title-block-style: none # Hides the default title block, using custom styling.
+    toc: true # Includes a table of contents in the HTML output.
+    collapse: true # Allows collapsing/expanding sections in the TOC.
+    html-math-method: mathjax # Uses MathJax to render mathematical equations.
+    code-link: true # Adds a button to copy code chunks to the clipboard.
+    theme: # https://quarto.org/docs/output-formats/html-themes.html
+    # See more theme options at: https://quarto.org/docs/output-formats/html-themes.html
+      light: flatly # Light color theme for the website.
+      dark: darkly # Dark color theme for the website.
+    number-sections: true # Adds section numbers to headings.
+    link-external-newwindow: true # Opens external links in a new browser tab.
+    fig-width: 5 # Default width (in inches) for figures in HTML output.
+    fig-height: 5 # Default height (in inches) for figures in HTML output.
+    fig-align: left # Default horizontal alignment for figures (left, center, right).
   
-  pdf:
-    documentclass: article
-    papersize: A4
-    #abstract: "Working in progress"
-    top-level-division: section
-    #code-block-bg: gray
-    geometry:
-      - paperwidth=8.00in
-      - paperheight=10.00in
-      - left=1.25in
-      - textwidth= 5.25in
-      - top=1.00in
-      - textheight=8.25in
-      #- showframe
-    #include-in-header: preamble.tex
-    #include-before-body: first.tex
-    #include-after-body: backcover.tex
-    toc: false
-    colorlinks: true
-    fig-width: 5
-    fig-height: 5
-    fig-align: left
-    keep-tex: true
+  pdf: # https://quarto.org/docs/reference/formats/pdf.html
+    documentclass: article # LaTeX document class to use for PDF output.
+    papersize: A4 # Paper size for the PDF.
+    top-level-division: section # Treats top-level headings (e.g., # Header) as \section{} in LaTeX.
+    geometry: # Page margins and dimensions for the PDF.
+      - paperwidth=8.27in # Width of the paper.
+      - paperheight=11.69in # Height of the paper.
+      - left=1.25in # Left margin.
+      - textwidth= 5.25in # Width of the text block.
+      - top=1.00in # Top margin.
+      - textheight=8.25in # Height of the text block.
+    toc: false # Disables the table of contents in the PDF output.
+    colorlinks: true # Colors hyperlinks in the PDF instead of using boxes.
+    fig-width: 5 # Default width (in inches) for figures in PDF output.
+    fig-height: 5 # Default height (in inches) for figures in PDF output.
+    fig-align: left # Default horizontal alignment for figures in PDF.
+    keep-tex: false # Keeps the intermediate .tex file generated during PDF creation.
 
-editor: visual
-
+editor: source # Sets the default editor mode to source.
