@@ -18,13 +18,13 @@ services:
     # --- Image Naming ---
     # The name and tag for the built image.
     # This makes it easier to identify and manage.
-    image: phdpablo/article-template:4.5.1
+    image: phdpablo/smart-cfa:4.5.2
     
     # --- Container Naming ---
     # Sets a custom name for the running container.
     # Uses the PROJECT_NAME environment variable (set by start scripts).
-    # If PROJECT_NAME is not set, it defaults to 'article-template'.
-    container_name: ${PROJECT_NAME:-article-template}
+    # If PROJECT_NAME is not set, it defaults to 'smart-cfa'.
+    container_name: ${PROJECT_NAME:-smart-cfa}
     
     # --- Port Mapping ---
     # Maps an IP on the host machine and maintains ports 8787:8787 between container and host.

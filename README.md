@@ -1,9 +1,7 @@
-# Smart Choices for Measurement Models
+# Smart Choices for Measurement Models: Executable Manuscript Tutorial for your CFA in R Environment
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/phdpablo/smart-cfa/main) [![Cite Preprint](https://img.shields.io/badge/Cite%20Preprint-PDF-red)](https://doi.org/10.31234/osf.io/2dy3z) [![TIER Protocol 4.0](https://img.shields.io/badge/TIER%20Protocol-4.0-green)](https://www.projecttier.org/tier-protocol/protocol-4-0/) [![GitHub Pages](https://img.shields.io/github/deployments/phdpablo/smart-cfa/github-pages?label=GitHub%20Pages)](https://phdpablo.github.io/smart-cfa/) [![OSF](https://img.shields.io/badge/OSF-10.31234/osf.io/2dy3z-blue)](https://doi.org/10.31234/osf.io/2dy3z) [![License](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/) [![R version](https://img.shields.io/badge/R-4.5.2-orange)](https://www.r-project.org/) [![Quarto](https://img.shields.io/badge/Quarto-1.6-orange)](https://quarto.org/) [![Docker](https://img.shields.io/badge/Docker-4.45.0-orange)](https://www.docker.com/) [![renv](https://img.shields.io/badge/renv-1.1.8-orange)](https://rstudio.github.io/renv/)
 
-> **Executable Manuscript Tutorial for your Confirmatory Factor Analysis in R Environment**
->
 > Rogers, P., & Georgeto, S. M. (2024). *Smart Choices for Measurement Models: Executable Manuscript Tutorial for your Confirmatory Factor Analysis in R Environment.* <https://doi.org/10.31234/osf.io/2dy3z>
 
 This repository contains the **fully reproducible source code** for the tutorial article on Confirmatory Factor Analysis (CFA) using R. The article guides applied social scientists through key decisions in CFA — from measurement model selection and power analysis to estimation, model fit, and modification — within a dynamic document framework that promotes open science principles (reproducibility, replicability, and transparency).

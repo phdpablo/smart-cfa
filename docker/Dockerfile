@@ -4,14 +4,14 @@
 # --- Base Image ---
 # Use the official rocker/verse version 4.5.1 as the starting point.
 # This image includes R, RStudio Server, Quarto, Pandoc, and TinyTeX pre-installed.
-FROM rocker/verse:4.5.1
+FROM rocker/verse:4.5.2
 
 # --- Image Metadata ---
 # Add labels to the image for identification and documentation purposes.
 # These are useful metadata but do not affect the container's functionality.
 LABEL maintainer="Pablo Rogers <pablorogers@ufu.br>" \
-      version="4.5.1" \
-      description="RStudio/Quarto with TIER Protocol 4.0 environment for reproducible research projects."
+      version="4.5.2" \
+      description="Executable Manuscript Tutorial for your CFA in R Environment"
 
 # --- renv Configuration ---
 # Set environment variables to configure where renv stores its cache

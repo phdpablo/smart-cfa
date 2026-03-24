@@ -13,7 +13,7 @@ FROM rocker/binder:4.4.2
 # Add labels to the image for identification and documentation purposes.
 # These are useful metadata but do not affect the container's functionality. 
 LABEL maintainer="Pablo Rogers <pablorogers@ufu.br>" \
-      description="MyBinder environment for ARTE"
+      description="MyBinder environment for Executable Manuscript Tutorial for your CFA in R Environment"
 
 # --- renv Configuration ---
 # Set environment variables to configure where renv stores its cache
