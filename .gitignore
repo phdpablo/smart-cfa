@@ -11,7 +11,7 @@ _site/
 _temp/
 _freeze/
 /site_libs/
-/04-results_files/
+/*._files/
 docs/
 *.tex
 

@@ -1,12 +1,16 @@
 @echo off
 setlocal
 
-:: Use the parent directory's name as the project name
-for %%i in ("%cd%\..") do set PROJECT_NAME=%%~ni
+echo Pausing RStudio container...
+docker compose -f docker-compose.yml stop
 
-echo Stopping and removing the RStudio container for project '%PROJECT_NAME%'...
-docker-compose -p %PROJECT_NAME% down
-echo Environment stopped.
+if %ERRORLEVEL% equ 0 (
+  echo Container paused. Your data is preserved.
+  echo Run 'start.bat' to resume your work.
+) else (
+  echo Error stopping container.
+  exit /b 1
+)
 
 endlocal
 exit /b 0

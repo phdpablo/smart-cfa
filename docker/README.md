@@ -1,51 +1,74 @@
 ## Docker Environment for Reproducible Research
 
-This directory contains the configuration files needed to create a fully reproducible R/RStudio/Quarto environment using Docker. This setup ensures that your research project runs in the same computational environment, regardless of the operating system (Windows, macOS, Linux) being used.
+This directory contains the configuration files for a fully reproducible computational environment using Docker. A **pre-built image** is published on [Docker Hub](https://hub.docker.com/r/phdpablo/smart-cfa), so end users do not need to build anything locally — just pull and run.
 
 ### What's Included
 
--   **`Dockerfile`**: Defines the custom Docker image, based on `rocker/verse:4.5.1`, pre-configured with necessary R packages (via `renv`) and LaTeX dependencies for Quarto.
--   **`docker-compose.yml`**: An orchestration file that simplifies running the Docker container. It handles port mapping, volume mounting for data persistence, and setting necessary environment variables.
--   **`start.bat` & `start.sh`**: Simple launcher scripts for Windows and Unix-like systems (macOS, Linux), respectively. These scripts automate finding an available IP, starting the environment, and opening RStudio in your browser.
--   **`stop.bat` & `stop.sh`**: Simple scripts to stop and clean up the running Docker container for Windows and Unix-like systems.
+- **`Dockerfile`**: Defines how the image was built (included for transparency). End users do not need this file.
+- **`docker-compose.yml`**: Pulls the pre-built image from Docker Hub and starts the container.
+- **`start.bat` / `start.sh`**: One-click launcher scripts for Windows and Unix-like systems (macOS, Linux).
+- **`stop.bat` / `stop.sh`**: Scripts to pause the running container (data is preserved inside).
 
 ### Prerequisites
 
-Before using this environment, ensure you have the following installed on your machine:
-
-1.  **Docker**: Download and install Docker Desktop for your operating system from the official Docker website (<https://docs.docker.com/get-docker/>). Make sure it is running.
+1. **Docker**: Download and install [Docker Desktop](https://docs.docker.com/get-docker/) and make sure it is running.
 
 ### Quick Start
 
-1.  **Open a Terminal/Command Prompt:**
-    -   **Windows:** Open Command Prompt (`cmd`) or PowerShell. Navigate (`cd`) to this `docker` directory (e.g., `C:\path\to\your\article-template\docker`).
-    -   **macOS/Linux:** Open your terminal application. Navigate (`cd`) to this `docker` directory (e.g., `/path/to/your/article-template/docker`).
-2.  **Launch the Environment:**
-    -   **Windows:** Double-click the `start.bat` file, or run `start.bat` in the terminal.
-    -   **macOS/Linux:** Run `./start.sh` in the terminal (you might need to make it executable first with `chmod +x start.sh`).
-3.  **Access RStudio:**
-    -   The script will automatically find an available IP (starting from 127.0.0.1), start the container, and open your default web browser to `http://127.0.0.1:8787`, for example.
-    -   You should see the RStudio interface. **No login is required**; you are automatically logged in as the `rstudio` user.
-    -   The files from your main project directory (`article-template`) will be available in the RStudio file pane under `/home/rstudio/project`.
-4.  **Work on Your Project:**
-    -   Open the `article-template.Rproj` file to activate the R project.
-    -   Open and edit your Quarto files (`.qmd`).
-    -   Run `quarto render` in the RStudio terminal to build your report.
-5.  **Stop the Environment:**
-    -   When you are finished working:
-        -   **Windows:** Double-click the `stop.bat` file, or run `stop.bat` in the terminal.
-        -   **macOS/Linux:** Run `./stop.sh` in the terminal.
-    -   This stops the container and cleans up its resources. Your project files and installed packages are safely stored on your computer due to volume persistence.
+1. **Open a Terminal/Command Prompt** and navigate to this `docker/` directory:
+   ```bash
+   cd docker
+   ```
 
-### How It Works (Behind the Scenes)
+2. **Launch the Environment:**
+   - **Windows:** Double-click `start.bat`, or run `start.bat` in the terminal.
+   - **macOS/Linux:** Run `./start.sh` (you may need `chmod +x start.sh` first).
 
--   **Image Building:** The first time you run `start.bat`/`start.sh`, Docker Compose reads the `Dockerfile` and builds a custom image. This involves downloading the base `rocker/verse` image, installing LaTeX packages, and restoring R packages listed in your project's `renv.lock` file. This process can take several minutes. Subsequent starts will be much faster.
--   **Container Runtime:** Docker Compose then starts a container based on this image.
--   **IP Mapping:** The script finds an available IP and maps it to port 8787 inside the container (where RStudio Server runs). This prevents conflicts if you run multiple projects.
--   **Volume Persistence:** Several directories are mounted as volumes:
-    -   Your main project folder (`..`) is mounted to `/home/rstudio/project`, ensuring all your files are accessible and changes are saved directly to your computer.
-    -   Special volumes are mounted for `renv`'s cache and library, storing downloaded and installed R packages. This means packages are installed only once and reused.
-    -   Directories for RStudio's settings (`~/.config`, `~/.local`, `~/.rstudio`, `~/.R`) are mounted to local folders (`./cache/...`) to preserve your RStudio preferences and layout between sessions for this project.
--   **Environment:** Necessary environment variables like `DISABLE_AUTH=true` are set to simplify access.
+3. **Access RStudio:**
+   - The script waits ~30 seconds for initialization, then opens `http://127.0.0.1:8787` in your browser.
+   - No login is required (`DISABLE_AUTH=true`).
+   - All project files are available inside the container at `/home/rstudio/`.
 
-This setup provides a robust, persistent, and easy-to-use environment tailored for reproducible research with Quarto and R.
+4. **Verify Reproducibility:**
+   - In the RStudio Terminal, run:
+     ```bash
+     quarto render
+     ```
+   - The rendered manuscript will be generated in the `docs/` directory.
+
+5. **Stop the Environment:**
+   - **Windows:** Double-click `stop.bat`, or run `stop.bat`.
+   - **macOS/Linux:** Run `./stop.sh`.
+   - The container is **paused** (not deleted). Run `start` again to resume.
+
+### Alternative Methods
+
+If you prefer not to use the helper scripts:
+
+**Using Docker Compose:**
+```bash
+cd docker
+docker compose up -d          # Start the container
+docker compose stop           # Pause the container
+docker compose down           # Stop and remove the container
+```
+
+**Using Docker directly:**
+```bash
+docker pull phdpablo/smart-cfa:4.5.2
+docker run -d --name smart-cfa -p 127.0.0.1:8787:8787 -e DISABLE_AUTH=true phdpablo/smart-cfa:4.5.2
+```
+
+### How It Works
+
+- The image `phdpablo/smart-cfa:4.5.2` is **self-contained**: all project files, R packages (via `renv`), and LaTeX dependencies are embedded.
+- No volume mounts are needed — the repository files are already inside the image.
+- On first start, LaTeX formats are regenerated (~30 seconds) via the `init-latex.sh` script.
+- The `Dockerfile` is included in the repository for full transparency on how the image was built. You can uncomment the `build:` section in `docker-compose.yml` to rebuild locally if desired.
+
+### Troubleshooting
+
+- **Docker not running:** Start Docker Desktop before running the scripts.
+- **Port 8787 in use:** Stop any other service using that port, or edit `docker-compose.yml` to change the host port (e.g., `127.0.0.1:8788:8787`).
+- **First run is slow:** The image download (~2–4 GB) and LaTeX format sync take time on the first run. Subsequent starts are fast.
+- **Container logs:** Run `docker compose logs` in this directory to inspect issues.

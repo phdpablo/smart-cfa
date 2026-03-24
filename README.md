@@ -1,30 +1,20 @@
 # Smart Choices for Measurement Models: Executable Manuscript Tutorial for your CFA in R Environment
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/phdpablo/smart-cfa/main) [![Cite Preprint](https://img.shields.io/badge/Cite%20Preprint-PDF-red)](https://doi.org/10.31234/osf.io/2dy3z) [![TIER Protocol 4.0](https://img.shields.io/badge/TIER%20Protocol-4.0-green)](https://www.projecttier.org/tier-protocol/protocol-4-0/) [![GitHub Pages](https://img.shields.io/github/deployments/phdpablo/smart-cfa/github-pages?label=GitHub%20Pages)](https://phdpablo.github.io/smart-cfa/) [![OSF](https://img.shields.io/badge/OSF-10.31234/osf.io/2dy3z-blue)](https://doi.org/10.31234/osf.io/2dy3z) [![License](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/) [![R version](https://img.shields.io/badge/R-4.5.2-orange)](https://www.r-project.org/) [![Quarto](https://img.shields.io/badge/Quarto-1.6-orange)](https://quarto.org/) [![Docker](https://img.shields.io/badge/Docker-4.45.0-orange)](https://www.docker.com/) [![renv](https://img.shields.io/badge/renv-1.1.8-orange)](https://rstudio.github.io/renv/)
+[![Cite Preprint](https://img.shields.io/badge/Cite%20Preprint-PDF-red)](https://doi.org/10.31234/osf.io/2dy3z) [![TIER Protocol 4.0](https://img.shields.io/badge/TIER%20Protocol-4.0-green)](https://www.projecttier.org/tier-protocol/protocol-4-0/) [![GitHub Pages](https://img.shields.io/github/deployments/phdpablo/smart-cfa/github-pages?label=GitHub%20Pages)](https://phdpablo.github.io/smart-cfa/) [![OSF](https://img.shields.io/badge/OSF-10.31234/osf.io/2dy3z-blue)](https://doi.org/10.31234/osf.io/2dy3z) [![License](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/) [![R version](https://img.shields.io/badge/R-4.5.2-orange)](https://www.r-project.org/) [![Quarto](https://img.shields.io/badge/Quarto-1.6-orange)](https://quarto.org/) [![Docker](https://img.shields.io/badge/Docker-4.45.0-orange)](https://www.docker.com/) [![renv](https://img.shields.io/badge/renv-1.1.8-orange)](https://rstudio.github.io/renv/)
 
 > Rogers, P., & Georgeto, S. M. (2024). *Smart Choices for Measurement Models: Executable Manuscript Tutorial for your Confirmatory Factor Analysis in R Environment.* <https://doi.org/10.31234/osf.io/2dy3z>
 
-This repository contains the **fully reproducible source code** for the tutorial article on Confirmatory Factor Analysis (CFA) using R. The article guides applied social scientists through key decisions in CFA — from measurement model selection and power analysis to estimation, model fit, and modification — within a dynamic document framework that promotes open science principles (reproducibility, replicability, and transparency).
+This repository contains the **complete reproducible materials** for the tutorial article on Confirmatory Factor Analysis (CFA) using R. The article guides applied social scientists through key decisions in CFA — from measurement model selection and power analysis to estimation, model fit, and modification — within a dynamic document framework that promotes open science principles (reproducibility, replicability, and transparency).
 
-The manuscript is structured as a Quarto book and built using the [ARTE template](https://github.com/phdpablo/article-template) (Article Reproducibility Template & Environment), which encapsulates the entire computational environment via Docker and `renv`. The live rendered version is available at: <https://phdpablo.github.io/smart-cfa/>
+The manuscript is structured as a Quarto book and built using the [ARTE template](https://github.com/phdpablo/article-template) (Article Reproducibility Template & Environment). The live rendered version is available at: <https://phdpablo.github.io/smart-cfa/>
 
+### Key Features
 
-## Table of Contents
-
-- [About the Article](#about-the-article)
-- [Repository Structure](#repository-structure)
-- [Prerequisites](#prerequisites)
-- [Quick Start (Using Docker - Recommended)](#quick-start-using-docker---recommended)
-- [Setup, Build, and Run (Detailed Docker Steps)](#setup-build-and-run-detailed-docker-steps)
-- [Accessing the RStudio Environment](#accessing-the-rstudio-environment)
-- [Daily Workflow](#daily-workflow)
-- [Environment Features](#environment-features)
-- [Useful Commands](#useful-commands)
-- [Troubleshooting](#troubleshooting)
-- [Verify Reproducibility with MyBinder](#verify-reproducibility-with-mybinder)
-- [Publishing / Deployment](#publishing--deployment)
-- [Citation](#citation)
-- [License](#license)
+- ✅ **Comprehensive CFA guidelines** covering recommended practices, pitfalls, and reporting standards
+- ✅ **Reproducible document** using Quarto with embedded R code (`lavaan` package)
+- ✅ **Pre-rendered website** in `docs/` folder (GitHub Pages)
+- ✅ **Docker environment** for computational reproducibility verification
+- ✅ **TIER Protocol 4.0** compliant folder structure
 
 ## About the Article
 
@@ -44,6 +34,15 @@ This tutorial article pursues three objectives:
 - Model comparisons and modifications
 
 **Keywords:** Confirmatory Factor Analysis, Structural Equation Modeling, Internal Structure Validity, Open Science, `lavaan`.
+
+## Access the Materials
+
+| Resource | Description | Link |
+| :-- | :-- | :-- |
+| **📄 Preprint** | Original paper on PsyArXiv | [doi.org/10.31234/osf.io/2dy3z](https://doi.org/10.31234/osf.io/2dy3z) |
+| **🌐 Tutorial Website** | Pre-rendered complete tutorial | [phdpablo.github.io/smart-cfa](https://phdpablo.github.io/smart-cfa/) |
+| **🚀 MyBinder** | Run interactively in the cloud (no install) | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/phdpablo/smart-cfa/main?urlpath=rstudio) |
+| **📦 Docker Image** | Self-contained reproducible environment | [hub.docker.com/r/phdpablo/smart-cfa](https://hub.docker.com/r/phdpablo/smart-cfa) |
 
 ## Repository Structure
 
@@ -65,127 +64,83 @@ smart-cfa/
 ├── Data/                  # Input, intermediate, and analysis data
 ├── Scripts/               # Processing, analysis, and appendix scripts
 ├── Output/                # Results and data appendix outputs
-├── docker/                # Docker environment files
-└── .binder/               # MyBinder configuration
+├── docker/                # Docker configuration for reproducibility
+├── .binder/               # Binder configuration for cloud interactive environment
+└── docs/                  # Pre-rendered website (GitHub Pages)
 ```
 
 Each subdirectory under `Data/`, `Scripts/`, and `Output/` contains a `README.md` with an overview, contents, and guidelines.
 
-## Prerequisites
+## Quick Start
 
-For **Full Reproducibility** (recommended), you only need:
+### Option 1: View Pre-Rendered Website (Fastest)
 
-1. **Docker:** [Download Docker Desktop](https://docs.docker.com/get-docker/) and ensure it is running.
-2. **Git (Optional):** For cloning the repository. [Download Git](https://git-scm.com/downloads)
+Simply visit the deployed website — no installation needed:
 
-## Quick Start (Using Docker - Recommended)
+**<https://phdpablo.github.io/smart-cfa/>**
 
-1. **Get the repository:**
-   ```bash
-   git clone https://github.com/phdpablo/smart-cfa.git
-   cd smart-cfa
-   ```
-   Or download the ZIP from the GitHub page.
+The `gh-pages` branch of the repository contains the complete pre-rendered tutorial.
 
-2. **Navigate to the Docker directory:**
-   ```bash
-   cd docker
-   ```
+### Option 2: Cloud Interactive Environment (MyBinder)
 
-3. **Start the environment:**
-   - **Windows:** Double-click `start.bat`
-   - **macOS/Linux:** `./start.sh` (run `chmod +x start.sh` first if needed)
+Run the entire project in your browser without install anything. Ideal for quick exploration:
+[![Launch RStudio on Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/phdpablo/smart-cfa/main?urlpath=rstudio)
+*(Note: The first launch may take a few minutes as the environment is prepared.)*
 
-4. **Access RStudio:** Your browser opens automatically at `http://127.0.0.x:8787`. Project files are at `/home/rstudio/project`.
 
-5. **Render the manuscript:**
-   ```bash
-   quarto render
-   ```
 
-6. **Stop the environment:**
-   - **Windows:** Double-click `stop.bat`
-   - **macOS/Linux:** `./stop.sh`
+### Option 4: Local Rendering
 
-## Setup, Build, and Run (Detailed Docker Steps)
+**Prerequisites:** R 4.5.2+, Quarto 1.8+
+
+```bash
+# Clone repository
+git clone https://github.com/phdpablo/smart-cfa.git
+cd smart-cfa
+
+# Restore R packages
+R -e "renv::restore()"
+
+# Render the manuscript
+quarto render
+```
+
+**Prerequisites:** [Docker Desktop](https://docs.docker.com/get-docker/)
 
 ```bash
 cd docker
-docker-compose build      # (Optional) Build the image explicitly
-docker-compose up -d      # Start the container
-docker-compose down       # Stop and remove the container
+./start.sh         # macOS/Linux
+start.bat          # Windows
 ```
 
-## Accessing the RStudio Environment
+Access RStudio Server at `http://127.0.0.1:8787` (no password). Then run `quarto render` in the RStudio Terminal to verify reproducibility.
 
-- **URL:** `http://127.0.0.x:8787`
-- **Authentication:** None required (`DISABLE_AUTH=true`)
-- **Project location (in container):** `/home/rstudio/project`
+See [`docker/README.md`](docker/README.md) for details.
 
-## Daily Workflow
+## Docker Environment
 
-1. **Start:** `docker/start.bat` or `docker/start.sh`
-2. **Work in RStudio:**
-   - Open `smart-cfa.Rproj`
-   - Edit `.qmd` files (e.g., `03-methods.qmd` for the R tutorial)
-   - Run R code chunks in the console or directly in the `.qmd` files
-   - Install new packages with `install.packages()` — `renv` tracks them automatically
-   - Run `renv::snapshot()` after adding packages to update `renv.lock`
-   - Render with `quarto render` in the Terminal
-3. **Stop:** `docker/stop.bat` or `docker/stop.sh`
+The Docker setup is designed for **reproducibility verification**, not for daily development. A pre-built, self-contained image is published on Docker Hub (`phdpablo/smart-cfa:4.5.2`) with all project files, R packages, and LaTeX dependencies embedded.
 
-## Environment Features
+**Key points:**
 
-- **Base image:** `rocker/verse:4.5.1` (R, RStudio Server, Quarto, Pandoc, TinyTeX)
-- **R package management:** `renv` with lock file (`renv.lock`) for exact reproducibility
-- **Key R packages:** `lavaan`, `semTools`, `semPlot`, and other CFA/SEM packages
-- **LaTeX/TinyTeX:** Pre-installed for PDF rendering
-- **Persistent volumes:** Project files, R packages (`renv` library/cache), RStudio settings
+- The image is pulled from Docker Hub — no local build step is needed.
+- All repository files are **already inside the image** — no volume mounting needed.
+- The `Dockerfile` is included for transparency on how the image was built.
+- On first start, LaTeX formats are synced (~30 seconds via `init-latex.sh`).
 
-## Useful Commands
-
-**Inside RStudio Terminal:**
+**Quick Docker commands:**
 ```bash
-quarto render                  # Render the entire manuscript
-quarto render 03-methods.qmd   # Render a specific chapter
-source("render_cleanup.R")     # Run post-render cleanup
+cd docker
+docker compose up -d          # Start the container
+docker compose stop           # Pause the container (data preserved)
+docker compose down           # Stop and remove the container
 ```
 
-**In your host terminal (inside `docker/` directory):**
+**Or using Docker directly:**
 ```bash
-docker-compose up -d      # Start container
-docker-compose down       # Stop container
-docker-compose build      # Rebuild image
-docker-compose logs       # View container logs
+docker pull phdpablo/smart-cfa:4.5.2
+docker run -d --name smart-cfa -p 127.0.0.1:8787:8787 -e DISABLE_AUTH=true phdpablo/smart-cfa:4.5.2
 ```
-
-**In R console:**
-```r
-renv::status()      # Check package consistency
-renv::snapshot()    # Update renv.lock after adding packages
-renv::restore()     # Restore packages from renv.lock
-```
-
-## Troubleshooting
-
-- **Docker not running:** Start Docker Desktop before running the scripts.
-- **Port in use:** The `start` scripts automatically find an available port — check terminal output for the URL.
-- **Permission denied (Linux/macOS):** `chmod +x docker/start.sh docker/stop.sh`
-- **Container fails to start:** Check logs with `cd docker && docker-compose logs`
-- **Packages not found after restart:** Open `smart-cfa.Rproj` to activate `renv`, then run `renv::restore()`
-- **`.Rprofile` error (`..md5..` not found):** Restart the R session after `renv::init()` completes
-
-## Verify Reproducibility with MyBinder
-
-To verify reproducibility without any local installation:
-
-1. Click the **Binder** badge at the top of this page
-2. Wait for the environment to build (~10–15 minutes on first run)
-3. Open RStudio from the JupyterHub interface
-4. Run `quarto render` in the Terminal
-5. View the output in `docs/index.html`
-
-This uses the exact configuration defined in `.binder/Dockerfile` and `renv.lock`. See [`.binder/README.md`](.binder/README.md) for details.
 
 ## Publishing / Deployment
 
@@ -197,6 +152,14 @@ To publish manually:
 2. Run `quarto render` (generates `docs/`)
 3. Commit and push to `main` — the workflow handles deployment to `gh-pages`
 4. View the live site at `https://phdpablo.github.io/smart-cfa/`
+
+## Technical Details
+
+**Software:** R 4.5.2 | Quarto 1.6 | Docker 4.45.0 | renv 1.1.8
+
+**Key packages:** `lavaan`, `semTools`, `semPlot`, and other CFA/SEM packages
+
+**Docker image:** `phdpablo/smart-cfa:4.5.2`
 
 ## Citation
 

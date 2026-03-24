@@ -1,8 +1,17 @@
 #!/bin/bash
 
-# Use the parent directory's name as the project name
-PROJECT_NAME=$(basename "$(dirname "$PWD")")
+# Pause the RStudio container (does NOT delete it)
+# Data inside is preserved. Run start.sh to resume.
 
-echo "🛑 Stopping and removing the RStudio container for project '$PROJECT_NAME'..."
-docker-compose -p "$PROJECT_NAME" down
-echo "✅ Environment stopped."
+echo "⏸️  Pausing RStudio container..."
+docker compose -f docker-compose.yml stop
+
+if [ $? -eq 0 ]; then
+  echo "✅ Container paused. Your data is preserved."
+  echo "   Run './start.sh' to resume your work."
+else
+  echo "❌ Error stopping container."
+  exit 1
+fi
+
+exit 0
