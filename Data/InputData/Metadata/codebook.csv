@@ -1,0 +1,109 @@
+﻿position_in_data;code_name;variable_label;measure_level;value_labels
+1;ID;ID;nominal;
+2;N;N;nominal;
+3;CREATED;Response creation timestamp;scale;
+4;MODIFIED;Response modification timestamp;scale;
+5;SEXO;Sex;nominal;0.0=Male | 1.0=Female
+6;IDADE;Age;scale;
+7;ESTCIVIL;Marital status;nominal;0.0=Single | 1.0=Married / Civil union | 2.0=Separated / Divorced | 3.0=Widowed
+8;ESTADO;State;nominal;2.0=AL | 3.0=AM | 4.0=BA | 5.0=CE | 6.0=DF | 7.0=ES | 8.0=Abroad | 10.0=GO | 11.0=MA | 12.0=MG | 13.0=MS | 14.0=MT | 15.0=PA | 16.0=PB | 17.0=PE | 18.0=PI | 19.0=PR | 20.0=RJ | 21.0=RN | 22.0=RO | 23.0=RR | 24.0=RS | 25.0=SC | 26.0=SE | 27.0=SP | 28.0=TO
+9;ESCOLARIDADE;Education;ordinal;0.0=Elementary education | 1.0=High school | 2.0=Higher education | 3.0=Graduate studies
+10;DEPENDENTE;Number of dependents;ordinal;0.0=None | 1.0=1 | 2.0=2 | 3.0=3 | 4.0=4 | 5.0=5 or more
+11;RENDA;Monthly income;ordinal;0.0=Up to 2 minimum wages | 1.0=From 2 to 4 minimum wages | 2.0=From 4 to 10 minimum wages | 3.0=From 10 to 20 minimum wages | 4.0=Above 20 minimum wages
+12;BEF1;I could handle a major unexpected expense;ordinal;0.0=Describes little or not at all | 2.0=Describes somewhat | 4.0=Describes completely or very much
+13;BEF2;I am securing my financial future;ordinal;0.0=Describes little or not at all | 2.0=Describes somewhat | 4.0=Describes completely or very much
+14;BEF3;Because of my financial situation, I feel I will never have the things I want in life;ordinal;0.0=Describes little or not at all | 2.0=Describes somewhat | 4.0=Describes completely or very much
+15;BEF4;I can enjoy life because of the way I am managing my money;ordinal;0.0=Describes little or not at all | 2.0=Describes somewhat | 4.0=Describes completely or very much
+16;BEF5;My financial situation only allows me to survive, not to live fully;ordinal;0.0=Describes little or not at all | 2.0=Describes somewhat | 4.0=Describes completely or very much
+17;BEF6;I am concerned that the money I have, or will save, will not last;ordinal;0.0=Describes little or not at all | 2.0=Describes somewhat | 4.0=Describes completely or very much
+18;BEF7;Giving a wedding, birthday, or other occasion gift would strain my finances for the month;ordinal;0.0=Never or rarely | 2.0=Sometimes | 4.0=Frequently or always
+19;BEF8;I have money left over at the end of the month;ordinal;0.0=Never or rarely | 2.0=Sometimes | 4.0=Frequently or always
+20;BEF9;I am falling short in taking care of my finances;ordinal;0.0=Never or rarely | 2.0=Sometimes | 4.0=Frequently or always
+21;BEF10;My financial situation controls my life;ordinal;0.0=Never or rarely | 2.0=Sometimes | 4.0=Frequently or always
+22;POUPANCA;Savings;nominal;0.0=No | 1.0=Yes
+23;ACOES;Stocks;nominal;0.0=No | 1.0=Yes
+24;TITULOS;Government bonds;nominal;0.0=No | 1.0=Yes
+25;CDB;Bank certificate of deposit (CDB);nominal;0.0=No | 1.0=Yes
+26;LETRAS;Credit bills (LCI/LCA);nominal;0.0=No | 1.0=Yes
+27;DEBENTURES;Debentures;nominal;0.0=No | 1.0=Yes
+28;RENDAFIXA;Fixed-income funds;nominal;0.0=No | 1.0=Yes
+29;MULTIMERCADOS;Multi-market funds;nominal;0.0=No | 1.0=Yes
+30;FUNDACOES;Equity funds;nominal;0.0=No | 1.0=Yes
+31;FUNDIMOB;Real estate funds;nominal;0.0=No | 1.0=Yes
+32;COE;Structured operations certificate (COE);nominal;0.0=No | 1.0=Yes
+33;OPCOES;Options;nominal;0.0=No | 1.0=Yes
+34;OURO;Gold;nominal;0.0=No | 1.0=Yes
+35;CAMBIO;Foreign exchange;nominal;0.0=No | 1.0=Yes
+36;OUTROS;Other types of investments;nominal;0.0=No | 1.0=Yes
+37;NENHUM;I do not currently invest;nominal;0.0=No | 1.0=Yes
+38;IAB1;Numbness or tingling;ordinal;0.0=Not at all | 1.0=Mildly | 2.0=Moderately | 3.0=Severely
+39;IAB2;Feeling hot;ordinal;0.0=Not at all | 1.0=Mildly | 2.0=Moderately | 3.0=Severely
+40;IAB3;Wobbliness in legs;ordinal;0.0=Not at all | 1.0=Mildly | 2.0=Moderately | 3.0=Severely
+41;IAB4;Unable to relax;ordinal;0.0=Not at all | 1.0=Mildly | 2.0=Moderately | 3.0=Severely
+42;CQ1;Quality control;nominal;0.0=Failed | 1.0=Passed
+43;IAB5;Fear of the worst happening;ordinal;0.0=Not at all | 1.0=Mildly | 2.0=Moderately | 3.0=Severely
+44;IAB6;Dizzy or lightheaded;ordinal;0.0=Not at all | 1.0=Mildly | 2.0=Moderately | 3.0=Severely
+45;IAB7;Heart pounding or racing;ordinal;0.0=Not at all | 1.0=Mildly | 2.0=Moderately | 3.0=Severely
+46;IAB8;Unsteady;ordinal;0.0=Not at all | 1.0=Mildly | 2.0=Moderately | 3.0=Severely
+47;IAB9;Terrified;ordinal;0.0=Not at all | 1.0=Mildly | 2.0=Moderately | 3.0=Severely
+48;IAB10;Nervous;ordinal;0.0=Not at all | 1.0=Mildly | 2.0=Moderately | 3.0=Severely
+49;IAB11;Feeling of choking;ordinal;0.0=Not at all | 1.0=Mildly | 2.0=Moderately | 3.0=Severely
+50;IAB12;Hands trembling;ordinal;0.0=Not at all | 1.0=Mildly | 2.0=Moderately | 3.0=Severely
+51;IAB13;Shaky;ordinal;0.0=Not at all | 1.0=Mildly | 2.0=Moderately | 3.0=Severely
+52;IAB14;Fear of losing control;ordinal;0.0=Not at all | 1.0=Mildly | 2.0=Moderately | 3.0=Severely
+53;IAB15;Difficulty breathing;ordinal;0.0=Not at all | 1.0=Mildly | 2.0=Moderately | 3.0=Severely
+54;IAB16;Fear of dying;ordinal;0.0=Not at all | 1.0=Mildly | 2.0=Moderately | 3.0=Severely
+55;IAB17;Scared;ordinal;0.0=Not at all | 1.0=Mildly | 2.0=Moderately | 3.0=Severely
+56;IAB18;Indigestion or abdominal discomfort;ordinal;0.0=Not at all | 1.0=Mildly | 2.0=Moderately | 3.0=Severely
+57;IAB19;Feeling faint;ordinal;0.0=Not at all | 1.0=Mildly | 2.0=Moderately | 3.0=Severely
+58;IAB20;Face flushed;ordinal;0.0=Not at all | 1.0=Mildly | 2.0=Moderately | 3.0=Severely
+59;IAB21;Sweating (not due to heat);ordinal;0.0=Not at all | 1.0=Mildly | 2.0=Moderately | 3.0=Severely
+60;IDB1;Sadness;ordinal;
+61;IDB2;Pessimism;ordinal;
+62;IDB3;Past failure;ordinal;
+63;IDB4;Loss of pleasure;ordinal;
+64;IDB5;Guilty feelings;ordinal;
+65;IDB6;Punishment feelings;ordinal;
+66;IDB7;Self-esteem;ordinal;
+67;IDB8;Self-criticism;ordinal;
+68;IDB9;Suicidal thoughts or wishes;ordinal;
+69;IDB10;Crying;ordinal;
+70;IDB11;Agitation;ordinal;
+71;IDB12;Loss of interest;ordinal;
+72;IDB13;Indecisiveness;ordinal;
+73;IDB14;Worthlessness;ordinal;
+74;IDB15;Lack of energy;ordinal;
+75;IDB16;Changes in sleeping pattern;ordinal;
+76;IDB17;Irritability;ordinal;
+77;IDB18;Changes in appetite;ordinal;
+78;IDB19;Difficulty concentrating;ordinal;
+79;IDB20;Tiredness or fatigue;ordinal;
+80;IDB21;Loss of interest in sex;ordinal;
+81;Q1;How would you rate your quality of life?;ordinal;1.0=Very poor | 2.0=Poor | 3.0=Neither poor nor good | 4.0=Good | 5.0=Very good
+82;Q2;How satisfied are you with your health?;ordinal;1.0=Very poor | 2.0=Poor | 3.0=Neither poor nor good | 4.0=Good | 5.0=Very good
+83;Q3;To what extent do you feel that physical pain prevents you from doing what you need to do?;ordinal;1.0=Not at all | 2.0=A little | 3.0=Moderately | 4.0=Very much | 5.0=Extremely
+84;Q4;How much do you need medical treatment to get through your daily life?;ordinal;1.0=Not at all | 2.0=A little | 3.0=Moderately | 4.0=Very much | 5.0=Extremely
+85;CQ2;Quality control;nominal;0.0=Failed | 1.0=Passed
+86;Q5;How much do you enjoy life?;ordinal;1.0=Not at all | 2.0=A little | 3.0=Moderately | 4.0=Very much | 5.0=Extremely
+87;Q6;To what extent do you feel your life is meaningful?;ordinal;1.0=Not at all | 2.0=A little | 3.0=Moderately | 4.0=Very much | 5.0=Extremely
+88;Q7;How well are you able to concentrate?;ordinal;1.0=Not at all | 2.0=A little | 3.0=Moderately | 4.0=Very much | 5.0=Extremely
+89;Q8;How safe do you feel in your daily life?;ordinal;1.0=Not at all | 2.0=A little | 3.0=Moderately | 4.0=Very much | 5.0=Extremely
+90;Q9;How healthy is your physical environment (climate, noise, pollution, attractiveness)?;ordinal;1.0=Not at all | 2.0=A little | 3.0=Moderately | 4.0=Very much | 5.0=Extremely
+91;Q10;Do you have enough energy for everyday life?;ordinal;1.0=Not at all | 2.0=A little | 3.0=Moderately | 4.0=Very much | 5.0=Completely
+92;Q11;Are you able to accept your physical appearance?;ordinal;1.0=Not at all | 2.0=A little | 3.0=Moderately | 4.0=Very much | 5.0=Completely
+93;Q12;Do you have enough money to meet your needs?;ordinal;1.0=Not at all | 2.0=A little | 3.0=Moderately | 4.0=Very much | 5.0=Completely
+94;Q13;How available to you is the information you need in your day-to-day life?;ordinal;1.0=Not at all | 2.0=A little | 3.0=Moderately | 4.0=Very much | 5.0=Completely
+95;Q14;To what extent do you have opportunities for leisure activities?;ordinal;1.0=Not at all | 2.0=A little | 3.0=Moderately | 4.0=Very much | 5.0=Completely
+96;Q15;How well are you able to get around?;ordinal;1.0=Very poor | 2.0=Poor | 3.0=Neither poor nor good | 4.0=Good | 5.0=Very good
+97;Q16;How satisfied are you with your sleep?;ordinal;1.0=Very dissatisfied | 2.0=Dissatisfied | 3.0=Neither satisfied nor dissatisfied | 4.0=Satisfied | 5.0=Very satisfied
+98;Q17;How satisfied are you with your ability to perform your daily living activities?;ordinal;1.0=Very dissatisfied | 2.0=Dissatisfied | 3.0=Neither satisfied nor dissatisfied | 4.0=Satisfied | 5.0=Very satisfied
+99;Q18;How satisfied are you with your capacity for work?;ordinal;1.0=Very dissatisfied | 2.0=Dissatisfied | 3.0=Neither satisfied nor dissatisfied | 4.0=Satisfied | 5.0=Very satisfied
+100;Q19;How satisfied are you with yourself?;ordinal;1.0=Very dissatisfied | 2.0=Dissatisfied | 3.0=Neither satisfied nor dissatisfied | 4.0=Satisfied | 5.0=Very satisfied
+101;CQ3;Quality control;nominal;0.0=Failed | 1.0=Passed
+102;Q20;How satisfied are you with your personal relationships (friends, relatives, acquaintances, colleagues)?;ordinal;1.0=Very dissatisfied | 2.0=Dissatisfied | 3.0=Neither satisfied nor dissatisfied | 4.0=Satisfied | 5.0=Very satisfied
+103;Q21;How satisfied are you with your sex life?;ordinal;1.0=Very dissatisfied | 2.0=Dissatisfied | 3.0=Neither satisfied nor dissatisfied | 4.0=Satisfied | 5.0=Very satisfied
+104;Q22;How satisfied are you with the support you get from your friends?;ordinal;1.0=Very dissatisfied | 2.0=Dissatisfied | 3.0=Neither satisfied nor dissatisfied | 4.0=Satisfied | 5.0=Very satisfied
+105;Q23;How satisfied are you with the conditions of the place where you live?;ordinal;1.0=Very dissatisfied | 2.0=Dissatisfied | 3.0=Neither satisfied nor dissatisfied | 4.0=Satisfied | 5.0=Very satisfied
+106;Q24;How satisfied are you with your access to health services?;ordinal;1.0=Very dissatisfied | 2.0=Dissatisfied | 3.0=Neither satisfied nor dissatisfied | 4.0=Satisfied | 5.0=Very satisfied
+107;Q25;How satisfied are you with your transportation?;ordinal;1.0=Very dissatisfied | 2.0=Dissatisfied | 3.0=Neither satisfied nor dissatisfied | 4.0=Satisfied | 5.0=Very satisfied
+108;Q26;How often do you have negative feelings such as bad mood, despair, anxiety, depression?;ordinal;1.0=Never | 2.0=Sometimes | 3.0=Frequently | 4.0=Very frequently | 5.0=Always
