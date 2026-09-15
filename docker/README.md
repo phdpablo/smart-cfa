@@ -1,74 +1,33 @@
-## Docker Environment for Reproducible Research
+# Docker reproduction
 
-This directory contains the configuration files for a fully reproducible computational environment using Docker. A **pre-built image** is published on [Docker Hub](https://hub.docker.com/r/phdpablo/smart-cfa), so end users do not need to build anything locally — just pull and run.
+Build the selected checkout with R 4.5.2 and Quarto **1.9.37**. Quarto is deliberately pinned; do not upgrade it automatically. This build includes the project sources, restores `renv.lock`, and installs TinyTeX. The current manuscript has no analytical R packages yet.
 
-### What's Included
+From the repository root:
 
-- **`Dockerfile`**: Defines how the image was built (included for transparency). End users do not need this file.
-- **`docker-compose.yml`**: Pulls the pre-built image from Docker Hub and starts the container.
-- **`start.bat` / `start.sh`**: One-click launcher scripts for Windows and Unix-like systems (macOS, Linux).
-- **`stop.bat` / `stop.sh`**: Scripts to pause the running container (data is preserved inside).
-
-### Prerequisites
-
-1. **Docker**: Download and install [Docker Desktop](https://docs.docker.com/get-docker/) and make sure it is running.
-
-### Quick Start
-
-1. **Open a Terminal/Command Prompt** and navigate to this `docker/` directory:
-   ```bash
-   cd docker
-   ```
-
-2. **Launch the Environment:**
-   - **Windows:** Double-click `start.bat`, or run `start.bat` in the terminal.
-   - **macOS/Linux:** Run `./start.sh` (you may need `chmod +x start.sh` first).
-
-3. **Access RStudio:**
-   - The script waits ~30 seconds for initialization, then opens `http://127.0.0.1:8787` in your browser.
-   - No login is required (`DISABLE_AUTH=true`).
-   - All project files are available inside the container at `/home/rstudio/`.
-
-4. **Verify Reproducibility:**
-   - In the RStudio Terminal, run:
-     ```bash
-     quarto render
-     ```
-   - The rendered manuscript will be generated in the `docs/` directory.
-
-5. **Stop the Environment:**
-   - **Windows:** Double-click `stop.bat`, or run `stop.bat`.
-   - **macOS/Linux:** Run `./stop.sh`.
-   - The container is **paused** (not deleted). Run `start` again to resume.
-
-### Alternative Methods
-
-If you prefer not to use the helper scripts:
-
-**Using Docker Compose:**
 ```bash
-cd docker
-docker compose up -d          # Start the container
-docker compose stop           # Pause the container
-docker compose down           # Stop and remove the container
+docker compose -f docker/docker-compose.yml build
+docker compose -f docker/docker-compose.yml up -d
 ```
 
-**Using Docker directly:**
+Open <http://127.0.0.1:8787>. In the RStudio terminal:
+
 ```bash
-docker pull phdpablo/smart-cfa:4.5.2
-docker run -d --name smart-cfa -p 127.0.0.1:8787:8787 -e DISABLE_AUTH=true phdpablo/smart-cfa:4.5.2
+cd /home/rstudio
+quarto --version
+R --version
+quarto render --to all
 ```
 
-### How It Works
+HTML and PDF are written to `docs/`. To test without starting RStudio:
 
-- The image `phdpablo/smart-cfa:4.5.2` is **self-contained**: all project files, R packages (via `renv`), and LaTeX dependencies are embedded.
-- No volume mounts are needed — the repository files are already inside the image.
-- On first start, LaTeX formats are regenerated (~30 seconds) via the `init-latex.sh` script.
-- The `Dockerfile` is included in the repository for full transparency on how the image was built. You can uncomment the `build:` section in `docker-compose.yml` to rebuild locally if desired.
+```bash
+docker run --rm --user rstudio --entrypoint /bin/bash smart-cfa-local:r4.5.2-q1.9.37 -lc 'cd /home/rstudio && quarto render --to all'
+```
 
-### Troubleshooting
+Rebuild after source changes. The Compose configuration builds this checkout instead of pulling an older prebuilt project image. No image is uploaded by these commands. `.dockerignore` excludes administrative files, local libraries and previous rendered output.
 
-- **Docker not running:** Start Docker Desktop before running the scripts.
-- **Port 8787 in use:** Stop any other service using that port, or edit `docker-compose.yml` to change the host port (e.g., `127.0.0.1:8788:8787`).
-- **First run is slow:** The image download (~2–4 GB) and LaTeX format sync take time on the first run. Subsequent starts are fast.
-- **Container logs:** Run `docker compose logs` in this directory to inspect issues.
+The container has its own copy of the project. Changes inside it are lost when the container is removed; this is a reproduction environment, not the source of record. `docker compose -f docker/docker-compose.yml stop` stops it without removal.
+
+TinyTeX/TeX Live packages are downloaded during the build and may change upstream. Record the build date and tool versions when reporting a reproduction test. An exact historical environment additionally requires an archived image digest; a fixed R/Quarto version alone does not freeze the TeX distribution.
+
+The `start` scripts start an existing environment (or build one if absent). Build explicitly after updates. They use the base image's standard RStudio startup; no custom LaTeX initialization hook is required by this configuration.

@@ -1,10 +1,10 @@
 # Smart Choices for Measurement Models: Executable Manuscript Tutorial for your CFA in R Environment
 
-[![Cite Preprint](https://img.shields.io/badge/Cite%20Preprint-PDF-red)](https://doi.org/10.31234/osf.io/2dy3z) [![TIER Protocol 4.0](https://img.shields.io/badge/TIER%20Protocol-4.0-green)](https://www.projecttier.org/tier-protocol/protocol-4-0/) [![GitHub Pages](https://img.shields.io/github/deployments/phdpablo/smart-cfa/github-pages?label=GitHub%20Pages)](https://phdpablo.github.io/smart-cfa/) [![OSF](https://img.shields.io/badge/OSF-10.31234/osf.io/2dy3z-blue)](https://doi.org/10.31234/osf.io/2dy3z) [![License](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/) [![R version](https://img.shields.io/badge/R-4.5.2-orange)](https://www.r-project.org/) [![Quarto](https://img.shields.io/badge/Quarto-1.8-orange)](https://quarto.org/) [![Docker](https://img.shields.io/badge/Docker-4.45.0-orange)](https://www.docker.com/) [![renv](https://img.shields.io/badge/renv-1.1.8-orange)](https://rstudio.github.io/renv/)
+[![Cite Preprint](https://img.shields.io/badge/Cite%20Preprint-PDF-red)](https://doi.org/10.31234/osf.io/2dy3z) [![TIER Protocol 4.0](https://img.shields.io/badge/TIER%20Protocol-4.0-green)](https://www.projecttier.org/tier-protocol/protocol-4-0/) [![GitHub Pages](https://img.shields.io/github/deployments/phdpablo/smart-cfa/github-pages?label=GitHub%20Pages)](https://phdpablo.github.io/smart-cfa/) [![OSF](https://img.shields.io/badge/OSF-10.31234/osf.io/2dy3z-blue)](https://doi.org/10.31234/osf.io/2dy3z) [![License](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/) [![R version](https://img.shields.io/badge/R-4.5.2-orange)](https://www.r-project.org/) [![Quarto](https://img.shields.io/badge/Quarto-1.9.37-orange)](https://quarto.org/) [![Docker](https://img.shields.io/badge/Docker-4.45.0-orange)](https://www.docker.com/) [![renv](https://img.shields.io/badge/renv-1.2.4-orange)](https://rstudio.github.io/renv/)
 
 > Rogers, P., & Georgeto, S. M. (2024). *Smart Choices for Measurement Models: Executable Manuscript Tutorial for your Confirmatory Factor Analysis in R Environment.* <https://doi.org/10.31234/osf.io/2dy3z>
 
-This repository contains the **complete reproducible materials** for the tutorial article on Confirmatory Factor Analysis (CFA) using R. The article guides applied social scientists through key decisions in CFA — from measurement model selection and power analysis to estimation, model fit, and modification — within a dynamic document framework that promotes open science principles (reproducibility, replicability, and transparency).
+This repository contains the **developing reproducible materials** for the tutorial article on Confirmatory Factor Analysis (CFA) using R. The article guides applied social scientists through key decisions in CFA — from measurement model selection and power analysis to estimation, model fit, and modification — within a dynamic document framework that promotes open science principles (reproducibility, replicability, and transparency).
 
 The manuscript is structured as a Quarto book and built using the [ARTE template](https://github.com/phdpablo/article-template) (Article Reproducibility Template & Environment). The live rendered version is available at: <https://phdpablo.github.io/smart-cfa/>
 
@@ -41,7 +41,7 @@ This tutorial article pursues three objectives:
 | :-- | :-- | :-- |
 | **📄 Preprint** | Original paper on PsyArXiv | [doi.org/10.31234/osf.io/2dy3z](https://doi.org/10.31234/osf.io/2dy3z) |
 | **🌐 Tutorial Website** | Pre-rendered complete tutorial | [phdpablo.github.io/smart-cfa](https://phdpablo.github.io/smart-cfa/) |
-| **🚀 MyBinder** | Run interactively in the cloud (no install) | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/phdpablo/smart-cfa/main?urlpath=rstudio) |
+| **🚀 MyBinder** | Run interactively in the cloud (no install) | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/phdpablo/smart-cfa/pt_version?urlpath=rstudio) |
 | **📦 Docker Image** | Self-contained reproducible environment | [hub.docker.com/r/phdpablo/smart-cfa](https://hub.docker.com/r/phdpablo/smart-cfa) |
 
 ## Repository Structure
@@ -85,85 +85,58 @@ Simply visit the deployed website — no installation needed:
 
 The `gh-pages` branch of the repository contains the complete pre-rendered tutorial.
 
-### Option 2: Cloud Interactive Environment (MyBinder)
+### Option 2: Cloud environment (MyBinder)
 
-Run the entire project in your browser without install anything. Ideal for quick exploration:
-[![Launch RStudio on Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/phdpablo/smart-cfa/main?urlpath=rstudio)
-*(Note: The first launch may take a few minutes as the environment is prepared.)*
+[![Launch RStudio on Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/phdpablo/smart-cfa/pt_version?urlpath=rstudio)
 
+The link targets the Portuguese development branch. Binder reads the latest pushed files, so local changes must be committed and pushed before they are available there. For an exact reproduction, replace the branch name with a full commit SHA. See [.binder/README.md](.binder/README.md).
 
+### Option 3: Local rendering
 
-### Option 4: Local Rendering
-
-**Prerequisites:** R 4.5.2+, Quarto 1.8+
+Use **R 4.5.2** and **Quarto 1.9.37**, with TinyTeX for PDF output. Quarto is pinned for this project; do not update it automatically.
 
 ```bash
-# Clone repository
-git clone https://github.com/phdpablo/smart-cfa.git
+git clone --branch pt_version https://github.com/phdpablo/smart-cfa.git
 cd smart-cfa
-
-# Restore R packages
-R -e "renv::restore()"
-
-# Render the manuscript
-quarto render
+R -e "renv::restore(prompt = FALSE)"
+quarto install tinytex --no-prompt
+quarto render --to all
 ```
 
-**Prerequisites:** [Docker Desktop](https://docs.docker.com/get-docker/)
+### Option 4: Docker
+
+Build the current checkout, rather than relying on a prebuilt image containing older source files:
 
 ```bash
-cd docker
-./start.sh         # macOS/Linux
-start.bat          # Windows
+docker compose -f docker/docker-compose.yml build
+docker compose -f docker/docker-compose.yml up -d
 ```
 
-Access RStudio Server at `http://127.0.0.1:8787` (no password). Then run `quarto render` in the RStudio Terminal to verify reproducibility.
+Open <http://127.0.0.1:8787>, then run `quarto render --to all` in the RStudio terminal. See [docker/README.md](docker/README.md).
 
-See [`docker/README.md`](docker/README.md) for details.
+## Build validation and publication
 
-## Docker Environment
+The workflow `.github/workflows/deploy.yml` builds HTML and PDF on pushes to `pt_version` and `main`, and on pull requests to `main`. Each successful build provides a downloadable `smart-cfa-<commit>` artifact containing `docs/`.
 
-The Docker setup is designed for **reproducibility verification**, not for daily development. A pre-built, self-contained image is published on Docker Hub (`phdpablo/smart-cfa:4.5.2`) with all project files, R packages, and LaTeX dependencies embedded.
+- `main` builds and pull-request builds do **not** publish the site with this workflow.
+- A push to `pt_version` publishes the validated output to `gh-pages`.
+- Manual runs validate by default. Publishing requires selecting `pt_version` and enabling the publish input.
+- The publication step reuses the validated output without rendering again.
 
-**Key points:**
+GitHub Pages must serve the `gh-pages` branch from `/`. Local uncommitted workflow changes cannot run on GitHub Actions; commit and push the changes to validate them remotely. A local render does not establish that the remote workflow passed.
 
-- The image is pulled from Docker Hub — no local build step is needed.
-- All repository files are **already inside the image** — no volume mounting needed.
-- The `Dockerfile` is included for transparency on how the image was built.
-- On first start, LaTeX formats are synced (~30 seconds via `init-latex.sh`).
+## Reproduction scope and versions
 
-**Quick Docker commands:**
-```bash
-cd docker
-docker compose up -d          # Start the container
-docker compose stop           # Pause the container (data preserved)
-docker compose down           # Stop and remove the container
-```
+| Component | Primary environment | Binder compatibility environment |
+| --- | --- | --- |
+| R | 4.5.2 | 4.4.2 |
+| Quarto | 1.9.37, fixed | 1.9.37, fixed |
+| R dependencies | `renv.lock` | Same lock file, with the intentional R-version difference |
+| PDF engine | TinyTeX | TinyTeX |
 
-**Or using Docker directly:**
-```bash
-docker pull phdpablo/smart-cfa:4.5.2
-docker run -d --name smart-cfa -p 127.0.0.1:8787:8787 -e DISABLE_AUTH=true phdpablo/smart-cfa:4.5.2
-```
+The current milestone contains narrative and bibliography; analytical R packages and simulations have not yet been introduced. The lock file therefore contains only `renv`. Add analytical dependencies as their code is implemented, not as a speculative package list.
 
-## Publishing / Deployment
-
-The manuscript is automatically published to GitHub Pages via GitHub Actions (`.github/workflows/deploy.yml`) on every push to `main`.
-
-To publish manually:
-
-1. Ensure GitHub Pages is configured: **Settings → Pages → Source:** `gh-pages` branch, `/ (root)`
-2. Run `quarto render` (generates `docs/`)
-3. Commit and push to `main` — the workflow handles deployment to `gh-pages`
-4. View the live site at `https://phdpablo.github.io/smart-cfa/`
-
-## Technical Details
-
-**Software:** R 4.5.2 | Quarto 1.6 | Docker 4.45.0 | renv 1.1.8
-
-**Key packages:** `lavaan`, `semTools`, `semPlot`, and other CFA/SEM packages
-
-**Docker image:** `phdpablo/smart-cfa:4.5.2`
+TinyTeX packages and base-image tags can change upstream. Record image digests and actual TeX versions for a reproduction test; these configurations do not claim a fully frozen historical environment. Docker, Binder and CI validation should be repeated when computation is added.
 
 ## Citation
 

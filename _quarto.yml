@@ -1,3 +1,4 @@
+quarto-required: "=1.9.37"
 lang: pt-BR
 
 project: # https://quarto.org/docs/projects/quarto-projects.html

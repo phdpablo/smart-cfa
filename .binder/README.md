@@ -1,103 +1,29 @@
-# Binder Configuration
+# smart-cfa on Binder
 
-This folder contains the configuration files needed to run ARTE on [MyBinder.org](https://mybinder.org/), a free cloud service that creates executable environments from GitHub repositories.
+[![Launch smart-cfa on Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/phdpablo/smart-cfa/pt_version?urlpath=rstudio)
 
-## Purpose
+This link opens the Portuguese development branch. Binder uses the files **pushed to GitHub**, not uncommitted local changes. To test an exact revision, replace `pt_version` in the URL with its full commit SHA.
 
-Unlike the `docker/` folder (designed for local development with persistent storage), the `.binder/` configuration creates an **ephemeral environment** for reproducibility verification. This allows anyone to:
+The compatibility environment intentionally uses `rocker/binder:4.4.2` (R 4.4.2), while the primary local/Docker/CI environment uses R 4.5.2. Quarto is pinned to **1.9.37** in both. The R version difference is intentional and must be checked again when analytical packages are introduced; `renv.lock` currently records R 4.5.2 and only the environment manager.
 
-- Verify that the ARTE environment is fully reproducible
-- Explore the project structure and outputs without local setup
-- Test the Quarto rendering process in a clean environment
-
-> **Note:** MyBinder sessions are temporary (maximum ~12 hours) and non-persistent. Any changes made will be lost when the session ends.  This environment is intended for verification and exploration, not active development.
-
-## Launching ARTE on MyBinder
-
-Click the badge below to launch ARTE in your browser:
-
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/phdpablo/article-template/main)
-
-### Step-by-Step Instructions
-
-#### 1. Wait for the Environment to Build
-
-After clicking the badge, MyBinder will build the Docker image and start your session. **Please be patient** — the first build can take **10-15 minutes** as it needs to: 
-
-- Download the base image
-- Restore all R packages from `renv.lock`
-- Install TinyTeX for PDF rendering
-
-#### 2. Open RStudio from JupyterHub
-
-Once the environment loads, you will see **JupyterHub** in your browser. To access RStudio: 
-
-- Look for the **RStudio** button/icon in the JupyterHub launcher
-- Click it to open RStudio in a **new browser tab**
-
-#### 3. Open the Project in RStudio
-
-When RStudio opens: 
-
-- The ARTE project should already be loaded
-- If not, go to `File > Open Project... ` and select the `.Rproj` file
-
-#### 4. Render the Project with Quarto
-
-Open the **Terminal** tab in RStudio (next to Console) and run:
+After the environment starts, open the RStudio terminal:
 
 ```bash
-quarto render
+cd /home/rstudio
+R --version
+quarto --version
+quarto render --to all
 ```
 
-This will render all Quarto documents and generate the outputs in the `docs/` folder. The rendering process may take a few minutes.
+Results are written to `docs/`. Download the PDF or browse the HTML output. Binder sessions are temporary; save any results you need before the session ends.
 
-#### 5. View the Rendered ARTE
+The Dockerfile installs TinyTeX through Quarto. TeX packages are not frozen to a dated repository; first builds and missing-package downloads require network access.
 
-After rendering completes: 
-
-1. Navigate to the `docs/` folder in the RStudio Files pane
-2. Click on `index.html`
-3. Select **"View in Web Browser"** to open it in a new browser tab
-4. Navigate through the ARTE to explore all sections and outputs
-
-## Files in This Folder
-
-| File | Description |
-|------|-------------|
-| `Dockerfile` | Defines the Docker image based on `rocker/binder:4.4.2` with renv packages and TinyTeX |
-
-## Differences from docker/Dockerfile
-
-| Aspect | docker/Dockerfile | .binder/Dockerfile |
-|--------|-------------------|-------------------|
-| **Base image** | `rocker/verse:4.5.1` | `rocker/binder:4.4.2` |
-| **Purpose** | Local development | Reproducibility verification |
-| **Persistence** | Volumes for data persistence | Ephemeral (no persistence) |
-| **LaTeX** | TeX Live (pre-installed) | TinyTeX (via Quarto) |
-| **Interface** | RStudio Server only | JupyterHub + RStudio |
-| **Duration** | Unlimited | Max ~12 hours |
-
-## Troubleshooting
-
-### Build is taking too long
-
-The build takes longer because MyBinder needs to create the image from scratch.
-
-### Session timed out
-
-MyBinder sessions expire after ~10-20 minutes of inactivity or ~12 hours maximum. Simply relaunch by clicking the badge again.
-
-### PDF rendering fails
-
-If `quarto render` fails for PDF output, try rendering only HTML:
+To check the same Dockerfile locally from the repository root:
 
 ```bash
-quarto render --to html
+docker build -f .binder/Dockerfile -t smart-cfa-binder-test .
+docker run --rm --entrypoint /bin/bash smart-cfa-binder-test -lc 'cd /home/rstudio && quarto render --to all'
 ```
 
-## Learn More
-
-- [MyBinder Documentation](https://mybinder.readthedocs.io/)
-- [Rocker Binder Images](https://rocker-project.org/images/versioned/binder.html)
-- [Quarto Documentation](https://quarto.org/)
+A successful local image test checks the configured environment. It does not by itself verify the public MyBinder service, its build limits, or its browser session startup.
