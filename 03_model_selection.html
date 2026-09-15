@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Pablo Rogers and Sérgio Georgeto">
 
-<title>Escolhas inteligentes para modelos de medida</title>
+<title>3&nbsp; Seleção do modelo de medida – Escolhas inteligentes para modelos de medida</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -24,7 +23,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -34,7 +53,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./01_intro.html" rel="next">
+<link href="./04_pa.html" rel="next">
+<link href="./02_background.html" rel="prev">
 <link href="./cover.jpg" rel="icon" type="image/jpeg">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -88,13 +108,12 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 </script>
 
 
-<meta property="og:title" content="Escolhas inteligentes para modelos de medida">
-<meta property="og:description" content="Tutorial em manuscrito executável para análise fatorial confirmatória no ambiente R">
-<meta property="og:image" content="https://phdpablo.github.io/smart-cfa/cover.jpg">
+<meta property="og:title" content="3&nbsp; Seleção do modelo de medida – Escolhas inteligentes para modelos de medida">
+<meta property="og:description" content="">
 <meta property="og:site_name" content="Escolhas inteligentes para modelos de medida">
 </head>
 
-<body class="nav-sidebar floating fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -265,7 +284,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Resumo</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03_model_selection.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Seleção do modelo de medida</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
@@ -325,7 +344,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Resumo</span></a>
   </div>
 </li>
@@ -343,7 +362,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03_model_selection.html" class="sidebar-item-text sidebar-link">
+  <a href="./03_model_selection.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Seleção do modelo de medida</span></span></a>
   </div>
 </li>
@@ -394,28 +413,50 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7">Escolhas inteligentes para modelos de medida</h1></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7"><span id="sec-model-selection" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Seleção do modelo de medida</span></span></h1></header>
 
 
 <header id="title-block-header">
 
-<p class="subtitle lead">Tutorial em manuscrito executável para análise fatorial confirmatória no ambiente R</p>
-<p class="author">Pablo Rogers and Sérgio Georgeto</p>
 
-<p class="date">15 de setembro de 2026</p>
 </header>
 
 
+<p>Utilizamos como exemplo a World Health Organization Quality of Life – Abbreviated Version (WHOQOL-Bref), um instrumento de autorrelato amplamente empregado na avaliação da qualidade de vida em diferentes populações e contextos culturais <span class="citation" data-cites="lin2022 mosqueirataipe2026">(<a href="references.html#ref-lin2022" role="doc-biblioref">Lin &amp; Yao, 2022</a>; <a href="references.html#ref-mosqueirataipe2026" role="doc-biblioref"><span class="nocase">Mosqueira Taipe et al.</span>, 2026</a>)</span>. O instrumento contém 26 itens com cinco categorias de resposta. Os dois primeiros abordam a percepção geral da qualidade de vida e a satisfação com a saúde; os demais 24 compõem os domínios físico, psicológico, relações sociais e ambiente.</p>
+<p>A escolha da WHOQOL-Bref permite desenvolver a recomendação apresentada em <a href="02_background.html#sec-theory-selection" class="quarto-xref"><span>Seção 2.1</span></a>: partir de um instrumento com estrutura teórica definida e evidências psicométricas acumuladas, cujos itens admitam uma estratégia de análise contínua. A presença de cinco categorias oferece suporte inicial a essa estratégia, conforme a fundamentação anterior, e suas implicações serão examinadas na descrição dos itens e na estimação robusta. O objetivo do exemplo é explicitar as decisões de uma AFC e suas justificativas, preservando o conteúdo e o formato de resposta do instrumento.</p>
+<p>As sínteses da literatura sustentam a estrutura de quatro domínios, embora também indiquem que sua aplicação exige atenção às relações entre determinados itens. <span class="citation" data-cites="lin2022">Lin &amp; Yao (<a href="references.html#ref-lin2022" role="doc-biblioref">2022</a>)</span> integraram resultados de 16 estudos de análise fatorial exploratória e adotaram a solução de quatro fatores considerando sua interpretabilidade e parcimônia. Nessa solução, Q8, referente à segurança na vida diária, apresentou relação mais forte com o domínio psicológico do que com o ambiental, ao qual pertence teoricamente. Esse resultado mostra que o suporte à organização geral em quatro fatores pode coexistir com relações entre itens e domínios que não correspondem a uma estrutura simples estrita.</p>
+<p>A revisão sistemática de <span class="citation" data-cites="mosqueirataipe2026"><span class="nocase">Mosqueira Taipe et al.</span> (<a href="references.html#ref-mosqueirataipe2026" role="doc-biblioref">2026</a>)</span> amplia essa discussão: dos 439 registros identificados, 36 estudos foram incluídos, e a estrutura de quatro fatores foi identificada em 64% deles. Os autores utilizaram as diretrizes PRISMA e o módulo de validade estrutural do COSMIN para avaliar o risco de viés. A revisão sustenta a estrutura original, mas documenta modificações relacionadas a contextos culturais e clínicos, além de heterogeneidade nos procedimentos e no relato dos índices de ajuste. Portanto, esse conjunto de evidências justifica tomar os quatro domínios como ponto de partida e explicitar antecipadamente quais relações adicionais serão avaliadas.</p>
+<p>Com esse propósito, delimitamos dois modelos de quatro fatores correlacionados, mantendo os mesmos 24 indicadores. Em ambos, o domínio físico é representado por Q3, Q4, Q10, Q15, Q16, Q17 e Q18; o psicológico, por Q5, Q6, Q7, Q11, Q19 e Q26; as relações sociais, por Q20, Q21 e Q22; e o ambiente, por Q8, Q9, Q12, Q13, Q14, Q23, Q24 e Q25. Essa organização preserva a composição teórica dos domínios e permite concentrar a comparação na presença das cargas cruzadas especificadas.</p>
+<p>O primeiro modelo inclui uma covariância residual entre Q3, sobre dor e desconforto, e Q4, sobre a necessidade de tratamento médico (Figura 1). Ambos pertencem ao domínio físico e são formulados em direção negativa à qualidade de vida. Sua proximidade de conteúdo e a formulação compartilhada tornam plausível uma associação que não seja inteiramente explicada pelo fator físico. Essa especificação também encontra precedente em estudos reunidos por <span class="citation" data-cites="mosqueirataipe2026"><span class="nocase">Mosqueira Taipe et al.</span> (<a href="references.html#ref-mosqueirataipe2026" role="doc-biblioref">2026</a>)</span>. No contexto da discussão sobre Common Method Bias (CMB), tratamos essa covariância como uma hipótese de dependência local compatível com conteúdo ou método compartilhado; sua inclusão não demonstra nem elimina, por si só, um viés de método comum.</p>
+<p>[Inserir Figura 1 aqui]</p>
+<p>Figura 1. Modelo de quatro fatores correlacionados com covariância residual entre Q3 e Q4.</p>
+<p>Nota. Os 24 indicadores mantêm sua alocação teórica aos quatro domínios. A seta bidirecional entre os resíduos de Q3 e Q4 representa a covariância residual prevista. As variâncias dos fatores são fixadas em 1 para identificação; cargas fatoriais, covariâncias entre fatores e a covariância residual são estimadas. A figura representa a especificação do modelo, sem resultados estimados.</p>
+<p>O segundo modelo mantém a covariância residual Q3–Q4 e acrescenta três cargas cruzadas: Q8 e Q9 no domínio psicológico e Q15 no domínio ambiental (Figura 2). A seleção dessas relações é informada pela solução exploratória de quatro fatores apresentada na Tabela 3 de <span class="citation" data-cites="lin2022">Lin &amp; Yao (<a href="references.html#ref-lin2022" role="doc-biblioref">2022</a>)</span>. A segurança percebida em Q8 e a avaliação do ambiente físico em Q9 podem compartilhar aspectos com o bem-estar psicológico, enquanto a mobilidade avaliada por Q15 pode envolver, além da capacidade física, condições ambientais. Essas interpretações constituem justificativas substantivas para testar as relações selecionadas; não são conclusões já estabelecidas para a amostra deste tutorial.</p>
+<p>Preservamos as cargas de Q8 e Q9 no domínio ambiental e a de Q15 no domínio físico, acrescentando as relações propostas em vez de transferir os itens de domínio. Também não reproduzimos todas as cargas secundárias da solução exploratória de <span class="citation" data-cites="lin2022">Lin &amp; Yao (<a href="references.html#ref-lin2022" role="doc-biblioref">2022</a>)</span>. O segundo modelo é uma especificação delimitada para este tutorial, apoiada naquela evidência e na interpretação do conteúdo dos itens, e não uma AFC anteriormente validada pelos autores com essa exata configuração.</p>
+<p>[Inserir Figura 2 aqui]</p>
+<p>Figura 2. Modelo de quatro fatores correlacionados com covariância residual Q3–Q4 e três cargas cruzadas.</p>
+<p>Nota. Mantém-se a estrutura da Figura 1 e acrescentam-se as cargas do fator psicológico em Q8 e Q9 e do fator ambiental em Q15. As três cargas adicionais são estimadas livremente. As convenções de identificação e representação são as mesmas da Figura 1.</p>
+<p>Utilizamos a mesma base de origem empregada por <span class="citation" data-cites="rogers2024c">Rogers (<a href="references.html#ref-rogers2024c" role="doc-biblioref">2024</a>)</span> e <span class="citation" data-cites="rogers2022">Rogers (<a href="references.html#ref-rogers2022" role="doc-biblioref">2022</a>)</span>. Neste tutorial, entretanto, o processamento parte dos 1.546 registros brutos e explicita tanto os critérios procedurais quanto os indicadores estatísticos de triagem C/IER, conforme será apresentado em <a href="05_preprocessing.html" class="quarto-xref"><span>Capítulo 5</span></a>. Os dados, o codebook e os procedimentos necessários à execução acompanham o projeto. Como os trabalhos anteriores partiram de uma base pré-processada de 1.047 participantes, eventuais diferenças entre seus resultados e os deste tutorial não devem ser atribuídas exclusivamente ao tratamento ordinal ou contínuo dos itens.</p>
 
-<section id="resumo" class="level1 unnumbered unlisted">
-<h1 class="unnumbered unlisted">Resumo</h1><p><img src="cover.jpg" title="Escolhas inteligentes para modelos de medida" class="quarto-cover-image nolightbox img-fluid"></p>
-<p>O presente artigo busca cumprir três objetivos: i) compilar orientações, alinhadas com a literatura recente, sobre a aplicação de uma das técnicas mais utilizadas nas ciências sociais aplicadas, Análise Fatorial Confirmatória (AFC); ii) evidenciar como essas orientações podem ser implementadas na prática, tendo em vista um exemplo real; e iii) estruturar esse enredo de modo reprodutível. Nesse sentido, apresentamos uma solução na forma de um artigo-tutorial, em que as principais decisões tomadas numa AFC são justificadas do ponto de vista da literatura, e apresentadas num documento dinâmico para que o leitor acesse os códigos-fonte do artigo, dados utilizados e códigos de execução das análises. Através da presente metodologia didática, desenvolvida completamente em ambiente aberto (Git/Github/Positron/Quarto/pacotes R + lavaan/Docker), espera-se incentivar pesquisadores que dominam determinada técnica estatística, relevante para sua área de atuação, imitar essa proposta e ajudarem seus pares.</p>
-<p><strong>Palavras-chave:</strong> Análise Fatorial Confirmatória, Modelagem de Equações Estruturais, Validade da Estrutura Interna, Ciência Aberta, Reprodutibilidade, Quarto, <em>lavaan</em>.</p>
 
-
-</section>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-lin2022" class="csl-entry" role="listitem">
+Lin, L.-C., &amp; Yao, G. (2022). Validation of the Factor Structure of the <span>WHOQOL-BREF</span> Using Meta-Analysis of Exploratory Factor Analysis and Social Network Analysis. <em>Psychological Assessment</em>, <em>34</em>(7), 660–670. <a href="https://doi.org/10.1037/pas0001122">https://doi.org/10.1037/pas0001122</a>
+</div>
+<div id="ref-mosqueirataipe2026" class="csl-entry" role="listitem">
+<span class="nocase">Mosqueira Taipe, C. M., Amador Campos, J. A., Krieger, V., Miasso, A. I., Molina, N. P. F. M., &amp; dos Santos, P. L.</span> (2026). Systematic Review of the Factor Structure of <span>WHOQOL-bref</span> in Adult Population. <em>Quality of Life Research</em>, <em>35</em>(17), 1–18. <a href="https://doi.org/10.1007/s11136-025-04115-6">https://doi.org/10.1007/s11136-025-04115-6</a>
+</div>
+<div id="ref-rogers2022" class="csl-entry" role="listitem">
+Rogers, P. (2022). Best <span>Practices</span> for <span>Your Exploratory Factor Analysis</span>: <span>A Factor Tutorial</span>. <em>Revista de Administra<span class="nocase">ç</span><span class="nocase">ã</span>o Contempor<span class="nocase">â</span>nea</em>, <em>26</em>(6). <a href="https://doi.org/10.1590/1982-7849rac2022210085.en">https://doi.org/10.1590/1982-7849rac2022210085.en</a>
+</div>
+<div id="ref-rogers2024c" class="csl-entry" role="listitem">
+Rogers, P. (2024). Best Practices for Your Confirmatory Factor Analysis: <span>A JASP</span> and Lavaan Tutorial. <em>Behavior Research Methods</em>. <a href="https://doi.org/10.3758/s13428-024-02375-7">https://doi.org/10.3758/s13428-024-02375-7</a>
+</div>
+</div>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -838,10 +879,13 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./02_background.html" class="pagination-link" aria-label="Escolhas inteligentes">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Escolhas inteligentes</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./01_intro.html" class="pagination-link" aria-label="Introdução">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./04_pa.html" class="pagination-link" aria-label="Análise de poder">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Análise de poder</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

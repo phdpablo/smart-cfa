@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Pablo Rogers and Sérgio Georgeto">
 
-<title>Escolhas inteligentes para modelos de medida</title>
+<title>6&nbsp; Processo de estimação – Escolhas inteligentes para modelos de medida</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -34,7 +33,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./01_intro.html" rel="next">
+<link href="./07_model_fit.html" rel="next">
+<link href="./05_preprocessing.html" rel="prev">
 <link href="./cover.jpg" rel="icon" type="image/jpeg">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -88,13 +88,11 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 </script>
 
 
-<meta property="og:title" content="Escolhas inteligentes para modelos de medida">
-<meta property="og:description" content="Tutorial em manuscrito executável para análise fatorial confirmatória no ambiente R">
-<meta property="og:image" content="https://phdpablo.github.io/smart-cfa/cover.jpg">
+<meta property="og:title" content="6&nbsp; Processo de estimação – Escolhas inteligentes para modelos de medida">
 <meta property="og:site_name" content="Escolhas inteligentes para modelos de medida">
 </head>
 
-<body class="nav-sidebar floating fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -265,7 +263,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Resumo</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06_estimation.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Processo de estimação</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
@@ -325,7 +323,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Resumo</span></a>
   </div>
 </li>
@@ -361,7 +359,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06_estimation.html" class="sidebar-item-text sidebar-link">
+  <a href="./06_estimation.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Processo de estimação</span></span></a>
   </div>
 </li>
@@ -394,28 +392,21 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7">Escolhas inteligentes para modelos de medida</h1></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7"><span id="sec-estimation" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Processo de estimação</span></span></h1></header>
 
 
 <header id="title-block-header">
 
-<p class="subtitle lead">Tutorial em manuscrito executável para análise fatorial confirmatória no ambiente R</p>
-<p class="author">Pablo Rogers and Sérgio Georgeto</p>
 
-<p class="date">15 de setembro de 2026</p>
 </header>
 
 
 
-<section id="resumo" class="level1 unnumbered unlisted">
-<h1 class="unnumbered unlisted">Resumo</h1><p><img src="cover.jpg" title="Escolhas inteligentes para modelos de medida" class="quarto-cover-image nolightbox img-fluid"></p>
-<p>O presente artigo busca cumprir três objetivos: i) compilar orientações, alinhadas com a literatura recente, sobre a aplicação de uma das técnicas mais utilizadas nas ciências sociais aplicadas, Análise Fatorial Confirmatória (AFC); ii) evidenciar como essas orientações podem ser implementadas na prática, tendo em vista um exemplo real; e iii) estruturar esse enredo de modo reprodutível. Nesse sentido, apresentamos uma solução na forma de um artigo-tutorial, em que as principais decisões tomadas numa AFC são justificadas do ponto de vista da literatura, e apresentadas num documento dinâmico para que o leitor acesse os códigos-fonte do artigo, dados utilizados e códigos de execução das análises. Através da presente metodologia didática, desenvolvida completamente em ambiente aberto (Git/Github/Positron/Quarto/pacotes R + lavaan/Docker), espera-se incentivar pesquisadores que dominam determinada técnica estatística, relevante para sua área de atuação, imitar essa proposta e ajudarem seus pares.</p>
-<p><strong>Palavras-chave:</strong> Análise Fatorial Confirmatória, Modelagem de Equações Estruturais, Validade da Estrutura Interna, Ciência Aberta, Reprodutibilidade, Quarto, <em>lavaan</em>.</p>
 
-
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -838,10 +829,13 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./05_preprocessing.html" class="pagination-link" aria-label="Pré-processamento">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Pré-processamento</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./01_intro.html" class="pagination-link" aria-label="Introdução">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./07_model_fit.html" class="pagination-link" aria-label="Ajuste do modelo">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Ajuste do modelo</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

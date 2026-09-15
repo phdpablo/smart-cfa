@@ -2,34 +2,50 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://phdpablo.github.io/smart-cfa/index.html</loc>
-    <lastmod>2026-09-15T16:15:25.365Z</lastmod>
+    <lastmod>2026-09-15T22:04:38.776Z</lastmod>
   </url>
   <url>
-    <loc>https://phdpablo.github.io/smart-cfa/01-intro.html</loc>
-    <lastmod>2026-09-15T16:15:25.352Z</lastmod>
+    <loc>https://phdpablo.github.io/smart-cfa/01_intro.html</loc>
+    <lastmod>2026-09-15T22:04:38.758Z</lastmod>
   </url>
   <url>
-    <loc>https://phdpablo.github.io/smart-cfa/02-background.html</loc>
-    <lastmod>2026-09-15T16:15:25.352Z</lastmod>
+    <loc>https://phdpablo.github.io/smart-cfa/02_background.html</loc>
+    <lastmod>2026-09-15T22:04:38.758Z</lastmod>
   </url>
   <url>
-    <loc>https://phdpablo.github.io/smart-cfa/03-methods.html</loc>
-    <lastmod>2026-09-15T16:15:25.352Z</lastmod>
+    <loc>https://phdpablo.github.io/smart-cfa/03_model_selection.html</loc>
+    <lastmod>2026-09-15T22:04:38.758Z</lastmod>
   </url>
   <url>
-    <loc>https://phdpablo.github.io/smart-cfa/04-results.html</loc>
-    <lastmod>2026-09-15T16:15:25.352Z</lastmod>
+    <loc>https://phdpablo.github.io/smart-cfa/04_pa.html</loc>
+    <lastmod>2026-09-15T22:04:38.758Z</lastmod>
   </url>
   <url>
-    <loc>https://phdpablo.github.io/smart-cfa/05-conclusion.html</loc>
-    <lastmod>2026-09-15T16:15:25.352Z</lastmod>
+    <loc>https://phdpablo.github.io/smart-cfa/05_preprocessing.html</loc>
+    <lastmod>2026-09-15T22:04:38.758Z</lastmod>
+  </url>
+  <url>
+    <loc>https://phdpablo.github.io/smart-cfa/06_estimation.html</loc>
+    <lastmod>2026-09-15T22:04:38.758Z</lastmod>
+  </url>
+  <url>
+    <loc>https://phdpablo.github.io/smart-cfa/07_model_fit.html</loc>
+    <lastmod>2026-09-15T22:04:38.758Z</lastmod>
+  </url>
+  <url>
+    <loc>https://phdpablo.github.io/smart-cfa/08_model_comparison.html</loc>
+    <lastmod>2026-09-15T22:04:38.758Z</lastmod>
+  </url>
+  <url>
+    <loc>https://phdpablo.github.io/smart-cfa/09_conclusion.html</loc>
+    <lastmod>2026-09-15T22:04:38.758Z</lastmod>
   </url>
   <url>
     <loc>https://phdpablo.github.io/smart-cfa/references.html</loc>
-    <lastmod>2026-09-15T16:15:25.365Z</lastmod>
+    <lastmod>2026-09-15T22:04:38.776Z</lastmod>
   </url>
   <url>
-    <loc>https://phdpablo.github.io/smart-cfa/Smart-Choices-for-Measurement-Models.pdf</loc>
-    <lastmod>2026-09-15T16:16:44.028Z</lastmod>
+    <loc>https://phdpablo.github.io/smart-cfa/Escolhas-inteligentes-para-modelos-de-medida.pdf</loc>
+    <lastmod>2026-09-15T22:07:13.921Z</lastmod>
   </url>
 </urlset>
