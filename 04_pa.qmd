@@ -1,0 +1,3 @@
+# Análise de poder {#sec-pa}
+
+Na maioria das pesquisas empíricas em ciências sociais quase sempre uma ou mais escalas são meios e não o fim. Isso significa que as escalas são concebidas como modelos de medidas que serão utilizadas num modelo estrutural, cujo qual, o pesquisador procede suas hipóteses de pesquisa. Nesse caso, o cálculo do tamanho amostral deveria levar em conta esse modelo estrutural e o instrumento (questionário) de pesquisa como um todo, que incluí a escala sob a qual o pesquisador deve proceder uma CFA, antes de ir para o segundo passo de uma modelagem de equações estruturais mais ampla [@kline2023].

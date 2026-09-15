@@ -51,11 +51,15 @@ The project follows the [TIER Protocol 4.0](https://www.projecttier.org/tier-pro
 ```
 smart-cfa/
 ├── index.qmd              # Abstract
-├── 01-intro.qmd           # Introduction
-├── 02-background.qmd      # Smart Choices in CFA (guidelines)
-├── 03-methods.qmd         # Executable Manuscript (R tutorial)
-├── 04-results.qmd         # Results
-├── 05-conclusion.qmd      # Final Considerations
+├── 01_intro.qmd           # Introdução
+├── 02_background.qmd      # Fundamentação e escolhas inteligentes
+├── 03_model_selection.qmd # Seleção do modelo de medida
+├── 04_pa.qmd              # Análise de poder
+├── 05_preprocessing.qmd   # Pré-processamento
+├── 06_estimation.qmd      # Estimação
+├── 07_model_fit.qmd       # Ajuste do modelo
+├── 08_model_comparison.qmd # Comparações e modificações
+├── 09_conclusion.qmd      # Conclusões
 ├── references.qmd         # References
 ├── _quarto.yml            # Quarto project configuration
 ├── references.bib         # BibTeX references

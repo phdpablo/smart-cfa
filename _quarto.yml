@@ -1,3 +1,5 @@
+lang: pt-BR
+
 project: # https://quarto.org/docs/projects/quarto-projects.html
   type: book # Specifies this project is a book format.
   # if change this key, maybe you have a problem with the structure output
@@ -18,10 +20,10 @@ execute: # https://quarto.org/docs/computations/execution-options.html
 book: # https://quarto.org/docs/books/index.html
   google-analytics: "G-2MWSHLX73Q" # replace with your Google Analytics tracking ID or remove this line
   favicon: cover.jpg # edit or exclude this image/line
-  title: "Smart Choices for Measurement Models" # edit your title
-  subtitle: "Executable Manuscript Tutorial for your Confirmatory Factor Analysis in R Environment" # edit your subtitle
+  title: "Escolhas inteligentes para modelos de medida" # edit your title
+  subtitle: "Tutorial em manuscrito executável para análise fatorial confirmatória no ambiente R" # edit your subtitle
   author: "Pablo Rogers and Sérgio Georgeto" # edit your name
-  date: 03/24/2026 # https://quarto.org/docs/reference/dates.html
+  date: 09/15/2026 # https://quarto.org/docs/reference/dates.html
   date-format: long # Format for displaying the date (e.g., "August 8, 2024").
   doi: 10.17605/OSF.IO/NJDQ5 # put your DOI
   cover-image: cover.jpg # edit ou exclude this image
@@ -33,8 +35,8 @@ book: # https://quarto.org/docs/books/index.html
     collapse-level: 1 # Level of headings to initially collapse in the sidebar.
   page-footer: # https://quarto.org/docs/reference/formats/html.html#appearance
   # edit or exclude this footer
-    left: <a href="https://www.phdpablo.com">by Pablo Rogers</a> # Content for the left side of the footer.
-    right: This article was built with <a href="https://quarto.org/">Quarto</a> # Content for the right side of the footer.
+    left: <a href="https://www.phdpablo.com">por Pablo Rogers</a> # Content for the left side of the footer.
+    right: Este artigo foi desenvolvido com <a href="https://quarto.org/">Quarto</a> # Content for the right side of the footer.
   site-url: "https://phdpablo.github.io/smart-cfa/" # edit your site URL
   # The base URL where the website will be published.
   repo-url: "https://github.com/phdpablo/smart-cfa" # edit your repo URL
@@ -43,14 +45,18 @@ book: # https://quarto.org/docs/books/index.html
   # Enables sharing buttons for specified social media platforms.
   open-graph: true # Generates Open Graph metadata for better social media previews.
   
-  chapters: # https://quarto.org/docs/books/book-structure.html
-    - index.qmd # The main landing page of the book/website.
-    - 01-intro.qmd # Introduction chapter.
-    - 02-background.qmd # Background/Theory chapter.
-    - 03-methods.qmd # Methods chapter.
-    - 04-results.qmd # Results chapter.
-    - 05-conclusion.qmd # Conclusion chapter.
-    - references.qmd # References/Bibliography page.
+  chapters:
+    - index.qmd
+    - 01_intro.qmd
+    - 02_background.qmd
+    - 03_model_selection.qmd
+    - 04_pa.qmd
+    - 05_preprocessing.qmd
+    - 06_estimation.qmd
+    - 07_model_fit.qmd
+    - 08_model_comparison.qmd
+    - 09_conclusion.qmd
+    - references.qmd
 
 bibliography: references.bib # https://quarto.org/docs/authoring/citations.html
 # File containing the bibliographic references in BibTeX format.

@@ -1,6 +1,4 @@
-# References {.unnumbered}
-
-<br>
+# Referências {.unnumbered}
 
 ::: {#refs}
 :::

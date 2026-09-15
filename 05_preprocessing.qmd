@@ -1,0 +1,13 @@
+# Pré-processamento {#sec-preprocessing}
+
+## Respostas com insuficiência de esforço
+
+### Exclusões procedurais
+
+### Indicadores estatísticos pós-coleta
+
+## Análise dos indicadores
+
+### Multicolinearidade
+
+### Análise descritiva
