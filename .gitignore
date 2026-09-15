@@ -17,6 +17,8 @@ docs/
 
 # Management
 PLAN.md
+/context.md
+/ADM/
 adm/
 !adm/README.md
 /.quarto/
