@@ -12,6 +12,7 @@ _temp/
 _freeze/
 /site_libs/
 /*._files/
+/*_cache/
 docs/
 *.tex
 

@@ -8,6 +8,13 @@ The `DataAppendixScripts` folder holds scripts used to generate the Data Appendi
 
 -   **Data Appendix Scripts**: These scripts create detailed documentation of data processing. This includes descriptions of data files, transformation processes, figures, tables, descriptive statistics, and rationale for changes.
 
+### Current scripts
+
+-   `models.R` defines the two fixed population models used in power analysis and the two freely estimated analysis models used in the tutorial.
+-   `helpers.R` defines the shared plotting function for the measurement-model diagrams.
+
+Simulation and cache utilities will be added only when required by the power analysis in `04_pa.qmd`.
+
 ## Guidelines
 
 -   **File Naming**: Use descriptive names for scripts. Names should indicate their specific roles in generating the Data Appendix.

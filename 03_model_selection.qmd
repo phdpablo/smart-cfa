@@ -1,5 +1,32 @@
 # Seleção do modelo de medida {#sec-model-selection}
 
+```{r}
+#| label: setup-model-selection
+#| include: false
+
+source(file.path("Scripts", "DataAppendixScripts", "models.R"))
+source(file.path("Scripts", "DataAppendixScripts", "helpers.R"))
+```
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-important title="Como as análises estão organizadas"}
+
+As análises desse artigo-tutorial seguem princípios de programação funcional e do [Tidyverse Style Guide](https://style.tidyverse.org/): funções pequenas e reutilizáveis, nomes em `snake_case`, uso do pipe nativo `|>` quando apropriado e separação entre computação e apresentação. Os `.html` e `.pdf` preservam o enredo científico, mas um `callout` abaixo de cada saída nos `.html` mostram o racional das chamadas responsáveis pela respectiva saída. Análises mais extensas serão mantidas em notebooks `.qmd` autônomos. Esses princípios orientam a organização do código. Para um reprodutibilidade completa, é necessário baixar/clonar o projeto e executar as recomendações do [README](README.md) na raiz do [repositório do projeto](https://github.com/phdpablo/smart-cfa).
+
+As especificações reutilizáveis nessa seção estão em [models.R](Scripts/DataAppendixScripts/models.R) e as funções auxiliares em [helpers.R](Scripts/DataAppendixScripts/helpers.R), que são antecipadamentes chamadas no início da seção por:
+
+```{r}
+#| eval: false
+
+source(file.path("Scripts", "DataAppendixScripts", "models.R"))
+source(file.path("Scripts", "DataAppendixScripts", "helpers.R"))
+```
+
+:::
+
+::::
+
 Utilizamos como exemplo a World Health Organization Quality of Life -- Abbreviated Version (WHOQOL-Bref), um instrumento de autorrelato amplamente empregado na avaliação da qualidade de vida em diferentes populações e contextos culturais [@lin2022; @mosqueirataipe2026]. O instrumento contém 26 itens com cinco categorias de resposta. Os dois primeiros abordam a percepção geral da qualidade de vida e a satisfação com a saúde; os demais 24 compõem os domínios físico, psicológico, relações sociais e ambiente.
 
 A escolha da WHOQOL-Bref permite desenvolver a recomendação apresentada em @sec-theory-selection: partir de um instrumento com estrutura teórica definida e evidências psicométricas acumuladas, cujos itens admitam uma estratégia de análise contínua. A presença de cinco categorias oferece suporte inicial a essa estratégia, conforme a fundamentação anterior, e suas implicações serão examinadas na descrição dos itens e na estimação robusta. O objetivo do exemplo é explicitar as decisões de uma AFC e suas justificativas, preservando o conteúdo e o formato de resposta do instrumento.
@@ -10,22 +37,81 @@ A revisão sistemática de @mosqueirataipe2026 amplia essa discussão: dos 439 r
 
 Com esse propósito, delimitamos dois modelos de quatro fatores correlacionados, mantendo os mesmos 24 indicadores. Em ambos, o domínio físico é representado por Q3, Q4, Q10, Q15, Q16, Q17 e Q18; o psicológico, por Q5, Q6, Q7, Q11, Q19 e Q26; as relações sociais, por Q20, Q21 e Q22; e o ambiente, por Q8, Q9, Q12, Q13, Q14, Q23, Q24 e Q25. Essa organização preserva a composição teórica dos domínios e permite concentrar a comparação na presença das cargas cruzadas especificadas.
 
-O primeiro modelo inclui uma covariância residual entre Q3, sobre dor e desconforto, e Q4, sobre a necessidade de tratamento médico (Figura 1). Ambos pertencem ao domínio físico e são formulados em direção negativa à qualidade de vida. Sua proximidade de conteúdo e a formulação compartilhada tornam plausível uma associação que não seja inteiramente explicada pelo fator físico. Essa especificação também encontra precedente em estudos reunidos por @mosqueirataipe2026. No contexto da discussão sobre Common Method Bias (CMB), tratamos essa covariância como uma hipótese de dependência local compatível com conteúdo ou método compartilhado; sua inclusão não demonstra nem elimina, por si só, um viés de método comum.
+O primeiro modelo inclui uma covariância residual entre Q3, sobre dor e desconforto, e Q4, sobre a necessidade de tratamento médico (@fig-analysis-model). Ambos pertencem ao domínio físico e são formulados em direção negativa à qualidade de vida. Sua proximidade de conteúdo e a formulação compartilhada tornam plausível uma associação que não seja inteiramente explicada pelo fator físico. Essa especificação também encontra precedente em estudos reunidos por @mosqueirataipe2026. No contexto da discussão sobre Common Method Bias (CMB), tratamos essa covariância como uma hipótese de dependência local compatível com conteúdo ou método compartilhado; sua inclusão não demonstra nem elimina, por si só, um viés de método comum.
 
-\[Inserir Figura 1 aqui\]
+```{r}
+#| label: fig-analysis-model
+#| fig-cap: >-
+#|   Modelo de quatro fatores correlacionados com covariância residual entre Q3 e Q4.
+#|   *Nota.* PSI = psicológico; FIS = físico; SOC = relações sociais; AMB = ambiente.
+#|   Os 24 indicadores mantêm sua alocação teórica aos quatro domínios. A figura
+#|   representa a especificação do modelo, sem resultados estimados.
+#| fig-alt: "Diagrama com quatro fatores correlacionados e covariância residual destacada entre Q3 e Q4."
+#| fig-width: 10
+#| fig-height: 8
+#| fig-align: center
+#| echo: false
 
-Figura 1. Modelo de quatro fatores correlacionados com covariância residual entre Q3 e Q4.
+plot_measurement_model(analysis_model)
+```
 
-Nota. Os 24 indicadores mantêm sua alocação teórica aos quatro domínios. A seta bidirecional entre os resíduos de Q3 e Q4 representa a covariância residual prevista. As variâncias dos fatores são fixadas em 1 para identificação; cargas fatoriais, covariâncias entre fatores e a covariância residual são estimadas. A figura representa a especificação do modelo, sem resultados estimados.
+:::: {.content-visible unless-format="pdf"}
 
-O segundo modelo mantém a covariância residual Q3--Q4 e acrescenta três cargas cruzadas: Q8 e Q9 no domínio psicológico e Q15 no domínio ambiental (Figura 2). A seleção dessas relações é informada pela solução exploratória de quatro fatores apresentada na Tabela 3 de @lin2022. A segurança percebida em Q8 e a avaliação do ambiente físico em Q9 podem compartilhar aspectos com o bem-estar psicológico, enquanto a mobilidade avaliada por Q15 pode envolver, além da capacidade física, condições ambientais. Essas interpretações constituem justificativas substantivas para testar as relações selecionadas; não são conclusões já estabelecidas para a amostra deste tutorial.
+::: {.callout-note title="Racional da @fig-analysis-model"}
+
+A chamada usa o objeto `analysis_model`, definido e documentado em [models.R](Scripts/DataAppendixScripts/models.R), e a função `plot_measurement_model()`, implementada em [helpers.R](Scripts/DataAppendixScripts/helpers.R). O objeto descreve a identificação, as cargas fatoriais e a covariância residual Q3--Q4; e a funçãp controla a representação estrutural, as cores e o destaque dessa relação. Após carregar os dois scripts conforme indicado no início da seção, a figura pode ser reproduzida com:
+
+```{r}
+#| eval: false
+
+plot_measurement_model(analysis_model)
+```
+
+:::
+
+::::
+
+O segundo modelo mantém a covariância residual Q3--Q4 e acrescenta três cargas cruzadas: Q8 e Q9 no domínio psicológico e Q15 no domínio ambiental (@fig-h1-model-free). A seleção dessas relações é informada pela solução exploratória de quatro fatores apresentada na Tabela 3 de @lin2022. A segurança percebida em Q8 e a avaliação do ambiente físico em Q9 podem compartilhar aspectos com o bem-estar psicológico, enquanto a mobilidade avaliada por Q15 pode envolver, além da capacidade física, condições ambientais. Essas interpretações constituem justificativas substantivas para testar as relações selecionadas; não são conclusões já estabelecidas para a amostra deste tutorial.
 
 Preservamos as cargas de Q8 e Q9 no domínio ambiental e a de Q15 no domínio físico, acrescentando as relações propostas em vez de transferir os itens de domínio. Também não reproduzimos todas as cargas secundárias da solução exploratória de @lin2022. O segundo modelo é uma especificação delimitada para este tutorial, apoiada naquela evidência e na interpretação do conteúdo dos itens, e não uma AFC anteriormente validada pelos autores com essa exata configuração.
 
-\[Inserir Figura 2 aqui\]
+```{r}
+#| label: fig-h1-model-free
+#| fig-cap: >-
+#|   Modelo de quatro fatores correlacionados com covariância residual Q3--Q4 e
+#|   três cargas cruzadas. *Nota.* PSI = psicológico; FIS = físico; SOC = relações
+#|   sociais; AMB = ambiente. Mantém-se a estrutura do primeiro modelo e acrescentam-se
+#|   as cargas do fator psicológico em Q8 e Q9 e do fator ambiental em Q15.
+#|   As convenções de ilustração são as mesmas do primeiro modelo.
+#| fig-alt: "Diagrama com quatro fatores correlacionados, covariância residual Q3--Q4 e cargas cruzadas destacadas em Q8, Q9 e Q15."
+#| fig-width: 10
+#| fig-height: 8
+#| fig-align: center
+#| echo: false
 
-Figura 2. Modelo de quatro fatores correlacionados com covariância residual Q3--Q4 e três cargas cruzadas.
+plot_measurement_model(
+  h1_model_free,
+  highlight_cross_loadings = TRUE
+)
+```
 
-Nota. Mantém-se a estrutura da Figura 1 e acrescentam-se as cargas do fator psicológico em Q8 e Q9 e do fator ambiental em Q15. As três cargas adicionais são estimadas livremente. As convenções de identificação e representação são as mesmas da Figura 1.
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Racional da @fig-h1-model-free"}
+
+A chamada usa o objeto `h1_model_free`, definido e documentado no script [models.R](Scripts/DataAppendixScripts/models.R), e a função `plot_measurement_model()`, implementada no script [helpers.R](Scripts/DataAppendixScripts/helpers.R). O objeto acrescenta ao primeiro modelo as cargas cruzadas PSI → Q8, PSI → Q9 e AMB → Q15; e a função recebe o argumento nomeado `highlight_cross_loadings = TRUE` para destacar essas três relações, além da covariância residual Q3--Q4. Após carregar os dois scripts conforme indicado no início da seção, a figura pode ser reproduzida com:
+
+```{r}
+#| eval: false
+
+plot_measurement_model(
+  h1_model_free,
+  highlight_cross_loadings = TRUE
+)
+```
+
+:::
+
+::::
 
 Utilizamos a mesma base de origem empregada por @rogers2024c e @rogers2022. Neste tutorial, entretanto, o processamento parte dos 1.546 registros brutos e explicita tanto os critérios procedurais quanto os indicadores estatísticos de triagem C/IER, conforme será apresentado em @sec-preprocessing. Os dados, o codebook e os procedimentos necessários à execução acompanham o projeto. Como os trabalhos anteriores partiram de uma base pré-processada de 1.047 participantes, eventuais diferenças entre seus resultados e os deste tutorial não devem ser atribuídas exclusivamente ao tratamento ordinal ou contínuo dos itens.
