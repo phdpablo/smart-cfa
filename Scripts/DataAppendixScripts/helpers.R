@@ -1,4 +1,75 @@
 # =============================================================================
+# helpers.R -- Shared packages, constants, and reusable functions
+# =============================================================================
+# Source it once at the beginning of an analytical chapter to load
+# the packages and objects shared by the project.
+
+# --- Packages ----------------------------------------------------------------
+
+library(lavaan)
+library(semTools)
+library(semPower)
+library(semPlot)
+library(simsem)
+library(MASS)
+library(ggplot2)
+library(dplyr)
+library(here)
+library(knitr)
+library(quantreg)
+library(parallel)
+library(tibble)
+
+# --- Configuration -----------------------------------------------------------
+
+# Number of Monte Carlo replications at every value of N.
+REP <- 10
+
+# Number of Monte Carlo replications at fixed value of N.
+SIM <- 1000
+
+# Sample-size sequences.
+SEQ <- rep(101:400, each = REP)
+
+# Target N used to inspect power and cutoffs after varying N simulations.
+N_TARGET <- 200
+
+# Random seed used by simsem. This is the same seed adopted in CFA Power.
+SEED <- 123321
+
+# A priori decision criteria.
+ALPHA <- 0.05
+POWER <- 0.80
+
+# Number of observed indicators in the four-domain WHOQOL-Bref model.
+P <- 24
+
+# Fit indices used to evaluate power and derive model-calibrated cutoffs.
+FITS <- c("rmsea", "srmr", "cfi", "tli")
+FITS_ROB <- c("rmsea.robust", "srmr", "cfi.robust", "tli.robust")
+
+# Conventional cutoffs retained only as descriptive reference values.
+RULE_OF_THUMB <- c(
+  rmsea = 0.06,
+  cfi = 0.95,
+  tli = 0.95,
+  srmr = 0.06
+)
+
+# Mild non-normality based on Yoshitake et al. (2015). Skewness ranges from
+# -1 to +1 and excess kurtosis remains below 2. The celing 1.7...
+dist <- bindDist(
+  skewness = seq(-1, 1, length.out = P),
+  kurtosis = seq(1.7, 2, length.out = P)
+)
+
+# Missing Complete at Random (MCAR) percent
+P_MCAR <- 0.10
+
+#
+options(max.print = 1e6)
+
+# --- Reusable plotting function ---------------------------------------------
 # Reusable helpers for WHOQOL-Bref CFA diagrams
 # =============================================================================
 # The article uses structural diagrams: they communicate which parameters are
@@ -30,7 +101,7 @@ model_highlight <- "sienna"
 #'
 #' The function parses lavaan syntax without fitting the model. It then marks
 #' the Q3--Q4 residual covariance and, optionally, the three cross-loadings that
-#' distinguish `h1_model_free` from `analysis_model`. Because parameter values
+#' distinguish `h1modelfree` from `analyzemodel`. Because parameter values
 #' are not displayed, the resulting figure represents the specification rather
 #' than empirical estimates.
 #'
@@ -42,8 +113,8 @@ model_highlight <- "sienna"
 #' @return The qgraph object returned by `semPlot::semPaths()`, invisibly.
 #'
 #' @examples
-#' plot_measurement_model(analysis_model)
-#' plot_measurement_model(h1_model_free, highlight_cross_loadings = TRUE)
+#' plot_measurement_model(analyzemodel)
+#' plot_measurement_model(h1modelfree, highlight_cross_loadings = TRUE)
 plot_measurement_model <- function(
   model,
   highlight_cross_loadings = FALSE
@@ -73,12 +144,10 @@ plot_measurement_model <- function(
       (parameters$lhs == "Q4" & parameters$rhs == "Q3"))
 
   # Directed edges use the latent factor as `lhs` and the item as `rhs`.
-  # These are the only secondary loadings specified in h1_model_free.
+  # These are the only secondary loadings specified in h1modelfree.
   is_cross_loading <- parameters$edge == "->" &
-    (
-      (parameters$lhs == "psycho" & parameters$rhs %in% c("Q8", "Q9")) |
-        (parameters$lhs == "environment" & parameters$rhs == "Q15")
-    )
+    ((parameters$lhs == "psycho" & parameters$rhs %in% c("Q8", "Q9")) |
+      (parameters$lhs == "environment" & parameters$rhs == "Q15"))
 
   highlighted <- is_q3_q4 |
     (highlight_cross_loadings & is_cross_loading)
@@ -113,36 +182,50 @@ plot_measurement_model <- function(
   groups <- list(
     psychological = c("PSI", "Q5", "Q6", "Q7", "Q11", "Q19", "Q26"),
     physical = c(
-      "FIS", "Q3", "Q4", "Q10", "Q15", "Q16", "Q17", "Q18"
+      "FIS",
+      "Q3",
+      "Q4",
+      "Q10",
+      "Q15",
+      "Q16",
+      "Q17",
+      "Q18"
     ),
     social = c("SOC", "Q20", "Q21", "Q22"),
     environmental = c(
-      "AMB", "Q8", "Q9", "Q12", "Q13", "Q14", "Q23", "Q24",
+      "AMB",
+      "Q8",
+      "Q9",
+      "Q12",
+      "Q13",
+      "Q14",
+      "Q23",
+      "Q24",
       "Q25"
     )
   )
 
   semPlot::semPaths(
-    plot_model,
-    style = "lisrel",       # Rectangles for items and circles for factors
-    layout = "circle",      # Keeps 24 indicators readable around four factors
-    intercepts = FALSE,      # Intercepts are irrelevant to this structural view
-    thresholds = FALSE,      # Thresholds are discussed during estimation
-    residuals = FALSE,       # Hide residual loops; retain Q3--Q4 covariance
-    groups = groups,
-    color = model_palette,
+    plot_model, # The parsed lavaan syntax, with highlighted edges marked above
+    style = "lisrel", # Rectangles for items and circles for factors
+    layout = "circle", # Keeps 24 indicators readable around four factors
+    intercepts = FALSE, # Intercepts are irrelevant to this structural view
+    thresholds = FALSE, # Thresholds are irrelevant to this structural view
+    residuals = FALSE, # Hide residual loops; retain Q3--Q4 covariance
+    groups = groups, # Group items by their theoretical domain for color coding
+    color = model_palette, # Color each domain according to the project visual identity
     edge.width = 1,
     fixedStyle = model_highlight, # Styling marker assigned above
     freeStyle = "black",
-    border.color = model_ink,
-    label.color = model_ink,
-    legend = FALSE,          # The figure note defines the abbreviations
+    border.color = model_ink, # Node borders are dark blue to match the figure caption text
+    label.color = model_ink, # Node labels are dark blue to match the figure caption text
+    legend = FALSE, # The figure note defines the abbreviations
     sizeLat = 10,
     sizeMan = 5.5,
     sizeMan2 = 5.5,
     label.cex = 1.15,
-    edge.label.cex = 0,      # Suppress values: this is a model specification
-    weighted = FALSE,        # Do not encode parameter size in line width
+    edge.label.cex = 0, # Suppress values: this is a model specification
+    weighted = FALSE, # Do not encode parameter size in line width
     mar = c(2, 2, 2, 2)
   )
 }

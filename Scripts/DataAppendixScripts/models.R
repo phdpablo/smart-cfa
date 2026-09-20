@@ -4,12 +4,12 @@
 # This file is the authoritative reusable source for model specifications used
 # by later analytical chapters. Chapter 3 intentionally mirrors the two free
 # models inside copy-ready HTML examples; those mirrors must remain synchronized
-# with `analysis_model` and `h1_model_free` below. This file contains two kinds
+# with `analyzemodel` and `h1modelfree` below. This file contains two kinds
 # of lavaan syntax:
 #
-# 1. Fixed population models (`pop_model` and `h1_model`) for power analysis.
+# 1. Fixed population models (`popmodel` and `h1model`) for power analysis.
 #    Their numerical values define a population covariance structure.
-# 2. Free analysis models (`analysis_model` and `h1_model_free`) for fitting
+# 2. Free analysis models (`analyzemodel` and `h1modelfree`) for fitting
 #    empirical data and drawing the structural diagrams in Chapter 3.
 #
 #
@@ -29,12 +29,12 @@
 # =============================================================================
 # Fixed population model: meta-analytic four-factor structure
 # =============================================================================
-# `pop_model` represents the population under the more parsimonious model.
+# `popmodel` represents the population under the more parsimonious model.
 # All loadings are fixed to the values reported by Lin and Yao (2022), so this
 # object is intended for data generation and model-based power calculations,
 # not for direct estimation from the tutorial sample.
 
-pop_model <- '
+popmodel <- '
   # Factor loadings: meta-analytic estimates from Lin and Yao (2022)
   psycho =~ 0.92*Q5 + 0.81*Q6 + 0.94*Q7 +
             0.73*Q11 + 0.75*Q19 + 0.63*Q26
@@ -94,7 +94,7 @@ pop_model <- '
 # =============================================================================
 # Fixed H1 population model: three substantively selected cross-loadings
 # =============================================================================
-# `h1_model` retains every feature of `pop_model` and adds three secondary
+# `h1model` retains every feature of `popmodel` and adds three secondary
 # loadings taken from the exploratory solution discussed in the article:
 # - Q8 and Q9 also load on the psychological factor.
 # - Q15 also loads on the environmental factor.
@@ -103,7 +103,7 @@ pop_model <- '
 # than reassign the items, creating the misspecified population used to examine
 # whether the simpler analysis model can detect those omitted relations.
 
-h1_model <- '
+h1model <- '
   # Primary loadings plus Q8 and Q9 cross-loadings on psychological
   psycho =~ 0.92*Q5 + 0.81*Q6 + 0.94*Q7 +
             0.73*Q11 + 0.75*Q19 + 0.63*Q26 +
@@ -169,17 +169,16 @@ h1_model <- '
 # Free analysis model: four correlated factors and Q3--Q4 covariance
 # =============================================================================
 # This is the primary model shown in Figure 1 and fitted to empirical data.
-# `NA*` explicitly frees the first loading of each factor. Identification then
-# comes from fixing each factor variance to 1, rather than from fixing a marker
-# loading. Consequently, every loading shown below is estimated from the data.
+# Identification comes from fixing each factor variance to 1, rather than from fixing a
+# marker loading. Consequently, every loading shown below is estimated from the data.
 # Residual variances are omitted because lavaan estimates them automatically.
 
-analysis_model <- '
+analyzemodel <- '
   # Freely estimated primary loadings
-  psycho =~ NA*Q5 + Q6 + Q7 + Q11 + Q19 + Q26
-  physical =~ NA*Q3 + Q4 + Q10 + Q15 + Q16 + Q17 + Q18
-  social =~ NA*Q20 + Q21 + Q22
-  environment =~ NA*Q8 + Q9 + Q12 + Q13 + Q14 + Q23 + Q24 + Q25
+  psycho =~ Q5 + Q6 + Q7 + Q11 + Q19 + Q26
+  physical =~ Q3 + Q4 + Q10 + Q15 + Q16 + Q17 + Q18
+  social =~ Q20 + Q21 + Q22
+  environment =~ Q8 + Q9 + Q12 + Q13 + Q14 + Q23 + Q24 + Q25
 
   # Unit-variance identification and freely estimated factor covariances
   psycho ~~ 1*psycho + physical + social + environment
@@ -196,19 +195,19 @@ analysis_model <- '
 # =============================================================================
 # This is the alternative model shown in Figure 2. It uses the same indicators,
 # identification, factor covariances, and Q3--Q4 residual covariance as
-# `analysis_model`. The only difference is that Q8, Q9, and Q15 receive the
+# `analyzemodel`. The only difference is that Q8, Q9, and Q15 receive the
 # three additional freely estimated loadings described above.
 
-h1_model_free <- '
+h1modelfree <- '
   # Primary loadings plus freely estimated Q8 and Q9 cross-loadings
-  psycho =~ NA*Q5 + Q6 + Q7 + Q11 + Q19 + Q26 + Q8 + Q9
-  physical =~ NA*Q3 + Q4 + Q10 + Q15 + Q16 + Q17 + Q18
-  social =~ NA*Q20 + Q21 + Q22
+  psycho =~ Q5 + Q6 + Q7 + Q11 + Q19 + Q26 + Q8 + Q9
+  physical =~ Q3 + Q4 + Q10 + Q15 + Q16 + Q17 + Q18
+  social =~ Q20 + Q21 + Q22
 
   # Q15 keeps its physical loading and gains an environmental loading.
-  environment =~ NA*Q8 + Q9 + Q12 + Q13 + Q14 + Q23 + Q24 + Q25 + Q15
+  environment =~ Q8 + Q9 + Q12 + Q13 + Q14 + Q23 + Q24 + Q25 + Q15
 
-  # The identification and factor-covariance structure match analysis_model.
+  # The identification and factor-covariance structure match analyzemodel.
   psycho ~~ 1*psycho + physical + social + environment
   physical ~~ 1*physical + social + environment
   social ~~ 1*social + environment

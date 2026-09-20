@@ -3,6 +3,9 @@ lang: pt-BR
 
 project: # https://quarto.org/docs/projects/quarto-projects.html
   type: book # Specifies this project is a book format.
+  execute-dir: project # Resolves relative R paths from the repository root.
+  pre-render:
+    - Rscript Scripts/DataAppendixScripts/pre_render_cache.R
   # if change this key, maybe you have a problem with the structure output
   output-dir: docs # Directory where the rendered output files will be placed.
   # not change this key if you want to deploy in GitHub Pages

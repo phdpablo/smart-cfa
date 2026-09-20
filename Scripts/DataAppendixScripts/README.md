@@ -10,10 +10,18 @@ The `DataAppendixScripts` folder holds scripts used to generate the Data Appendi
 
 ### Current scripts
 
--   `models.R` defines the two fixed population models used in power analysis and the two freely estimated analysis models used in the tutorial.
--   `helpers.R` defines the shared plotting function for the measurement-model diagrams.
+-   `models.R` defines `popmodel`, `h1model`, `analyzemodel`, and `h1modelfree`, using the same names adopted in CFA Power.
+-   `helpers.R` loads the required packages, defines the shared uppercase analysis objects, and retains the reusable plotting function for the measurement-model diagrams.
+-   `cache_utils.R` defines `cache_or_run()`, which reads an existing simulation object from an RDS file or runs and saves the expression supplied in the chapter.
+-   `cache_loader.R` loads existing RDS files from `Data/IntermediateData` into the current session.
+-   `pre_render_cache.R` ensures that the intermediate-data directory and cache loader exist before rendering.
 
-Simulation and cache utilities will be added only when required by the power analysis in `04_pa.qmd`.
+The simulation chunks in `04_pa.qmd` write `popmodel_realistic.rds` and
+`h1model_realistic.rds` under `Data/IntermediateData`. These files are
+versioned reproduction artifacts: the book can read them quickly, while a
+reader who wants to audit the full computation can remove them and rerun the
+two explicit calls to `sim()`. The helper does not hide any simulation
+argument.
 
 ## Guidelines
 

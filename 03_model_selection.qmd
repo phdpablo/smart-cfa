@@ -52,19 +52,19 @@ O primeiro modelo inclui uma covariância residual entre Q3, sobre dor e desconf
 #| fig-align: center
 #| echo: false
 
-plot_measurement_model(analysis_model)
+plot_measurement_model(analyzemodel)
 ```
 
 :::: {.content-visible unless-format="pdf"}
 
 ::: {.callout-note title="Racional da @fig-analysis-model"}
 
-A chamada usa o objeto `analysis_model`, definido e documentado em [models.R](Scripts/DataAppendixScripts/models.R), e a função `plot_measurement_model()`, implementada em [helpers.R](Scripts/DataAppendixScripts/helpers.R). O objeto descreve a identificação, as cargas fatoriais e a covariância residual Q3--Q4; e a funçãp controla a representação estrutural, as cores e o destaque dessa relação. Após carregar os dois scripts conforme indicado no início da seção, a figura pode ser reproduzida com:
+A chamada usa o objeto `analyzemodel`, definido e documentado em [models.R](Scripts/DataAppendixScripts/models.R), e a função `plot_measurement_model()`, implementada em [helpers.R](Scripts/DataAppendixScripts/helpers.R). O objeto descreve a identificação, as cargas fatoriais e a covariância residual Q3--Q4; e a função controla a representação estrutural, as cores e o destaque dessa relação. Após carregar os dois scripts conforme indicado no início da seção, a figura pode ser reproduzida com:
 
 ```{r}
 #| eval: false
 
-plot_measurement_model(analysis_model)
+plot_measurement_model(analyzemodel)
 ```
 
 :::
@@ -90,7 +90,7 @@ Preservamos as cargas de Q8 e Q9 no domínio ambiental e a de Q15 no domínio f�
 #| echo: false
 
 plot_measurement_model(
-  h1_model_free,
+  h1modelfree,
   highlight_cross_loadings = TRUE
 )
 ```
@@ -99,13 +99,13 @@ plot_measurement_model(
 
 ::: {.callout-note title="Racional da @fig-h1-model-free"}
 
-A chamada usa o objeto `h1_model_free`, definido e documentado no script [models.R](Scripts/DataAppendixScripts/models.R), e a função `plot_measurement_model()`, implementada no script [helpers.R](Scripts/DataAppendixScripts/helpers.R). O objeto acrescenta ao primeiro modelo as cargas cruzadas PSI → Q8, PSI → Q9 e AMB → Q15; e a função recebe o argumento nomeado `highlight_cross_loadings = TRUE` para destacar essas três relações, além da covariância residual Q3--Q4. Após carregar os dois scripts conforme indicado no início da seção, a figura pode ser reproduzida com:
+A chamada usa o objeto `h1modelfree`, definido e documentado no script [models.R](Scripts/DataAppendixScripts/models.R), e a função `plot_measurement_model()`, implementada no script [helpers.R](Scripts/DataAppendixScripts/helpers.R). O objeto acrescenta ao primeiro modelo as cargas cruzadas PSI → Q8, PSI → Q9 e AMB → Q15; e a função recebe o argumento nomeado `highlight_cross_loadings = TRUE` para destacar essas três relações, além da covariância residual Q3--Q4. Após carregar os dois scripts conforme indicado no início da seção, a figura pode ser reproduzida com:
 
 ```{r}
 #| eval: false
 
 plot_measurement_model(
-  h1_model_free,
+  h1modelfree,
   highlight_cross_loadings = TRUE
 )
 ```

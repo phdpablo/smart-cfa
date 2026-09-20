@@ -134,7 +134,15 @@ GitHub Pages must serve the `gh-pages` branch from `/`. Local uncommitted workfl
 | R dependencies | `renv.lock` | Same lock file, with the intentional R-version difference |
 | PDF engine | TinyTeX | TinyTeX |
 
-The current milestone contains narrative and bibliography; analytical R packages and simulations have not yet been introduced. The lock file therefore contains only `renv`. Add analytical dependencies as their code is implemented, not as a speculative package list.
+Chapter 4 introduces model-based power analysis with `semPower` 2.1.3 and
+Monte Carlo simulation with `simsem` 0.5-17. The script
+`Scripts/DataAppendixScripts/helpers.R` follows the CFA Power naming convention
+and exposes `REP <- 5L` for a short test; change it manually to `1000L` for the
+definitive run. Chapter 4 keeps the two calls to `sim()` and the
+subsequent calls to `plotPowerFit()`, `getPowerFit()`, and `getCutoff()`
+explicit. The two simulation objects are stored in `Data/IntermediateData`,
+allowing fast rendering or full recomputation after
+`popmodel_realistic.rds` and `h1model_realistic.rds` are removed.
 
 TinyTeX packages and base-image tags can change upstream. Record image digests and actual TeX versions for a reproduction test; these configurations do not claim a fully frozen historical environment. Docker, Binder and CI validation should be repeated when computation is added.
 

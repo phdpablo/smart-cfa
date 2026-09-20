@@ -7,6 +7,7 @@ The `IntermediateData` folder stores data files generated during processing step
 ## Contents
 
 -   **Intermediate Data Files**: These files capture various stages of data processing. They may include data that has been cleaned, merged, filtered, or otherwise transformed but is not yet in its final form for analysis.
+-   **Chapter 4 RDS files**: `popmodel_realistic.rds` and `h1model_realistic.rds` are created by the two simulation chunks in `04_pa.qmd`. The repository distributes the definitive files so ordinary rendering does not repeat the simulations. Delete only these files and rerun those chunks to audit the calculations from zero.
 
 ## Guidelines
 
