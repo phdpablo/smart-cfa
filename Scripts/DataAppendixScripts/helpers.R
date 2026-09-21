@@ -34,7 +34,7 @@ SEQ <- rep(101:400, each = REP)
 # Target N used to inspect power and cutoffs after varying N simulations.
 N_TARGET <- 200
 
-# Random seed used by simsem. This is the same seed adopted in CFA Power.
+# Random seed used by simsem to make the simulations reproducible.
 SEED <- 123321
 
 # A priori decision criteria.
@@ -56,8 +56,8 @@ RULE_OF_THUMB <- c(
   srmr = 0.06
 )
 
-# Mild non-normality based on Yoshitake et al. (2015). Skewness ranges from
-# -1 to +1 and excess kurtosis remains below 2. The celing 1.7...
+# Mild non-normality based on Yoshitake et al. (2015). Across the 24 items,
+# skewness ranges from -1 to +1 and kurtosis ranges from 1.7 to 2.0.
 dist <- bindDist(
   skewness = seq(-1, 1, length.out = P),
   kurtosis = seq(1.7, 2, length.out = P)

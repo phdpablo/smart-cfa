@@ -3,6 +3,7 @@
 ```{r}
 #| label: setup-model-selection
 #| include: false
+#| cache: false
 
 source(file.path("Scripts", "DataAppendixScripts", "models.R"))
 source(file.path("Scripts", "DataAppendixScripts", "helpers.R"))
@@ -12,7 +13,7 @@ source(file.path("Scripts", "DataAppendixScripts", "helpers.R"))
 
 ::: {.callout-important title="Como as análises estão organizadas"}
 
-As análises desse artigo-tutorial seguem princípios de programação funcional e do [Tidyverse Style Guide](https://style.tidyverse.org/): funções pequenas e reutilizáveis, nomes em `snake_case`, uso do pipe nativo `|>` quando apropriado e separação entre computação e apresentação. Os `.html` e `.pdf` preservam o enredo científico, mas um `callout` abaixo de cada saída nos `.html` mostram o racional das chamadas responsáveis pela respectiva saída. Análises mais extensas serão mantidas em notebooks `.qmd` autônomos. Esses princípios orientam a organização do código. Para um reprodutibilidade completa, é necessário baixar/clonar o projeto e executar as recomendações do [README](README.md) na raiz do [repositório do projeto](https://github.com/phdpablo/smart-cfa).
+As análises desse artigo-tutorial seguem princípios de programação funcional e do [Tidyverse Style Guide](https://style.tidyverse.org/): funções pequenas e reutilizáveis, nomes em `snake_case`, uso do pipe nativo `|>` quando apropriado e separação entre computação e apresentação. Os `.html` e `.pdf` preservam o enredo científico, mas um `callout` abaixo de cada saída nos `.html` mostram o racional das chamadas responsáveis pela respectiva saída. Análises mais extensas serão mantidas em notebooks `.qmd` autônomos. Esses princípios orientam a organização do código. Para uma reprodutibilidade completa, é necessário baixar/clonar o projeto e executar as recomendações do [README](README.md) na raiz do [repositório do projeto](https://github.com/phdpablo/smart-cfa).
 
 As especificações reutilizáveis nessa seção estão em [models.R](Scripts/DataAppendixScripts/models.R) e as funções auxiliares em [helpers.R](Scripts/DataAppendixScripts/helpers.R), que são antecipadamentes chamadas no início da seção por:
 

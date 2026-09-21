@@ -3,6 +3,7 @@
 ```{r}
 #| label: setup-power-chapter
 #| include: false
+#| cache: false
 
 library(here)
 
@@ -18,25 +19,20 @@ cache_load_existing()
 
 ::: {.callout-important title="Como as análises desta seção estão organizadas"}
 
-Este capítulo segue a mesma arquitetura e a mesma nomenclatura do projeto CFA
-Power. O script
-[models.R](Scripts/DataAppendixScripts/models.R) define os objetos `popmodel`,
-`h1model`, `analyzemodel` e `h1modelfree`. O script
+O script
+[models.R](Scripts/DataAppendixScripts/models.R) define os modelos populacionais
+e o modelo de análise. O script
 [helpers.R](Scripts/DataAppendixScripts/helpers.R) carrega os pacotes e define
-os objetos compartilhados `REP`, `SEQ1`, `SEQ2`, `SEED`, `ALPHA`, `POWER`, `P`,
-`FITS`, `FITS_ROB`, `RULE_OF_THUMB` e `dist`.
+os parâmetros compartilhados das análises, como o número de replicações, as
+sequências de tamanhos amostrais, as sementes, os critérios de decisão, a
+distribuição não normal e a proporção de dados ausentes.
 
 Os scripts [cache_utils.R](Scripts/DataAppendixScripts/cache_utils.R) e
 [cache_loader.R](Scripts/DataAppendixScripts/cache_loader.R) reproduzem a
-mesma lógica de execução ou leitura das simulações. O script
-[pre_render_cache.R](Scripts/DataAppendixScripts/pre_render_cache.R) garante a
-existência do carregador antes da renderização. As chamadas das funções
-`semPower.powerLav()`, `sim()`, `plotPowerFit()`, `getPowerFit()` e
-`getCutoff()` permanecem diretamente neste capítulo.
-
-Por enquanto, os blocos explicativos abaixo das saídas foram omitidos. Eles
-serão acrescentados somente depois que todos os chunks e resultados forem
-validados.
+a lógica de execução ou leitura das simulações adotadas. O
+script [pre_render_cache.R](Scripts/DataAppendixScripts/pre_render_cache.R)
+garante a existência do carregador antes da renderização. As chamadas das
+funções analíticas e de simulação permanecem diretamente neste capítulo.
 
 :::
 
@@ -51,16 +47,37 @@ a probabilidade de detectar uma omissão estrutural definida antes da coleta.
 
 ## Pressupostos a priori
 
-O objeto `popmodel` representa a estrutura meta-analítica de quatro fatores. O
-objeto `h1model` mantém essa estrutura e acrescenta as cargas cruzadas de Q8 e
-Q9 no fator psicológico e de Q15 no fator ambiental. As cargas, correlações
-fatoriais e variâncias residuais são definidas antes do acesso aos dados usados
-nos capítulos empíricos [@lin2022; @mosqueirataipe2026].
+A análise de poder foi planejada a partir dos dois modelos de medida
+fundamentados na @sec-model-selection. O primeiro corresponde à estrutura principal
+de quatro fatores correlacionados, incluindo a covariância residual entre os
+itens Q3 e Q4. O segundo preserva essa estrutura e acrescenta três cargas
+cruzadas teoricamente relevantes: duas no domínio psicológico e uma no domínio
+ambiental. Essa segunda especificação não é tratada como um modelo concorrente
+a ser diretamente estimado e comparado com o primeiro. Em vez disso,
+representa uma condição populacional alternativa na qual o ajuste do modelo
+mais parcimonioso implica a omissão deliberada dessas três cargas cruzadas.
 
-O objeto `dist` representa não normalidade leve: a assimetria varia de -1 a +1
-e o excesso de curtose permanece abaixo de 1 [@yoshitake2015]. O cenário também
-inclui 10% de dados ausentes por um processo MCAR. A escolha de MCAR incorpora
-perda de informação sem exigir a especificação prospectiva de um mecanismo MAR.
+As cargas fatoriais principais, as correlações entre os fatores e as variâncias
+residuais foram definidas com base nas evidências meta-analíticas e nas revisões
+apresentadas anteriormente [@lin2022; @mosqueirataipe2026]. Consequentemente, a
+análise de poder é conduzida *a priori*: as características da população e a
+magnitude da misspecificação são estabelecidas antes do acesso aos dados
+empíricos utilizados nas seções subsequentes.
+
+Além da estrutura fatorial, as simulações incorporam duas condições
+frequentemente encontradas em aplicações reais da análise fatorial
+confirmatória: não normalidade e dados ausentes. A distribuição dos indicadores
+admite assimetrias entre $-1$ e $+1$ e valores de curtose entre aproximadamente
+1,7 e 2,0, representando desvios moderados da normalidade compatíveis com
+resultados anteriores obtidos com o WHOQOL-Bref [@yoshitake2015].
+
+Também se pressupõe que 10% das respostas estejam ausentes segundo um mecanismo
+completamente ao acaso. A adoção do mecanismo MCAR permite representar a perda
+de informação decorrente dos dados ausentes sem exigir a formulação adicional
+de um padrão prospectivo de ausência dependente de variáveis observadas. Em
+todas as condições, os modelos são estimados por máxima verossimilhança robusta,
+enquanto os dados ausentes são tratados por máxima verossimilhança com
+informação completa. A @tbl-power-assumptions sintetiza essas decisões.
 
 ```{r}
 #| label: tbl-power-assumptions
@@ -69,10 +86,14 @@ perda de informação sem exigir a especificação prospectiva de um mecanismo M
 
 power_assumptions <- tribble(
   ~component, ~specification, ~basis,
-  "Modelo de referência", "popmodel", "Lin e Yao (2022)",
-  "Misspecificação", "Três cargas cruzadas em h1model", "Mosqueira-Taipe et al. (2026)",
+  "Modelo de referência",
+  "Quatro fatores correlacionados e covariância residual Q3--Q4",
+  "Lin e Yao (2022)",
+  "Misspecificação",
+  "Omissão de três cargas cruzadas",
+  "Mosqueira-Taipe et al. (2026)",
   "Não normalidade",
-  "Assimetria de -1 a +1; excesso de curtose abaixo de 1",
+  "Assimetria de -1 a +1; curtose entre 1,7 e 2,0",
   "Yoshitake et al. (2015)",
   "Dados ausentes", "10% MCAR", "Mosqueira-Taipe et al. (2026)",
   "Estimação", "MLR + FIML", "Cenário realístico",
@@ -87,44 +108,168 @@ kable(
 )
 ```
 
-## Método analítico baseado no modelo
+:::: {.content-visible unless-format="pdf"}
 
-A análise analítica constitui o ponto de partida. Como no CFA Power, o objeto
-`popmodel` define a matriz populacional e o objeto `analyzemodel` representa o
-modelo livre ajustado a essa matriz. A função `semPower.powerLav()` converte a
-discrepância entre as estruturas em $F_0$ e na distribuição não central do
-qui-quadrado [@moshagen2024].
+::: {.callout-note title="Racional da @tbl-power-assumptions"}
+
+O objeto `power_assumptions` é uma tabela construída com a função
+`tribble()`, do pacote **tibble**. Cada linha traduz uma decisão metodológica
+da análise de poder em três campos: componente, especificação e fundamento. As
+variáveis `ALPHA` e `POWER`, definidas no script
+[helpers.R](Scripts/DataAppendixScripts/helpers.R), mantêm o nível de
+significância e o poder desejado sincronizados com as análises seguintes. A
+função `kable()`, do pacote **knitr**, apenas organiza esse objeto para
+apresentação em @tbl-power-assumptions.
+
+Após carregar os scripts indicados no início da seção, a tabela pode ser
+reproduzida com:
+
+```{r}
+#| eval: false
+
+power_assumptions <- tribble(
+  ~component, ~specification, ~basis,
+  "Modelo de referência",
+  "Quatro fatores correlacionados e covariância residual Q3--Q4",
+  "Lin e Yao (2022)",
+  "Misspecificação",
+  "Omissão de três cargas cruzadas",
+  "Mosqueira-Taipe et al. (2026)",
+  "Não normalidade",
+  "Assimetria de -1 a +1; curtose entre 1,7 e 2,0",
+  "Yoshitake et al. (2015)",
+  "Dados ausentes", "10% MCAR", "Mosqueira-Taipe et al. (2026)",
+  "Estimação", "MLR + FIML", "Cenário realístico",
+  "Erro tipo I", format(ALPHA, nsmall = 2), "Definido a priori",
+  "Poder-alvo", format(POWER, nsmall = 2), "Definido a priori"
+)
+
+kable(
+  power_assumptions,
+  col.names = c("Componente", "Especificação", "Base"),
+  align = c("l", "l", "l")
+)
+```
+
+:::
+
+::::
+
+## Abordagem analítica de poder
+
+A primeira estimativa do tamanho amostral é obtida pelo método analítico
+baseado em modelos. Nessa análise, a estrutura populacional contém as três
+cargas cruzadas, enquanto o modelo submetido ao teste mantém apenas as cargas
+principais e a covariância residual entre Q3 e Q4. Assim, a magnitude do efeito
+não é definida por um valor convencional de RMSEA ou por outra regra geral,
+mas pela discrepância entre a matriz de covariâncias populacional e as
+restrições impostas pelo modelo de análise [@moshagen2024].
+
+Como não é especificado um segundo modelo livremente estimado para uma
+comparação aninhada, o procedimento avalia o ajuste global do modelo de análise
+em relação ao modelo saturado. Portanto, a hipótese testada não corresponde à
+comparação direta entre o modelo parcimonioso e o modelo livre com cargas
+cruzadas. Ela expressa a capacidade de rejeitar globalmente o modelo que omite
+as relações presentes na população.
 
 ```{r}
 #| label: analytical-power
-#| echo: false
+#| include: false
 
-ap_popmodel <- semPower.powerLav(
+ap_h1model <- semPower.powerLav(
   type = "a-priori",
   alpha = ALPHA,
   power = POWER,
   modelPop = h1model,
   modelH0 = analyzemodel,
-  #modelH1 = h1modelfree,
+  lavOptions = list(std.lv = TRUE),
+  p = P
+)
+```
+
+Considerando nível de significância de 5% e poder desejado de 80%, o método
+analítico indicou um tamanho amostral mínimo de `r ap_h1model$requiredN` participantes. Esse valor é
+utilizado como ponto de partida para a etapa de simulação, e não como
+recomendação amostral definitiva.
+
+A @fig-analytical-power apresenta as distribuições central e não central do
+qui-quadrado. A distribuição sob a hipótese nula representa o comportamento
+esperado da estatística quando as restrições do modelo são adequadas, enquanto
+a distribuição não central representa o comportamento esperado diante da
+discrepância populacional especificada. A região de rejeição e a sobreposição
+entre as duas distribuições permitem visualizar conjuntamente o erro tipo I e
+o poder estatístico.
+
+```{r}
+#| label: fig-analytical-power
+#| fig-cap: >-
+#|   Distribuições central e não central do qui-quadrado na análise analítica
+#|   de poder baseada nos modelos.
+#| fig-alt: >-
+#|   Duas curvas em sino representam as distribuições do qui-quadrado sob a
+#|   hipótese nula e sob a discrepância populacional especificada.
+#| fig-width: 8
+#| fig-height: 5
+#| fig-align: center
+#| echo: false
+
+summary(ap_h1model)
+```
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Racional da @fig-analytical-power"}
+
+O objeto `ap_h1model` é criado pela função `semPower.powerLav()`, do pacote
+**semPower**. O argumento `type = "a-priori"` solicita o tamanho amostral
+necessário para alcançar o poder definido na variável `POWER`, considerando o
+nível de significância armazenado em `ALPHA`. O objeto `h1model`, definido no
+script [models.R](Scripts/DataAppendixScripts/models.R), representa a estrutura
+populacional com as três cargas cruzadas. O objeto `analyzemodel` representa o
+modelo de análise que omite essas relações.
+
+O argumento `lavOptions = list(std.lv = TRUE)` identifica os fatores por meio
+de variâncias unitárias, enquanto `p = P` informa o número de indicadores
+observados. Por fim, a função `summary()` apresenta os resultados da análise e
+produz as distribuições representadas em @fig-analytical-power. Após carregar
+os scripts indicados no início da seção, a saída pode ser reproduzida com:
+
+```{r}
+#| eval: false
+
+ap_h1model <- semPower.powerLav(
+  type = "a-priori",
+  alpha = ALPHA,
+  power = POWER,
+  modelPop = h1model,
+  modelH0 = analyzemodel,
   lavOptions = list(std.lv = TRUE),
   p = P
 )
 
-summary(ap_popmodel)
+summary(ap_h1model)
 ```
 
+:::
 
-## Simulação Monte Carlo em cenário realístico
+::::
 
-A simulação combina as duas condições realísticas discutidas neste tutorial:
-não normalidade leve e 10% de dados ausentes MCAR. Em todas as replicações, o
-objeto `analyzemodel` é estimado com MLR e FIML. A única diferença entre as duas
-simulações é o modelo usado para gerar os dados.
+## Simulação Monte Carlo
 
-`REP` começa com 5 para a verificação dos chunks. Depois que toda a sequência
-estiver validada, seu valor deverá ser alterado manualmente para 1.000 em
-`helpers.R`. Antes da execução definitiva, os dois arquivos RDS de teste devem
-ser removidos de `Data/IntermediateData`.
+Embora a abordagem analítica forneça um ponto de partida objetivo, ela não
+representa integralmente as condições realísticas previstas na literatura. Por
+esse motivo, a etapa seguinte utiliza uma simulação Monte Carlo que combina não
+normalidade moderada e 10% de dados ausentes MCAR, mantendo a estimação por
+máxima verossimilhança robusta (MLR) com tratamento dos dados ausentes por informação
+completa (FIMLR).
+
+Os tamanhos amostrais variam de 101 a 400 participantes. Em cada tamanho, são
+realizadas dez replicações sob duas condições populacionais. Na condição de
+referência, os dados seguem a estrutura de quatro fatores sem cargas cruzadas.
+Na condição alternativa, os dados são gerados com as três cargas cruzadas, mas
+analisados pelo modelo que as omite. A comparação entre essas condições permite
+estimar a capacidade de RMSEA, SRMR, CFI e TLI para identificar a
+misspecificação previamente definida.
 
 ```{r}
 #| label: sim-popmodel-varying
@@ -172,13 +317,20 @@ h1model_varying <- cache_or_run("h1model_101to400", {
 })
 ```
 
+Duas representações das relações entre tamanho amostral e poder são
+apresentadas. A primeira utiliza suavização logística para representar a
+tendência geral de crescimento do poder ao longo da faixa amostral (@fig-realistic-power). A segunda
+mostra diretamente as proporções de rejeição observadas nas replicações
+realizadas em cada tamanho (@fig-realistic-curve).
+
 ```{r}
 #| label: fig-realistic-power
 #| fig-cap: >-
-#|   Poder empírico para detectar a omissão das cargas cruzadas sob não
-#|   normalidade leve e 10% de dados ausentes MCAR.
+#|   Curvas de poder com suavização logística sob não normalidade leve e 10%
+#|   de dados ausentes MCAR.
 #| fig-alt: >-
-#|   Curvas de poder de RMSEA, SRMR, CFI e TLI em função do tamanho amostral.
+#|   Curvas logísticas de poder de RMSEA, SRMR, CFI e TLI entre 101 e 400
+#|   participantes.
 #| fig-width: 8
 #| fig-height: 5
 #| fig-align: center
@@ -192,39 +344,144 @@ plotPowerFit(
 )
 ```
 
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Racional da @fig-realistic-power"}
+
+Os objetos `popmodel_varying` e `h1model_varying` armazenam os resultados das
+duas simulações com tamanhos amostrais variáveis. A função `cache_or_run()`,
+definida em
+[cache_utils.R](Scripts/DataAppendixScripts/cache_utils.R), primeiro procura o
+objeto na sessão e o respectivo arquivo RDS em `Data/IntermediateData`. A função
+`sim()` somente é executada quando nenhum resultado previamente salvo está
+disponível.
+
+Nas duas chamadas de `sim()`, o objeto `analyzemodel` especifica o modelo
+estimado. O argumento `generate` diferencia as condições: `popmodel` gera dados
+sem as cargas cruzadas e `h1model` gera dados com as três relações omitidas pelo
+modelo de análise. A variável `SEQ` fornece os tamanhos amostrais; `P_MCAR`
+define a proporção de dados ausentes; e `dist` contém os valores de assimetria e
+curtose. Os argumentos `estimator = "mlr"` e `missing = "fiml"` determinam,
+respectivamente, o estimador robusto e o tratamento dos dados ausentes.
+
+A função `plotPowerFit()` compara os dois objetos simulados para os índices
+armazenados em `FITS`. Como o argumento `logistic` conserva seu valor padrão
+`TRUE`, as proporções empíricas de rejeição são representadas por curvas
+logísticas suavizadas. A simulação e a figura podem ser reproduzidas com:
+
+```{r}
+#| eval: false
+
+popmodel_varying <- cache_or_run("popmodel_101to400", {
+  sim(
+    NULL,
+    n = SEQ,
+    pmMCAR = P_MCAR,
+    analyzemodel,
+    generate = popmodel,
+    indDist = dist,
+    std.lv = TRUE,
+    lavaanfun = "cfa",
+    estimator = "mlr",
+    missing = "fiml",
+    seed = SEED,
+    multicore = TRUE
+  )
+})
+
+h1model_varying <- cache_or_run("h1model_101to400", {
+  sim(
+    NULL,
+    n = SEQ,
+    pmMCAR = P_MCAR,
+    analyzemodel,
+    generate = h1model,
+    indDist = dist,
+    std.lv = TRUE,
+    lavaanfun = "cfa",
+    estimator = "mlr",
+    missing = "fiml",
+    seed = SEED,
+    multicore = TRUE
+  )
+})
+
+plotPowerFit(
+  h1model_varying,
+  popmodel_varying,
+  alpha = ALPHA,
+  usedFit = FITS
+)
+```
+
+:::
+
+::::
+
 ```{r}
 #| label: fig-realistic-curve
 #| fig-cap: >-
-#|   XXXX.
+#|   Poder empírico sem suavização logística sob não normalidade leve e 10%
+#|   de dados ausentes MCAR.
 #| fig-alt: >-
-#|   XXXX.
+#|   Valores de poder não suavizados de RMSEA, SRMR, CFI e TLI entre 101 e
+#|   400 participantes.
 #| fig-width: 8
 #| fig-height: 5
 #| fig-align: center
 #| echo: false
 
 plotPowerFit(
-    h1model_varying,
-    popmodel_varying,
-    alpha = ALPHA,
-    usedFit = FITS,
-    logistic = FALSE
+  h1model_varying,
+  popmodel_varying,
+  alpha = ALPHA,
+  usedFit = FITS,
+  logistic = FALSE
 )
 ```
 
-## Poder e pontos de corte calibrados
+:::: {.content-visible unless-format="pdf"}
 
-Durante a verificação inicial, `N_REALISTIC` corresponde ao limite superior de
-`SEQ2`. Depois da simulação definitiva, esse objeto deve ser substituído pelo
-menor tamanho amostral em que os índices selecionados alcançam `POWER`. A
-@tbl-power-cutoff-realistic apresenta o poder e os pontos de corte no valor
-atualmente definido.
+::: {.callout-note title="Racional da @fig-realistic-curve"}
+
+A @fig-realistic-curve reutiliza os objetos `h1model_varying` e
+`popmodel_varying` explicados no callout anterior. A diferença está no argumento
+`logistic = FALSE` da função `plotPowerFit()`. Com essa opção, a função não
+ajusta curvas logísticas: ela conecta os valores de poder observados nas
+replicações de cada tamanho amostral. Essa representação permite verificar a
+variabilidade que a suavização da @fig-realistic-power resume.
+
+Após criar ou carregar os dois objetos simulados, a figura pode ser reproduzida
+com:
+
+```{r}
+#| eval: false
+
+plotPowerFit(
+  h1model_varying,
+  popmodel_varying,
+  alpha = ALPHA,
+  usedFit = FITS,
+  logistic = FALSE
+)
+```
+
+:::
+
+::::
+
+As curvas apresentadas em @fig-realistic-power e @fig-realistic-curve sugerem
+que uma amostra próxima de 150 participantes pode ser suficiente para que os
+índices globais detectem a omissão das cargas cruzadas. O poder e os pontos de
+corte empíricos são, então, calculados especificamente para $N=150$. Essa
+avaliação permite verificar se o tamanho indicado visualmente pelas curvas
+oferece desempenho consistente entre os quatro índices ou se permanece
+excessivamente próximo do limite adotado.
 
 ```{r}
 #| label: tbl-power-cutoff-realistic
 #| tbl-cap: >-
-#|   Poder e pontos de corte calibrados pelo modelo no tamanho amostral
-#|   definido por N_TARGET.
+#|   Poder e pontos de corte calibrados pelo modelo para N = 150.
 #| echo: false
 
 power_varying <- getPowerFit(
@@ -252,134 +509,456 @@ colnames(power_cutoff_varying) <- toupper(names(power_varying))
 kable(power_cutoff_varying, digits = 3, align = "c")
 ```
 
-Esses valores não constituem Dynamic Fit Indices. Eles são pontos de corte
-empíricos calibrados pelo modelo populacional, pela misspecificação teorizada e
-pelo cenário de dados desta análise. Sua generalização está restrita às cargas,
-à não normalidade, ao missing, ao estimador e aos tamanhos amostrais simulados.
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Racional da @tbl-power-cutoff-realistic"}
+
+A função `getPowerFit()` calcula o poder empírico em $N=150$. O objeto
+`h1model_varying` é informado como a condição alternativa, na qual as cargas
+cruzadas estão presentes na população, e o argumento nomeado `nullObject`
+recebe `popmodel_varying`, a condição em que o modelo está corretamente
+especificado. Os argumentos `alpha`, `nVal` e `usedFit` definem o nível de
+significância, o tamanho amostral examinado e os índices de ajuste avaliados.
+
+A função `getCutoff()` usa a distribuição dos índices em `popmodel_varying`
+para obter os pontos de corte correspondentes ao mesmo nível de significância e
+tamanho amostral. Em seguida, `rbind()` reúne poder e pontos de corte no objeto
+`power_cutoff_varying`, e `kable()` apresenta esse objeto em
+@tbl-power-cutoff-realistic. Após carregar as simulações, a tabela pode ser
+reproduzida com:
 
 ```{r}
+#| eval: false
+
+power_varying <- getPowerFit(
+  h1model_varying,
+  nullObject = popmodel_varying,
+  alpha = ALPHA,
+  nVal = 150,
+  usedFit = FITS
+)
+
+cutoff_varying <- getCutoff(
+  popmodel_varying,
+  alpha = ALPHA,
+  nVal = 150,
+  usedFit = FITS
+)
+
+power_cutoff_varying <- rbind(
+  "Poder" = as.numeric(power_varying),
+  "Ponto de corte" = as.numeric(cutoff_varying[1, ])
+)
+
+colnames(power_cutoff_varying) <- toupper(names(power_varying))
+
+kable(power_cutoff_varying, digits = 3, align = "c")
+```
+
+:::
+
+::::
+
+Em $N=150$, o poder estimado foi de
+`r sprintf("%.3f", power_varying[["rmsea"]])` para o RMSEA,
+`r sprintf("%.3f", power_varying[["srmr"]])` para o SRMR,
+`r sprintf("%.3f", power_varying[["cfi"]])` para o CFI e
+`r sprintf("%.3f", power_varying[["tli"]])` para o TLI.
+
+Entretanto, essa primeira simulação examina somente a capacidade dos índices
+globais de ajuste para detectar a misspecificação. Ela não avalia recuperação
+das cargas fatoriais, viés absoluto ou relativo dos parâmetros, viés dos
+erros-padrão, cobertura dos intervalos de confiança ou poder de parâmetros
+individuais. Assim, uma amostra que pareça suficiente para o teste global não
+necessariamente garante precisão adequada para todos os parâmetros do modelo
+[@feng2023; @pornprasertmanit2022].
+
+## SMC com tamanho amostral fixo
+
+Diante da possibilidade de que 150 participantes representem uma solução
+limítrofe, adota-se $N=200$ como tamanho amostral de planejamento. Essa decisão
+não constitui uma regra universal para análise fatorial confirmatória. Trata-se
+de uma escolha prudencial que considera, simultaneamente, os resultados das
+curvas de poder, a complexidade do modelo de medida, as condições não ideais de
+distribuição e missing e a ausência, neste tutorial, de uma avaliação completa
+da recuperação dos parâmetros.
+
+A análise com tamanho amostral fixo utiliza 1.000 replicações para cada
+condição populacional. Na primeira, são gerados dados de acordo com o modelo de
+referência. Na segunda, os dados são gerados sob a estrutura que contém as três
+cargas cruzadas, mas continuam sendo analisados pelo modelo que as omite.
+Diferentemente da etapa anterior, na qual dez replicações foram distribuídas
+em cada um dos diversos tamanhos amostrais, esta etapa concentra todas as 1.000
+replicações em $N=200$. Isso permite obter estimativas mais estáveis do poder e
+das distribuições empíricas dos índices de ajuste nesse tamanho específico.
+
+```{r}
+#| label: sim-popmodel-fixed
+#| cache: true
+#| include: false
+
 popmodel_fixed <- cache_or_run("popmodel_200", {
-    sim(
-        SIM,
-        n = N_TARGET,
-        pmMCAR = P_MCAR,
-        analyzemodel,
-        generate = popmodel,
-        indDist = dist,
-        std.lv = TRUE,
-        lavaanfun = "cfa",
-        estimator = "mlr",
-        missing = "fiml",
-        seed = SEED,
-        multicore = TRUE
-    )
+  sim(
+    SIM,
+    n = N_TARGET,
+    pmMCAR = P_MCAR,
+    analyzemodel,
+    generate = popmodel,
+    indDist = dist,
+    std.lv = TRUE,
+    lavaanfun = "cfa",
+    estimator = "mlr",
+    missing = "fiml",
+    seed = SEED,
+    multicore = TRUE
+  )
 })
 ```
 
-
 ```{r}
+#| label: sim-h1model-fixed
+#| cache: true
+#| include: false
+
 h1model_fixed <- cache_or_run("h1model_200", {
-    sim(
-        SIM,
-        n = N_TARGET,
-        pmMCAR = P_MCAR,
-        analyzemodel,
-        generate = h1model,
-        indDist = dist,
-        std.lv = TRUE,
-        lavaanfun = "cfa",
-        estimator = "mlr",
-        missing = "fiml",
-        seed = SEED,
-        multicore = TRUE
-    )
+  sim(
+    SIM,
+    n = N_TARGET,
+    pmMCAR = P_MCAR,
+    analyzemodel,
+    generate = h1model,
+    indDist = dist,
+    std.lv = TRUE,
+    lavaanfun = "cfa",
+    estimator = "mlr",
+    missing = "fiml",
+    seed = SEED,
+    multicore = TRUE
+  )
 })
 ```
 
+Como o tamanho amostral permanece constante, não é necessária uma suavização
+logística. A @fig-power-fixed mostra diretamente o comportamento empírico dos
+índices nas duas condições populacionais. A separação entre as distribuições é
+a representação gráfica da capacidade de identificar a misspecificação.
+
 ```{r}
+#| label: fig-power-fixed
+#| fig-cap: >-
+#|   Distribuições empíricas dos índices de ajuste em 1.000 replicações com
+#|   N = 200.
+#| fig-alt: >-
+#|   Distribuições de RMSEA, SRMR, CFI e TLI nas populações de referência e
+#|   com cargas cruzadas, mantendo N igual a 200.
+#| fig-width: 8
+#| fig-height: 5
+#| fig-align: center
+#| echo: false
+
 plotPowerFit(
-    h1model_fixed,
-    popmodel_fixed,
-    alpha = ALPHA,
-    usedFit = FITS
+  h1model_fixed,
+  popmodel_fixed,
+  alpha = ALPHA,
+  usedFit = FITS
 )
 ```
 
-```{r}
+:::: {.content-visible unless-format="pdf"}
 
-# Estimate power for rejecting the misspecified model (h1model_fixed)
-# using fit-index cutoffs implied by the null model.
+::: {.callout-note title="Racional da @fig-power-fixed"}
+
+Os objetos `popmodel_fixed` e `h1model_fixed` armazenam as simulações com
+tamanho amostral fixo. A variável `SIM`, definida em
+[helpers.R](Scripts/DataAppendixScripts/helpers.R), determina 1.000 replicações,
+e `N_TARGET` fixa 200 participantes em cada uma delas. Os demais argumentos de
+`sim()` preservam o mesmo cenário realístico da etapa anterior: 10% de dados
+ausentes MCAR, não normalidade moderada, estimação MLR e tratamento FIML.
+
+A função `cache_or_run()` associa os dois objetos aos arquivos
+`popmodel_200.rds` e `h1model_200.rds`. Assim, a renderização utiliza os
+resultados já salvos quando eles estão disponíveis e executa `sim()` somente
+quando é necessário reproduzir as simulações. A função `plotPowerFit()` compara
+as distribuições dos índices de ajuste nas duas condições populacionais: a de
+referência e a que contém as cargas cruzadas. A simulação e a figura podem ser
+reproduzidas com:
+
+```{r}
+#| eval: false
+
+popmodel_fixed <- cache_or_run("popmodel_200", {
+  sim(
+    SIM,
+    n = N_TARGET,
+    pmMCAR = P_MCAR,
+    analyzemodel,
+    generate = popmodel,
+    indDist = dist,
+    std.lv = TRUE,
+    lavaanfun = "cfa",
+    estimator = "mlr",
+    missing = "fiml",
+    seed = SEED,
+    multicore = TRUE
+  )
+})
+
+h1model_fixed <- cache_or_run("h1model_200", {
+  sim(
+    SIM,
+    n = N_TARGET,
+    pmMCAR = P_MCAR,
+    analyzemodel,
+    generate = h1model,
+    indDist = dist,
+    std.lv = TRUE,
+    lavaanfun = "cfa",
+    estimator = "mlr",
+    missing = "fiml",
+    seed = SEED,
+    multicore = TRUE
+  )
+})
+
+plotPowerFit(
+  h1model_fixed,
+  popmodel_fixed,
+  alpha = ALPHA,
+  usedFit = FITS
+)
+```
+
+:::
+
+::::
+
+Em seguida, são calculados o poder de detecção da misspecificação e os pontos
+de corte correspondentes a RMSEA, SRMR, CFI e TLI. Esses pontos são derivados
+da distribuição dos índices quando o modelo está corretamente especificado,
+considerando simultaneamente o tamanho amostral, a não normalidade, o percentual
+de dados ausentes e o método de estimação. A @tbl-power-cutoff-fixed apresenta
+os resultados para $N=200$.
+
+```{r}
+#| label: tbl-power-cutoff-fixed
+#| tbl-cap: >-
+#|   Poder e pontos de corte calibrados pelo modelo em 1.000 replicações com
+#|   N = 200.
+#| echo: false
+
 power_fixed <- getPowerFit(
   h1model_fixed,
   nullObject = popmodel_fixed,
   alpha = ALPHA,
   usedFit = FITS
-)
+)[FITS]
 
-# Derive empirical cutoff values for the selected fit indices
-# from the null-model sampling distribution under the same conditions.
 cutoff_fixed <- getCutoff(
   popmodel_fixed,
   alpha = ALPHA,
   usedFit = FITS
 )
 
-# Combine power and cutoff values into a compact summary table.
 power_cutoff_fixed <- rbind(
-  "Power" = as.numeric(power_fixed),
-  "Cutoff" = as.numeric(cutoff_fixed[1, ])
+  "Poder" = as.numeric(power_fixed),
+  "Ponto de corte" = as.numeric(cutoff_fixed[1, ])
 )
 
 colnames(power_cutoff_fixed) <- toupper(names(power_fixed))
 
-knitr::kable(power_cutoff_fixed, digits = 3, align = "c")
+kable(power_cutoff_fixed, digits = 3, align = "c")
 ```
 
-```{r}
-plotPowerFit(
-    h1model_fixed,
-    popmodel_fixed,
-    cutoff = RULE_OF_THUMB,
-    alpha = ALPHA,
-    usedFit = FITS
-)
-```
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Racional da @tbl-power-cutoff-fixed"}
+
+A função `getPowerFit()` calcula, a partir de `h1model_fixed`, o poder para
+rejeitar o modelo que omite as cargas cruzadas. O argumento `nullObject =
+popmodel_fixed` solicita que os critérios de decisão sejam derivados da
+distribuição dos índices quando o modelo está corretamente especificado. A
+seleção `[FITS]` conserva no objeto `power_fixed` somente RMSEA, SRMR, CFI e
+TLI, excluindo outras estatísticas retornadas pela função.
+
+A função `getCutoff()` obtém os pontos de corte dos mesmos quatro índices em
+`popmodel_fixed`. Como todas as replicações possuem 200 participantes, não é
+necessário fornecer o argumento `nVal`. Os objetos `power_fixed` e
+`cutoff_fixed` são reunidos em `power_cutoff_fixed`, apresentado por `kable()`
+em @tbl-power-cutoff-fixed. Após carregar as simulações, a tabela pode ser
+reproduzida com:
 
 ```{r}
+#| eval: false
 
-# Estimate power using traditional fit-index cutoffs.
-power_traditional <- getPowerFit(
+power_fixed <- getPowerFit(
   h1model_fixed,
-  RULE_OF_THUMB,
+  nullObject = popmodel_fixed,
+  alpha = ALPHA,
+  usedFit = FITS
+)[FITS]
+
+cutoff_fixed <- getCutoff(
+  popmodel_fixed,
   alpha = ALPHA,
   usedFit = FITS
 )
 
-# Convert to a one-row table with column headers.
-power_traditional_tbl <- t(as.data.frame(power_traditional))
+power_cutoff_fixed <- rbind(
+  "Poder" = as.numeric(power_fixed),
+  "Ponto de corte" = as.numeric(cutoff_fixed[1, ])
+)
 
-colnames(power_traditional_tbl) <- toupper(names(power_traditional))
-rownames(power_traditional_tbl) <- "Power"
+colnames(power_cutoff_fixed) <- toupper(names(power_fixed))
 
-knitr::kable(power_traditional_tbl, digits = 3, align = "c")
+kable(power_cutoff_fixed, digits = 3, align = "c")
 ```
 
+:::
+
+::::
+
+
+## Comparação com pontos de corte tradicionais
+
+Finalmente, o desempenho dos pontos de corte calibrados é comparado ao
+desempenho dos limites tradicionalmente utilizados para interpretar o ajuste
+global. Para RMSEA e SRMR, a rejeição ocorre quando os valores ultrapassam os
+respectivos limites; para CFI e TLI, ocorre quando os valores ficam abaixo
+deles.
+
+A mesma simulação com tamanho amostral fixo é reavaliada, mantendo constantes o
+tamanho amostral, os modelos de geração e análise e todas as características
+dos dados. Apenas o critério de decisão é alterado. A
+@fig-power-fixed-traditional apresenta a classificação obtida com os pontos de
+corte tradicionais, e a @tbl-power-traditional apresenta o poder resultante.
 
 ```{r}
+#| label: fig-power-fixed-traditional
+#| fig-cap: >-
+#|   Distribuições dos índices de ajuste avaliadas por pontos de corte
+#|   tradicionais em 1.000 replicações com N = 200.
+#| fig-alt: >-
+#|   Distribuições de RMSEA, SRMR, CFI e TLI comparadas aos respectivos pontos
+#|   de corte tradicionais.
+#| fig-width: 8
+#| fig-height: 5
+#| fig-align: center
+#| echo: false
 
-# Compute detailed parameter-recovery results for the fitted model.
-summaryParam(
-  h1model_varying,
+plotPowerFit(
+  h1model_fixed,
+  popmodel_fixed,
+  cutoff = RULE_OF_THUMB,
   alpha = ALPHA,
-  digits = 3,
-  detail = TRUE
+  usedFit = FITS
 )
 ```
 
-```{r}
+:::: {.content-visible unless-format="pdf"}
 
-# Compute detailed parameter-recovery results for the fitted model.
-pow_h1model <- getPower(h1model_varying, alpha = ALPHA)
-n_h1model <- findPower(pow_h1model, "N", 0.80)
-n_h1model
+::: {.callout-note title="Racional da @fig-power-fixed-traditional"}
+
+A @fig-power-fixed-traditional reutiliza os objetos `h1model_fixed` e
+`popmodel_fixed`; portanto, nenhuma nova simulação é executada. A única mudança
+em relação a @fig-power-fixed é o argumento `cutoff = RULE_OF_THUMB` da função
+`plotPowerFit()`. O objeto `RULE_OF_THUMB`, definido em
+[helpers.R](Scripts/DataAppendixScripts/helpers.R), contém os limites
+tradicionais adotados para RMSEA, SRMR, CFI e TLI.
+
+Como os dados simulados, os modelos, o tamanho amostral e o método de estimação
+permanecem constantes, as diferenças entre as duas figuras decorrem
+exclusivamente da substituição dos pontos de corte calibrados pelos limites
+tradicionais. Após carregar as simulações, a figura pode ser reproduzida com:
+
+```{r}
+#| eval: false
+
+plotPowerFit(
+  h1model_fixed,
+  popmodel_fixed,
+  cutoff = RULE_OF_THUMB,
+  alpha = ALPHA,
+  usedFit = FITS
+)
 ```
+
+:::
+
+::::
+
+```{r}
+#| label: tbl-power-traditional
+#| tbl-cap: >-
+#|   Poder obtido com pontos de corte tradicionais em 1.000 replicações com
+#|   N = 200.
+#| echo: false
+
+power_traditional <- getPowerFit(
+  h1model_fixed,
+  cutoff = RULE_OF_THUMB,
+  alpha = ALPHA,
+  usedFit = FITS
+)
+
+power_traditional_tbl <- t(as.data.frame(power_traditional))
+
+colnames(power_traditional_tbl) <- toupper(names(power_traditional))
+rownames(power_traditional_tbl) <- "Poder"
+
+kable(power_traditional_tbl, digits = 3, align = "c")
+```
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Racional da @tbl-power-traditional"}
+
+A função `getPowerFit()` calcula novamente o poder a partir do objeto
+`h1model_fixed`, mas agora o argumento nomeado `cutoff` recebe
+`RULE_OF_THUMB`. Diferentemente da análise em @tbl-power-cutoff-fixed, não é
+fornecido um objeto de referência em `nullObject`, porque os critérios de
+decisão são informados diretamente.
+
+O vetor retornado é transformado em uma tabela de uma linha por
+`as.data.frame()` e `t()`. Em seguida, os nomes dos índices são convertidos para
+maiúsculas e `kable()` apresenta o objeto `power_traditional_tbl` em
+@tbl-power-traditional. Após carregar a simulação com tamanho amostral fixo, a
+tabela pode ser reproduzida com:
+
+```{r}
+#| eval: false
+
+power_traditional <- getPowerFit(
+  h1model_fixed,
+  cutoff = RULE_OF_THUMB,
+  alpha = ALPHA,
+  usedFit = FITS
+)
+
+power_traditional_tbl <- t(as.data.frame(power_traditional))
+
+colnames(power_traditional_tbl) <- toupper(names(power_traditional))
+rownames(power_traditional_tbl) <- "Poder"
+
+kable(power_traditional_tbl, digits = 3, align = "c")
+```
+
+:::
+
+::::
+
+Com os pontos de corte tradicionais, o poder foi de
+`r sprintf("%.3f", power_traditional[["rmsea"]])` para o RMSEA,
+`r sprintf("%.3f", power_traditional[["srmr"]])` para o SRMR,
+`r sprintf("%.3f", power_traditional[["cfi"]])` para o CFI e
+`r sprintf("%.3f", power_traditional[["tli"]])` para o TLI.
+
+Essa comparação permite verificar que os critérios tradicionais produzem
+conclusões completamente diferente às obtidas com as distribuições simuladas, com a
+sensibilidade para a misspecificação considerada considerávelmente distorcida [@mcneishwolf2023cfa;
+@groskurth2024].
+
+Em conjunto, as três etapas cumprem funções complementares. A abordagem
+analítica oferece uma estimativa inicial baseada na discrepância populacional;
+a simulação com tamanho variável mostra como o poder evolui entre 101 e 400
+participantes; e a simulação com 1.000 replicações em $N=200$ fornece uma
+avaliação mais estável do planejamento amostral escolhido.

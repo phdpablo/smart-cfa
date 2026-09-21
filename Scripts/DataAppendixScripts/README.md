@@ -10,18 +10,19 @@ The `DataAppendixScripts` folder holds scripts used to generate the Data Appendi
 
 ### Current scripts
 
--   `models.R` defines `popmodel`, `h1model`, `analyzemodel`, and `h1modelfree`, using the same names adopted in CFA Power.
+-   `models.R` defines `popmodel`, `h1model`, `analyzemodel`, and `h1modelfree`, the model objects used throughout the analytical chapters.
 -   `helpers.R` loads the required packages, defines the shared uppercase analysis objects, and retains the reusable plotting function for the measurement-model diagrams.
 -   `cache_utils.R` defines `cache_or_run()`, which reads an existing simulation object from an RDS file or runs and saves the expression supplied in the chapter.
 -   `cache_loader.R` loads existing RDS files from `Data/IntermediateData` into the current session.
 -   `pre_render_cache.R` ensures that the intermediate-data directory and cache loader exist before rendering.
 
-The simulation chunks in `04_pa.qmd` write `popmodel_realistic.rds` and
-`h1model_realistic.rds` under `Data/IntermediateData`. These files are
-versioned reproduction artifacts: the book can read them quickly, while a
-reader who wants to audit the full computation can remove them and rerun the
-two explicit calls to `sim()`. The helper does not hide any simulation
-argument.
+The simulation chunks in `04_pa.qmd` write the varying-sample-size objects
+`popmodel_101to400.rds` and `h1model_101to400.rds` and the fixed-sample-size
+objects `popmodel_200.rds` and `h1model_200.rds` under
+`Data/IntermediateData`. These files are versioned reproduction artifacts: the
+book can read them quickly, while a reader who wants to audit the full
+computation can remove them and rerun the explicit calls to `sim()`. The
+helper does not hide any simulation argument.
 
 ## Guidelines
 
