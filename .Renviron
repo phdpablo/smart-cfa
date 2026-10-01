@@ -1,0 +1,3 @@
+# The project library is already isolated by renv; disable the slower sandbox
+# activation step during Quarto renders on this Windows environment.
+RENV_CONFIG_SANDBOX_ENABLED=FALSE

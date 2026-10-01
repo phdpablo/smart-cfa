@@ -1,23 +1,8 @@
 # Análise de poder {#sec-pa}
 
-```{r}
-#| label: setup-power-chapter
-#| include: false
-#| cache: false
-
-library(here)
-
-source(here("Scripts", "DataAppendixScripts", "models.R"))
-source(here("Scripts", "DataAppendixScripts", "helpers.R"))
-source(here("Scripts", "DataAppendixScripts", "cache_utils.R"))
-source(here("Scripts", "DataAppendixScripts", "cache_loader.R"))
-
-cache_load_existing()
-```
-
 :::: {.content-visible unless-format="pdf"}
 
-::: {.callout-important title="Como as análises desta seção estão organizadas"}
+::: {.callout-important title="Como as análises desta seção estão organizadas" collapse="true"}
 
 O script
 [models.R](Scripts/DataAppendixScripts/models.R) define os modelos populacionais
@@ -32,7 +17,19 @@ Os scripts [cache_utils.R](Scripts/DataAppendixScripts/cache_utils.R) e
 a lógica de execução ou leitura das simulações adotadas. O
 script [pre_render_cache.R](Scripts/DataAppendixScripts/pre_render_cache.R)
 garante a existência do carregador antes da renderização. As chamadas das
-funções analíticas e de simulação permanecem diretamente neste capítulo.
+funções analíticas e de simulação permanecem diretamente nesse arquivo.
+
+```{r}
+#| label: setup-pa
+#| code-fold: true
+
+source(here::here("Scripts", "DataAppendixScripts", "models.R"))
+source(here::here("Scripts", "DataAppendixScripts", "helpers.R"))
+source(here::here("Scripts", "DataAppendixScripts", "cache_utils.R"))
+source(here::here("Scripts", "DataAppendixScripts", "cache_loader.R"))
+
+cache_load_existing()
+```
 
 :::
 
@@ -48,18 +45,14 @@ a probabilidade de detectar uma omissão estrutural definida antes da coleta.
 ## Pressupostos a priori
 
 A análise de poder foi planejada a partir dos dois modelos de medida
-fundamentados na @sec-model-selection. O primeiro corresponde à estrutura principal
-de quatro fatores correlacionados, incluindo a covariância residual entre os
-itens Q3 e Q4. O segundo preserva essa estrutura e acrescenta três cargas
-cruzadas teoricamente relevantes: duas no domínio psicológico e uma no domínio
-ambiental. Essa segunda especificação não é tratada como um modelo concorrente
+fundamentados na @sec-model-selection. A segunda especificação do modelo não é tratada como um modelo concorrente
 a ser diretamente estimado e comparado com o primeiro. Em vez disso,
 representa uma condição populacional alternativa na qual o ajuste do modelo
-mais parcimonioso implica a omissão deliberada dessas três cargas cruzadas.
+mais parcimonioso implica a omissão deliberada das três cargas cruzadas.
 
 As cargas fatoriais principais, as correlações entre os fatores e as variâncias
 residuais foram definidas com base nas evidências meta-analíticas e nas revisões
-apresentadas anteriormente [@lin2022; @mosqueirataipe2026]. Consequentemente, a
+apresentadas anteriormente [@lin2022; @mosqueirataipe2026; @skevington2018]. Consequentemente, a
 análise de poder é conduzida *a priori*: as características da população e a
 magnitude da misspecificação são estabelecidas antes do acesso aos dados
 empíricos utilizados nas seções subsequentes.
@@ -110,7 +103,7 @@ kable(
 
 :::: {.content-visible unless-format="pdf"}
 
-::: {.callout-note title="Racional da @tbl-power-assumptions"}
+::: {.callout-note title="Racional da @tbl-power-assumptions" collapse="true"}
 
 O objeto `power_assumptions` é uma tabela construída com a função
 `tribble()`, do pacote **tibble**. Cada linha traduz uma decisão metodológica
@@ -126,6 +119,7 @@ reproduzida com:
 
 ```{r}
 #| eval: false
+#| code-fold: true
 
 power_assumptions <- tribble(
   ~component, ~specification, ~basis,
@@ -218,7 +212,7 @@ summary(ap_h1model)
 
 :::: {.content-visible unless-format="pdf"}
 
-::: {.callout-note title="Racional da @fig-analytical-power"}
+::: {.callout-note title="Racional da @fig-analytical-power" collapse="true"}
 
 O objeto `ap_h1model` é criado pela função `semPower.powerLav()`, do pacote
 **semPower**. O argumento `type = "a-priori"` solicita o tamanho amostral
@@ -236,6 +230,7 @@ os scripts indicados no início da seção, a saída pode ser reproduzida com:
 
 ```{r}
 #| eval: false
+#| code-fold: true
 
 ap_h1model <- semPower.powerLav(
   type = "a-priori",
@@ -273,7 +268,6 @@ misspecificação previamente definida.
 
 ```{r}
 #| label: sim-popmodel-varying
-#| cache: true
 #| include: false
 
 popmodel_varying <- cache_or_run("popmodel_101to400", {
@@ -283,7 +277,7 @@ popmodel_varying <- cache_or_run("popmodel_101to400", {
     pmMCAR = P_MCAR,
     analyzemodel,
     generate = popmodel,
-    indDist = dist,
+    indDist = DIST,
     std.lv = TRUE,
     lavaanfun = "cfa",
     estimator = "mlr",
@@ -296,7 +290,6 @@ popmodel_varying <- cache_or_run("popmodel_101to400", {
 
 ```{r}
 #| label: sim-h1model-varying
-#| cache: true
 #| include: false
 
 h1model_varying <- cache_or_run("h1model_101to400", {
@@ -306,7 +299,7 @@ h1model_varying <- cache_or_run("h1model_101to400", {
     pmMCAR = P_MCAR,
     analyzemodel,
     generate = h1model,
-    indDist = dist,
+    indDist = DIST,
     std.lv = TRUE,
     lavaanfun = "cfa",
     estimator = "mlr",
@@ -346,7 +339,7 @@ plotPowerFit(
 
 :::: {.content-visible unless-format="pdf"}
 
-::: {.callout-note title="Racional da @fig-realistic-power"}
+::: {.callout-note title="Racional da @fig-realistic-power" collapse="true"}
 
 Os objetos `popmodel_varying` e `h1model_varying` armazenam os resultados das
 duas simulações com tamanhos amostrais variáveis. A função `cache_or_run()`,
@@ -371,6 +364,7 @@ logísticas suavizadas. A simulação e a figura podem ser reproduzidas com:
 
 ```{r}
 #| eval: false
+#| code-fold: true
 
 popmodel_varying <- cache_or_run("popmodel_101to400", {
   sim(
@@ -379,7 +373,7 @@ popmodel_varying <- cache_or_run("popmodel_101to400", {
     pmMCAR = P_MCAR,
     analyzemodel,
     generate = popmodel,
-    indDist = dist,
+    indDist = DIST,
     std.lv = TRUE,
     lavaanfun = "cfa",
     estimator = "mlr",
@@ -396,7 +390,7 @@ h1model_varying <- cache_or_run("h1model_101to400", {
     pmMCAR = P_MCAR,
     analyzemodel,
     generate = h1model,
-    indDist = dist,
+    indDist = DIST,
     std.lv = TRUE,
     lavaanfun = "cfa",
     estimator = "mlr",
@@ -442,7 +436,7 @@ plotPowerFit(
 
 :::: {.content-visible unless-format="pdf"}
 
-::: {.callout-note title="Racional da @fig-realistic-curve"}
+::: {.callout-note title="Racional da @fig-realistic-curve" collapse="true"}
 
 A @fig-realistic-curve reutiliza os objetos `h1model_varying` e
 `popmodel_varying` explicados no callout anterior. A diferença está no argumento
@@ -456,6 +450,7 @@ com:
 
 ```{r}
 #| eval: false
+#| code-fold: true
 
 plotPowerFit(
   h1model_varying,
@@ -511,7 +506,7 @@ kable(power_cutoff_varying, digits = 3, align = "c")
 
 :::: {.content-visible unless-format="pdf"}
 
-::: {.callout-note title="Racional da @tbl-power-cutoff-realistic"}
+::: {.callout-note title="Racional da @tbl-power-cutoff-realistic" collapse="true"}
 
 A função `getPowerFit()` calcula o poder empírico em $N=150$. O objeto
 `h1model_varying` é informado como a condição alternativa, na qual as cargas
@@ -529,6 +524,7 @@ reproduzida com:
 
 ```{r}
 #| eval: false
+#| code-fold: true
 
 power_varying <- getPowerFit(
   h1model_varying,
@@ -594,7 +590,6 @@ das distribuições empíricas dos índices de ajuste nesse tamanho específico.
 
 ```{r}
 #| label: sim-popmodel-fixed
-#| cache: true
 #| include: false
 
 popmodel_fixed <- cache_or_run("popmodel_200", {
@@ -604,7 +599,7 @@ popmodel_fixed <- cache_or_run("popmodel_200", {
     pmMCAR = P_MCAR,
     analyzemodel,
     generate = popmodel,
-    indDist = dist,
+    indDist = DIST,
     std.lv = TRUE,
     lavaanfun = "cfa",
     estimator = "mlr",
@@ -617,7 +612,6 @@ popmodel_fixed <- cache_or_run("popmodel_200", {
 
 ```{r}
 #| label: sim-h1model-fixed
-#| cache: true
 #| include: false
 
 h1model_fixed <- cache_or_run("h1model_200", {
@@ -627,7 +621,7 @@ h1model_fixed <- cache_or_run("h1model_200", {
     pmMCAR = P_MCAR,
     analyzemodel,
     generate = h1model,
-    indDist = dist,
+    indDist = DIST,
     std.lv = TRUE,
     lavaanfun = "cfa",
     estimator = "mlr",
@@ -666,7 +660,7 @@ plotPowerFit(
 
 :::: {.content-visible unless-format="pdf"}
 
-::: {.callout-note title="Racional da @fig-power-fixed"}
+::: {.callout-note title="Racional da @fig-power-fixed" collapse="true"}
 
 Os objetos `popmodel_fixed` e `h1model_fixed` armazenam as simulações com
 tamanho amostral fixo. A variável `SIM`, definida em
@@ -685,6 +679,7 @@ reproduzidas com:
 
 ```{r}
 #| eval: false
+#| code-fold: true
 
 popmodel_fixed <- cache_or_run("popmodel_200", {
   sim(
@@ -693,7 +688,7 @@ popmodel_fixed <- cache_or_run("popmodel_200", {
     pmMCAR = P_MCAR,
     analyzemodel,
     generate = popmodel,
-    indDist = dist,
+    indDist = DIST,
     std.lv = TRUE,
     lavaanfun = "cfa",
     estimator = "mlr",
@@ -710,7 +705,7 @@ h1model_fixed <- cache_or_run("h1model_200", {
     pmMCAR = P_MCAR,
     analyzemodel,
     generate = h1model,
-    indDist = dist,
+    indDist = DIST,
     std.lv = TRUE,
     lavaanfun = "cfa",
     estimator = "mlr",
@@ -751,7 +746,7 @@ power_fixed <- getPowerFit(
   nullObject = popmodel_fixed,
   alpha = ALPHA,
   usedFit = FITS
-)[FITS]
+)
 
 cutoff_fixed <- getCutoff(
   popmodel_fixed,
@@ -771,7 +766,7 @@ kable(power_cutoff_fixed, digits = 3, align = "c")
 
 :::: {.content-visible unless-format="pdf"}
 
-::: {.callout-note title="Racional da @tbl-power-cutoff-fixed"}
+::: {.callout-note title="Racional da @tbl-power-cutoff-fixed" collapse="true"}
 
 A função `getPowerFit()` calcula, a partir de `h1model_fixed`, o poder para
 rejeitar o modelo que omite as cargas cruzadas. O argumento `nullObject =
@@ -789,13 +784,14 @@ reproduzida com:
 
 ```{r}
 #| eval: false
+#| code-fold: true
 
 power_fixed <- getPowerFit(
   h1model_fixed,
   nullObject = popmodel_fixed,
   alpha = ALPHA,
   usedFit = FITS
-)[FITS]
+)
 
 cutoff_fixed <- getCutoff(
   popmodel_fixed,
@@ -856,7 +852,7 @@ plotPowerFit(
 
 :::: {.content-visible unless-format="pdf"}
 
-::: {.callout-note title="Racional da @fig-power-fixed-traditional"}
+::: {.callout-note title="Racional da @fig-power-fixed-traditional" collapse="true"}
 
 A @fig-power-fixed-traditional reutiliza os objetos `h1model_fixed` e
 `popmodel_fixed`; portanto, nenhuma nova simulação é executada. A única mudança
@@ -872,6 +868,7 @@ tradicionais. Após carregar as simulações, a figura pode ser reproduzida com:
 
 ```{r}
 #| eval: false
+#| code-fold: true
 
 plotPowerFit(
   h1model_fixed,
@@ -910,7 +907,7 @@ kable(power_traditional_tbl, digits = 3, align = "c")
 
 :::: {.content-visible unless-format="pdf"}
 
-::: {.callout-note title="Racional da @tbl-power-traditional"}
+::: {.callout-note title="Racional da @tbl-power-traditional" collapse="true"}
 
 A função `getPowerFit()` calcula novamente o poder a partir do objeto
 `h1model_fixed`, mas agora o argumento nomeado `cutoff` recebe
@@ -926,6 +923,7 @@ tabela pode ser reproduzida com:
 
 ```{r}
 #| eval: false
+#| code-fold: true
 
 power_traditional <- getPowerFit(
   h1model_fixed,

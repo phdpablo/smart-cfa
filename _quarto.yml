@@ -19,14 +19,14 @@ resources: # https://quarto.org/docs/projects/quarto-projects.html#project-resou
   - Scripts/
 execute: # https://quarto.org/docs/computations/execution-options.html
   freeze: auto # Automatically manage code execution based on changes.
-  cache: true # Enables caching of code chunks to speed up rendering.
+  message: false # Prevent R code chunk messages from appearing in the output.
   warning: false # Prevent R code chunk warnings from appearing in the output.
 book: # https://quarto.org/docs/books/index.html
   google-analytics: "G-2MWSHLX73Q" # replace with your Google Analytics tracking ID or remove this line
   favicon: cover.jpg # edit or exclude this image/line
   title: "Escolhas inteligentes para modelos de medida" # edit your title
   subtitle: "Tutorial em manuscrito executável para análise fatorial confirmatória no ambiente R" # edit your subtitle
-  author: "Pablo Rogers and Sérgio Georgeto" # edit your name
+  author: "Pablo Rogers and Sérgio Murilo Georgeto" # edit your name
   date: 09/15/2026 # https://quarto.org/docs/reference/dates.html
   date-format: long # Format for displaying the date (e.g., "August 8, 2024").
   doi: 10.17605/OSF.IO/NJDQ5 # put your DOI
@@ -101,5 +101,6 @@ format: # https://quarto.org/docs/reference/formats/html.html
     fig-height: 5 # Default height (in inches) for figures in PDF output.
     fig-align: left # Default horizontal alignment for figures in PDF.
     keep-tex: false # Keeps the intermediate .tex file generated during PDF creation.
+    fig-pos: "H" # Keep figures strictly in-place below their respective headings
 
 editor: source # Sets the default editor mode to source.

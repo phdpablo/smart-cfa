@@ -1,13 +1,740 @@
 # Pré-processamento {#sec-preprocessing}
 
-## Respostas com insuficiência de esforço
+:::: {.content-visible unless-format="pdf"}
 
-### Exclusões procedurais
+::: {.callout-important title="Como a seção está estruturada" collapse="true"}
 
-### Indicadores estatísticos pós-coleta
+O arquivo [helpers.R](Scripts/DataAppendixScripts/helpers.R) carrega os pacotes compartilhados pelo projeto. Os
+parâmetros específicos desta análise são definidos nos chunks em que são
+utilizados, para que o leitor possa acompanhar a origem de cada decisão. Cada
+saída é produzida depois da operação que a fundamenta e recebe, no HTML, um
+callout com a explicação dos objetos, funções, argumentos e parâmetros.
 
-## Análise dos indicadores
+```{r}
+#| label: setup-preprocessing
+#| code-fold: true
 
-### Multicolinearidade
+source(here::here("Scripts", "DataAppendixScripts", "helpers.R"))
+```
 
-### Análise descritiva
+:::
+
+::::
+
+O pré-processamento em questionários de autorelato tem como finalidade proteger as análises vindouras de vieses introduzidos por respostas descuidadas ou com esforço insuficiente (*Careless or Insufficient Effort Responding* — C/IER), registros incompletos ou com respostas inconsistentes, e a inspeção preliminar das variáveis. Nas seções anteriores não precisamos dos dados coletados, mas a partir de agora, temos que fazer exercícios com dados brutos, e por isso, vamos utilizar a mesma base de dados empregada por @rogers2024c e @rogers2022. 
+
+Neste tutorial, entretanto, o processamento parte dos 1.546 registros brutos e explicita tanto os critérios procedurais quanto os indicadores estatísticos de triagem C/IER. Os dados, o codebook e os procedimentos necessários à execução acompanham o projeto. Como os trabalhos anteriores [@rogers2024c; @rogers2022] partiram de uma base pré-processada de 1.047 participantes, eventuais diferenças entre seus resultados e os deste tutorial não devem ser atribuídas exclusivamente ao tratamento ordinal ou contínuo dos itens. Após a verificação da integridade do banco e a remoção de registros sem identificação
+ou com mais de cinco respostas ausentes na WHOQOL-Bref (como veremos adiante, o objetivo é simular estimação com dados *missings*), a amostra elegível foi submetida a um protocolo sequencial de triagem C/IER.
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Como a amostra elegível foi obtida" collapse="true"}
+
+O chunk `data-preparation` importa o arquivo bruto com `read_csv2()`, cria os vetores que
+identificam os itens da escala e de atenção, verifica a presença das colunas
+obrigatórias e interrompe a execução com `cli_abort()` se alguma estiver
+ausente. Em seguida, converte as respostas para formato numérico, transforma
+os timestamps com `as.POSIXct()`, calcula a duração em segundos com `difftime()`
+e cria a flag `dropout`. O objeto `eligible_data` mantém apenas os registros
+com identificação e no máximo cinco respostas ausentes nos 26 itens da escala.
+Por fim, `dir.create()`
+garante a existência do diretório e `write_csv2()` salva essa base intermediária
+no projeto.
+
+```{r}
+#| label: data-preparation
+#| code-fold: true
+
+raw_data <- read_csv2(
+  here::here("Data", "InputData", "data.csv"),
+  show_col_types = FALSE
+)
+
+scale_items <- paste0("Q", 1:26)
+attention_items <- paste0("CQ", 1:3)
+
+required_columns <- c(
+  "ID", "CREATED", "MODIFIED", attention_items, scale_items
+)
+missing_columns <- setdiff(required_columns, names(raw_data))
+if (length(missing_columns) > 0) {
+  cli::cli_abort(
+    "As colunas obrigatórias ausentes são: {paste(missing_columns, collapse = ', ')}"
+  )
+}
+
+prepared_data <- raw_data |>
+  mutate(
+    dropout = is.na(ID) | rowSums(is.na(pick(all_of(scale_items)))) > 5,
+    created_dt = as.POSIXct(
+      CREATED, format = "%d/%m/%Y %H:%M", tz = "UTC"
+    ),
+    modified_dt = as.POSIXct(
+      MODIFIED, format = "%d/%m/%Y %H:%M", tz = "UTC"
+    ),
+    TIME = as.numeric(difftime(
+      modified_dt, created_dt, units = "secs"
+    )),
+    across(all_of(c(attention_items, scale_items)), as.numeric)
+  )
+
+eligible_data <- prepared_data |>
+  filter(!dropout)
+
+dir.create(here::here("Data", "IntermediateData"), showWarnings = FALSE)
+
+write_csv2(
+  eligible_data,
+  here::here("Data", "IntermediateData", "whoqol_eligible.csv")
+)
+```
+
+:::
+
+::::
+
+Para essa triagem e o tratamento das respostas C/IER, adotou-se a abordagem de múltiplos
+obstáculos (*multiple-hurdle approach*) indicada por @curran2016 e @desimone2015. Como os
+índices de desatenção mensuram manifestações comportamentais distintas, como
+respostas aleatórias, padrões invariantes e preenchimento apressado, e podem
+apresentar correlações baixas ou nulas entre si [@meade2012; @goldammer2020;
+@biemann2025], a literatura recomenda a aplicação combinada de critérios de triagem
+[@curran2016; @arthur2021; @ulitzsch2022]. No presente tutorial, cada critério foi tratado como uma
+barreira obrigatória, de modo que a falha em qualquer obstáculo determinou a
+exclusão do participante da amostra final [@curran2016; @goldammer2020].
+
+## Exclusões procedurais {#sec-cier-exante}
+
+No âmbito dos controles *ex-ante*, utilizamos
+itens de atenção inseridos no instrumento e a duração total de preenchimento do questionário
+[@curran2016; @ward2023]. A falha em pelo menos dois dos três itens de atenção incluídos no questionário foi interpretada
+como evidência de C/IER, reduzindo a possibilidade de excluir respondentes
+atentos por um lapso pontual [@desimone2015; @chauliac2023]. Também foram
+excluídos os questionários de indivíduos com velocidade inferior a quatro segundos por item,
+limiar considerado incompatível com o processamento semântico reflexivo
+requerido pelo instrumento [@huang2012; @curran2016; @jones2023].
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Operacionalização dos itens de atenção e tempo" collapse="true"}
+
+O chunk `hurdle-procedural` seleciona o identificador, os itens de atenção, a duração e os
+itens da escala. `rowSums()` conta as respostas incorretas nos controles;
+`fail_attention` sinaliza pelo menos duas falhas, enquanto `fail_time` sinaliza
+`TIME < 416`, equivalente a quatro segundos por item no questionário completo
+de 104 itens. O objeto resultante é salvo com `write_csv2()` como base
+intermediária dos critérios procedurais.
+
+```{r}
+#| label: hurdle-procedural
+#| code-fold: true
+
+procedural_data <- eligible_data |>
+  select(ID, all_of(attention_items), TIME, all_of(scale_items)) |>
+  mutate(
+    qc_failures = rowSums(across(all_of(attention_items), ~ .x != 1),
+                           na.rm = TRUE),
+    fail_attention = qc_failures >= 2,
+    fail_time = TIME < 416
+  )
+
+write_csv2(
+  procedural_data,
+  here::here("Data", "IntermediateData", "whoqol_procedural.csv")
+)
+```
+
+:::
+
+::::
+
+## Critérios estatísticos {#sec-cier-expost}
+
+Como critérios *ex-post* empregamos a medida de *Longstring*, o IRV e a Distância de Mahalanobis [@dunn2018a; @biemann2025]. O primeiro permite identificar padrões mecânicos de
+marcação uniforme; o segundo detecta tanto variabilidade anormalmente baixas quanto dispersão alta; e o terceiro identifica padrões multivariados
+distantes do comportamento normativo da amostra, condizentes com aleatoriedade excesiva [@curran2016; @hong2020;
+@meade2012; @desimone2015]. Considerou-se problemática uma sequência contínua (*Longstring*)
+superior à metade dos itens da WHOQOL-BREF; para o IRV, utilizaram-se os percentis
+1% e 99%; e, para a Distância de Mahalanobis, o percentil 99%. Esses limiares
+foram definidos *a priori* com base na extensão da escala e nas caudas extremas
+das distribuições amostrais, buscando equilibrar sensibilidade à desatenção e
+preservação de respondentes sinceros [@goldammer2020; @steedle2018;
+@arthur2021].
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Cálculo dos índices estatísticos" collapse="true"}
+
+O chunk `indicator-calculation` calcula, antes da recodificação dos itens invertidos,
+`Longstring` com `careless::longstring()`, IRV com `careless::irv()` e a
+distância multivariada com `modi::MDmiss()`. `quantile()` obtém os limites
+amostrais do IRV e da distância de Mahalanobis; em seguida, `mutate()` cria as
+três flags estatísticas. A seleção final reúne os indicadores e suas flags, e
+`write_csv2()` salva essa base para auditoria. O chunk seguinte resume esses
+valores na tabela de estatísticas e pontos de corte.
+
+```{r}
+#| label: indicator-calculation
+#| code-fold: true
+
+indicator_data <- procedural_data |>
+  mutate(
+    longstring = as.integer(careless::longstring(pick(all_of(scale_items)))),
+    irv = as.numeric(careless::irv(
+      pick(all_of(scale_items)), split = FALSE
+    )),
+    mahalanobis = as.numeric(modi::MDmiss(
+      data = as.matrix(pick(all_of(scale_items))),
+      center = colMeans(pick(all_of(scale_items)), na.rm = TRUE),
+      cov = cov(pick(all_of(scale_items)), use = "pairwise.complete.obs")
+    ))
+  )
+
+irv_cutoffs <- quantile(
+  indicator_data$irv, probs = c(.01, .99), na.rm = TRUE,
+  names = FALSE, type = 7
+)
+mahalanobis_cutoff <- quantile(
+  indicator_data$mahalanobis, probs = .99, na.rm = TRUE,
+  names = FALSE, type = 7
+)
+
+screened_data <- indicator_data |>
+  mutate(
+    fail_longstring = longstring > 13,
+    fail_irv = irv <= irv_cutoffs[[1]] | irv >= irv_cutoffs[[2]],
+    fail_mahalanobis = mahalanobis >= mahalanobis_cutoff
+  )
+
+write_csv2(
+  screened_data |>
+    select(ID, longstring, irv, mahalanobis, fail_longstring,
+           fail_irv, fail_mahalanobis),
+  here::here("Data", "IntermediateData", "whoqol_indicators.csv")
+)
+```
+
+:::
+
+::::
+
+```{r}
+#| label: tbl-indicator-cutoffs
+#| tbl-cap: "Pontos de corte dos indicadores estatísticos."
+#| echo: false
+
+indicator_cutoffs <- tibble(
+  Indicador = c("Longstring", "IRV", "Distância de Mahalanobis"),
+  Média = c(mean(indicator_data$longstring, na.rm = TRUE),
+            mean(indicator_data$irv, na.rm = TRUE),
+            mean(indicator_data$mahalanobis, na.rm = TRUE)),
+  `Desvio-padrão` = c(sd(indicator_data$longstring, na.rm = TRUE),
+                      sd(indicator_data$irv, na.rm = TRUE),
+                      sd(indicator_data$mahalanobis, na.rm = TRUE)),
+  Mediana = c(median(indicator_data$longstring, na.rm = TRUE),
+              median(indicator_data$irv, na.rm = TRUE),
+              median(indicator_data$mahalanobis, na.rm = TRUE)),
+  `1º percentil` = c(quantile(indicator_data$longstring, .01, na.rm = TRUE),
+                     irv_cutoffs[[1]],
+                     quantile(indicator_data$mahalanobis, .01, na.rm = TRUE)),
+  `99º percentil` = c(quantile(indicator_data$longstring, .99, na.rm = TRUE),
+                      irv_cutoffs[[2]], mahalanobis_cutoff),
+  `Regra de exclusão` = c(
+    "longstring > 13",
+    "IRV ≤ p1 ou IRV ≥ p99",
+    "Mahalanobis ≥ p99"
+  )
+)
+
+dir.create(here::here("Output", "Results", "Tables"),
+           recursive = TRUE, showWarnings = FALSE)
+
+write_csv2(
+  indicator_cutoffs,
+  here::here("Output", "Results", "Tables", "tbl-indicator-cutoffs.csv")
+)
+
+indicator_cutoffs |> mutate(across(where(is.numeric), ~ round(.x, 3))) |>
+  knitr::kable()
+```
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Racional da @tbl-indicator-cutoffs" collapse="true"}
+
+O chunk constrói a tabela `indicator_cutoffs` a partir dos indicadores
+calculados no chunk anterior. Para cada índice, `mean()`, `sd()` e `median()`
+resumem a tendência central e a dispersão; `quantile()` obtém os percentis
+inferior e superior observados na amostra elegível. A coluna `Regra de
+exclusão` registra o critério que será usado na triagem, sem transformar essa
+tabela descritiva em uma nova etapa de decisão. Em seguida, `dir.create()`
+garante a existência da pasta de resultados, `write_csv2()` exporta a tabela
+completa para o projeto e `mutate(across(...))` arredonda apenas a cópia exibida
+no HTML antes de `knitr::kable()` renderizar o output.
+
+```{r}
+#| eval: false
+#| code-fold: true
+
+indicator_cutoffs <- tibble(
+  Indicador = c("Longstring", "IRV", "Distância de Mahalanobis"),
+  Média = c(mean(indicator_data$longstring, na.rm = TRUE),
+            mean(indicator_data$irv, na.rm = TRUE),
+            mean(indicator_data$mahalanobis, na.rm = TRUE)),
+  `Desvio-padrão` = c(sd(indicator_data$longstring, na.rm = TRUE),
+                      sd(indicator_data$irv, na.rm = TRUE),
+                      sd(indicator_data$mahalanobis, na.rm = TRUE)),
+  Mediana = c(median(indicator_data$longstring, na.rm = TRUE),
+              median(indicator_data$irv, na.rm = TRUE),
+              median(indicator_data$mahalanobis, na.rm = TRUE)),
+  `1º percentil` = c(quantile(indicator_data$longstring, .01, na.rm = TRUE),
+                     irv_cutoffs[[1]],
+                     quantile(indicator_data$mahalanobis, .01, na.rm = TRUE)),
+  `99º percentil` = c(quantile(indicator_data$longstring, .99, na.rm = TRUE),
+                      irv_cutoffs[[2]], mahalanobis_cutoff),
+  `Regra de exclusão` = c(
+    "longstring > 13",
+    "IRV ≤ p1 ou IRV ≥ p99",
+    "Mahalanobis ≥ p99"
+  )
+)
+
+
+dir.create(here::here("Output", "Results", "Tables"),
+           recursive = TRUE, showWarnings = FALSE)
+
+write_csv2(
+  indicator_cutoffs,
+  here::here("Output", "Results", "Tables", "tbl-indicator-cutoffs.csv")
+)
+
+indicator_cutoffs |> mutate(across(where(is.numeric), ~ round(.x, 3))) |>
+  knitr::kable()
+```
+
+:::
+
+::::
+
+### Decisão final e amostra de análise {#sec-cier-decision}
+
+```{r}
+#| label: tbl-hurdle-summary
+#| tbl-cap: "Frequência de falhas em cada obstáculo de limpeza."
+#| echo: false
+
+screened_data <- screened_data |>
+  mutate(
+    hurdles_failed = rowSums(across(starts_with("fail_"))),
+    exclude = hurdles_failed > 0,
+    evidence = pmap_chr(
+      pick(fail_attention, fail_time, fail_longstring,
+           fail_irv, fail_mahalanobis),
+      \(...) {
+        labels <- c("atenção", "tempo", "longstring", "IRV", "Mahalanobis")
+        str_c(labels[c(...)], collapse = " + ") |> na_if("")
+      }
+    )
+  )
+
+intermediate_data <- screened_data
+criterion_summary <- tibble(
+  Critério = c("Itens de atenção", "Tempo de resposta", "Longstring", "IRV",
+               "Distância de Mahalanobis"),
+  `N sinalizado` = c(
+    sum(screened_data$fail_attention), sum(screened_data$fail_time),
+    sum(screened_data$fail_longstring), sum(screened_data$fail_irv),
+    sum(screened_data$fail_mahalanobis)
+  )
+) |>
+  mutate(`Percentual (%)` = `N sinalizado` / nrow(screened_data) * 100)
+
+
+dir.create(here::here("Data", "IntermediateData"), showWarnings = FALSE)
+
+dir.create(here::here("Output", "DataAppendixOutput", "Tables"),
+           recursive = TRUE, showWarnings = FALSE)
+
+write_csv2(intermediate_data, here::here(
+  "Data", "IntermediateData", "whoqol_preprocessed.csv"
+))
+
+write_csv2(intermediate_data |> filter(exclude), here::here(
+  "Output", "DataAppendixOutput", "Tables", "exclusion_log.csv"
+))
+
+criterion_summary |> mutate(`Percentual (%)` = round(`Percentual (%)`, 1)) |>
+  knitr::kable()
+
+write_csv2(
+  criterion_summary,
+  here::here("Output", "Results", "Tables", "tbl-hurdle-summary.csv")
+)
+```
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Racional da @tbl-hurdle-summary" collapse="true"}
+
+O chunk começa com `screened_data`, que contém os indicadores e as flags dos
+cinco obstáculos. `rowSums(across(starts_with("fail_")))` conta quantas barreiras
+foram falhadas por participante; como a regra é de múltiplos obstáculos,
+`exclude = hurdles_failed > 0` exclui qualquer participante que falhe em pelo
+menos uma barreira. A função `pmap_chr()` percorre as cinco flags na mesma linha,
+seleciona os nomes dos critérios sinalizados e os concatena em `evidence`,
+produzindo um registro auditável da decisão individual.
+
+Em seguida, `intermediate_data` preserva a base com os indicadores, flags,
+contagem de falhas e evidências. `criterion_summary` agrega as flags por
+critério, calcula o número de participantes sinalizados e o percentual em
+relação à amostra elegível. `dir.create()` prepara os diretórios; os dois
+primeiros `write_csv2()` salvam a base intermediária e o log de exclusões; por
+fim, `mutate()` arredonda apenas a cópia apresentada, `knitr::kable()` gera a
+tabela e o último `write_csv2()` preserva a tabela completa no projeto.
+
+```{r}
+#| eval: false
+#| code-fold: true
+
+screened_data <- screened_data |>
+  mutate(
+    hurdles_failed = rowSums(across(starts_with("fail_"))),
+    exclude = hurdles_failed > 0,
+    evidence = pmap_chr(
+      pick(fail_attention, fail_time, fail_longstring,
+           fail_irv, fail_mahalanobis),
+      \(...) {
+        labels <- c("atenção", "tempo", "longstring", "IRV", "Mahalanobis")
+        str_c(labels[c(...)], collapse = " + ") |> na_if("")
+      }
+    )
+  )
+
+intermediate_data <- screened_data
+criterion_summary <- tibble(
+  Critério = c("Itens de atenção", "Tempo de resposta", "Longstring", "IRV",
+               "Distância de Mahalanobis"),
+  `N sinalizado` = c(
+    sum(screened_data$fail_attention), sum(screened_data$fail_time),
+    sum(screened_data$fail_longstring), sum(screened_data$fail_irv),
+    sum(screened_data$fail_mahalanobis)
+  )
+) |>
+  mutate(`Percentual (%)` = `N sinalizado` / nrow(screened_data) * 100)
+
+dir.create(here::here("Data", "IntermediateData"), showWarnings = FALSE)
+
+dir.create(here::here("Output", "DataAppendixOutput", "Tables"),
+           recursive = TRUE, showWarnings = FALSE)
+
+write_csv2(intermediate_data, here::here(
+  "Data", "IntermediateData", "whoqol_preprocessed.csv"
+))
+
+write_csv2(intermediate_data |> filter(exclude), here::here(
+  "Output", "DataAppendixOutput", "Tables", "exclusion_log.csv"
+))
+
+criterion_summary |> mutate(`Percentual (%)` = round(`Percentual (%)`, 1)) |>
+  knitr::kable()
+
+write_csv2(
+  criterion_summary,
+  here::here("Output", "Results", "Tables", "tbl-hurdle-summary.csv")
+)
+```
+
+:::
+
+::::
+
+
+```{r}
+#| label: tbl-analysis-sample-summary
+#| tbl-cap: "Trajetória da amostra durante o pré-processamento."
+#| echo: false
+
+final_analysis_data <- screened_data |>
+  filter(!exclude) |>
+  select(ID, all_of(scale_items)) |>
+  mutate(across(all_of(c("Q3", "Q4", "Q26")), ~ 6 - .x))
+
+sample_summary <- tibble(
+  Etapa = c("Banco bruto", "Dropouts removidos", "Elegíveis aos obstáculos",
+            "Excluídos por pelo menos um obstáculo", "Amostra analítica final"),
+  N = c(nrow(raw_data), sum(prepared_data$dropout), nrow(indicator_data),
+        sum(intermediate_data$exclude), nrow(final_analysis_data))
+)
+
+dir.create(here::here("Data", "AnalysisData"), showWarnings = FALSE)
+
+write_csv2(final_analysis_data, here::here(
+  "Data", "AnalysisData", "whoqol_analysis.csv"
+))
+
+stopifnot(
+  nrow(final_analysis_data) == sum(!intermediate_data$exclude),
+  !anyNA(final_analysis_data$ID)
+)
+
+sample_summary |> knitr::kable()
+
+write_csv2(
+  sample_summary,
+  here::here("Output", "Results", "Tables", "tbl-analysis-sample-summary.csv")
+)
+```
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Racional da @tbl-analysis-sample-summary" collapse="true"}
+
+O chunk parte de `screened_data`, que já contém a decisão criada no chunk
+anterior. `filter(!exclude)` retém somente os participantes que superaram todas
+as barreiras; `select()` mantém o identificador e os itens da escala; e
+`mutate(across(...))` recodifica os itens invertidos para a direção analítica
+final. O objeto `sample_summary` registra a trajetória desde o banco bruto até
+a amostra final usando `nrow()` e `sum()` sobre as flags de exclusão.
+
+`dir.create()` garante a existência do diretório da base analítica, e
+`write_csv2()` salva `final_analysis_data` para reutilização nos capítulos de
+mensuração. `stopifnot()` verifica a correspondência entre o número de linhas
+da base final e a regra de exclusão, além de confirmar a presença de um
+identificador em cada registro. Por fim, `knitr::kable()` apresenta a tabela e
+outro `write_csv2()` salva a trajetória amostral em formato tabular.
+
+```{r}
+#| eval: false
+#| code-fold: true
+
+final_analysis_data <- screened_data |>
+  filter(!exclude) |>
+  select(ID, all_of(scale_items)) |>
+  mutate(across(all_of(c("Q3", "Q4", "Q26")), ~ 6 - .x))
+
+sample_summary <- tibble(
+  Etapa = c("Banco bruto", "Dropouts removidos", "Elegíveis aos obstáculos",
+            "Excluídos por pelo menos um obstáculo", "Amostra analítica final"),
+  N = c(nrow(raw_data), sum(prepared_data$dropout), nrow(indicator_data),
+        sum(intermediate_data$exclude), nrow(final_analysis_data))
+)
+
+dir.create(here::here("Data", "AnalysisData"), showWarnings = FALSE)
+
+write_csv2(final_analysis_data, here::here(
+  "Data", "AnalysisData", "whoqol_analysis.csv"
+))
+
+stopifnot(
+  nrow(final_analysis_data) == sum(!intermediate_data$exclude),
+  !anyNA(final_analysis_data$ID)
+)
+
+sample_summary |> knitr::kable()
+
+write_csv2(
+  sample_summary,
+  here::here("Output", "Results", "Tables", "tbl-analysis-sample-summary.csv")
+)
+```
+
+:::
+
+::::
+
+## Descrição dos itens {#sec-cier-description}
+
+```{r}
+#| label: tbl-item-description
+#| tbl-cap: "Estatísticas descritivas dos itens utilizados na AFC."
+#| echo: false
+
+analysis_items <- paste0("Q", 3:26)
+
+item_data <- final_analysis_data |> select(all_of(analysis_items))
+vif_model <- lm(ID ~ ., data = final_analysis_data |>
+                  select(ID, all_of(analysis_items)),
+                na.action = na.omit)
+vif_values <- tibble(
+  Item = names(car::vif(vif_model)),
+  VIF = as.numeric(car::vif(vif_model))
+)
+
+item_description <- psych::describe(item_data, fast = FALSE) |>
+  as.data.frame() |> rownames_to_column("Item") |> as_tibble() |>
+  transmute(
+    Item, `Respostas válidas` = n, Média = mean, `Desvio-padrão` = sd,
+    Assimetria = skew, Curtose = kurtosis
+  )
+
+item_description <- left_join(item_description, vif_values, by = "Item")
+
+write_csv2(
+  item_description,
+  here::here("Output", "Results", "Tables", "tbl-item-description.csv")
+)
+
+item_description |> mutate(across(where(is.numeric), ~ round(.x, 3))) |>
+  knitr::kable()
+```
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Racional da @tbl-item-description" collapse="true"}
+
+O chunk começa definindo `analysis_items` como o conjunto de indicadores que
+será utilizado na AFC e cria `item_data` a partir da base analítica final,
+portanto depois da aplicação dos obstáculos e da recodificação dos itens
+invertidos. Para o diagnóstico de colinearidade, `lm()` ajusta uma única
+regressão auxiliar em que `ID` atua apenas como variável resposta e todos os
+itens entram como preditores. Como o VIF depende da relação entre os
+preditores, e não do conteúdo da variável resposta, `car::vif()` retorna o VIF
+de cada item em uma única chamada. `names()` recupera os nomes dos preditores e
+`as.numeric()` transforma os valores retornados em uma coluna para a tabela.
+
+Em paralelo, `psych::describe()` resume cada item com o número de respostas
+válidas, média, desvio-padrão, assimetria e curtose. `as.data.frame()`,
+`rownames_to_column()` e `as_tibble()` reorganizam o resultado para que o nome
+do item passe a ser uma coluna; `transmute()` seleciona e renomeia somente as
+estatísticas que serão apresentadas. `left_join()` combina essa descrição com
+os VIFs usando `Item` como chave.
+
+Por fim, `write_csv2()` salva a tabela completa, sem arredondamento, em
+`Output/Results/Tables/tbl-item-description.csv`. A expressão
+`mutate(across(where(is.numeric), ...))` arredonda apenas a cópia encaminhada
+ao HTML, e `knitr::kable()` produz a tabela exibida no documento. O VIF é usado
+exclusivamente como diagnóstico de redundância linear; assimetria, curtose e
+VIF não constituem critérios automáticos de exclusão de itens ou de alteração
+da amostra.
+
+```{r}
+#| eval: false
+#| code-fold: true
+
+analysis_items <- paste0("Q", 3:26)
+
+item_data <- final_analysis_data |> select(all_of(analysis_items))
+
+vif_model <- lm(ID ~ ., data = final_analysis_data |>
+                  select(ID, all_of(analysis_items)),
+                na.action = na.omit)
+vif_values <- tibble(
+  Item = names(car::vif(vif_model)),
+  VIF = as.numeric(car::vif(vif_model))
+)
+
+item_description <- psych::describe(item_data, fast = FALSE) |>
+  as.data.frame() |> rownames_to_column("Item") |> as_tibble() |>
+  transmute(
+    Item, `Respostas válidas` = n, Média = mean, `Desvio-padrão` = sd,
+    Assimetria = skew, Curtose = kurtosis
+  )
+
+item_description <- left_join(item_description, vif_values, by = "Item")
+
+write_csv2(
+  item_description,
+  here::here("Output", "Results", "Tables", "tbl-item-description.csv")
+)
+
+item_description |> mutate(across(where(is.numeric), ~ round(.x, 3))) |>
+  knitr::kable()
+```
+
+:::
+
+::::
+
+```{r}
+#| label: fig-likert-social
+#| fig-cap: "Distribuição das categorias de resposta Likert no construto Relações sociais."
+#| fig-alt: "Barras horizontais divergentes e centralizadas mostrando as respostas aos itens Q20, Q21 e Q22."
+#| fig-width: 8
+#| fig-height: 4.5
+#| echo: false
+
+social_items <- item_data |>
+  select(Q20, Q21, Q22) |>
+  mutate(across(everything(), ~ factor(
+    as.character(.x), levels = as.character(1:5),
+    labels = as.character(1:5), ordered = TRUE
+  ))) |>
+  as.data.frame()
+
+stopifnot(all(vapply(social_items, nlevels, integer(1)) == 5L))
+
+social_likert <- likert::likert(items = social_items, nlevels = 5)
+
+social_plot <- plot(
+  social_likert, centered = TRUE, include.center = TRUE,
+  legend.position = "bottom"
+) +
+  ggtitle("Relações sociais") +
+  labs(x = "Item", y = "Percentual", fill = "Resposta") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5), legend.position = "bottom")
+dir.create(here::here("Output", "Results", "Figures"),
+           recursive = TRUE, showWarnings = FALSE)
+ggsave(
+  here::here("Output", "Results", "Figures", "fig-likert-social.png"),
+  plot = social_plot, width = 8, height = 4.5, dpi = 300
+)
+social_plot
+```
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Racional da @fig-likert-social" collapse="true"}
+
+O exemplo reproduzível utiliza o construto Relações sociais, formado pelos
+itens `Q20`, `Q21` e `Q22`. Como `likert::likert()` exige o mesmo número de
+níveis em todas as colunas, esses itens são convertidos para um `data.frame`
+com cinco categorias ordenadas antes da chamada do pacote.
+
+`factor()` fixa a ordem das cinco categorias. `as.data.frame()` é necessário
+porque a implementação do pacote acessa cada coluna com a semântica de um
+`data.frame` base. `likert()` calcula as frequências relativas e `centered =
+TRUE` produz as barras divergentes em torno do zero. O resultado é armazenado
+em `social_plot`, recebe os rótulos e o tema com `ggtitle()`, `labs()` e
+`theme_minimal()`, e é exportado como figura PNG por `ggsave()` para
+`Output/Results/Figures`.
+
+```{r}
+#| eval: false
+#| code-fold: true
+
+social_items <- item_data |>
+  select(Q20, Q21, Q22) |>
+  mutate(across(everything(), ~ factor(
+    as.character(.x), levels = as.character(1:5),
+    labels = as.character(1:5), ordered = TRUE
+  ))) |>
+  as.data.frame()
+
+stopifnot(all(vapply(social_items, nlevels, integer(1)) == 5L))
+
+social_likert <- likert::likert(
+  items = social_items,
+  nlevels = 5
+)
+
+social_plot <- plot(
+  social_likert, centered = TRUE, include.center = TRUE,
+  legend.position = "bottom"
+) +
+  ggtitle("Relações sociais") +
+  labs(x = "Item", y = "Percentual", fill = "Resposta") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5), legend.position = "bottom")
+dir.create(here::here("Output", "Results", "Figures"),
+           recursive = TRUE, showWarnings = FALSE)
+ggsave(
+  here::here("Output", "Results", "Figures", "fig-likert-social.png"),
+  plot = social_plot, width = 8, height = 4.5, dpi = 300
+)
+social_plot
+```
+
+:::
+
+::::
