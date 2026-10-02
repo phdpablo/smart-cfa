@@ -27,7 +27,7 @@ book: # https://quarto.org/docs/books/index.html
   title: "Escolhas inteligentes para modelos de medida" # edit your title
   subtitle: "Tutorial em manuscrito executável para análise fatorial confirmatória no ambiente R" # edit your subtitle
   author: "Pablo Rogers and Sérgio Murilo Georgeto" # edit your name
-  date: 09/15/2026 # https://quarto.org/docs/reference/dates.html
+  date: today # https://quarto.org/docs/reference/dates.html
   date-format: long # Format for displaying the date (e.g., "August 8, 2024").
   doi: 10.17605/OSF.IO/NJDQ5 # put your DOI
   cover-image: cover.jpg # edit ou exclude this image

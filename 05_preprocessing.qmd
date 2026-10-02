@@ -21,9 +21,9 @@ source(here::here("Scripts", "DataAppendixScripts", "helpers.R"))
 
 ::::
 
-O pré-processamento em questionários de autorelato tem como finalidade proteger as análises vindouras de vieses introduzidos por respostas descuidadas ou com esforço insuficiente (*Careless or Insufficient Effort Responding* — C/IER), registros incompletos ou com respostas inconsistentes, e a inspeção preliminar das variáveis. Nas seções anteriores não precisamos dos dados coletados, mas a partir de agora, temos que fazer exercícios com dados brutos, e por isso, vamos utilizar a mesma base de dados empregada por @rogers2024c e @rogers2022. 
+O pré-processamento em questionários de autorelato tem como finalidade proteger as análises vindouras de vieses introduzidos por respostas descuidadas ou com esforço insuficiente (*Careless or Insufficient Effort Responding* — C/IER), registros incompletos ou com respostas inconsistentes, e a inspeção preliminar das variáveis para prospecção de problemas. Nas seções anteriores não precisamos dos dados coletados, mas a partir de agora, temos que fazer exercícios com dados brutos, e por isso, vamos utilizar a mesma base de dados empregada por @rogers2024c e @rogers2022. 
 
-Neste tutorial, entretanto, o processamento parte dos 1.546 registros brutos e explicita tanto os critérios procedurais quanto os indicadores estatísticos de triagem C/IER. Os dados, o codebook e os procedimentos necessários à execução acompanham o projeto. Como os trabalhos anteriores [@rogers2024c; @rogers2022] partiram de uma base pré-processada de 1.047 participantes, eventuais diferenças entre seus resultados e os deste tutorial não devem ser atribuídas exclusivamente ao tratamento ordinal ou contínuo dos itens. Após a verificação da integridade do banco e a remoção de registros sem identificação
+Nesse tutorial, entretanto, o processamento parte dos 1.546 registros brutos e explicita tanto os critérios procedurais (*ex-ante*) quanto os indicadores estatísticos (*ex-post*) de triagem C/IER. Como os trabalhos anteriores [@rogers2024c; @rogers2022] partiram de uma base pré-processada de 1.047 participantes, eventuais diferenças entre seus resultados e os deste tutorial não devem ser atribuídas exclusivamente ao tratamento ordinal ou contínuo dos itens. Após a verificação da integridade do banco e a remoção de registros sem identificação
 ou com mais de cinco respostas ausentes na WHOQOL-Bref (como veremos adiante, o objetivo é simular estimação com dados *missings*), a amostra elegível foi submetida a um protocolo sequencial de triagem C/IER.
 
 :::: {.content-visible unless-format="pdf"}
@@ -93,8 +93,8 @@ write_csv2(
 
 ::::
 
-Para essa triagem e o tratamento das respostas C/IER, adotou-se a abordagem de múltiplos
-obstáculos (*multiple-hurdle approach*) indicada por @curran2016 e @desimone2015. Como os
+Para o tratamento dos indivíduos com C/IER adotou-se a abordagem de múltiplos
+obstáculos (*Multiple-hurdle Approach*) indicada por @curran2016 e @desimone2015. Como os
 índices de desatenção mensuram manifestações comportamentais distintas, como
 respostas aleatórias, padrões invariantes e preenchimento apressado, e podem
 apresentar correlações baixas ou nulas entre si [@meade2012; @goldammer2020;
@@ -106,10 +106,9 @@ exclusão do participante da amostra final [@curran2016; @goldammer2020].
 ## Exclusões procedurais {#sec-cier-exante}
 
 No âmbito dos controles *ex-ante*, utilizamos
-itens de atenção inseridos no instrumento e a duração total de preenchimento do questionário
-[@curran2016; @ward2023]. A falha em pelo menos dois dos três itens de atenção incluídos no questionário foi interpretada
-como evidência de C/IER, reduzindo a possibilidade de excluir respondentes
-atentos por um lapso pontual [@desimone2015; @chauliac2023]. Também foram
+itens de atenção inseridos no questionário e a duração total de preenchimento da pesquisa.
+[@curran2016; @ward2023]. A falha em pelo menos dois dos três itens de atenção incluídos foi interpretada
+como evidência de C/IER [@desimone2015; @chauliac2023]. Também foram
 excluídos os questionários de indivíduos com velocidade inferior a quatro segundos por item,
 limiar considerado incompatível com o processamento semântico reflexivo
 requerido pelo instrumento [@huang2012; @curran2016; @jones2023].
@@ -318,6 +317,19 @@ indicator_cutoffs |> mutate(across(where(is.numeric), ~ round(.x, 3))) |>
 
 ### Decisão final e amostra de análise {#sec-cier-decision}
 
+Após o cálculo dos indicadores de atenção, velocidade, invariância e
+discrepância multivariada, cada participante foi avaliado simultaneamente nos
+cinco obstáculos definidos no protocolo. A decisão de exclusão foi aplicada de
+forma conservadora: a falha em qualquer uma das barreiras foi suficiente para
+classificar o respondente como incompatível com a amostra de análise. A
+@tbl-hurdle-summary resume a frequência de sinalização em cada critério e
+permite avaliar quais manifestações de resposta descuidada foram mais comuns na
+amostra elegível. As sinalizações associadas aos itens de atenção e ao IRV foram
+as mais frequentes, enquanto o tempo de resposta apresentou menor incidência.
+Essa distribuição reforça a utilidade da estratégia de múltiplos obstáculos,
+pois os critérios não identificam exatamente os mesmos participantes nem
+representam uma única forma de comportamento inadequado.
+
 ```{r}
 #| label: tbl-hurdle-summary
 #| tbl-cap: "Frequência de falhas em cada obstáculo de limpeza."
@@ -448,6 +460,15 @@ write_csv2(
 
 ::::
 
+A aplicação conjunta dos cinco obstáculos produziu uma redução amostral de 
+1.546 para 1.243 participantes. Dos 1.546 registros brutos, 223 foram removidos na
+etapa preliminar por não apresentarem condições mínimas de utilização da escala.
+Entre os 1.323 respondentes elegíveis aos obstáculos, 80 falharam em pelo menos
+um critério e foram excluídos da análise. Essa trajetória mostra que a
+maior redução ocorreu antes da aplicação dos indicadores de C/IER, enquanto a
+triagem comportamental posterior produziu uma exclusão proporcionalmente menor e
+concentrada em padrões considerados incompatíveis com a resposta cuidadosa. A
+@tbl-analysis-sample-summary apresenta essa trajetória.
 
 ```{r}
 #| label: tbl-analysis-sample-summary
@@ -544,6 +565,18 @@ write_csv2(
 
 ## Descrição dos itens {#sec-cier-description}
 
+Com a amostra de análise definida, a etapa seguinte consistiu em avaliar o
+comportamento empírico dos itens que serão utilizados na AFC. 
+Essa descrição deve ser utilizada para verificar a
+quantidade de respostas disponíveis, a tendência central, a dispersão e a forma
+das distribuições, fornecendo informações para a escolha do procedimento de
+estimação, por exemplo. Em geral, os itens apresentaram médias acima do ponto médio da escala
+e dispersão suficiente para preservar diferenças individuais nas respostas. A
+quantidade de respostas válidas variou entre os itens, porém com baixissima incidência, 
+razão para não eliminar participantes que permanecem elegíveis para a análise. 
+Esses resultados são apresentados na
+@tbl-item-description.
+
 ```{r}
 #| label: tbl-item-description
 #| tbl-cap: "Estatísticas descritivas dos itens utilizados na AFC."
@@ -599,13 +632,9 @@ do item passe a ser uma coluna; `transmute()` seleciona e renomeia somente as
 estatísticas que serão apresentadas. `left_join()` combina essa descrição com
 os VIFs usando `Item` como chave.
 
-Por fim, `write_csv2()` salva a tabela completa, sem arredondamento, em
-`Output/Results/Tables/tbl-item-description.csv`. A expressão
+Por fim, `write_csv2()` salva a tabela completa sem arredondamento. A expressão
 `mutate(across(where(is.numeric), ...))` arredonda apenas a cópia encaminhada
-ao HTML, e `knitr::kable()` produz a tabela exibida no documento. O VIF é usado
-exclusivamente como diagnóstico de redundância linear; assimetria, curtose e
-VIF não constituem critérios automáticos de exclusão de itens ou de alteração
-da amostra.
+ao HTML, e `knitr::kable()` produz a tabela exibida no documento.
 
 ```{r}
 #| eval: false
@@ -645,6 +674,32 @@ item_description |> mutate(across(where(is.numeric), ~ round(.x, 3))) |>
 
 ::::
 
+A @tbl-item-description também permite avaliar a distribuições dos itens. A
+assimetria é predominantemente negativa, especialmente nos itens com maior
+concentração nas categorias superiores, enquanto alguns itens apresentam valores
+de curtose mais elevados. Esses resultados são compatíveis com o padrão esperado
+para respostas Likert, nas quais a limitação do número de categorias e a
+concentração das respostas podem produzir desvios da normalidade multivariada.
+Por essa razão, a estimação subsequente deve utilizar uma abordagem robusta,
+capaz de ajustar erros-padrão e estatísticas de teste diante de desvios
+moderados da normalidade [@li2016cfa; @li2016sem].
+
+A presença de respostas ausentes em alguns itens também deve ser considerada no
+processo de estimação. Como os participantes não foram excluídos apenas por
+apresentarem um ou poucos valores ausentes em itens específicos, a análise deve
+preservar as informações observadas e utilizar o procedimento de máxima
+verossimilhança com informação completa (*Full Information Maximum Likelihood* —
+FIML) [@lai2021missing; @lei2020]. Dessa forma, os valores disponíveis de cada
+respondente podem contribuir para a estimação sem recorrer à exclusão *listwise*
+de todos os casos que apresentem qualquer ausência.
+
+A coluna de VIF complementa a descrição das variáveis ao avaliar possível
+redundância linear entre os indicadores. Os valores observados permanecem abaixo
+do limite de referência de 5 [@kyriazos2023], indicando que não há evidência de
+multicolinearidade severa entre os itens empregados na AFC. Esse resultado é
+importante porque sugere que a matriz de informação não deve ser
+comprometida por colinearidade elevada.
+
 ```{r}
 #| label: fig-likert-social
 #| fig-cap: "Distribuição das categorias de resposta Likert no construto Relações sociais."
@@ -654,19 +709,15 @@ item_description |> mutate(across(where(is.numeric), ~ round(.x, 3))) |>
 #| echo: false
 
 social_items <- item_data |>
-  select(Q20, Q21, Q22) |>
+  select(Q20:Q22) |>
   mutate(across(everything(), ~ factor(
-    as.character(.x), levels = as.character(1:5),
-    labels = as.character(1:5), ordered = TRUE
+    .x, levels = 1:5, ordered = TRUE
   ))) |>
   as.data.frame()
 
-stopifnot(all(vapply(social_items, nlevels, integer(1)) == 5L))
-
-social_likert <- likert::likert(items = social_items, nlevels = 5)
-
 social_plot <- plot(
-  social_likert, centered = TRUE, include.center = TRUE,
+  likert::likert(social_items, nlevels = 5),
+  centered = TRUE, include.center = TRUE,
   legend.position = "bottom"
 ) +
   ggtitle("Relações sociais") +
@@ -687,39 +738,33 @@ social_plot
 ::: {.callout-note title="Racional da @fig-likert-social" collapse="true"}
 
 O exemplo reproduzível utiliza o construto Relações sociais, formado pelos
-itens `Q20`, `Q21` e `Q22`. Como `likert::likert()` exige o mesmo número de
-níveis em todas as colunas, esses itens são convertidos para um `data.frame`
-com cinco categorias ordenadas antes da chamada do pacote.
+itens `Q20`, `Q21` e `Q22`. As colunas são convertidas em fatores ordenados com
+cinco níveis possíveis. Essa declaração é necessária porque algumas categorias
+podem não ter sido observadas na amostra; `nlevels = 5` informa ao `likert` que
+a escala continua tendo cinco categorias, mesmo quando uma delas apresenta
+frequência zero.
 
-`factor()` fixa a ordem das cinco categorias. `as.data.frame()` é necessário
-porque a implementação do pacote acessa cada coluna com a semântica de um
-`data.frame` base. `likert()` calcula as frequências relativas e `centered =
-TRUE` produz as barras divergentes em torno do zero. O resultado é armazenado
-em `social_plot`, recebe os rótulos e o tema com `ggtitle()`, `labs()` e
-`theme_minimal()`, e é exportado como figura PNG por `ggsave()` para
-`Output/Results/Figures`.
+`as.data.frame()` fornece à função o tipo de objeto esperado pelo pacote.
+Em seguida, `likert()` calcula as frequências relativas e a chamada `plot()`
+com `centered = TRUE` produz as barras divergentes em torno do ponto central.
+As cores padrão do pacote são mantidas nesta etapa. O resultado recebe apenas
+os rótulos básicos com `ggtitle()` e `labs()` e é exportado como figura PNG por
+`ggsave()` para `Output/Results/Figures`.
 
 ```{r}
 #| eval: false
 #| code-fold: true
 
 social_items <- item_data |>
-  select(Q20, Q21, Q22) |>
+  select(Q20:Q22) |>
   mutate(across(everything(), ~ factor(
-    as.character(.x), levels = as.character(1:5),
-    labels = as.character(1:5), ordered = TRUE
+    .x, levels = 1:5, ordered = TRUE
   ))) |>
   as.data.frame()
 
-stopifnot(all(vapply(social_items, nlevels, integer(1)) == 5L))
-
-social_likert <- likert::likert(
-  items = social_items,
-  nlevels = 5
-)
-
 social_plot <- plot(
-  social_likert, centered = TRUE, include.center = TRUE,
+  likert::likert(social_items, nlevels = 5),
+  centered = TRUE, include.center = TRUE,
   legend.position = "bottom"
 ) +
   ggtitle("Relações sociais") +
@@ -738,3 +783,10 @@ social_plot
 :::
 
 ::::
+
+A @fig-likert-social apresenta, como exemplo, a distribuição das respostas nos
+itens do construto Relações sociais. O gráfico permite visualizar
+simultaneamente a concentração das respostas, a presença de categorias menos
+utilizadas e a assimetria relativa de cada item. Observa-se maior concentração
+nas categorias superiores da escala, especialmente nas respostas 4 e 5, padrão
+coerente com as médias positivas observadas na descrição dos itens.
