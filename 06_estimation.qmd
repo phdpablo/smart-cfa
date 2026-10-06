@@ -1,1 +1,410 @@
 # Processo de estimação {#sec-estimation}
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-important title="Como as análises estão organizadas" collapse="true"}
+
+O capítulo utiliza os scripts locais [models.R](Scripts/DataAppendixScripts/models.R)
+e [helpers.R](Scripts/DataAppendixScripts/helpers.R), além da base
+`whoqol_analysis.csv`. Os modelos empíricos são os objetos `analyzemodel` e
+`h1modelfree`, definidos em `models.R`. O primeiro corresponde ao H~0~, com quatro
+fatores correlacionados e a covariância residual entre `Q3` e `Q4`. O segundo
+corresponde ao H~1~ e acrescenta os três *cross-loadings* previamente justificados:
+`Q8` e `Q9` em `psycho`, e `Q15` em `environment`.
+
+```{r}
+#| label: setup-estimation
+#| code-fold: true
+
+source(here::here("Scripts", "DataAppendixScripts", "models.R"))
+source(here::here("Scripts", "DataAppendixScripts", "helpers.R"))
+```
+
+:::
+
+::::
+
+Depois da seleção dos modelos e do pré-processamento, esta seção estima as duas
+especificações da AFC na amostra de análise final. A estimação converte as
+relações previstas nos modelos em parâmetros amostrais e aplica as condições
+definidas nas etapas anteriores: tratamento contínuo dos itens, MLR, FIML e
+identificação pela variância dos fatores [@jackson2009; @nye2022].
+
+## Fundamentação da estimação
+
+Os itens foram tratados como variáveis contínuas, conforme a justificativa
+desenvolvida na @sec-theory-estimation. Segundo @rhemtulla2012, a MLR apresenta 
+desempenho adequado em condições com cinco ou
+mais categorias, especialmente com limiares aproximadamente simétricos.
+@robitzsch2020a e @robitzsch2022a mostram que as abordagens contínua e ordinal
+definem alvos paramétricos distintos. Com cinco categorias e uma estrutura
+fatorial previamente definida, este estudo adota a formulação contínua como
+aproximação de mensuração.
+
+O método MLR foi mantido porque combina a máxima verossimilhança com
+erros-padrão robustos e estatística de teste escalada. Essa combinação é adequada às
+distribuições observadas na etapa de pré-processamento e segue a recomendação
+da literatura para situações de não normalidade multivariada [@brown2015;
+@kline2023; @rogers2024c].
+
+As poucas respostas ausentes foram incorporadas por FIML. O procedimento utiliza
+a informação observada de cada participante e mantém os 1.243 casos da amostra
+analítica. A escolha segue a recomendação de tratar ausências na etapa de
+estimação quando se trabalha com ML ou suas variantes robustas [@brown2023;
+@kline2023].
+
+A escala dos fatores foi definida pela fixação de suas variâncias em 1. Essa
+identificação permite estimar livremente as cargas fatoriais e estabelece a
+mesma métrica latente nos dois modelos. As duas especificações foram estimadas
+na mesma amostra e sob as mesmas condições. A comparação concentra-se, assim,
+nas três relações adicionais do modelo H~1~ [@jackson2009; @nye2022].
+
+## Parâmetros estimados
+
+Antes da avaliação do ajuste, a @tbl-estimation-parameters apresenta os
+parâmetros fatoriais estimados. Para cada relação entre fator e item, a tabela
+reúne a carga não padronizada, o erro-padrão robusto, a estatística de teste e a
+carga padronizada, conforme recomendado por @jackson2009 e @nye2022.
+
+As cargas não padronizadas preservam a métrica do modelo. As cargas
+padronizadas permitem comparar a magnitude das relações dentro de cada
+especificação, e os erros-padrão refletem a inferência robusta do MLR.
+
+A tabela inclui os dois modelos e mostra as três relações adicionais do H~1~
+junto das cargas primárias. A avaliação dessas relações combina os parâmetros
+estimados com os índices de ajuste e os critérios de comparação dos modelos.
+
+```{r}
+#| label: tbl-estimation-parameters
+#| tbl-cap: "Parâmetros fatoriais estimados nos modelos H~0~ e H~1~."
+#| echo: false
+
+analysis_data <- readr::read_csv2(
+  here::here("Data", "AnalysisData", "whoqol_analysis.csv"),
+  na = c("", "NA"),
+  show_col_types = FALSE
+)
+
+fit_analyzemodel <- lavaan::cfa(
+  model = analyzemodel,
+  data = analysis_data,
+  estimator = "MLR",
+  missing = "fiml",
+  std.lv = TRUE
+)
+
+fit_h1modelfree <- lavaan::cfa(
+  model = h1modelfree,
+  data = analysis_data,
+  estimator = "MLR",
+  missing = "fiml",
+  std.lv = TRUE
+)
+
+parameter_estimates_analyzemodel <- lavaan::parameterEstimates(
+  fit_analyzemodel,
+  standardized = TRUE
+) |>
+  dplyr::filter(op == "=~") |>
+  dplyr::transmute(
+    Modelo = "H~0~",
+    Fator = lhs,
+    Item = rhs,
+    Carga = est,
+    `Erro-padrão` = se,
+    z = z,
+    `Carga padronizada` = std.all
+  )
+
+parameter_estimates_h1modelfree <- lavaan::parameterEstimates(
+  fit_h1modelfree,
+  standardized = TRUE
+) |>
+  dplyr::filter(op == "=~") |>
+  dplyr::transmute(
+    Modelo = "H~1~",
+    Fator = lhs,
+    Item = rhs,
+    Carga = est,
+    `Erro-padrão` = se,
+    z = z,
+    `Carga padronizada` = std.all
+  )
+
+parameter_estimates <- dplyr::bind_rows(
+  parameter_estimates_analyzemodel,
+  parameter_estimates_h1modelfree
+)
+
+write.csv2(
+  parameter_estimates,
+  here::here("Output", "Results", "Tables", "tbl-estimation-parameters.csv"),
+  row.names = FALSE,
+  na = "NA"
+)
+
+parameter_estimates |>
+  dplyr::mutate(
+    dplyr::across(
+      c(Carga, `Erro-padrão`, z, `Carga padronizada`),
+      ~ round(.x, 3)
+    )
+  ) |>
+  knitr::kable(escape = FALSE)
+
+```
+
+
+::: {.callout-note title="Racional da @tbl-estimation-parameters" collapse="true"}
+
+O primeiro bloco lê a base analítica produzida no capítulo de pré-processamento.
+Em seguida, `lavaan::cfa()` ajusta os objetos `analyzemodel` e `h1modelfree`
+com máxima verossimilhança robusta (MLR), informação completa (FIML) para as ausências e
+identificação por variâncias latentes fixadas. Como os dois ajustes usam a
+mesma base e os mesmos argumentos, a diferença entre eles permanece restrita à
+especificação das cargas cruzadas.
+
+`lavaan::parameterEstimates(..., standardized = TRUE)` reúne as estimativas
+não padronizadas, os erros-padrão robustos, as estatísticas de teste e as soluções
+padronizadas. O filtro `op == "=~"` mantém somente as relações de carga
+fatorial; variâncias, covariâncias fatoriais e variâncias residuais serão
+examinadas nas etapas apropriadas. A coluna `std.all` fornece a carga
+padronizada, enquanto `est`, `se` e `z` preservam, respectivamente, a carga na
+escala do ajuste, sua incerteza e a estatística de teste.
+
+As tabelas específicas de H~0~ e H~1~ são combinadas por `dplyr::bind_rows()` e
+recebem a coluna `Modelo`, o que permite apresentar os resultados lado a lado
+sem repetir a mesma tabela no texto. `write.csv2()` salva a versão completa,
+com a precisão original, em `Output/Results/Tables`; essa exportação é útil
+para auditoria e reutilização independente da renderização. Na saída exibida,
+`dplyr::mutate()` arredonda apenas uma cópia destinada à apresentação, sem
+alterar o arquivo salvo. Por fim, `knitr::kable()` transforma essa cópia em uma
+tabela formatada para o HTML e o PDF.
+
+```{r}
+#| eval: false
+#| code-fold: true
+
+analysis_data <- readr::read_csv2(
+  here::here("Data", "AnalysisData", "whoqol_analysis.csv"),
+  na = c("", "NA"),
+  show_col_types = FALSE
+)
+
+fit_analyzemodel <- lavaan::cfa(
+  model = analyzemodel,
+  data = analysis_data,
+  estimator = "MLR",
+  missing = "fiml",
+  std.lv = TRUE
+)
+
+fit_h1modelfree <- lavaan::cfa(
+  model = h1modelfree,
+  data = analysis_data,
+  estimator = "MLR",
+  missing = "fiml",
+  std.lv = TRUE
+)
+
+parameter_estimates_analyzemodel <- lavaan::parameterEstimates(
+  fit_analyzemodel,
+  standardized = TRUE
+) |>
+  dplyr::filter(op == "=~") |>
+  dplyr::transmute(
+    Modelo = "H~0~",
+    Fator = lhs,
+    Item = rhs,
+    Carga = est,
+    `Erro-padrão` = se,
+        z = z,
+    `Carga padronizada` = std.all
+  )
+
+parameter_estimates_h1modelfree <- lavaan::parameterEstimates(
+  fit_h1modelfree,
+  standardized = TRUE
+) |>
+  dplyr::filter(op == "=~") |>
+  dplyr::transmute(
+    Modelo = "H~1~",
+    Fator = lhs,
+    Item = rhs,
+    Carga = est,
+    `Erro-padrão` = se,
+        z = z,
+    `Carga padronizada` = std.all
+  )
+
+parameter_estimates <- dplyr::bind_rows(
+  parameter_estimates_analyzemodel,
+  parameter_estimates_h1modelfree
+)
+
+write.csv2(
+  parameter_estimates,
+  here::here("Output", "Results", "Tables", "tbl-estimation-parameters.csv"),
+  row.names = FALSE,
+  na = "NA"
+)
+
+parameter_estimates |>
+  dplyr::mutate(
+    dplyr::across(
+      c(Carga, `Erro-padrão`, z, `Carga padronizada`),
+      ~ round(.x, 3)
+    )
+  ) |>
+  knitr::kable(escape = FALSE)
+```
+
+:::
+
+## Convergência e admissibilidade
+
+Convergência e admissibilidade encerram a etapa de estimação. A convergência
+indica que o algoritmo encontrou uma solução para o modelo especificado. A
+admissibilidade é examinada pelas variâncias negativas e pelas cargas
+padronizadas superiores a 1, diagnósticos associados a soluções Heywood
+[@brown2015; @nye2022]. A @tbl-estimation-checks reúne essas verificações para
+H~0~ e H~1~ e registra o tamanho amostral e o número de parâmetros livres.
+
+Os dois modelos convergiram, não apresentaram variâncias negativas e não
+produziram cargas padronizadas superiores a 1. As soluções estão prontas para
+a avaliação do ajuste global e local.
+
+```{r}
+#| label: tbl-estimation-checks
+#| tbl-cap: "Verificações de convergência e admissibilidade das soluções estimadas."
+#| echo: false
+
+diagnostic_fits <- list(
+  H0 = fit_analyzemodel,
+  H1 = fit_h1modelfree
+)
+
+estimation_checks <- purrr::imap_dfr(
+  diagnostic_fits,
+  function(fit, model_name) {
+    parameter_table <- lavaan::parTable(fit)
+    free_parameters <- parameter_table |>
+      dplyr::filter(free > 0)
+
+    variance_table <- lavaan::parameterEstimates(fit) |>
+      dplyr::filter(op == "~~", lhs == rhs)
+
+    standardized_loadings <- lavaan::standardizedSolution(fit) |>
+      dplyr::filter(op == "=~")
+
+    negative_variances <- sum(variance_table$est < 0, na.rm = TRUE)
+    heywood_loadings <- sum(
+      abs(standardized_loadings$est.std) > 1,
+      na.rm = TRUE
+    )
+    converged <- isTRUE(lavaan::lavInspect(fit, "converged"))
+
+    tibble::tibble(
+      Modelo = model_name,
+      `N observado` = as.integer(lavaan::lavInspect(fit, "nobs")),
+      `Parâmetros livres` = sum(free_parameters$free > 0),
+      Convergência = converged,
+      `Variâncias negativas` = negative_variances,
+      `Cargas padronizadas > 1` = heywood_loadings
+    )
+  }
+)
+
+write.csv2(
+  estimation_checks,
+  here::here("Output", "Results", "Tables", "tbl-estimation-checks.csv"),
+  row.names = FALSE,
+  na = "NA"
+)
+
+estimation_checks |>
+  knitr::kable()
+```
+
+
+::: {.callout-note title="Racional da @tbl-estimation-checks" collapse="true"}
+
+`lavInspect(fit, "converged")` identifica se o algoritmo terminou com uma
+solução convergida. A tabela de parâmetros é inspecionada para localizar
+variâncias negativas e cargas padronizadas maiores que 1, que podem
+caracterizar soluções Heywood. O número de parâmetros livres é recuperado para
+documentar a complexidade estimada de cada especificação.
+
+O objeto `diagnostic_fits` apenas reúne os dois ajustes já estimados para que a
+mesma sequência de inspeções seja aplicada a H~0~ e H~1~; ele não realiza uma nova
+estimação. `lavaan::parTable()` fornece a coluna `free`, que permite contar os
+parâmetros efetivamente estimados, enquanto `lavaan::lavInspect(..., "nobs")`
+recupera o tamanho amostral utilizado pelo ajuste e
+`lavaan::lavInspect(..., "converged")` informa se o algoritmo convergiu.
+
+As variâncias são obtidas com `lavaan::parameterEstimates()` filtrando as
+relações de variância (`op == "~~"` e `lhs == rhs`). As cargas padronizadas são
+recuperadas com `lavaan::standardizedSolution()` e filtradas para as relações de
+carga (`op == "=~"`). A contagem de valores negativos e de cargas maiores que 1
+resume os dois diagnósticos de admissibilidade apresentados na tabela.
+
+Depois dessas operações, `tibble::tibble()` organiza uma linha para cada modelo
+e somente as seis colunas relevantes para esta etapa. `write.csv2()` salva essa
+tabela diagnóstica em `Output/Results/Tables/tbl-estimation-checks.csv`,
+preservando uma cópia tabular para auditoria. A chamada final a
+`knitr::kable()` apresenta o mesmo objeto no HTML e no PDF; portanto, a tabela
+exibida e o CSV derivam da mesma estrutura, sem uma reconstrução posterior do
+resultado.
+
+```{r}
+#| eval: false
+#| code-fold: true
+
+diagnostic_fits <- list(
+  H0 = fit_analyzemodel,
+  H1 = fit_h1modelfree
+)
+
+estimation_checks <- purrr::imap_dfr(
+  diagnostic_fits,
+  function(fit, model_name) {
+    parameter_table <- lavaan::parTable(fit)
+    free_parameters <- parameter_table |>
+      dplyr::filter(free > 0)
+
+    variance_table <- lavaan::parameterEstimates(fit) |>
+      dplyr::filter(op == "~~", lhs == rhs)
+
+    standardized_loadings <- lavaan::standardizedSolution(fit) |>
+      dplyr::filter(op == "=~")
+
+    negative_variances <- sum(variance_table$est < 0, na.rm = TRUE)
+    heywood_loadings <- sum(
+      abs(standardized_loadings$est.std) > 1,
+      na.rm = TRUE
+    )
+    converged <- isTRUE(lavaan::lavInspect(fit, "converged"))
+
+    tibble::tibble(
+      Modelo = model_name,
+      `N observado` = as.integer(lavaan::lavInspect(fit, "nobs")),
+      `Parâmetros livres` = sum(free_parameters$free > 0),
+      Convergência = converged,
+      `Variâncias negativas` = negative_variances,
+      `Cargas padronizadas > 1` = heywood_loadings
+    )
+  }
+)
+
+write.csv2(
+  estimation_checks,
+  here::here("Output", "Results", "Tables", "tbl-estimation-checks.csv"),
+  row.names = FALSE,
+  na = "NA"
+)
+
+estimation_checks |>
+  knitr::kable()
+```
+
+:::
