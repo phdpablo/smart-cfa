@@ -216,3 +216,24 @@ h1modelfree <- '
   # The Q3--Q4 residual covariance is retained in the alternative model.
   Q4 ~~ Q3
 '
+
+# =============================================================================
+# Free analysis model: four correlated factors and Q3--Q4 covariance
+# =============================================================================
+
+adjustedzemodel <- '
+  # Freely estimated primary loadings
+  psycho =~ Q6 + Q7 + Q11 + Q19 + Q26
+  physical =~ Q3 + Q4 + Q10 + Q16 + Q17 + Q18
+  social =~ Q20 + Q21 + Q22
+  environment =~ Q8 + Q9 + Q12 + Q13 + Q14 + Q23 + Q25
+
+  # Unit-variance identification and freely estimated factor covariances
+  psycho ~~ 1*psycho + physical + social + environment
+  physical ~~ 1*physical + social + environment
+  social ~~ 1*social + environment
+  environment ~~ 1*environment
+
+  # Freely estimated local dependence between Q3 and Q4
+  Q4 ~~ Q3
+'

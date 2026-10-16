@@ -1,1 +1,1345 @@
 # Ajuste do modelo {#sec-model-fit}
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-important title="Como as análises estão organizadas" collapse="true"}
+
+O capítulo utiliza os scripts locais
+[models.R](Scripts/DataAppendixScripts/models.R) e
+[helpers.R](Scripts/DataAppendixScripts/helpers.R). O primeiro define as
+especificações empíricas `analyzemodel` e `h1modelfree`, correspondentes a H~0~ e
+H~1~. O segundo carrega os pacotes e os parâmetros compartilhados pelo projeto.
+
+Os scripts [cache_utils.R](Scripts/DataAppendixScripts/cache_utils.R) e
+[cache_loader.R](Scripts/DataAppendixScripts/cache_loader.R) disponibilizam as
+funções de persistência já utilizadas nos capítulos anteriores.
+`cache_or_run()` permite reaproveitar um resultado existente ou executar e salvar
+um novo resultado em `.rds`; `cache_load_existing()` permite carregar os arquivos
+persistidos. As chamadas a `source()` apenas disponibilizam essas funções.
+
+O chunk abaixo lê a base analítica produzida no pré-processamento com
+`readr::read_csv2()` e a armazena em `analysis_data`. Em seguida, as duas chamadas
+diretas a `lavaan::cfa()` recriam `fit_analyzemodel` e `fit_h1modelfree`, com os
+mesmos nomes e argumentos do capítulo anterior. Assim, este arquivo pode ser
+executado em uma sessão independente, usando os scripts e a base persistida no
+projeto.
+
+Em cada ajuste, `model` recebe a especificação e `data` recebe a base analítica.
+`estimator = "MLR"` define a estimação robusta, `missing = "fiml"` incorpora as
+respostas ausentes e `std.lv = TRUE` fixa as variâncias dos fatores em 1.
+
+```{r}
+#| label: setup-model-fit
+#| code-fold: true
+
+# Load the empirical model specifications and shared packages and settings.
+source(here::here("Scripts", "DataAppendixScripts", "models.R"))
+source(here::here("Scripts", "DataAppendixScripts", "helpers.R"))
+
+# Make the existing persistence functions available for later steps.
+source(here::here("Scripts", "DataAppendixScripts", "cache_utils.R"))
+source(here::here("Scripts", "DataAppendixScripts", "cache_loader.R"))
+
+# Read the analytical dataset produced during preprocessing.
+analysis_data <- readr::read_csv2(
+  here::here("Data", "AnalysisData", "whoqol_analysis.csv"),
+  na = c("", "NA"), show_col_types = FALSE
+)
+
+# Recreate the H0 fit using the same settings as in Chapter 6.
+fit_analyzemodel <- lavaan::cfa(
+  model = analyzemodel, data = analysis_data, estimator = "MLR",
+  missing = "fiml", std.lv = TRUE
+)
+
+# Recreate the H1 fit using the same settings as in Chapter 6.
+fit_h1modelfree <- lavaan::cfa(
+  model = h1modelfree, data = analysis_data, estimator = "MLR",
+  missing = "fiml", std.lv = TRUE
+)
+```
+
+:::
+
+::::
+
+
+## Ajuste global dos modelos originais
+
+O ajuste global avalia em que medida as relações especificadas reproduzem a
+estrutura de covariâncias dos indicadores. Conforme a @sec-theory-fit, sua
+avaliação combina o teste de ajuste exato e índices que descrevem a magnitude
+do desajuste.
+
+A @tbl-model-fit-global apresenta os resultados de H~0~ e H~1~ para os mesmos
+1.243 participantes. O χ² e seu valor de p correspondem ao teste ajustado;
+CFI, TLI e RMSEA são apresentados nas versões robustas, incluindo os limites
+robustos do intervalo do RMSEA. O SRMR acompanha essas medidas como resumo
+adicional. A leitura conjunta dos indicadores orienta a avaliação das
+especificações originais [@mai2021; @niemand2018].
+
+```{r}
+#| label: tbl-model-fit-global
+#| tbl-cap: "Ajuste global dos modelos originais H~0~ e H~1~, estimados por MLR/FIML."
+#| echo: false
+
+# Extract the original named vectors returned by lavaan.
+fit_measures_h0 <- lavaan::fitMeasures(fit_analyzemodel)
+fit_measures_h1 <- lavaan::fitMeasures(fit_h1modelfree)
+
+# Select only the measures needed for the global-fit table.
+fit_measure_names <- c(
+  "ntotal", "chisq.scaled", "df.scaled", "pvalue.scaled",
+  "cfi.robust", "tli.robust", "rmsea.robust",
+  "rmsea.ci.lower.robust", "rmsea.ci.upper.robust", "srmr"
+)
+
+# Keep a separate table for each original model.
+fit_table_h0 <- data.frame(
+  Medida = fit_measure_names,
+  H0 = as.numeric(fit_measures_h0[fit_measure_names])
+)
+
+fit_table_h1 <- data.frame(
+  Medida = fit_measure_names,
+  H1 = as.numeric(fit_measures_h1[fit_measure_names])
+)
+
+# Both tables use the same measures in the same order.
+fit_global <- data.frame(
+  Indicador = c(
+    "N", "χ² ajustado", "Graus de liberdade", "Valor de p",
+    "CFI robusto", "TLI robusto", "RMSEA robusto",
+    "RMSEA robusto: limite inferior do IC de 90%",
+    "RMSEA robusto: limite superior do IC de 90%", "SRMR"
+  ),
+  fit_table_h0,
+  H1 = fit_table_h1$H1
+)
+
+# Export the numeric table before any display rounding.
+write.csv2(
+  fit_global,
+  here::here("Output", "Results", "Tables", "tbl-model-fit-global.csv"),
+  row.names = FALSE,
+  na = "NA"
+)
+
+# Present the table with rounded values and formatted p-values.
+fit_global |>
+  dplyr::select(Indicador, H0, H1) |>
+  dplyr::mutate(
+    dplyr::across(
+      c(H0, H1),
+      ~ ifelse(
+        Indicador == "Valor de p",
+        format.pval(.x, digits = 3, eps = 0.001),
+        as.character(round(.x, 3))
+      )
+    )
+  ) |>
+  knitr::kable(
+    col.names = c("Indicador", "H~0~", "H~1~"),
+    align = c("l", "c", "c"),
+    escape = FALSE
+  )
+```
+
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Racional da @tbl-model-fit-global" collapse="true"}
+
+Os objetos de origem são `fit_analyzemodel` e `fit_h1modelfree`, recriados na
+preparação inicial. `summary(fit_analyzemodel, fit.measures = TRUE)` permite
+consultar um resumo do primeiro ajuste, incluindo parâmetros e índices. Para
+trabalhar diretamente com os valores, utilizamos `lavaan::fitMeasures()`, a
+função de extração indicada na
+[documentação do lavaan](https://lavaan.ugent.be/tutorial/inspect.html).
+Cada chamada retorna um vetor numérico nomeado, armazenado em
+`fit_measures_h0` ou `fit_measures_h1`. Esses objetos preservam as medidas
+retornadas pelo pacote, antes da seleção para a tabela.
+
+O mesmo chunk reúne a extração, a organização, a exportação e a apresentação da tabela. `fit_measure_names` explicita os nomes das medidas selecionadas e sua ordem: `ntotal` informa o número de
+participantes utilizados; `chisq.scaled`, `df.scaled` e `pvalue.scaled` fornecem
+a estatística ajustada, seus graus de liberdade e o valor de p correspondente.
+Os nomes `cfi.robust`, `tli.robust` e `rmsea.robust` selecionam diretamente
+as versões robustas de CFI, TLI e RMSEA. `rmsea.ci.lower.robust` e
+`rmsea.ci.upper.robust` recuperam os limites inferior e superior do intervalo
+de confiança robusto do RMSEA, com nível padrão de 90%. Por fim, `srmr`
+seleciona o resumo dos resíduos padronizados. Escrever os nomes completos
+no vetor permite identificar cada medida diretamente na chamada de seleção.
+
+Os índices `cfi.scaled`, `tli.scaled` e `rmsea.scaled` são distintos das versões
+`.robust` selecionadas. Mantemos explicitamente estas últimas na tabela. O
+SRMR utiliza o nome `srmr`; não recebe um sufixo robusto.
+
+Cada `data.frame()` cria uma tabela intermediária com o nome original da medida
+em `Medida` e seu valor em `H0` ou `H1`. A indexação por `fit_measure_names`
+seleciona as mesmas medidas na mesma ordem nos dois vetores. `as.numeric()`
+preserva os valores e remove os nomes do vetor, já registrados em `Medida`.
+`fit_global` reúne a tabela de H~0~ e a coluna de H~1~, acrescentando os rótulos
+legíveis em `Indicador`. Assim, cada linha identifica uma medida e as duas
+colunas numéricas correspondem aos modelos originais.
+
+`write.csv2()` grava essa tabela em
+`Output/Results/Tables/tbl-model-fit-global.csv`, com os valores numéricos
+sem arredondamento prévio, nomes originais das medidas e ausências como `NA`.
+A pasta de resultados já integra a organização do projeto. Na apresentação,
+`select()` mantém apenas `Indicador`, `H0` e `H1`; `mutate()` e `across()`
+formatam uma cópia, arredondando os indicadores a três casas decimais e usando
+`format.pval()` para mostrar valores de p inferiores a 0,001 como `<0.001`.
+Essa formatação não altera `fit_global` nem o CSV. `knitr::kable()` produz a
+tabela comum ao HTML e ao PDF; `escape = FALSE` permite os rótulos H~0~/H~1~.
+
+```{r}
+#| eval: false
+#| code-fold: true
+
+# Extract the original named vectors returned by lavaan.
+fit_measures_h0 <- lavaan::fitMeasures(fit_analyzemodel)
+fit_measures_h1 <- lavaan::fitMeasures(fit_h1modelfree)
+
+# Select only the measures needed for the global-fit table.
+fit_measure_names <- c(
+  "ntotal", "chisq.scaled", "df.scaled", "pvalue.scaled",
+  "cfi.robust", "tli.robust", "rmsea.robust",
+  "rmsea.ci.lower.robust", "rmsea.ci.upper.robust", "srmr"
+)
+
+# Keep a separate table for each original model.
+fit_table_h0 <- data.frame(
+  Medida = fit_measure_names,
+  H0 = as.numeric(fit_measures_h0[fit_measure_names])
+)
+
+fit_table_h1 <- data.frame(
+  Medida = fit_measure_names,
+  H1 = as.numeric(fit_measures_h1[fit_measure_names])
+)
+
+# Both tables use the same measures in the same order.
+fit_global <- data.frame(
+  Indicador = c(
+    "N", "χ² ajustado", "Graus de liberdade", "Valor de p",
+    "CFI robusto", "TLI robusto", "RMSEA robusto",
+    "RMSEA robusto: limite inferior do IC de 90%",
+    "RMSEA robusto: limite superior do IC de 90%", "SRMR"
+  ),
+  fit_table_h0,
+  H1 = fit_table_h1$H1
+)
+
+# Export the numeric table before any display rounding.
+write.csv2(
+  fit_global,
+  here::here("Output", "Results", "Tables", "tbl-model-fit-global.csv"),
+  row.names = FALSE,
+  na = "NA"
+)
+
+# Present the table with rounded values and formatted p-values.
+fit_global |>
+  dplyr::select(Indicador, H0, H1) |>
+  dplyr::mutate(
+    dplyr::across(
+      c(H0, H1),
+      ~ ifelse(
+        Indicador == "Valor de p",
+        format.pval(.x, digits = 3, eps = 0.001),
+        as.character(round(.x, 3))
+      )
+    )
+  ) |>
+  knitr::kable(
+    col.names = c("Indicador", "H~0~", "H~1~"),
+    align = c("l", "c", "c"),
+    escape = FALSE
+  )
+```
+
+:::
+
+::::
+
+Os resultados da @tbl-model-fit-global mostram limitações de ajuste nas duas
+especificações. O teste de ajuste exato foi significativo em H~0~,
+χ²(`r round(fit_measures_h0["df.scaled"])`) =
+`r formatC(fit_measures_h0["chisq.scaled"], format = "f", digits = 3, decimal.mark = ",")`
+(p `r format.pval(fit_measures_h0["pvalue.scaled"], digits = 3, eps = 0.001, decimal.mark = ",")`),
+e em H~1~,
+χ²(`r round(fit_measures_h1["df.scaled"])`) =
+`r formatC(fit_measures_h1["chisq.scaled"], format = "f", digits = 3, decimal.mark = ",")`
+(p `r format.pval(fit_measures_h1["pvalue.scaled"], digits = 3, eps = 0.001, decimal.mark = ",")`).
+No entanto, sabemos das limitações do teste χ², principalmente no que diz respeito à sensibilidade a pequenas discrepâncias 
+(tamanho amostral) [@nye2022; @west2023].
+
+Os índices incrementais constituem o principal sinal de fragilidade nesta
+avaliação inicial. Em H~0~, CFI e TLI robustos foram, respectivamente,
+`r formatC(fit_measures_h0["cfi.robust"], format = "f", digits = 3, decimal.mark = ",")`
+e `r formatC(fit_measures_h0["tli.robust"], format = "f", digits = 3, decimal.mark = ",")`;
+em H~1~, foram
+`r formatC(fit_measures_h1["cfi.robust"], format = "f", digits = 3, decimal.mark = ",")`
+e `r formatC(fit_measures_h1["tli.robust"], format = "f", digits = 3, decimal.mark = ",")`.
+Esses valores mostram ganho limitado de ajuste em relação ao modelo de
+referência. O RMSEA robusto foi
+`r formatC(fit_measures_h0["rmsea.robust"], format = "f", digits = 3, decimal.mark = ",")`
+(IC de 90%:
+`r formatC(fit_measures_h0["rmsea.ci.lower.robust"], format = "f", digits = 3, decimal.mark = ",")`–`r formatC(fit_measures_h0["rmsea.ci.upper.robust"], format = "f", digits = 3, decimal.mark = ",")`)
+em H~0~ e
+`r formatC(fit_measures_h1["rmsea.robust"], format = "f", digits = 3, decimal.mark = ",")`
+(IC de 90%:
+`r formatC(fit_measures_h1["rmsea.ci.lower.robust"], format = "f", digits = 3, decimal.mark = ",")`–`r formatC(fit_measures_h1["rmsea.ci.upper.robust"], format = "f", digits = 3, decimal.mark = ",")`)
+em H~1~, indicando desajustes dentro de limites aceitáveis.
+
+O SRMR apresentou um resultado mais favorável, com
+`r formatC(fit_measures_h0["srmr"], format = "f", digits = 3, decimal.mark = ",")`
+em H~0~ e
+`r formatC(fit_measures_h1["srmr"], format = "f", digits = 3, decimal.mark = ",")`
+em H~1~. A menor magnitude média dos resíduos padronizados pode coexistir com
+dificuldades em relações específicas, que serão examinadas no diagnóstico
+local. Essa diferença entre os sinais dos índices reforça a necessidade de
+interpretá-los conjuntamente [@mai2021; @niemand2018].
+
+H~1~ apresenta índices descritivamente mais favoráveis, com melhora pequena
+em relação a H~0~. O conjunto dos resultados ainda oferece evidência
+insuficiente para sustentar a adequação das especificações originais. A
+avaliação por simulação examinará os índices observados à luz de referências
+calibradas para as condições de análise, conforme a estratégia discutida na
+@sec-theory-fit, antes de definir os encaminhamentos para os problemas locais.
+
+## Confiabilidade dos escores
+
+A confiabilidade expressa a precisão de um escore sob determinadas condições
+de mensuração. O ômega é a medida principal, calculada a partir
+dos parâmetros fatoriais e da variância observada do escore. Essa avaliação
+complementa o ajuste global e depende da adequação da especificação utilizada
+[@flora2020; @cho2022].
+
+A @tbl-domain-reliability apresenta o ômega e o maior limite inferior de
+confiabilidade (GLB) para os quatro domínios em H~0~ e H~1~. Em H~1~, o escore
+psicológico inclui também Q8 e Q9, e o ambiental inclui Q15, passando a
+oito e nove itens, respectivamente. Os demais escores mantêm sua composição. O GLB é calculado separadamente a partir da matriz observada
+recuperada de cada ajuste, permitindo verificar a correspondência dos
+resultados. Sua formulação algébrica pressupõe erros não correlacionados e
+pode apresentar viés amostral para cima; portanto, sua interpretação difere
+da confiabilidade baseada no modelo que inclui a covariância residual Q3–Q4
+[@trizano-hermosilla2016].
+
+```{r}
+#| label: tbl-domain-reliability
+#| tbl-cap: >-
+#|   Confiabilidade dos escores de domínio conforme a composição em H~0~ e H~1~
+#| echo: false
+
+# Define equally weighted item sets, including the expanded H1 scores.
+domain_items <- list(
+  psycho = c("Q5", "Q6", "Q7", "Q11", "Q19", "Q26"),
+  physical = c("Q3", "Q4", "Q10", "Q15", "Q16", "Q17", "Q18"),
+  social = c("Q20", "Q21", "Q22"),
+  environment = c("Q8", "Q9", "Q12", "Q13", "Q14", "Q23", "Q24", "Q25"),
+  psycho_h1 = c("Q5", "Q6", "Q7", "Q11", "Q19", "Q26", "Q8", "Q9"),
+  environment_h1 = c("Q8", "Q9", "Q12", "Q13", "Q14", "Q23", "Q24", "Q25", "Q15")
+)
+
+# Estimate domain-factor reliability with observed score variance denominators.
+omega_h0 <- semTools::compRelSEM(
+  fit_analyzemodel, obs.var = TRUE, tau.eq = FALSE
+)
+omega_h1 <- semTools::compRelSEM(
+  fit_h1modelfree, obs.var = TRUE, tau.eq = FALSE
+)
+
+# Extract the observed covariance matrix independently from each fitted model.
+reliability_cov_h0 <- lavaan::lavInspect(fit_analyzemodel, "sampstat")$cov
+reliability_cov_h1 <- lavaan::lavInspect(fit_h1modelfree, "sampstat")$cov
+
+# Keep each native GLB result, including solver status, for inspection.
+# psych::glb.algebraic() requires the Rcsdp package.
+glb_h0 <- list(
+  psycho = psych::glb.algebraic(
+    reliability_cov_h0[domain_items$psycho, domain_items$psycho]
+  ),
+  physical = psych::glb.algebraic(
+    reliability_cov_h0[domain_items$physical, domain_items$physical]
+  ),
+  social = psych::glb.algebraic(
+    reliability_cov_h0[domain_items$social, domain_items$social]
+  ),
+  environment = psych::glb.algebraic(
+    reliability_cov_h0[domain_items$environment, domain_items$environment]
+  )
+)
+glb_h1 <- list(
+  psycho = psych::glb.algebraic(
+    reliability_cov_h1[domain_items$psycho_h1, domain_items$psycho_h1]
+  ),
+  physical = psych::glb.algebraic(
+    reliability_cov_h1[domain_items$physical, domain_items$physical]
+  ),
+  social = psych::glb.algebraic(
+    reliability_cov_h1[domain_items$social, domain_items$social]
+  ),
+  environment = psych::glb.algebraic(
+    reliability_cov_h1[domain_items$environment_h1, domain_items$environment_h1]
+  )
+)
+
+# Assemble one numeric table from the independent results, without rounding.
+reliability_domains <- data.frame(
+  Modelo = rep(c("H~0~", "H~1~"), each = 4),
+  Domínio = rep(c("Psicológico", "Físico", "Relações sociais", "Ambiente"), 2),
+  Itens = lengths(domain_items[c(
+    "psycho", "physical", "social", "environment",
+    "psycho_h1", "physical", "social", "environment_h1"
+  )]),
+  Ômega = as.numeric(c(
+    omega_h0[c("psycho", "physical", "social", "environment")],
+    omega_h1[c("psycho", "physical", "social", "environment")]
+  )),
+  GLB = c(
+    glb_h0$psycho$glb, glb_h0$physical$glb,
+    glb_h0$social$glb, glb_h0$environment$glb,
+    glb_h1$psycho$glb, glb_h1$physical$glb,
+    glb_h1$social$glb, glb_h1$environment$glb
+  ),
+  row.names = NULL
+)
+
+# Save the numeric table before any display rounding.
+write.csv2(
+  reliability_domains,
+  here::here("Output", "Results", "Tables", "tbl-domain-reliability.csv"),
+  row.names = FALSE, na = "NA"
+)
+
+# Print the table with three decimal places and formatted H0/H1 labels.
+reliability_domains |>
+  knitr::kable(digits = 3, row.names = FALSE, escape = FALSE)
+```
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Racional da @tbl-domain-reliability" collapse="true"}
+
+`domain_items` define os conjuntos de itens que compõem os escores, com pesos
+iguais. As quatro primeiras entradas correspondem aos domínios originais.
+As entradas `psycho_h1` e `environment_h1` acrescentam, respectivamente,
+Q8/Q9 e Q15 aos escores de H~1~. Essas seleções orientam o cálculo do GLB
+e a contagem de itens apresentada na tabela.
+
+`semTools::compRelSEM()` recebe diretamente os ajustes `fit_analyzemodel` e
+`fit_h1modelfree`, armazenando os coeficientes em `omega_h0` e `omega_h1`.
+O cálculo relaciona a variância atribuível ao fator à variância observada
+do escore, utilizando as cargas e as variâncias fatoriais estimadas em cada
+modelo. Assim, o ômega é calculado a partir da estrutura fatorial de H~0~
+ou H~1~.
+
+`lavaan::lavInspect(..., "sampstat")$cov` recupera a matriz observada de
+covariâncias utilizada em cada ajuste. As matrizes ficam armazenadas em
+`reliability_cov_h0` e `reliability_cov_h1`, com os nomes dos itens nas linhas
+e colunas. Isso permite selecionar o bloco de covariâncias correspondente
+a cada domínio, preservando a escala original dos itens.
+
+`psych::glb.algebraic()` calcula o GLB para cada bloco selecionado. As listas
+`glb_h0` e `glb_h1` guardam os resultados dos quatro domínios, e o componente
+`$glb` fornece o coeficiente que será levado à tabela. Em H~1~, as seleções
+psicológica e ambiental utilizam os conjuntos ampliados, podendo produzir
+valores diferentes dos de H~0~. Para os domínios físico e social, esperamos
+GLB iguais, pois os itens, pesos e dados observados permanecem os mesmos.
+
+`reliability_domains` organiza os resultados em oito linhas, quatro por
+modelo. As colunas identificam o modelo, o domínio, o número de itens e os
+dois coeficientes. `lengths()` conta os itens nas seleções correspondentes,
+e os valores de ômega e GLB são reunidos na mesma ordem dos domínios, sem
+arredondamento nesta etapa.
+
+`write.csv2()` salva a tabela com precisão integral em
+`Output/Results/Tables/tbl-domain-reliability.csv`. `knitr::kable()` apresenta
+a mesma tabela com três casas decimais. O código abaixo permite reproduzir
+esses blocos após a preparação inicial; `eval: false` evita sua execução
+novamente no callout.
+
+```{r}
+#| eval: false
+#| code-fold: true
+
+# Define equally weighted item sets, including the expanded H1 scores.
+domain_items <- list(
+  psycho = c("Q5", "Q6", "Q7", "Q11", "Q19", "Q26"),
+  physical = c("Q3", "Q4", "Q10", "Q15", "Q16", "Q17", "Q18"),
+  social = c("Q20", "Q21", "Q22"),
+  environment = c("Q8", "Q9", "Q12", "Q13", "Q14", "Q23", "Q24", "Q25"),
+  psycho_h1 = c("Q5", "Q6", "Q7", "Q11", "Q19", "Q26", "Q8", "Q9"),
+  environment_h1 = c("Q8", "Q9", "Q12", "Q13", "Q14", "Q23", "Q24", "Q25", "Q15")
+)
+
+# Estimate domain-factor reliability with observed score variance denominators.
+omega_h0 <- semTools::compRelSEM(
+  fit_analyzemodel, obs.var = TRUE, tau.eq = FALSE
+)
+omega_h1 <- semTools::compRelSEM(
+  fit_h1modelfree, obs.var = TRUE, tau.eq = FALSE
+)
+
+# Extract the observed covariance matrix independently from each fitted model.
+reliability_cov_h0 <- lavaan::lavInspect(fit_analyzemodel, "sampstat")$cov
+reliability_cov_h1 <- lavaan::lavInspect(fit_h1modelfree, "sampstat")$cov
+
+# Keep each native GLB result, including solver status, for inspection.
+# psych::glb.algebraic() requires the Rcsdp package.
+glb_h0 <- list(
+  psycho = psych::glb.algebraic(
+    reliability_cov_h0[domain_items$psycho, domain_items$psycho]
+  ),
+  physical = psych::glb.algebraic(
+    reliability_cov_h0[domain_items$physical, domain_items$physical]
+  ),
+  social = psych::glb.algebraic(
+    reliability_cov_h0[domain_items$social, domain_items$social]
+  ),
+  environment = psych::glb.algebraic(
+    reliability_cov_h0[domain_items$environment, domain_items$environment]
+  )
+)
+glb_h1 <- list(
+  psycho = psych::glb.algebraic(
+    reliability_cov_h1[domain_items$psycho_h1, domain_items$psycho_h1]
+  ),
+  physical = psych::glb.algebraic(
+    reliability_cov_h1[domain_items$physical, domain_items$physical]
+  ),
+  social = psych::glb.algebraic(
+    reliability_cov_h1[domain_items$social, domain_items$social]
+  ),
+  environment = psych::glb.algebraic(
+    reliability_cov_h1[domain_items$environment_h1, domain_items$environment_h1]
+  )
+)
+
+# Assemble one numeric table from the independent results, without rounding.
+reliability_domains <- data.frame(
+  Modelo = rep(c("H~0~", "H~1~"), each = 4),
+  Domínio = rep(c("Psicológico", "Físico", "Relações sociais", "Ambiente"), 2),
+  Itens = lengths(domain_items[c(
+    "psycho", "physical", "social", "environment",
+    "psycho_h1", "physical", "social", "environment_h1"
+  )]),
+  Ômega = as.numeric(c(
+    omega_h0[c("psycho", "physical", "social", "environment")],
+    omega_h1[c("psycho", "physical", "social", "environment")]
+  )),
+  GLB = c(
+    glb_h0$psycho$glb, glb_h0$physical$glb,
+    glb_h0$social$glb, glb_h0$environment$glb,
+    glb_h1$psycho$glb, glb_h1$physical$glb,
+    glb_h1$social$glb, glb_h1$environment$glb
+  ),
+  row.names = NULL
+)
+
+# Save the numeric table before any display rounding.
+write.csv2(
+  reliability_domains,
+  here::here("Output", "Results", "Tables", "tbl-domain-reliability.csv"),
+  row.names = FALSE, na = "NA"
+)
+
+# Print the table with three decimal places and formatted H0/H1 labels.
+reliability_domains |>
+  knitr::kable(digits = 3, row.names = FALSE, escape = FALSE)
+```
+
+:::
+
+::::
+
+Os quatro escores de domínio apresentaram ômega e GLB acima da referência
+convencional de 0,70 no modelo de interesse H~0~, embora alguns coeficientes tenham
+ficado próximos desse limite. Na comparação entre H~0~ e H~1~,
+a interpretação dos coeficientes deve considerar também a ampliação dos
+escores psicológico e ambiental, além da mudança na especificação fatorial. Esses resultados
+sustentam a consistência dos escores sob a especificação avaliada, mas
+não resolvem as limitações de ajuste global identificadas anteriormente.
+
+## Distribuições dos índices sob os modelos empíricos
+
+A análise de poder utilizou parâmetros populacionais definidos a partir da
+literatura e de pressupostos de planejamento. Após a estimação, as cargas e
+as correlações observadas diferiram dessas condições. A avaliação por
+simulação foi, portanto, parametrizada pelos ajustes empíricos, preservando
+a estrutura dos modelos e incorporando o tamanho amostral e as características
+distributivas consideradas na análise atual [@leite2023; @moshagen2024].
+
+Os parâmetros estimados definem populações geradoras hipotéticas. Sob a
+primeira condição, os dados são gerados e analisados segundo H~0~, fornecendo
+a distribuição de referência dos índices quando suas restrições são
+satisfeitas. Sob a segunda, os dados são gerados segundo H~1~ e analisados
+por H~0~, permitindo avaliar a sensibilidade dos índices à omissão das três
+cargas cruzadas previamente consideradas. A forma desse contraste mantém
+continuidade com o planejamento, enquanto suas magnitudes são atualizadas
+pelas estimativas empíricas.
+
+A avaliação reúne o posicionamento dos índices observados de H~0~ diante de
+sua referência e a sensibilidade dessa referência à alternativa especificada.
+Os cortes derivados dos quantis sob H~0~ correspondem à referência de ajuste
+exato; a condição alternativa permite examinar sua capacidade de detectar a
+omissão escolhida. Esse procedimento compartilha com as abordagens de
+calibração específica a adaptação às características do modelo, enquanto o
+DFI possui regras próprias de geração e avaliação da má especificação
+[@mcneishwolf2023cfa]. As conclusões são condicionadas aos parâmetros e às
+condições simuladas. As estimativas utilizadas nos geradores permanecem
+fixas entre replicações; a simulação reproduz a variabilidade amostral sob
+essas estimativas. O diagnóstico local complementará a avaliação, examinando
+discrepâncias que o contraste escolhido pode não representar.
+
+Foram consideradas 1.000 replicações de 1.243 participantes em cada condição.
+A geração incorpora as assimetrias e curtoses marginais observadas e repete
+o padrão de células ausentes da base analítica. A estimação mantém MLR/FIML.
+A @fig-empirical-fit-distributions apresenta as distribuições de RMSEA, CFI e
+TLI robustos, acompanhados do SRMR, preservando as medidas utilizadas na
+@tbl-model-fit-global. A concentração de CFI e TLI próximos de 1 é esperada
+sob a condição em que o modelo ajustado corresponde à estrutura geradora;
+essa referência permite avaliar o afastamento dos valores observados.
+
+```{r}
+#| label: setup-empirical-simulation
+#| include: false
+
+# Keep the same 24 indicators in the order used by each fitted model.
+indicators_h0 <- analysis_data[
+  lavaan::lavNames(fit_analyzemodel, "ov")
+]
+
+indicators_h1 <- analysis_data[
+  lavaan::lavNames(fit_h1modelfree, "ov")
+]
+
+# Use observed marginal skewness and excess kurtosis for data generation.
+dist_h0 <- simsem::bindDist(
+  skewness = psych::skew(as.matrix(indicators_h0), na.rm = TRUE),
+  kurtosis = psych::kurtosi(as.matrix(indicators_h0), na.rm = TRUE)
+)
+
+dist_h1 <- simsem::bindDist(
+  skewness = psych::skew(as.matrix(indicators_h1), na.rm = TRUE),
+  kurtosis = psych::kurtosi(as.matrix(indicators_h1), na.rm = TRUE)
+)
+```
+
+
+```{r}
+#| label: sim-h0-empirical
+#| include: false
+
+# Generate from fitted H0 and estimate the H0 specification.
+# cache_or_run() saves or reads sim_h0_empirical.rds.
+sim_h0_empirical <- cache_or_run("sim_h0_empirical", {
+  simsem::sim(
+    nRep = SIM,
+    model = analyzemodel,
+    n = N_EMP,
+    generate = fit_analyzemodel,
+    indDist = dist_h0,
+    miss = simsem::miss(logical = is.na(indicators_h0)),
+    lavaanfun = "cfa",
+    estimator = "MLR",
+    missing = "fiml",
+    std.lv = TRUE,
+    seed = SEED,
+    multicore = TRUE
+  )
+})
+```
+
+
+```{r}
+#| label: sim-h1-empirical
+#| include: false
+
+# Generate from fitted H1 and estimate H0, omitting the cross-loadings.
+# cache_or_run() saves or reads sim_h1_empirical.rds.
+sim_h1_empirical <- cache_or_run("sim_h1_empirical", {
+  simsem::sim(
+    nRep = SIM,
+    model = analyzemodel,
+    n = N_EMP,
+    generate = fit_h1modelfree,
+    indDist = dist_h1,
+    miss = simsem::miss(logical = is.na(indicators_h1)),
+    lavaanfun = "cfa",
+    estimator = "MLR",
+    missing = "fiml",
+    std.lv = TRUE,
+    seed = SEED,
+    multicore = TRUE
+  )
+})
+```
+
+```{r}
+#| label: prepare-empirical-power-cutoffs
+#| include: false
+#| cache: false
+
+# Calibrate the 95th percentiles for RMSEA/SRMR and 5th for robust CFI/TLI.
+cutoff_fixed <- cbind(
+  simsem::getCutoff(
+    sim_h0_empirical,
+    alpha = ALPHA,
+    usedFit = c("rmsea.robust", "srmr")
+  ),
+  simsem::getCutoff(
+    sim_h0_empirical,
+    alpha = ALPHA,
+    usedFit = c("cfi.robust", "tli.robust"),
+    revDirec = TRUE
+  )
+)
+
+# Apply those same cutoffs to the alternative distribution.
+power_fixed <- c(
+  simsem::getPowerFit(
+    sim_h1_empirical,
+    cutoff = unlist(
+      cutoff_fixed[1, c("rmsea.robust", "srmr")]
+    ),
+    usedFit = c("rmsea.robust", "srmr")
+  ),
+  simsem::getPowerFit(
+    sim_h1_empirical,
+    cutoff = unlist(
+      cutoff_fixed[1, c("cfi.robust", "tli.robust")]
+    ),
+    usedFit = c("cfi.robust", "tli.robust"),
+    revDirec = TRUE
+  )
+)
+
+power_cutoff_fixed <- rbind(
+  "Poder" = as.numeric(power_fixed),
+  "Ponto de corte" = as.numeric(cutoff_fixed[1, ])
+)
+
+colnames(power_cutoff_fixed) <- toupper(names(power_fixed))
+
+# Export the numeric results before display rounding.
+write.csv2(
+  power_cutoff_fixed,
+  here::here("Output", "Results", "Tables", "tbl-empirical-power-cutoffs.csv"),
+  row.names = TRUE,
+  na = "NA"
+)
+```
+
+```{r}
+#| label: fig-empirical-fit-distributions
+#| fig-cap: >-
+#|   Distribuições de RMSEA, CFI e TLI robustos e SRMR em 1.000 replicações
+#|   com N = 1.243: geração sob H₀ ou H₁ e ajuste de H₀ nas duas condições.
+#|   H₁ inclui as três cargas cruzadas omitidas pelo modelo de análise.
+#|   As linhas vermelhas indicam os cortes sob H₀ com α = 0,05:
+#|   percentil 95 para RMSEA/SRMR e percentil 5 para CFI/TLI.
+#| echo: false
+#| fig-width: 8
+#| fig-height: 5
+#| fig-align: center
+
+# Overlay H0 fit indices under the null and alternative generating conditions.
+# FITS_ROB selects robust RMSEA, CFI and TLI, together with SRMR.
+simsem::plotPowerFit(
+  sim_h1_empirical,
+  nullObject = sim_h0_empirical,
+  cutoff = unlist(cutoff_fixed[1, ]),
+  usedFit = FITS_ROB
+)
+```
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Racional da @fig-empirical-fit-distributions" collapse="true"}
+
+A preparação seleciona os 24 indicadores em `analysis_data`, usando
+`lavaan::lavNames(..., "ov")` para respeitar a ordem das variáveis observadas
+de cada ajuste. `indicators_h0` e `indicators_h1` contêm as mesmas respostas,
+ordenadas conforme os respectivos modelos. `psych::skew()` e
+`psych::kurtosi()` calculam a assimetria e a curtose excedente de cada item,
+com `na.rm = TRUE` para desconsiderar suas respostas ausentes. A conversão
+`as.matrix()` fornece a essas funções uma matriz numérica. `simsem::bindDist()`
+reúne os momentos em `dist_h0` e `dist_h1`.
+
+Em `simsem::sim()`, `generate` recebe o ajuste empírico usado como população
+geradora, enquanto `model` recebe a especificação estimada nas novas amostras.
+Na primeira chamada, o gerador e o modelo de análise correspondem a H~0~.
+Na segunda, `generate = fit_h1modelfree` mantém as cargas cruzadas na população
+geradora, enquanto `model = analyzemodel` ajusta H~0~ e omite essas relações.
+`nRep = SIM`, `n = N_EMP` e `seed = SEED` recuperam, respectivamente,
+1.000 replicações, 1.243 participantes e a semente 123321, definidas em
+`helpers.R`. `indDist` recebe a distribuição marginal preparada para cada
+condição. `simsem::miss(logical = is.na(...))` reaplica as posições das células
+ausentes.
+`lavaanfun = "cfa"`, `estimator = "MLR"`, `missing = "fiml"` e
+`std.lv = TRUE` mantêm o procedimento de estimação e a identificação dos
+ajustes originais. `multicore = TRUE` solicita processamento paralelo.
+
+`cache_or_run()` disponibiliza `sim_h0_empirical` e `sim_h1_empirical`.
+Se o objeto já estiver no ambiente, ele é reaproveitado; caso contrário,
+a função procura `sim_h0_empirical.rds` ou `sim_h1_empirical.rds` em
+`Data/IntermediateData`. Com os arquivos existentes, a expressão de simulação
+não é executada. Se um arquivo não existir, a chamada executa a simulação e
+grava o resultado ao término.
+
+`cutoff_fixed` reúne os cortes obtidos por duas chamadas a
+`simsem::getCutoff()`, ambas aplicadas a `sim_h0_empirical` e com
+`alpha = ALPHA`, a referência de 5%. Para `rmsea.robust` e `srmr`, a função
+obtém o percentil 95. Para `cfi.robust` e `tli.robust`, `revDirec = TRUE`
+solicita o percentil 5. Essa indicação explícita é necessária porque os nomes
+robustos de CFI/TLI não integram a lista de inversão automática do pacote.
+`cbind()` reúne os quatro limites em uma linha, na ordem RMSEA, SRMR, CFI e TLI.
+
+`power_fixed` reúne as proporções de rejeição na condição alternativa,
+calculadas por `simsem::getPowerFit()`. Cada chamada recebe os limites de
+`cutoff_fixed` pelo argumento `cutoff`, convertido em vetor nomeado com
+`unlist()`. RMSEA/SRMR indicam rejeição acima do limite; para CFI/TLI robustos,
+`revDirec = TRUE` indica rejeição abaixo dele. Fornecer os cortes explicitamente
+assegura que o poder e a figura utilizem os mesmos limites.
+
+`power_cutoff_fixed` mantém as linhas `Poder` e `Ponto de corte` e as quatro
+colunas de índices. `rbind()` reúne os valores, e `toupper(names(power_fixed))`
+define os cabeçalhos. `write.csv2()` exporta a matriz sem arredondamento prévio
+para `Output/Results/Tables/tbl-empirical-power-cutoffs.csv`, preservando os
+nomes das linhas. Essa tabela auxiliar permanece oculta na apresentação;
+os objetos ficam disponíveis para consulta e interpretação.
+
+`simsem::plotPowerFit()` recebe `sim_h1_empirical` como condição alternativa e
+`nullObject = sim_h0_empirical` como referência sob especificação correta.
+`cutoff = unlist(cutoff_fixed[1, ])` fornece os quatro limites nomeados,
+substituindo sua obtenção automática. Assim, as linhas vermelhas correspondem
+às caudas definidas na calibração. `usedFit = FITS_ROB` seleciona
+`rmsea.robust`, `srmr`, `cfi.robust` e `tli.robust`. A chamada mantém os quatro
+painéis em uma figura, sem repetir simulações ou alterar os objetos originais.
+
+```{r}
+#| eval: false
+#| code-fold: true
+
+# Keep the same 24 indicators in the order used by each fitted model.
+indicators_h0 <- analysis_data[
+  lavaan::lavNames(fit_analyzemodel, "ov")
+]
+
+indicators_h1 <- analysis_data[
+  lavaan::lavNames(fit_h1modelfree, "ov")
+]
+
+# Use observed marginal skewness and excess kurtosis for data generation.
+dist_h0 <- simsem::bindDist(
+  skewness = psych::skew(as.matrix(indicators_h0), na.rm = TRUE),
+  kurtosis = psych::kurtosi(as.matrix(indicators_h0), na.rm = TRUE)
+)
+
+dist_h1 <- simsem::bindDist(
+  skewness = psych::skew(as.matrix(indicators_h1), na.rm = TRUE),
+  kurtosis = psych::kurtosi(as.matrix(indicators_h1), na.rm = TRUE)
+)
+
+# Generate from fitted H0 and estimate the H0 specification.
+# cache_or_run() saves or reads sim_h0_empirical.rds.
+sim_h0_empirical <- cache_or_run("sim_h0_empirical", {
+  simsem::sim(
+    nRep = SIM,
+    model = analyzemodel,
+    n = N_EMP,
+    generate = fit_analyzemodel,
+    indDist = dist_h0,
+    miss = simsem::miss(logical = is.na(indicators_h0)),
+    lavaanfun = "cfa",
+    estimator = "MLR",
+    missing = "fiml",
+    std.lv = TRUE,
+    seed = SEED,
+    multicore = TRUE
+  )
+})
+
+# Generate from fitted H1 and estimate H0, omitting the cross-loadings.
+# cache_or_run() saves or reads sim_h1_empirical.rds.
+sim_h1_empirical <- cache_or_run("sim_h1_empirical", {
+  simsem::sim(
+    nRep = SIM,
+    model = analyzemodel,
+    n = N_EMP,
+    generate = fit_h1modelfree,
+    indDist = dist_h1,
+    miss = simsem::miss(logical = is.na(indicators_h1)),
+    lavaanfun = "cfa",
+    estimator = "MLR",
+    missing = "fiml",
+    std.lv = TRUE,
+    seed = SEED,
+    multicore = TRUE
+  )
+})
+
+# Calibrate the 95th percentiles for RMSEA/SRMR and 5th for robust CFI/TLI.
+cutoff_fixed <- cbind(
+  simsem::getCutoff(
+    sim_h0_empirical,
+    alpha = ALPHA,
+    usedFit = c("rmsea.robust", "srmr")
+  ),
+  simsem::getCutoff(
+    sim_h0_empirical,
+    alpha = ALPHA,
+    usedFit = c("cfi.robust", "tli.robust"),
+    revDirec = TRUE
+  )
+)
+
+# Apply those same cutoffs to the alternative distribution.
+power_fixed <- c(
+  simsem::getPowerFit(
+    sim_h1_empirical,
+    cutoff = unlist(
+      cutoff_fixed[1, c("rmsea.robust", "srmr")]
+    ),
+    usedFit = c("rmsea.robust", "srmr")
+  ),
+  simsem::getPowerFit(
+    sim_h1_empirical,
+    cutoff = unlist(
+      cutoff_fixed[1, c("cfi.robust", "tli.robust")]
+    ),
+    usedFit = c("cfi.robust", "tli.robust"),
+    revDirec = TRUE
+  )
+)
+
+power_cutoff_fixed <- rbind(
+  "Poder" = as.numeric(power_fixed),
+  "Ponto de corte" = as.numeric(cutoff_fixed[1, ])
+)
+
+colnames(power_cutoff_fixed) <- toupper(names(power_fixed))
+
+# Export the numeric results before display rounding.
+write.csv2(
+  power_cutoff_fixed,
+  here::here("Output", "Results", "Tables", "tbl-empirical-power-cutoffs.csv"),
+  row.names = TRUE,
+  na = "NA"
+)
+
+# Plot the distributions of RMSEA, CFI and TLI robust and SRMR under H0 and H1.
+simsem::plotPowerFit(
+  sim_h1_empirical,
+  nullObject = sim_h0_empirical,
+  cutoff = unlist(cutoff_fixed[1, ]),
+  usedFit = FITS_ROB
+)
+```
+
+:::
+
+::::
+
+A @fig-empirical-fit-distributions mostra separação entre as distribuições
+sob H~0~ e sob a condição em que as três cargas cruzadas estão presentes na
+população, mas são omitidas pelo modelo de análise. Com referência nominal
+de erro Tipo I de 5%, os limites superiores foram
+`r formatC(power_cutoff_fixed["Ponto de corte", "RMSEA.ROBUST"], format = "f", digits = 3, decimal.mark = ",")`
+para RMSEA e
+`r formatC(power_cutoff_fixed["Ponto de corte", "SRMR"], format = "f", digits = 3, decimal.mark = ",")`
+para SRMR; os limites inferiores foram
+`r formatC(power_cutoff_fixed["Ponto de corte", "CFI.ROBUST"], format = "f", digits = 3, decimal.mark = ",")`
+para CFI e
+`r formatC(power_cutoff_fixed["Ponto de corte", "TLI.ROBUST"], format = "f", digits = 3, decimal.mark = ",")`
+para TLI. Aplicados à condição alternativa, esses cortes produziram
+poder de
+`r formatC(100 * power_cutoff_fixed["Poder", "RMSEA.ROBUST"], format = "f", digits = 1, decimal.mark = ",")`%,
+`r formatC(100 * power_cutoff_fixed["Poder", "SRMR"], format = "f", digits = 1, decimal.mark = ",")`%,
+`r formatC(100 * power_cutoff_fixed["Poder", "CFI.ROBUST"], format = "f", digits = 1, decimal.mark = ",")`%
+e `r formatC(100 * power_cutoff_fixed["Poder", "TLI.ROBUST"], format = "f", digits = 1, decimal.mark = ",")`%,
+respectivamente. Os quatro índices apresentaram, portanto, elevada capacidade
+de detectar essa omissão nas condições simuladas.
+
+Nos dados observados, H~0~ apresentou RMSEA de
+`r formatC(fit_measures_h0["rmsea.robust"], format = "f", digits = 3, decimal.mark = ",")`
+e SRMR de
+`r formatC(fit_measures_h0["srmr"], format = "f", digits = 3, decimal.mark = ",")`,
+ambos acima dos respectivos cortes, enquanto CFI e TLI foram
+`r formatC(fit_measures_h0["cfi.robust"], format = "f", digits = 3, decimal.mark = ",")`
+e `r formatC(fit_measures_h0["tli.robust"], format = "f", digits = 3, decimal.mark = ",")`,
+abaixo dos limites inferiores. Os quatro indicadores situam o ajuste observado
+na região de rejeição da referência de ajuste exato. A capacidade de detectar
+a alternativa simulada não identifica a origem do desajuste observado nem
+demonstra que ele decorra especificamente das três cargas cruzadas. Esses
+resultados fundamentam a investigação local das discrepâncias e sua
+interpretação à luz da teoria, da magnitude dos problemas e dos precedentes
+bibliográficos.
+
+## Diagnóstico local
+
+O diagnóstico local identifica relações que contribuem para as discrepâncias
+globais. A leitura combina os parâmetros fatoriais apresentados na
+@tbl-estimation-parameters, os índices de modificação (MI), as mudanças esperadas
+nos parâmetros (EPC) e os resíduos de correlação, conforme a @sec-theory-fit
+[@nye2022; @crede2019]. A avaliação local concentra-se em H~0~, o modelo de
+análise que orientará os encaminhamentos.
+
+### Índices de modificação e mudanças esperadas
+
+O MI estima a redução da estatística de ajuste ao
+liberar individualmente um parâmetro fixado. O EPC expressa a mudança esperada
+nesse parâmetro, e sua versão padronizada auxilia a avaliação da magnitude.
+Essas aproximações devem ser consideradas junto das cargas, dos resíduos e
+do significado substantivo da relação [@nye2022]. A
+@tbl-modification-indices-top20 reúne os vinte maiores MI de H~0~ e seus
+EPC correspondentes.
+
+```{r}
+#| label: tbl-modification-indices-top20
+#| tbl-cap: >-
+#|   Vinte maiores índices de modificação de H~0~, com EPC bruto e padronizado.
+#| echo: false
+
+# Retain the native H0 output, ordered by modification index.
+mi_h0 <- lavaan::modificationIndices(
+  fit_analyzemodel, standardized = TRUE, cov.std = TRUE, sort. = TRUE
+)
+
+# Keep candidate cross-loadings and covariances, without diagonal variances.
+mi_all <- mi_h0 |>
+  dplyr::filter(op %in% c("=~", "~~"), lhs != rhs)
+
+# Select twenty H0 relations using MI order, with their corresponding EPCs.
+mi_top <- mi_all |>
+  dplyr::slice_head(n = 20) |>
+  dplyr::transmute(
+    Relação = paste(lhs, op, rhs),
+    MI = mi, EPC = epc, `EPC padronizado` = sepc.all
+  )
+
+# Save the full modification indices to CSV files for further analysis.
+write.csv2(
+  mi_all,
+  here::here("Output", "Results", "Tables", "tbl-modification-indices-full.csv"),
+  row.names = FALSE, na = "NA"
+)
+
+# Print the top-10 modification indices table with formatted relations for display.
+mi_top |>
+  dplyr::mutate(Relação = gsub("~", "&#126;", Relação, fixed = TRUE)) |>
+  knitr::kable(format = "pipe", digits = 3, row.names = FALSE, escape = FALSE)
+```
+
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Racional da @tbl-modification-indices-top20" collapse="true"}
+
+`lavaan::modificationIndices()` recebe `fit_analyzemodel`, o ajuste original
+de H~0~. `sort. = TRUE` ordena o retorno pelo MI, do maior para o menor;
+`standardized = TRUE` solicita também os EPC padronizados. `cov.std = TRUE`
+utiliza variâncias residuais na padronização das covariâncias residuais.
+O retorno completo permanece em `mi_h0`, sem limitar inicialmente o número
+de linhas.
+
+`filter()` constrói `mi_all`, conservando os operadores `=~` (cargas) e `~~`
+(covariâncias) e excluindo as variâncias diagonais com `lhs != rhs`.
+Os parâmetros já livres são removidos pelo comportamento padrão da função.
+As cargas cruzadas fixadas em zero em H~0~ permanecem entre as relações
+candidatas examinadas, sem que sua presença determine sua liberação.
+
+`slice_head(n = 20)` seleciona as vinte primeiras relações, respeitando a
+ordenação por MI. Não há uma ordenação independente por EPC.
+`transmute()` constrói `mi_top`: `Relação` combina
+`lhs`, `op` e `rhs`; `MI` vem de `mi`; `EPC` vem de `epc`, na métrica original;
+e `EPC padronizado` vem de `sepc.all`. Para uma carga, esse último valor
+padroniza as variáveis envolvidas; para uma covariância residual, usa as
+variâncias residuais. Ele é uma aproximação da mudança ao liberar uma
+relação individualmente, não a estimativa de um modelo já reespecificado.
+A [documentação do lavaan](https://lavaan.ugent.be/tutorial/modindices.html)
+detalha os campos retornados.
+
+`write.csv2()` salva somente `mi_all` em
+`Output/Results/Tables/tbl-modification-indices-full.csv`, sem arredondamento
+prévio. Esse arquivo mantém todas as relações elegíveis e os campos
+retornados, incluindo os outros EPC padronizados. `mi_top` permanece na
+memória como seleção para apresentação, recuperável a partir da tabela
+completa; não é exportado em outro CSV.
+Na cópia de apresentação, `gsub()` representa cada til por `&#126;`,
+preservando os operadores como texto comum, sem formatação de código ou
+interpretação como Markdown. `knitr::kable()` produz a tabela com três casas
+decimais para HTML e PDF. A transformação é aplicada somente à impressão;
+os objetos `mi_all` e `mi_top` e o CSV completo mantêm as relações originais.
+
+```{r}
+#| eval: false
+#| code-fold: true
+
+# Retain the native H0 output, ordered by modification index.
+mi_h0 <- lavaan::modificationIndices(
+  fit_analyzemodel, standardized = TRUE, cov.std = TRUE, sort. = TRUE
+)
+
+# Keep candidate cross-loadings and covariances, without diagonal variances.
+mi_all <- mi_h0 |>
+  dplyr::filter(op %in% c("=~", "~~"), lhs != rhs)
+
+# Select twenty H0 relations using MI order, with their corresponding EPCs.
+mi_top <- mi_all |>
+  dplyr::slice_head(n = 20) |>
+  dplyr::transmute(
+    Relação = paste(lhs, op, rhs),
+    MI = mi, EPC = epc, `EPC padronizado` = sepc.all
+  )
+
+# Save the full modification indices to CSV files for further analysis.
+write.csv2(
+  mi_all,
+  here::here("Output", "Results", "Tables", "tbl-modification-indices-full.csv"),
+  row.names = FALSE, na = "NA"
+)
+
+# Print the top-10 modification indices table with formatted relations for display.
+mi_top |>
+  dplyr::mutate(Relação = gsub("~", "&#126;", Relação, fixed = TRUE)) |>
+  knitr::kable(format = "pipe", digits = 3, row.names = FALSE, escape = FALSE)
+```
+
+:::
+
+::::
+
+### Resíduos de correlação
+
+Os resíduos de correlação mostram quanto cada associação entre indicadores
+é subestimada ou superestimada pelo modelo. Sua magnitude permite localizar discrepâncias que podem
+ficar diluídas nos índices globais [@nye2022; @crede2019].
+
+A @fig-residual-correlations apresenta os resíduos de H~0~, com os itens na
+ordem do modelo de análise. A intensidade da cor representa o
+valor absoluto do resíduo; os números preservam o sinal. Cada par aparece
+uma única vez. A referência de magnitude absoluta de 0,10 discutida na
+@sec-theory-fit orienta a inspeção conjunta com MI, EPC e conteúdo dos itens.
+
+```{r}
+#| label: prepare-residual-correlations
+#| include: false
+#| cache: false
+
+# Extract correlation differences, without residual z statistics.
+residuals_h0 <- lavaan::lavResiduals(
+  fit_analyzemodel, type = "cor", zstat = FALSE, summary = FALSE
+)
+
+# Keep the indicator order returned by the H0 fit.
+residual_matrix_h0 <- as.matrix(residuals_h0$cov)
+
+# Export the complete H0 matrix before masking repeated pairs and diagonals.
+write.csv2(
+  residual_matrix_h0,
+  here::here("Output", "Results", "Tables", "residual-correlations-h0.csv"),
+  row.names = TRUE, na = "NA"
+)
+
+residual_matrix_h0[upper.tri(residual_matrix_h0, diag = TRUE)] <- NA
+
+# Convert the lower triangle into one row per item pair.
+residual_correlations <- as.data.frame(as.table(residual_matrix_h0))
+names(residual_correlations) <- c("Item1", "Item2", "Residuo")
+residual_correlations <- residual_correlations |>
+  dplyr::filter(!is.na(Residuo))
+
+# Color intensity shows magnitude; cell labels retain the sign.
+residual_heatmap <- ggplot2::ggplot(
+  residual_correlations,
+  ggplot2::aes(x = Item2, y = Item1, fill = abs(Residuo))
+) +
+  ggplot2::geom_tile(color = "white", linewidth = 0.2) +
+  ggplot2::geom_text(
+    ggplot2::aes(label = sprintf("%.2f", Residuo)), size = 2.2
+  ) +
+  ggplot2::scale_fill_gradient(
+    low = "white", high = "#B2182B",
+    limits = c(0, max(abs(residual_correlations$Residuo))),
+    name = "|Resíduo|"
+  ) +
+  ggplot2::scale_x_discrete(position = "top", drop = FALSE) +
+  ggplot2::scale_y_discrete(drop = FALSE) +
+  ggplot2::coord_fixed() +
+  ggplot2::theme_minimal(base_size = 10) +
+  ggplot2::theme(
+    axis.text.x = ggplot2::element_text(angle = 45, hjust = 1),
+    axis.title = ggplot2::element_blank(),
+    panel.grid = ggplot2::element_blank()
+  )
+
+ggplot2::ggsave(
+  here::here("Output", "Results", "Figures", "fig-residual-correlations.png"),
+  plot = residual_heatmap, width = 8, height = 7, dpi = 300
+)
+```
+
+```{r}
+#| label: fig-residual-correlations
+#| fig-cap: >-
+#|   Resíduos de correlação de H₀. As cores representam magnitudes absolutas;
+#|   os rótulos preservam o sinal e apresentam duas casas decimais.
+#| fig-alt: >-
+#|   Mapa triangular de H₀ com diferenças entre correlações
+#|   observadas e reproduzidas para os 24 indicadores.
+#| fig-width: 8
+#| fig-height: 7
+#| fig-align: center
+#| echo: false
+#| cache: false
+
+residual_heatmap
+```
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Racional da @fig-residual-correlations" collapse="true"}
+
+`lavaan::lavResiduals()` recebe `fit_analyzemodel` e retorna os resíduos de H~0~.
+`type = "cor"` transforma separadamente as matrizes de covariâncias observada
+e reproduzida em correlações antes de calcular a diferença. `zstat = FALSE`
+dispensa a divisão dos resíduos pelos erros-padrão, e `summary = FALSE`
+dispensa os resumos globais. Essa escolha representa magnitudes de
+discrepância em escala de correlação, conforme a
+[documentação da função](https://search.r-project.org/CRAN/refmans/lavaan/html/lavResiduals.html).
+As estatísticas observadas são as utilizadas pelo ajuste com FIML;
+não calculamos uma nova matriz por exclusão dos casos incompletos.
+
+O retorno completo fica em `residuals_h0`. O componente `$cov` fornece a
+matriz de resíduos solicitada, mesmo com `type = "cor"`.
+`as.matrix()` cria `residual_matrix_h0` para exportação e apresentação,
+preservando os nomes e a ordem dos indicadores do ajuste de H~0~.
+
+`write.csv2()` exporta a matriz completa, com nomes de linhas e precisão
+original, em `Output/Results/Tables/residual-correlations-h0.csv`.
+Depois da exportação, `upper.tri(..., diag = TRUE)` mascara o triângulo
+superior e a diagonal na matriz de apresentação. O objeto original
+`residuals_h0` permanece intacto.
+
+`as.table()` e `as.data.frame()` organizam a matriz em linhas de pares.
+`residual_correlations` contém `Item1`, `Item2` e `Residuo`.
+O filtro elimina as células mascaradas. Os fatores produzidos por
+`as.table()` preservam a ordem dos itens da matriz nos eixos.
+
+`ggplot()` usa `abs(Residuo)` no preenchimento e `geom_text()` mostra o valor
+com sinal, arredondado a duas casas apenas no rótulo.
+`scale_fill_gradient()` vai de zero ao maior resíduo absoluto de H~0~;
+`coord_fixed()` mantém as células quadradas. A diagonal e a metade repetida
+ficam vazias. As cores orientam a leitura da magnitude. `residual_heatmap` é o mesmo objeto apresentado e exportado por `ggsave()` em
+`Output/Results/Figures/fig-residual-correlations.png`, com 300 dpi.
+
+```{r}
+#| eval: false
+#| code-fold: true
+
+# Extract correlation differences, without residual z statistics.
+residuals_h0 <- lavaan::lavResiduals(
+  fit_analyzemodel, type = "cor", zstat = FALSE, summary = FALSE
+)
+
+# Keep the indicator order returned by the H0 fit.
+residual_matrix_h0 <- as.matrix(residuals_h0$cov)
+
+# Export the complete H0 matrix before masking repeated pairs and diagonals.
+write.csv2(
+  residual_matrix_h0,
+  here::here("Output", "Results", "Tables", "residual-correlations-h0.csv"),
+  row.names = TRUE, na = "NA"
+)
+
+residual_matrix_h0[upper.tri(residual_matrix_h0, diag = TRUE)] <- NA
+
+# Convert the lower triangle into one row per item pair.
+residual_correlations <- as.data.frame(as.table(residual_matrix_h0))
+names(residual_correlations) <- c("Item1", "Item2", "Residuo")
+residual_correlations <- residual_correlations |>
+  dplyr::filter(!is.na(Residuo))
+
+# Color intensity shows magnitude; cell labels retain the sign.
+residual_heatmap <- ggplot2::ggplot(
+  residual_correlations,
+  ggplot2::aes(x = Item2, y = Item1, fill = abs(Residuo))
+) +
+  ggplot2::geom_tile(color = "white", linewidth = 0.2) +
+  ggplot2::geom_text(
+    ggplot2::aes(label = sprintf("%.2f", Residuo)), size = 2.2
+  ) +
+  ggplot2::scale_fill_gradient(
+    low = "white", high = "#B2182B",
+    limits = c(0, max(abs(residual_correlations$Residuo))),
+    name = "|Resíduo|"
+  ) +
+  ggplot2::scale_x_discrete(position = "top", drop = FALSE) +
+  ggplot2::scale_y_discrete(drop = FALSE) +
+  ggplot2::coord_fixed() +
+  ggplot2::theme_minimal(base_size = 10) +
+  ggplot2::theme(
+    axis.text.x = ggplot2::element_text(angle = 45, hjust = 1),
+    axis.title = ggplot2::element_blank(),
+    panel.grid = ggplot2::element_blank()
+  )
+
+ggplot2::ggsave(
+  here::here("Output", "Results", "Figures", "fig-residual-correlations.png"),
+  plot = residual_heatmap, width = 8, height = 7, dpi = 300
+)
+
+residual_heatmap
+```
+
+:::
+
+::::
+
+Inicialmente, o diagnóstico local de H~0~ pode envolver os três itens cujas cargas cruzadas foram
+previamente consideradas em H~1~. Para Q15, a carga adicional no domínio
+Ambiente aparece diretamente entre os maiores índices de modificação
+(MI = `r formatC(mi_all$mi[mi_all$lhs == "environment" & mi_all$op == "=~" & mi_all$rhs == "Q15"], format = "f", digits = 3, decimal.mark = ",")`;
+EPC padronizado = `r formatC(mi_all$sepc.all[mi_all$lhs == "environment" & mi_all$op == "=~" & mi_all$rhs == "Q15"], format = "f", digits = 3, decimal.mark = ",")`).
+O item também apresenta resíduos de correlação positivos com Q3 e Q4, de
+aproximadamente `r formatC(residuals_h0$cov["Q3", "Q15"], format = "f", digits = 2, decimal.mark = ",")`
+e `r formatC(residuals_h0$cov["Q4", "Q15"], format = "f", digits = 2, decimal.mark = ",")`,
+respectivamente, indicando associações subestimadas pela especificação atual.
+Para Q8 e Q9, destaca-se a covariância residual entre os itens
+(MI = `r formatC(mi_all$mi[mi_all$op == "~~" & ((mi_all$lhs == "Q8" & mi_all$rhs == "Q9") | (mi_all$lhs == "Q9" & mi_all$rhs == "Q8"))], format = "f", digits = 3, decimal.mark = ",")`;
+EPC padronizado = `r formatC(mi_all$sepc.all[mi_all$op == "~~" & ((mi_all$lhs == "Q8" & mi_all$rhs == "Q9") | (mi_all$lhs == "Q9" & mi_all$rhs == "Q8"))], format = "f", digits = 3, decimal.mark = ",")`),
+acompanhada de um resíduo de correlação de aproximadamente
+`r formatC(residuals_h0$cov["Q8", "Q9"], format = "f", digits = 2, decimal.mark = ",")`.
+Esses resultados retomam dificuldades de representação envolvendo os itens
+contemplados na formulação de H~1~, embora a dependência residual entre Q8 e
+Q9 não constitua, isoladamente, evidência de suas cargas adicionais no domínio
+Psicológico.
+
+O diagnóstico também evidencia dificuldades além das relações previstas em
+H~1~. Q5 participa de indicações de cargas adicionais nos domínios físico e
+ambiental e de dependências com Q6 e Q14. O resíduo de correlação Q5–Q14,
+de `r formatC(residuals_h0$cov["Q5", "Q14"], format = "f", digits = 3, decimal.mark = ",")`,
+constitui a maior discrepância absoluta da matriz. Q24 combina carga
+padronizada baixa, indicação de carga adicional no domínio psicológico e
+dependência com Q25, cujo resíduo de correlação é
+`r formatC(residuals_h0$cov["Q24", "Q25"], format = "f", digits = 3, decimal.mark = ",")`.
+Em conjunto com os problemas de Q15, esses resultados destacam Q5, Q15 e Q24
+como candidatos à investigação de uma especificação modificada.
+Q8 permanece como candidato adicional, considerando sua carga baixa e a
+relação residual com Q9. As cargas reduzidas de Q3/Q4 e a dependência indicada
+entre Q17/Q18 também integram o diagnóstico, embora representem dificuldades
+distintas de mensuração.
+
+A avaliação global apontou limitações nas especificações originais, e a
+simulação situou o ajuste observado de H~0~ além dos limites de sua referência
+de ajuste exato. A leitura conjunta das cargas, dos resíduos e dos MI/EPC
+localizou relações que merecem investigação substantiva. Esses achados
+motivam examinar modificações, cuja seleção exige avaliar o conteúdo dos
+itens e a cobertura dos domínios. Na @sec-model-comparison, os candidatos
+serão confrontados com os precedentes bibliográficos para fundamentar a nova
+especificação e suas condições de uso. As alterações selecionadas a partir
+destes dados serão apresentadas como exploração posterior; sua contribuição
+para o ajuste será verificada pela reestimação.

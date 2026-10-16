@@ -26,6 +26,7 @@ library(careless)
 library(modi)
 library(psych)
 library(likert)
+library(dynamic)
 
 # --- Configuration -----------------------------------------------------------
 
@@ -40,6 +41,9 @@ SEQ <- rep(101:400, each = REP)
 
 # Target N used to inspect power and cutoffs after varying N simulations.
 N_TARGET <- 200
+
+# Empirical N used to inspect empirical cutoffs
+N_EMP <- 1243
 
 # Random seed used by simsem to make the simulations reproducible.
 SEED <- 123321

@@ -154,6 +154,7 @@ parameter_estimates |>
 
 ```
 
+:::: {.content-visible unless-format="pdf"}
 
 ::: {.callout-note title="Racional da @tbl-estimation-parameters" collapse="true"}
 
@@ -261,6 +262,8 @@ parameter_estimates |>
 
 :::
 
+::::
+
 ## Convergência e admissibilidade
 
 Convergência e admissibilidade encerram a etapa de estimação. A convergência
@@ -326,6 +329,7 @@ estimation_checks |>
   knitr::kable()
 ```
 
+:::: {.content-visible unless-format="pdf"}
 
 ::: {.callout-note title="Racional da @tbl-estimation-checks" collapse="true"}
 
@@ -408,3 +412,6 @@ estimation_checks |>
 ```
 
 :::
+
+::::
+
