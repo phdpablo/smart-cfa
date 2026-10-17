@@ -96,7 +96,7 @@ INK <- "#0D232C"
 # Circle layout version of the path diagram, with standardized estimates as
 # edge labels, Portuguese abbreviations for latent variables, and color coding
 # for latent variable groups.
-plot_color <- function(model) {
+plot_color <- function(model, what_labels = "est") {
   plot_model <- semPlot::semPlotModel(model)
 
   # semPaths() receives one label per node.  Keep the observed-item labels and
@@ -116,7 +116,7 @@ plot_color <- function(model) {
 
   semPlot::semPaths(
     plot_model,
-    whatLabels = "est",
+    whatLabels = what_labels,
     style = "lisrel",
     layout = "circle",
     intercepts = FALSE,
