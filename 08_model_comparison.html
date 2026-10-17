@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.9.37">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
-
 <title>8&nbsp; Comparações e modificações dos modelos – Escolhas inteligentes para modelos de medida</title>
 <style>
 /* Default styles provided by pandoc.
@@ -23,8 +20,62 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
-
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
@@ -49,8 +100,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-8f4cfe8dde91195664ce4096b0ee6c60.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/bootstrap/bootstrap-dark-8c29fd56b0c87e4ab01b9c836650041e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-8f4cfe8dde91195664ce4096b0ee6c60.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-8f4cfe8dde91195664ce4096b0ee6c60.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -76,22 +126,21 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Enviar",
     "search-label": "Procurar"
   }
-}</script>
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-2MWSHLX73Q"></script>
-
-<script type="text/javascript">
+}</script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-2MWSHLX73Q"></script><script type="text/javascript">
 
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 </script>
-
-
 <meta property="og:title" content="8&nbsp; Comparações e modificações dos modelos – Escolhas inteligentes para modelos de medida">
+<meta property="og:description" content="">
+<meta property="og:image" content="https://phdpablo.github.io/smart-cfa/08_model_comparison_files/figure-html/fig-adjusted-model-1.png">
 <meta property="og:site_name" content="Escolhas inteligentes para modelos de medida">
+<meta property="og:image:alt" content="Diagrama de quatro fatores correlacionados com 21 indicadores, sem Q5, Q15 e Q24, e covariâncias residuais Q3–Q4 e Q17–Q18.">
+<meta property="og:image:height" content="1536">
+<meta property="og:image:width" content="1920">
 </head>
-
 <body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
@@ -257,9 +306,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
   </script>
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
@@ -270,13 +317,9 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Escolhas inteligentes para modelos de medida</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -285,7 +328,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
     <div class="dropdown">
       <a href="" title="Compartilhar" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Compartilhar"><i class="bi bi-share"></i></a>
       <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
-          <li>
+<li>
             <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
               <i class="bi bi-twitter pe-1"></i>
             Twitter
@@ -304,7 +347,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
             </a>
           </li>
       </ul>
-    </div>
+</div>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo escuro"><i class="bi"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Alternar modo de leitor">
   <div class="quarto-reader-toggle-btn">
@@ -321,7 +364,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Resumo</span></a>
@@ -388,28 +431,1370 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
   </div>
 </li>
     </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Índice</h2>
+   
+  <ul>
+<li><a href="#sec-modification-rationale" id="toc-sec-modification-rationale" class="nav-link active" data-scroll-target="#sec-modification-rationale"><span class="header-section-number">8.1</span> Fundamentação das modificações</a></li>
+  <li><a href="#sec-adjusted-model-parameters" id="toc-sec-adjusted-model-parameters" class="nav-link" data-scroll-target="#sec-adjusted-model-parameters"><span class="header-section-number">8.2</span> Parâmetros estimados</a></li>
+  <li><a href="#ajuste-global-do-modelo-modificado" id="toc-ajuste-global-do-modelo-modificado" class="nav-link" data-scroll-target="#ajuste-global-do-modelo-modificado"><span class="header-section-number">8.3</span> Ajuste global do modelo modificado</a></li>
+  <li><a href="#confiabilidade-dos-escores" id="toc-confiabilidade-dos-escores" class="nav-link" data-scroll-target="#confiabilidade-dos-escores"><span class="header-section-number">8.4</span> Confiabilidade dos escores</a></li>
+  <li>
+<a href="#sec-adjusted-dddfi" id="toc-sec-adjusted-dddfi" class="nav-link" data-scroll-target="#sec-adjusted-dddfi"><span class="header-section-number">8.5</span> Avaliação por DDDFI</a>
+  <ul class="collapse">
+<li><a href="#dddfi" id="toc-dddfi" class="nav-link" data-scroll-target="#dddfi"><span class="header-section-number">8.5.1</span> DDDFI</a></li>
+  </ul>
+</li>
+  <li><a href="#diagn%C3%B3stico-local" id="toc-diagnóstico-local" class="nav-link" data-scroll-target="#diagn%C3%B3stico-local"><span class="header-section-number">8.6</span> Diagnóstico local</a></li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7"><span id="sec-model-comparison" class="quarto-section-identifier"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Comparações e modificações dos modelos</span></span></h1></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7"><span id="sec-model-comparison" class="quarto-section-identifier"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Comparações e modificações dos modelos</span></span></h1></header><header id="title-block-header">
+
+</header><div class="callout callout-style-default callout-important callout-titled" title="Como as análises estão organizadas">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Como as análises estão organizadas
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>A seção utiliza os scripts locais <a href="Scripts/DataAppendixScripts/models.R">models.R</a> e <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a>. O primeiro contém a especificação <code>adjustedzemodel</code>, com 21 indicadores distribuídos em quatro fatores: 5 psicológicos, 6 físicos, 3 sociais e 7 ambientais. A especificação exclui Q5, Q15 e Q24, retém Q3, Q4 e Q8 e prevê as covariâncias residuais Q3–Q4 e Q17–Q18. O segundo script carrega os pacotes e os parâmetros compartilhados pelo projeto.</p>
+<p>Os scripts <a href="Scripts/DataAppendixScripts/cache_utils.R">cache_utils.R</a> e <a href="Scripts/DataAppendixScripts/cache_loader.R">cache_loader.R</a> disponibilizam as funções de persistência utilizadas no projeto. As chamadas a <code><a href="https://rdrr.io/r/base/source.html">source()</a></code> carregam suas definições para as etapas seguintes.</p>
+<p>A função <code><a href="https://readr.tidyverse.org/reference/read_delim.html">readr::read_csv2()</a></code> lê a base analítica produzida no pré-processamento, <a href="Data/AnalysisData/whoqol_analysis.csv">whoqol_analysis.csv</a>, e a armazena em <code>analysis_data</code>. O argumento <code>na</code> identifica as representações de respostas ausentes.</p>
+<p>A chamada a <code><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">lavaan::cfa()</a></code> estima o modelo modificado e o armazena em <code>fit_adjustedzemodel</code>, utilizado nas saídas das etapas seguintes. O argumento <code>model</code> recebe <code>adjustedzemodel</code> e <code>data</code> recebe <code>analysis_data</code>. <code>estimator = "MLR"</code> define a estimação robusta, <code>missing = "fiml"</code> incorpora as respostas ausentes e <code>std.lv = TRUE</code> fixa as variâncias dos fatores em 1.</p>
+<p>Os caminhos são resolvidos por <code><a href="https://here.r-lib.org/reference/here.html">here::here()</a></code> a partir da raiz do projeto. O setup recria esses objetos em cada execução, permitindo trabalhar neste capítulo em uma sessão independente. O bloco abaixo reproduz a preparação.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Load the model specifications.</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Scripts"</span>, <span class="st">"DataAppendixScripts"</span>, <span class="st">"models.R"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Load shared packages, settings, and functions.</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Scripts"</span>, <span class="st">"DataAppendixScripts"</span>, <span class="st">"helpers.R"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Load the functions for saving and reusing cached results.</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Scripts"</span>, <span class="st">"DataAppendixScripts"</span>, <span class="st">"cache_utils.R"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Load the functions for reading persisted results.</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Scripts"</span>, <span class="st">"DataAppendixScripts"</span>, <span class="st">"cache_loader.R"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Read the preprocessed analysis data</span></span>
+<span><span class="va">analysis_data</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv2</a></span><span class="op">(</span></span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Data"</span>, <span class="st">"AnalysisData"</span>, <span class="st">"whoqol_analysis.csv"</span><span class="op">)</span>,</span>
+<span>  na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">""</span>, <span class="st">"NA"</span><span class="op">)</span>, show_col_types <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Fit the adjusted model using MLR/FIML and unit latent variances.</span></span>
+<span><span class="va">fit_adjustedzemodel</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">cfa</a></span><span class="op">(</span></span>
+<span>  model <span class="op">=</span> <span class="va">adjustedzemodel</span>, data <span class="op">=</span> <span class="va">analysis_data</span>, estimator <span class="op">=</span> <span class="st">"MLR"</span>,</span>
+<span>  missing <span class="op">=</span> <span class="st">"fiml"</span>, std.lv <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<section id="sec-modification-rationale" class="level2" data-number="8.1"><h2 data-number="8.1" class="anchored" data-anchor-id="sec-modification-rationale">
+<span class="header-section-number">8.1</span> Fundamentação das modificações</h2>
+<p>O diagnóstico da <a href="07_model_fit.html" class="quarto-xref"><span>Capítulo 7</span></a> destacou dificuldades de representação que orientam potenciais modificações em nosso modelo H<sub>0</sub>. A seleção das alterações considera a tamanho das cargas, cargas cruzadas, correlações residuais e conteúdo dos indicadores, em diálogo com os precedentes bibliográficos. A <a href="#tbl-whoqol-modification-evidence" class="quarto-xref">Tabela&nbsp;<span>8.1</span></a> sintetiza variações de representação fatorial descritas por <span class="citation" data-cites="lin2022">Lin &amp; Yao (<a href="references.html#ref-lin2022" role="doc-biblioref">2022</a>)</span> e por <span class="citation" data-cites="mosqueirataipe2026"><span class="nocase">Mosqueira Taipe et al.</span> (<a href="references.html#ref-mosqueirataipe2026" role="doc-biblioref">2026</a>)</span>. O levantamento abrange também indicadores que serão preservados, oferecendo um panorama das dificuldades documentadas para o instrumento.</p>
+<div class="cell">
+<div id="tbl-whoqol-modification-evidence" class="cell quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-whoqol-modification-evidence-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;8.1: Síntese das evidências na literatura sobre a representação dos indicadores do WHOQOL-Bref.
+</figcaption><div aria-describedby="tbl-whoqol-modification-evidence-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 18%">
+<col style="width: 69%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Prioridade de atenção na literatura</th>
+<th style="text-align: left;">Item ou relação</th>
+<th style="text-align: left;">Síntese das evidências na literatura</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Alta</td>
+<td style="text-align: left;">Q8 — segurança na vida diária</td>
+<td style="text-align: left;">Apresenta ambiguidade entre os domínios ambiental e psicológico, com registros de cargas cruzadas, realocações e exclusões. É uma das divergências de alocação mais claras nas fontes consultadas.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Alta</td>
+<td style="text-align: left;">Q10 — energia e fadiga</td>
+<td style="text-align: left;">Há evidências de sobreposição entre os domínios físico e psicológico, expressas por cargas cruzadas e alocações alternativas.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Alta</td>
+<td style="text-align: left;">Q14 — lazer</td>
+<td style="text-align: left;">Apresenta registros de carga cruzada, realocação, exclusão e dependência residual com Q5, embora também tenha boa representação ambiental na síntese exploratória.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Alta</td>
+<td style="text-align: left;">Q15 — mobilidade</td>
+<td style="text-align: left;">Há registros de exclusão, inclusive em amostras de língua portuguesa, e de alocação em agrupamentos ambientais. Os achados indicam variação na representação da mobilidade entre contextos.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Moderada</td>
+<td style="text-align: left;">Q3–Q4 — dor e necessidade de tratamento</td>
+<td style="text-align: left;">Apresentam correlação residual recorrente e, em algumas soluções, formam uma dimensão própria. Sua retenção ou exclusão varia com o contexto clínico da amostra.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Moderada</td>
+<td style="text-align: left;">Q5 — prazer de viver</td>
+<td style="text-align: left;">Há registros de correlação residual com Q6 e Q14, alocação alternativa e exclusão em contextos específicos. A síntese exploratória também mostra forte representação do domínio psicológico.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Moderada</td>
+<td style="text-align: left;">Q9 — ambiente físico</td>
+<td style="text-align: left;">Apresenta registros de carga cruzada, correlação residual com Q8 e exclusão em contexto específico, indicando dificuldades na delimitação entre ambiente e percepção psicológica.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Moderada</td>
+<td style="text-align: left;">Q19 — autoestima</td>
+<td style="text-align: left;">Apresenta registros de correlação residual e alocações alternativas, ao lado de forte representação do domínio psicológico na síntese exploratória.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Moderada</td>
+<td style="text-align: left;">Q26 — sentimentos negativos</td>
+<td style="text-align: left;">Há registros de exclusão em diferentes contextos, embora a síntese exploratória também sustente sua representação no domínio psicológico.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Moderada</td>
+<td style="text-align: left;">Q17–Q18 — atividades diárias e capacidade de trabalho</td>
+<td style="text-align: left;">Há precedentes de covariância residual, cargas cruzadas e agrupamento em outra dimensão. A proximidade funcional e a dependência local constituem o argumento mais direto para a relação entre os itens.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Moderada</td>
+<td style="text-align: left;">Q24–Q25 — acesso aos serviços e transporte</td>
+<td style="text-align: left;">Há precedentes de correlação residual e de exclusão em uma solução reduzida, além de evidências de representação de ambos no domínio ambiental.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Moderada</td>
+<td style="text-align: left;">Q12–Q13 — recursos financeiros e acesso à informação</td>
+<td style="text-align: left;">Há precedentes de covariância residual entre os itens e de exclusão de ambos em uma solução reduzida. Os achados indicam variação na representação desses conteúdos ambientais.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pontual</td>
+<td style="text-align: left;">Q16 — sono e repouso</td>
+<td style="text-align: left;">Há registro de exclusão em contexto específico. A evidência reunida oferece menor convergência para caracterizar uma dificuldade geral de representação.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pontual</td>
+<td style="text-align: left;">Q22 — apoio social</td>
+<td style="text-align: left;">Há registros de exclusão em contextos específicos, mas a evidência reunida é menos consistente para caracterizar uma dificuldade geral de representação.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p><strong>Fontes:</strong> <span class="citation" data-cites="lin2022">Lin &amp; Yao (<a href="references.html#ref-lin2022" role="doc-biblioref">2022</a>)</span> e <span class="citation" data-cites="mosqueirataipe2026"><span class="nocase">Mosqueira Taipe et al.</span> (<a href="references.html#ref-mosqueirataipe2026" role="doc-biblioref">2026</a>)</span>. Os estudos individuais são conhecidos por intermédio dessas sínteses.</p>
+<p><strong>Nota:</strong> A prioridade de atenção na literatura considera a recorrência dos registros e suas implicações para a interpretação do modelo, atribuindo maior peso às cargas cruzadas, seguido da exclusão de itens (cargas baixas) e das covariâncias residuais. A classificação avalia o conjunto das evidências de cada foco. A seleção reúne achados destacados pelas revisões e precedentes recorrentes ou considerados relevantes.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-whoqol-modification-evidence">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#tbl-whoqol-modification-evidence" class="quarto-xref">Tabela&nbsp;<span>8.1</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Primeiro, <code><a href="https://readr.tidyverse.org/reference/read_delim.html">readr::read_csv2()</a></code> lê o levantamento bibliográfico curado em <code>Data/InputData/Metadata/whoqol_modification_evidence.csv</code> e cria o objeto <code>modification_evidence</code>. Cada linha sintetiza um item ou relação, com sua prioridade de atenção. Em seguida, <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> apresenta a tabela em Markdown, preservando os cabeçalhos e a ordem das prioridades do arquivo. As fontes e a nota de classificação aparecem diretamente abaixo da tabela. O bloco a seguir reproduz a leitura e a apresentação.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Read the author-reviewed literature synthesis prepared before.</span></span>
+<span><span class="va">modification_evidence</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv2</a></span><span class="op">(</span></span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span></span>
+<span>    <span class="st">"Data"</span>, <span class="st">"InputData"</span>, <span class="st">"Metadata"</span>, <span class="st">"whoqol_modification_evidence.csv"</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  show_col_types <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Print the table in Markdown format for Quarto rendering.</span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span></span>
+<span>  <span class="va">modification_evidence</span>,</span>
+<span>  format <span class="op">=</span> <span class="st">"pipe"</span>,</span>
+<span>  align <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"l"</span>, <span class="st">"l"</span>, <span class="st">"l"</span><span class="op">)</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p>A especificação modificada para as análises adiante exclui Q5, Q15 e Q24. Em Q5, a concentração de correlações com Q6 e Q14 e as indicações de cargas cruzadas apontam dificuldades de delimitação entre conteúdos. A literatura registra essas dependências e alterações de alocação, ao mesmo tempo que a síntese de <span class="citation" data-cites="lin2022">Lin &amp; Yao (<a href="references.html#ref-lin2022" role="doc-biblioref">2022</a>)</span> mostra forte representação psicológica. Sua exclusão responde às dificuldades locais observadas nesta amostra. Para Q15, a carga reduzida e a indicação de relação com o domínio ambiental convergem com precedentes de exclusão em amostras de língua portuguesa e de alocação alternativa. Q24 combina carga reduzida e dependência com Q25, relação também documentada na literatura <span class="citation" data-cites="lin2022 mosqueirataipe2026">(<a href="references.html#ref-lin2022" role="doc-biblioref">Lin &amp; Yao, 2022</a>; <a href="references.html#ref-mosqueirataipe2026" role="doc-biblioref"><span class="nocase">Mosqueira Taipe et al.</span>, 2026</a>)</span>.</p>
+<p>Q3, Q4 e Q8 permanecem apesar das cargas baixas. Dor e necessidade de tratamento representam aspectos da condição física cuja relevância varia com o contexto clínico. A revisão documenta a retenção de Q3/Q4 em pacientes e sua exclusão em grupos de estudantes. Mantemos esses conteúdos e a covariância residual Q3–Q4 já prevista na especificação original. Q8 preserva a percepção de segurança no domínio ambiental. Sua proximidade com o domínio psicológico, destacada nas duas sínteses, será considerada na interpretação do ajuste remanescente <span class="citation" data-cites="lin2022 mosqueirataipe2026">(<a href="references.html#ref-lin2022" role="doc-biblioref">Lin &amp; Yao, 2022</a>; <a href="references.html#ref-mosqueirataipe2026" role="doc-biblioref"><span class="nocase">Mosqueira Taipe et al.</span>, 2026</a>)</span>.</p>
+<p>Acrescentamos a covariância residual Q17–Q18. A capacidade para realizar atividades cotidianas e a capacidade para o trabalho compartilham um conteúdo funcional específico, além da condição física geral. A revisão registra essa covariância em estudos com participantes com cefaleia crônica e trabalhadores da saúde brasileiros; o agrupamento dos itens em outra dimensão oferece evidência complementar dessa proximidade. A relação residual representa essa associação específica e preserva ambos os indicadores no fator físico <span class="citation" data-cites="lin2022 mosqueirataipe2026">(<a href="references.html#ref-lin2022" role="doc-biblioref">Lin &amp; Yao, 2022</a>; <a href="references.html#ref-mosqueirataipe2026" role="doc-biblioref"><span class="nocase">Mosqueira Taipe et al.</span>, 2026</a>)</span>.</p>
+<p>O modelo mantém quatro fatores e os três indicadores sociais, com 21 itens: 5 psicológicos, 6 físicos, 3 sociais e 7 ambientais. As exclusões reduzem a cobertura explícita de prazer de viver, mobilidade e acesso aos serviços de saúde, devendo acompanhar a interpretação dos escores modificados. A seleção foi informada pelo diagnóstico dessa amostra e constitui uma revisão exploratória. A reestimação avaliará essa especificação delimitada, incluindo as dificuldades remanescentes, e a confiabilidade será recalculada para os conjuntos de itens retidos. A <a href="#fig-adjusted-model" class="quarto-xref">Figura&nbsp;<span>8.1</span></a> apresenta a especificação resultante, com as duas covariâncias residuais e os indicadores preservados.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-adjusted-model" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Diagrama de quatro fatores correlacionados com 21 indicadores, sem Q5, Q15 e Q24, e covariâncias residuais Q3–Q4 e Q17–Q18.">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-adjusted-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08_model_comparison_files/figure-html/fig-adjusted-model-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Diagrama de quatro fatores correlacionados com 21 indicadores, sem Q5, Q15 e Q24, e covariâncias residuais Q3–Q4 e Q17–Q18." width="960">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-adjusted-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;8.1: Modelo modificado de quatro fatores correlacionados e 21 indicadores, com covariâncias residuais Q3–Q4 e Q17–Q18. <em>Nota.</em> PSI = psicológico; FIS = físico; SOC = relações sociais; AMB = ambiente. Q5, Q15 e Q24 foram excluídos.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @fig-adjusted-model">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#fig-adjusted-model" class="quarto-xref">Figura&nbsp;<span>8.1</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>A função <code>plot_color()</code>, definida em <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a>, utiliza a especificação <code>adjustedzemodel</code>, de <a href="Scripts/DataAppendixScripts/models.R">models.R</a>, para desenhar o modelo com as mesmas cores e abreviações da <a href="03_model_selection.html" class="quarto-xref"><span>Capítulo 3</span></a>.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Draw the adjusted model without numerical edge labels.</span></span>
+<span><span class="fu">plot_color</span><span class="op">(</span><span class="va">adjustedzemodel</span>, what_labels <span class="op">=</span> <span class="st">"no"</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</section><section id="sec-adjusted-model-parameters" class="level2" data-number="8.2"><h2 data-number="8.2" class="anchored" data-anchor-id="sec-adjusted-model-parameters">
+<span class="header-section-number">8.2</span> Parâmetros estimados</h2>
+<p>O modelo modificado é estimado com a mantução das condições de estimação da <a href="06_estimation.html" class="quarto-xref"><span>Capítulo 6</span></a>. A avaliação apresenta os parâmetros, verifica a solução e examina o ajuste global e as discrepâncias locais da especificação selecionada. A <a href="#tbl-adjusted-parameters" class="quarto-xref">Tabela&nbsp;<span>8.2</span></a> apresenta os parâmetros do modelo modificado.</p>
+<div class="cell">
+<div id="tbl-adjusted-parameters" class="cell quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-adjusted-parameters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;8.2: Parâmetros fatoriais estimados no modelo modificado.
+</figcaption><div aria-describedby="tbl-adjusted-parameters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;">Fator</th>
+<th style="text-align: left;">Item</th>
+<th style="text-align: right;">Carga</th>
+<th style="text-align: right;">Erro-padrão</th>
+<th style="text-align: right;">z</th>
+<th style="text-align: right;">Carga padronizada</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">psycho</td>
+<td style="text-align: left;">Q6</td>
+<td style="text-align: right;">0.604</td>
+<td style="text-align: right;">0.028</td>
+<td style="text-align: right;">21.572</td>
+<td style="text-align: right;">0.620</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">psycho</td>
+<td style="text-align: left;">Q7</td>
+<td style="text-align: right;">0.562</td>
+<td style="text-align: right;">0.023</td>
+<td style="text-align: right;">24.481</td>
+<td style="text-align: right;">0.655</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">psycho</td>
+<td style="text-align: left;">Q11</td>
+<td style="text-align: right;">0.623</td>
+<td style="text-align: right;">0.028</td>
+<td style="text-align: right;">22.209</td>
+<td style="text-align: right;">0.626</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">psycho</td>
+<td style="text-align: left;">Q19</td>
+<td style="text-align: right;">0.772</td>
+<td style="text-align: right;">0.022</td>
+<td style="text-align: right;">34.787</td>
+<td style="text-align: right;">0.820</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">psycho</td>
+<td style="text-align: left;">Q26</td>
+<td style="text-align: right;">0.552</td>
+<td style="text-align: right;">0.028</td>
+<td style="text-align: right;">19.404</td>
+<td style="text-align: right;">0.593</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">physical</td>
+<td style="text-align: left;">Q3</td>
+<td style="text-align: right;">0.395</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: right;">13.176</td>
+<td style="text-align: right;">0.420</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">physical</td>
+<td style="text-align: left;">Q4</td>
+<td style="text-align: right;">0.390</td>
+<td style="text-align: right;">0.033</td>
+<td style="text-align: right;">11.856</td>
+<td style="text-align: right;">0.387</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">physical</td>
+<td style="text-align: left;">Q10</td>
+<td style="text-align: right;">0.695</td>
+<td style="text-align: right;">0.022</td>
+<td style="text-align: right;">32.045</td>
+<td style="text-align: right;">0.771</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">physical</td>
+<td style="text-align: left;">Q16</td>
+<td style="text-align: right;">0.568</td>
+<td style="text-align: right;">0.028</td>
+<td style="text-align: right;">20.198</td>
+<td style="text-align: right;">0.549</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">physical</td>
+<td style="text-align: left;">Q17</td>
+<td style="text-align: right;">0.747</td>
+<td style="text-align: right;">0.022</td>
+<td style="text-align: right;">33.472</td>
+<td style="text-align: right;">0.811</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">physical</td>
+<td style="text-align: left;">Q18</td>
+<td style="text-align: right;">0.713</td>
+<td style="text-align: right;">0.025</td>
+<td style="text-align: right;">28.427</td>
+<td style="text-align: right;">0.747</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">social</td>
+<td style="text-align: left;">Q20</td>
+<td style="text-align: right;">0.708</td>
+<td style="text-align: right;">0.023</td>
+<td style="text-align: right;">30.220</td>
+<td style="text-align: right;">0.795</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">social</td>
+<td style="text-align: left;">Q21</td>
+<td style="text-align: right;">0.512</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: right;">16.903</td>
+<td style="text-align: right;">0.508</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">social</td>
+<td style="text-align: left;">Q22</td>
+<td style="text-align: right;">0.638</td>
+<td style="text-align: right;">0.025</td>
+<td style="text-align: right;">25.388</td>
+<td style="text-align: right;">0.723</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">environment</td>
+<td style="text-align: left;">Q8</td>
+<td style="text-align: right;">0.465</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: right;">15.452</td>
+<td style="text-align: right;">0.475</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">environment</td>
+<td style="text-align: left;">Q9</td>
+<td style="text-align: right;">0.507</td>
+<td style="text-align: right;">0.027</td>
+<td style="text-align: right;">18.526</td>
+<td style="text-align: right;">0.573</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">environment</td>
+<td style="text-align: left;">Q12</td>
+<td style="text-align: right;">0.754</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: right;">25.221</td>
+<td style="text-align: right;">0.686</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">environment</td>
+<td style="text-align: left;">Q13</td>
+<td style="text-align: right;">0.513</td>
+<td style="text-align: right;">0.028</td>
+<td style="text-align: right;">18.657</td>
+<td style="text-align: right;">0.620</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">environment</td>
+<td style="text-align: left;">Q14</td>
+<td style="text-align: right;">0.652</td>
+<td style="text-align: right;">0.028</td>
+<td style="text-align: right;">23.635</td>
+<td style="text-align: right;">0.682</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">environment</td>
+<td style="text-align: left;">Q23</td>
+<td style="text-align: right;">0.472</td>
+<td style="text-align: right;">0.029</td>
+<td style="text-align: right;">16.141</td>
+<td style="text-align: right;">0.498</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">environment</td>
+<td style="text-align: left;">Q25</td>
+<td style="text-align: right;">0.463</td>
+<td style="text-align: right;">0.031</td>
+<td style="text-align: right;">15.054</td>
+<td style="text-align: right;">0.474</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-adjusted-parameters">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#tbl-adjusted-parameters" class="quarto-xref">Tabela&nbsp;<span>8.2</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><code>lavaan::parameterEstimates(..., standardized = TRUE)</code> extrai as estimativas não padronizadas, os erros-padrão robustos, as estatísticas de teste e a solução padronizada de <code>fit_adjustedzemodel</code>, criado no setup. <code>parameter_estimates_adjusted</code> preserva o retorno completo. O filtro <code>op == "=~"</code> seleciona somente as cargas fatoriais; <code>transmute()</code> organiza as colunas de <code>parameters_adjusted</code>. <code>std.all</code> fornece a carga padronizada.</p>
+<p><code><a href="https://rdrr.io/r/utils/write.table.html">write.csv2()</a></code> salva os valores com precisão original em <code>Output/Results/Tables/tbl-adjusted-parameters.csv</code>. Na apresentação, <code>mutate()</code> e <code>across()</code> arredondam as quatro colunas numéricas a três casas decimais, e <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> apresenta a tabela no mesmo padrão anterior.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Extract the adjusted model parameter estimates.</span></span>
+<span><span class="va">parameter_estimates_adjusted</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/parameterEstimates.html">parameterEstimates</a></span><span class="op">(</span></span>
+<span>  <span class="va">fit_adjustedzemodel</span>,</span>
+<span>  standardized <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Select the factor loadings and organize the parameter table.</span></span>
+<span><span class="va">parameters_adjusted</span> <span class="op">&lt;-</span> <span class="va">parameter_estimates_adjusted</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">op</span> <span class="op">==</span> <span class="st">"=~"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/transmute.html">transmute</a></span><span class="op">(</span></span>
+<span>    Fator <span class="op">=</span> <span class="va">lhs</span>,</span>
+<span>    Item <span class="op">=</span> <span class="va">rhs</span>,</span>
+<span>    Carga <span class="op">=</span> <span class="va">est</span>,</span>
+<span>    `Erro-padrão` <span class="op">=</span> <span class="va">se</span>,</span>
+<span>    z <span class="op">=</span> <span class="va">z</span>,</span>
+<span>    `Carga padronizada` <span class="op">=</span> <span class="va">std.all</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Export the table at its original numerical precision.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv2</a></span><span class="op">(</span></span>
+<span>  <span class="va">parameters_adjusted</span>,</span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-adjusted-parameters.csv"</span><span class="op">)</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  na <span class="op">=</span> <span class="st">"NA"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Round a display copy and present the factor loadings.</span></span>
+<span><span class="va">parameters_adjusted</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">Carga</span>, <span class="va">`Erro-padrão`</span>, <span class="va">z</span>, <span class="va">`Carga padronizada`</span><span class="op">)</span>,</span>
+<span>      <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">.x</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>escape <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p>As cargas de Q3, Q4 e Q8 permanecem modestas: 0,420, 0,387 e 0,475, respectivamente. A retenção desses indicadores preserva os conteúdos de dor, necessidade de tratamento e segurança, reconhecendo a representação parcial desses aspectos pelos fatores. Embora as cargas modestas permitam cogitar a exclusão de Q3, Q4 e Q8, optamos por preservar esses indicadores e a covariância Q3–Q4, limitando a exploração posterior. Modificações sucessivas poderiam favorecer um ajuste excessivo às particularidades dessa amostra, com menor possibilidade de generalização.</p>
+<p>O modelo convergiu e não apresentou variâncias negativas nem cargas padronizadas com magnitude superior a 1. Essas verificações sustentam a admissibilidade da solução para a avaliação do ajuste global e local <span class="citation" data-cites="brown2015 nye2022">(<a href="references.html#ref-brown2015" role="doc-biblioref">Brown, 2015</a>; <a href="references.html#ref-nye2022" role="doc-biblioref">Nye, 2022</a>)</span>.</p>
+</section><section id="ajuste-global-do-modelo-modificado" class="level2" data-number="8.3"><h2 data-number="8.3" class="anchored" data-anchor-id="ajuste-global-do-modelo-modificado">
+<span class="header-section-number">8.3</span> Ajuste global do modelo modificado</h2>
+<p>A <a href="#tbl-adjusted-model-fit-global" class="quarto-xref">Tabela&nbsp;<span>8.3</span></a> apresenta os índices de ajuste do modelo modificado: χ² ajustado, CFI, TLI e RMSEA robustos, intervalo de confiança de 90% do RMSEA e SRMR. Os valores descrevem o modelo de 21 indicadores.</p>
+<div class="cell">
+<div id="tbl-adjusted-model-fit-global" class="cell quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-adjusted-model-fit-global-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;8.3: Ajuste global do modelo modificado, estimado por MLR/FIML.
+</figcaption><div aria-describedby="tbl-adjusted-model-fit-global-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;">Indicador</th>
+<th style="text-align: center;">Modificado</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">N</td>
+<td style="text-align: center;">1243</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">χ² ajustado</td>
+<td style="text-align: center;">630.857</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Graus de liberdade</td>
+<td style="text-align: center;">181</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Valor de p</td>
+<td style="text-align: center;">&lt; 0.001</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CFI robusto</td>
+<td style="text-align: center;">0.945</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TLI robusto</td>
+<td style="text-align: center;">0.936</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RMSEA robusto</td>
+<td style="text-align: center;">0.049</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RMSEA robusto: limite inferior do IC de 90%</td>
+<td style="text-align: center;">0.045</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RMSEA robusto: limite superior do IC de 90%</td>
+<td style="text-align: center;">0.053</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Valor de p: RMSEA robusto ≤ 0,05</td>
+<td style="text-align: center;">0.6388</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SRMR</td>
+<td style="text-align: center;">0.035</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-adjusted-model-fit-global">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#tbl-adjusted-model-fit-global" class="quarto-xref">Tabela&nbsp;<span>8.3</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><code><a href="https://rdrr.io/pkg/lavaan/man/fitMeasures.html">lavaan::fitMeasures()</a></code> retorna o vetor nomeado <code>fit_measures_adjusted</code>. <code>fit_measure_names_adjusted</code> seleciona <code>ntotal</code>, o teste ajustado (<code>chisq.scaled</code>, <code>df.scaled</code>, <code>pvalue.scaled</code>), os índices <code>.robust</code>, os limites robustos do intervalo do RMSEA, <code>rmsea.pvalue.robust</code> para o teste de ajuste próximo (hipótese nula: RMSEA ≤ 0,05) e <code>srmr</code>. As versões <code>.scaled</code> de CFI, TLI e RMSEA são distintas das versões <code>.robust</code> utilizadas nesta tabela.</p>
+<p><code>fit_global_adjusted</code> conserva os rótulos, os nomes originais e os valores numéricos; <code><a href="https://rdrr.io/r/utils/write.table.html">write.csv2()</a></code> salva o objeto em <code>Output/Results/Tables/tbl-adjusted-model-fit-global.csv</code>. A seleção das duas colunas e a formatação dos valores de p e das casas decimais afetam somente a cópia apresentada por <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code>.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Retain the native named vector and select the Chapter 7 definitions.</span></span>
+<span><span class="va">fit_measures_adjusted</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/fitMeasures.html">fitMeasures</a></span><span class="op">(</span><span class="va">fit_adjustedzemodel</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Select the adjusted test and robust global fit indices.</span></span>
+<span><span class="va">fit_measure_names_adjusted</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>  <span class="st">"ntotal"</span>, <span class="st">"chisq.scaled"</span>, <span class="st">"df.scaled"</span>, <span class="st">"pvalue.scaled"</span>,</span>
+<span>  <span class="st">"cfi.robust"</span>, <span class="st">"tli.robust"</span>, <span class="st">"rmsea.robust"</span>,</span>
+<span>  <span class="st">"rmsea.ci.lower.robust"</span>, <span class="st">"rmsea.ci.upper.robust"</span>,</span>
+<span>  <span class="st">"rmsea.pvalue.robust"</span>, <span class="st">"srmr"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Combine readable labels, measure names, and fit values.</span></span>
+<span><span class="va">fit_global_adjusted</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  Indicador <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"N"</span>, <span class="st">"χ² ajustado"</span>, <span class="st">"Graus de liberdade"</span>, <span class="st">"Valor de p"</span>,</span>
+<span>    <span class="st">"CFI robusto"</span>, <span class="st">"TLI robusto"</span>, <span class="st">"RMSEA robusto"</span>,</span>
+<span>    <span class="st">"RMSEA robusto: limite inferior do IC de 90%"</span>,</span>
+<span>    <span class="st">"RMSEA robusto: limite superior do IC de 90%"</span>,</span>
+<span>    <span class="st">"Valor de p: RMSEA robusto ≤ 0,05"</span>, <span class="st">"SRMR"</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  Medida <span class="op">=</span> <span class="va">fit_measure_names_adjusted</span>,</span>
+<span>  Modificado <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">fit_measures_adjusted</span><span class="op">[</span><span class="va">fit_measure_names_adjusted</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Export the table at its original numerical precision.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv2</a></span><span class="op">(</span></span>
+<span>  <span class="va">fit_global_adjusted</span>,</span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-adjusted-model-fit-global.csv"</span><span class="op">)</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">FALSE</span>, na <span class="op">=</span> <span class="st">"NA"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Format a display copy and present the global fit indices.</span></span>
+<span><span class="va">fit_global_adjusted</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">Indicador</span>, <span class="va">Modificado</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    Modificado <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"^Valor de p"</span>, <span class="va">Indicador</span><span class="op">)</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/format.pval.html">format.pval</a></span><span class="op">(</span><span class="va">Modificado</span>, digits <span class="op">=</span> <span class="fl">3</span>, eps <span class="op">=</span> <span class="fl">0.001</span>, scientific <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">Modificado</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span></span>
+<span>    col.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Indicador"</span>, <span class="st">"Modificado"</span><span class="op">)</span>,</span>
+<span>    align <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"l"</span>, <span class="st">"c"</span><span class="op">)</span>,</span>
+<span>    escape <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p>O modelo apresentou CFI robusto de 0,945, TLI robusto de 0,936, RMSEA robusto de 0,049 e SRMR de 0,035. O conjunto de modificações mostra melhora substancial do ajuste em relação às especificações originais. Para o ajuste próximo, o teste da hipótese RMSEA robusto ≤ 0,05 apresenta p = 0,639, superior a 0,05. Assim, a hipótese de ajuste próximo não é rejeitada, diferentemente das especificações originais.</p>
+</section><section id="confiabilidade-dos-escores" class="level2" data-number="8.4"><h2 data-number="8.4" class="anchored" data-anchor-id="confiabilidade-dos-escores">
+<span class="header-section-number">8.4</span> Confiabilidade dos escores</h2>
+<p>A <a href="#tbl-adjusted-domain-reliability" class="quarto-xref">Tabela&nbsp;<span>8.4</span></a> apresenta o ômega e o GLB dos quatro escores, recalculados com os itens retidos. O ômega incorpora a especificação modificada, incluindo suas covariâncias residuais; o GLB mantém o pressuposto de erros não correlacionados e requer a mesma cautela de interpretação já discutida <span class="citation" data-cites="flora2020 cho2022 trizano-hermosilla2016">(<a href="references.html#ref-cho2022" role="doc-biblioref">Cho, 2022</a>; <a href="references.html#ref-flora2020" role="doc-biblioref">Flora, 2020</a>; <a href="references.html#ref-trizano-hermosilla2016" role="doc-biblioref">Trizano-Hermosilla &amp; Alvarado, 2016</a>)</span>.</p>
+<div class="cell">
+<div id="tbl-adjusted-domain-reliability" class="cell quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-adjusted-domain-reliability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;8.4: Confiabilidade dos escores no modelo modificado.
+</figcaption><div aria-describedby="tbl-adjusted-domain-reliability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;">Domínio</th>
+<th style="text-align: right;">Itens</th>
+<th style="text-align: right;">Ômega</th>
+<th style="text-align: right;">GLB</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Psicológico</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.792</td>
+<td style="text-align: right;">0.813</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Físico</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.732</td>
+<td style="text-align: right;">0.864</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Relações sociais</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.712</td>
+<td style="text-align: right;">0.706</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ambiente</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.774</td>
+<td style="text-align: right;">0.826</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-adjusted-domain-reliability">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#tbl-adjusted-domain-reliability" class="quarto-xref">Tabela&nbsp;<span>8.4</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><code>adjusted_domain_items</code> explicita a composição dos escores com pesos iguais. <code><a href="https://rdrr.io/pkg/semTools/man/compRelSEM.html">semTools::compRelSEM()</a></code> recebe <code>fit_adjustedzemodel</code> e calcula <code>omega_adjusted</code> com os mesmos argumentos do capítulo anterior: <code>obs.var = TRUE</code> utiliza a variância observada do escore, e <code>tau.eq = FALSE</code> permite cargas distintas.</p>
+<p><code>lavaan::lavInspect(..., "sampstat")$cov</code> recupera a matriz observada utilizada no ajuste. Cada chamada a <code><a href="https://rdrr.io/pkg/psych/man/glb.algebraic.html">psych::glb.algebraic()</a></code> seleciona o bloco de um domínio; <code>glb_adjusted</code> preserva os resultados nativos, e <code>$glb</code> fornece os coeficientes. <code>reliability_adjusted</code> reúne domínio, contagem de itens, ômega e GLB na mesma ordem da seção anterior.</p>
+<p><code><a href="https://rdrr.io/r/utils/write.table.html">write.csv2()</a></code> exporta os valores com precisão original para <code>Output/Results/Tables/tbl-adjusted-domain-reliability.csv</code>. <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> apresenta a tabela com três casas decimais.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Define the equally weighted item sets retained in the modified model.</span></span>
+<span><span class="va">adjusted_domain_items</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<span>  psycho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Q6"</span>, <span class="st">"Q7"</span>, <span class="st">"Q11"</span>, <span class="st">"Q19"</span>, <span class="st">"Q26"</span><span class="op">)</span>,</span>
+<span>  physical <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Q3"</span>, <span class="st">"Q4"</span>, <span class="st">"Q10"</span>, <span class="st">"Q16"</span>, <span class="st">"Q17"</span>, <span class="st">"Q18"</span><span class="op">)</span>,</span>
+<span>  social <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Q20"</span>, <span class="st">"Q21"</span>, <span class="st">"Q22"</span><span class="op">)</span>,</span>
+<span>  environment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Q8"</span>, <span class="st">"Q9"</span>, <span class="st">"Q12"</span>, <span class="st">"Q13"</span>, <span class="st">"Q14"</span>, <span class="st">"Q23"</span>, <span class="st">"Q25"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Estimate domain-factor reliability using observed score variances.</span></span>
+<span><span class="va">omega_adjusted</span> <span class="op">&lt;-</span> <span class="fu">semTools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/semTools/man/compRelSEM.html">compRelSEM</a></span><span class="op">(</span></span>
+<span>  <span class="va">fit_adjustedzemodel</span>, obs.var <span class="op">=</span> <span class="cn">TRUE</span>, tau.eq <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Extract the observed covariance matrix used by the principal fit.</span></span>
+<span><span class="va">reliability_cov_adjusted</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/lavInspect.html">lavInspect</a></span><span class="op">(</span></span>
+<span>  <span class="va">fit_adjustedzemodel</span>, <span class="st">"sampstat"</span></span>
+<span><span class="op">)</span><span class="op">$</span><span class="va">cov</span></span>
+<span></span>
+<span><span class="co"># Keep each native GLB result, including solver status, for inspection.</span></span>
+<span><span class="va">glb_adjusted</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<span>  psycho <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/glb.algebraic.html">glb.algebraic</a></span><span class="op">(</span></span>
+<span>    <span class="va">reliability_cov_adjusted</span><span class="op">[</span></span>
+<span>      <span class="va">adjusted_domain_items</span><span class="op">$</span><span class="va">psycho</span>, <span class="va">adjusted_domain_items</span><span class="op">$</span><span class="va">psycho</span></span>
+<span>    <span class="op">]</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  physical <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/glb.algebraic.html">glb.algebraic</a></span><span class="op">(</span></span>
+<span>    <span class="va">reliability_cov_adjusted</span><span class="op">[</span></span>
+<span>      <span class="va">adjusted_domain_items</span><span class="op">$</span><span class="va">physical</span>, <span class="va">adjusted_domain_items</span><span class="op">$</span><span class="va">physical</span></span>
+<span>    <span class="op">]</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  social <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/glb.algebraic.html">glb.algebraic</a></span><span class="op">(</span></span>
+<span>    <span class="va">reliability_cov_adjusted</span><span class="op">[</span></span>
+<span>      <span class="va">adjusted_domain_items</span><span class="op">$</span><span class="va">social</span>, <span class="va">adjusted_domain_items</span><span class="op">$</span><span class="va">social</span></span>
+<span>    <span class="op">]</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  environment <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/glb.algebraic.html">glb.algebraic</a></span><span class="op">(</span></span>
+<span>    <span class="va">reliability_cov_adjusted</span><span class="op">[</span></span>
+<span>      <span class="va">adjusted_domain_items</span><span class="op">$</span><span class="va">environment</span>, <span class="va">adjusted_domain_items</span><span class="op">$</span><span class="va">environment</span></span>
+<span>    <span class="op">]</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Assemble the numeric table in the same domain order as Chapter 7.</span></span>
+<span><span class="va">reliability_adjusted</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  Domínio <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Psicológico"</span>, <span class="st">"Físico"</span>, <span class="st">"Relações sociais"</span>, <span class="st">"Ambiente"</span><span class="op">)</span>,</span>
+<span>  Itens <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lengths.html">lengths</a></span><span class="op">(</span><span class="va">adjusted_domain_items</span><span class="op">)</span>,</span>
+<span>  Ômega <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">omega_adjusted</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">adjusted_domain_items</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>  GLB <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>    <span class="va">glb_adjusted</span><span class="op">$</span><span class="va">psycho</span><span class="op">$</span><span class="va">glb</span>, <span class="va">glb_adjusted</span><span class="op">$</span><span class="va">physical</span><span class="op">$</span><span class="va">glb</span>,</span>
+<span>    <span class="va">glb_adjusted</span><span class="op">$</span><span class="va">social</span><span class="op">$</span><span class="va">glb</span>, <span class="va">glb_adjusted</span><span class="op">$</span><span class="va">environment</span><span class="op">$</span><span class="va">glb</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Save the numeric table before any display rounding.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv2</a></span><span class="op">(</span></span>
+<span>  <span class="va">reliability_adjusted</span>,</span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-adjusted-domain-reliability.csv"</span><span class="op">)</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">FALSE</span>, na <span class="op">=</span> <span class="st">"NA"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Present the domain reliability coefficients with three decimal places.</span></span>
+<span><span class="va">reliability_adjusted</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">3</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span>, escape <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p>As exclusões alteram a composição dos escores psicológico, físico e ambiental; o escore social preserva seus três indicadores. O ômega e o GLB permanecem acima de 0,70 em todos os domínios, indicando confiabilidade adequada para a interpretação dos escores modificados <span class="citation" data-cites="cho2022 trizano-hermosilla2016">(<a href="references.html#ref-cho2022" role="doc-biblioref">Cho, 2022</a>; <a href="references.html#ref-trizano-hermosilla2016" role="doc-biblioref">Trizano-Hermosilla &amp; Alvarado, 2016</a>)</span>.</p>
+<p>Os ômegas variam de 0,712 a 0,792; os GLB, de 0,706 a 0,864. Em relação a H<sub>0</sub>, os ômegas psicológico, físico e ambiental diminuíram, enquanto o social permaneceu praticamente estável. A melhora do ajuste global foi acompanhada de redução da cobertura dos domínios e de pequenas reduções na confiabilidade desses três escores.</p>
+</section><section id="sec-adjusted-dddfi" class="level2" data-number="8.5"><h2 data-number="8.5" class="anchored" data-anchor-id="sec-adjusted-dddfi">
+<span class="header-section-number">8.5</span> Avaliação por DDDFI</h2>
+<p>Esta seção tem finalidade didática: uma calibração adicional demonstra o DFI por discrepância direta (DDDFI), com referências de ajuste aproximado, enquanto a simulação da <a href="07_model_fit.html" class="quarto-xref"><span>Capítulo 7</span></a> examinou a referência de ajuste exato dos modelos empíricos <span class="citation" data-cites="mcneishwolf2023dddf">(<a href="references.html#ref-mcneishwolf2023dddf" role="doc-biblioref">McNeish &amp; Wolf, 2023</a>)</span>.</p>
+<section id="dddfi" class="level3" data-number="8.5.1"><h3 data-number="8.5.1" class="anchored" data-anchor-id="dddfi">
+<span class="header-section-number">8.5.1</span> DDDFI</h3>
+<p>A calibração considera os 21 indicadores, a não normalidade e a estimação robusta. São utilizadas 1.000 replicações e três magnitudes médias absolutas de discrepância: 0,038, 0,050 e 0,060, correspondentes às referências de ajuste próximo, razoável e medíocre. A <a href="#tbl-adjusted-dfi-cutoffs" class="quarto-xref">Tabela&nbsp;<span>8.5</span></a> apresenta os limites de CFI, RMSEA e limite superior do intervalo de confiança de 90% do RMSEA. A avaliação deve comparar cada índice observado com sua referência correspondente <span class="citation" data-cites="mcneishwolf2023dddf">(<a href="references.html#ref-mcneishwolf2023dddf" role="doc-biblioref">McNeish &amp; Wolf, 2023</a>)</span>.</p>
+<div class="cell">
+<div id="tbl-adjusted-dfi-cutoffs" class="cell quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-adjusted-dfi-cutoffs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;8.5: Limites DDDFI calibrados para o modelo modificado.
+</figcaption><div aria-describedby="tbl-adjusted-dfi-cutoffs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 8%">
+<col style="width: 17%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 42%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Referência</th>
+<th style="text-align: right;">MAD</th>
+<th style="text-align: right;">MAD simulado</th>
+<th style="text-align: right;">CFI</th>
+<th style="text-align: right;">RMSEA</th>
+<th style="text-align: right;">Limite superior do IC do RMSEA</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Próximo</td>
+<td style="text-align: right;">0.038</td>
+<td style="text-align: right;">0.037</td>
+<td style="text-align: right;">0.954</td>
+<td style="text-align: right;">0.044</td>
+<td style="text-align: right;">0.048</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Razoável</td>
+<td style="text-align: right;">0.050</td>
+<td style="text-align: right;">0.048</td>
+<td style="text-align: right;">0.904</td>
+<td style="text-align: right;">0.065</td>
+<td style="text-align: right;">0.069</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Medíocre</td>
+<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">0.058</td>
+<td style="text-align: right;">0.857</td>
+<td style="text-align: right;">0.081</td>
+<td style="text-align: right;">0.085</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-adjusted-dfi-cutoffs">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#tbl-adjusted-dfi-cutoffs" class="quarto-xref">Tabela&nbsp;<span>8.5</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>O primeiro bloco seleciona os indicadores de <code>fit_adjustedzemodel</code> com <code>lavaan::lavNames(..., "ov")</code>. <code><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame()</a></code> organiza <code>dfi_data</code>, preservando as respostas ausentes.</p>
+<p><code>cache_or_run()</code> reutiliza a calibração existente ou executa e salva o resultado em <code>Data/IntermediateData/dfi_adjusted.rds</code>. <code>set.seed(SEED)</code> fixa a semente da simulação.</p>
+<p><code><a href="https://rdrr.io/pkg/dynamic/man/DDDFI.html">dynamic::DDDFI()</a></code> recebe o modelo ajustado e <code>dfi_data</code>. Os argumentos principais são <code>scale = "nonnormal"</code>, para dados não normais; <code>estimator = "MLR"</code>, para estimação robusta; <code>reps = 1000</code>, para 1.000 replicações; e <code>MAD</code>, que define as três magnitudes de discrepância. A remoção de <code>$simulated_data</code> reduz o arquivo salvo, mantendo os índices e os limites necessários à apresentação.</p>
+<p><code><a href="https://rdrr.io/r/base/readRDS.html">readRDS()</a></code> lê o resultado persistido. Com o cache disponível, a renderização reutiliza a calibração. Se o modelo ou a configuração mudar, esse cache precisa ser regenerado, pois <code>cache_or_run()</code> não verifica essas mudanças.</p>
+<p><code><a href="https://rdrr.io/r/base/data.frame.html">data.frame()</a></code> organiza <code>dfi_cutoffs_adjusted</code> com as linhas <code>Close</code>, <code>Fair</code> e <code>Mediocre</code> de <code>$cutoffs</code>. <code>MAD</code> informa a discrepância solicitada e <code>Sim. MAD</code>, a alcançada. As demais colunas fornecem os limites de CFI, RMSEA e do extremo superior do intervalo de 90% do RMSEA.</p>
+<p><code><a href="https://rdrr.io/r/utils/write.table.html">write.csv2()</a></code> exporta a tabela para <code>tbl-adjusted-dfi-cutoffs.csv</code>. <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> apresenta os valores com três casas decimais. O exemplo abaixo reproduz a sequência completa sem executá-la novamente no callout.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Select the retained indicators, preserving missing responses.</span></span>
+<span><span class="va">dfi_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span></span>
+<span>  <span class="va">analysis_data</span><span class="op">[</span><span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/lavNames.html">lavNames</a></span><span class="op">(</span><span class="va">fit_adjustedzemodel</span>, <span class="st">"ov"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Run and save the DDDFI calibration manually, or reuse its cache.</span></span>
+<span><span class="va">dfi_adjusted</span> <span class="op">&lt;-</span> <span class="fu">cache_or_run</span><span class="op">(</span><span class="st">"dfi_adjusted"</span>, <span class="op">{</span></span>
+<span></span>
+<span>  <span class="co"># Set the random seed for the simulation.</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="va">SEED</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Run the direct-discrepancy calibration for the adjusted model.</span></span>
+<span>  <span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">dynamic</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/dynamic/man/DDDFI.html">DDDFI</a></span><span class="op">(</span></span>
+<span>    model <span class="op">=</span> <span class="va">fit_adjustedzemodel</span>,</span>
+<span>    data <span class="op">=</span> <span class="va">dfi_data</span>,</span>
+<span>    scale <span class="op">=</span> <span class="st">"nonnormal"</span>,</span>
+<span>    estimator <span class="op">=</span> <span class="st">"MLR"</span>,</span>
+<span>    reps <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>    MAD <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.038</span>, <span class="fl">0.050</span>, <span class="fl">0.060</span><span class="op">)</span>,</span>
+<span>    plot.dfi <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Remove simulated datasets before saving the calibration.</span></span>
+<span>  <span class="va">result</span><span class="op">$</span><span class="va">simulated_data</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
+<span></span>
+<span>  <span class="co"># Return the compact simulation result for persistence.</span></span>
+<span>  <span class="va">result</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Read the compact DDDFI calibration from disk.</span></span>
+<span><span class="va">dfi_adjusted</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span></span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Data"</span>, <span class="st">"IntermediateData"</span>, <span class="st">"dfi_adjusted.rds"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Select the three discrepancy levels and retain the achieved MAD values.</span></span>
+<span><span class="va">dfi_cutoffs_adjusted</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  Referência <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Próximo"</span>, <span class="st">"Razoável"</span>, <span class="st">"Medíocre"</span><span class="op">)</span>,</span>
+<span>  MAD <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">dfi_adjusted</span><span class="op">$</span><span class="va">cutoffs</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Close"</span>, <span class="st">"Fair"</span>, <span class="st">"Mediocre"</span><span class="op">)</span>, <span class="st">"MAD"</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>  `MAD simulado` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span></span>
+<span>    <span class="va">dfi_adjusted</span><span class="op">$</span><span class="va">cutoffs</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Close"</span>, <span class="st">"Fair"</span>, <span class="st">"Mediocre"</span><span class="op">)</span>, <span class="st">"Sim. MAD"</span><span class="op">]</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  CFI <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">dfi_adjusted</span><span class="op">$</span><span class="va">cutoffs</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Close"</span>, <span class="st">"Fair"</span>, <span class="st">"Mediocre"</span><span class="op">)</span>, <span class="st">"CFI"</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>  RMSEA <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span></span>
+<span>    <span class="va">dfi_adjusted</span><span class="op">$</span><span class="va">cutoffs</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Close"</span>, <span class="st">"Fair"</span>, <span class="st">"Mediocre"</span><span class="op">)</span>, <span class="st">"RMSEA"</span><span class="op">]</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  `Limite superior do IC do RMSEA` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span></span>
+<span>    <span class="va">dfi_adjusted</span><span class="op">$</span><span class="va">cutoffs</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Close"</span>, <span class="st">"Fair"</span>, <span class="st">"Mediocre"</span><span class="op">)</span>, <span class="st">"90% CI"</span><span class="op">]</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  check.names <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Export the calibrated reference values before display rounding.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv2</a></span><span class="op">(</span></span>
+<span>  <span class="va">dfi_cutoffs_adjusted</span>,</span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-adjusted-dfi-cutoffs.csv"</span><span class="op">)</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">FALSE</span>, na <span class="op">=</span> <span class="st">"NA"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Present the model-specific cutoffs with three decimal places.</span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">dfi_cutoffs_adjusted</span>, digits <span class="op">=</span> <span class="fl">3</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p>A <a href="#fig-dfi-adjusted-fair" class="quarto-xref">Figura&nbsp;<span>8.2</span></a> detalha a referência razoável, contrastando as distribuições simuladas de CFI e RMSEA na condição de referência e sob a discrepância estipulada. Os limites dinâmicos e convencionais permitem visualizar a diferença entre as duas referências de interpretação.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-dfi-adjusted-fair" class="quarto-float quarto-figure quarto-figure-left anchored" alt="Histogramas de CFI e RMSEA nas condições simuladas, com linhas para os limites dinâmicos e convencionais.">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-dfi-adjusted-fair-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08_model_comparison_files/figure-html/fig-dfi-adjusted-fair-1.png" class="img-fluid figure-img" alt="Histogramas de CFI e RMSEA nas condições simuladas, com linhas para os limites dinâmicos e convencionais." width="960">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dfi-adjusted-fair-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;8.2: Distribuições simuladas de CFI e RMSEA e limites dinâmicos da referência razoável (fair), com limites convencionais para comparação.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @fig-dfi-adjusted-fair">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#fig-dfi-adjusted-fair" class="quarto-xref">Figura&nbsp;<span>8.2</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>A figura reutiliza <code>dfi_adjusted</code>, lido na tabela anterior. <code>$indices</code> contém os valores simulados: <code>CFI_L0</code>/<code>RMSEA_L0</code> identificam a condição de referência e <code>CFI_L2</code>/<code>RMSEA_L2</code>, a discrepância razoável. <code><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">tidyr::pivot_longer()</a></code> organiza os índices para os painéis. <code>dfi_plot_cutoffs</code> reúne os limites da linha <code>Fair</code> e os valores convencionais CFI = 0,95 e RMSEA = 0,06. As colunas <code>SRMR_L*</code> do objeto não são utilizadas, pois nessa implementação armazenam limites superiores do intervalo do RMSEA.</p>
+<p><code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot2::ggplot()</a></code> sobrepõe os histogramas; <code>geom_vline()</code> acrescenta os limites e <code>facet_wrap()</code> separa os índices. <code>ggsave()</code> exporta o gráfico para <code>Output/Results/Figures/fig-dfi-adjusted-fair.png</code>. A reconstrução utiliza somente os índices persistidos e não repete a simulação.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Combine the reference and fair-discrepancy simulated indices.</span></span>
+<span><span class="va">dfi_plot_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>    Model <span class="op">=</span> <span class="st">"Misspecified"</span>,</span>
+<span>    RMSEA <span class="op">=</span> <span class="va">dfi_adjusted</span><span class="op">$</span><span class="va">indices</span><span class="op">$</span><span class="va">RMSEA_L2</span>,</span>
+<span>    CFI <span class="op">=</span> <span class="va">dfi_adjusted</span><span class="op">$</span><span class="va">indices</span><span class="op">$</span><span class="va">CFI_L2</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>    Model <span class="op">=</span> <span class="st">"True"</span>,</span>
+<span>    RMSEA <span class="op">=</span> <span class="va">dfi_adjusted</span><span class="op">$</span><span class="va">indices</span><span class="op">$</span><span class="va">RMSEA_L0</span>,</span>
+<span>    CFI <span class="op">=</span> <span class="va">dfi_adjusted</span><span class="op">$</span><span class="va">indices</span><span class="op">$</span><span class="va">CFI_L0</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Reshape the simulated indices into one row per index and replication.</span></span>
+<span><span class="va">dfi_plot_data</span> <span class="op">&lt;-</span> <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span></span>
+<span>  <span class="va">dfi_plot_data</span>,</span>
+<span>  cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">RMSEA</span>, <span class="va">CFI</span><span class="op">)</span>,</span>
+<span>  names_to <span class="op">=</span> <span class="st">"Index"</span>,</span>
+<span>  values_to <span class="op">=</span> <span class="st">"Value"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Set the display order of the fit indices.</span></span>
+<span><span class="va">dfi_plot_data</span><span class="op">$</span><span class="va">Index</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span></span>
+<span>  <span class="va">dfi_plot_data</span><span class="op">$</span><span class="va">Index</span>,</span>
+<span>  levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"RMSEA"</span>, <span class="st">"CFI"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Recover dynamic cutoffs and add conventional reference values.</span></span>
+<span><span class="va">dfi_plot_cutoffs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  Index <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"RMSEA"</span>, <span class="st">"CFI"</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  Reference <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Hu &amp; Bentler Cutoff"</span>, <span class="st">"Dynamic Cutoff"</span><span class="op">)</span>,</span>
+<span>    each <span class="op">=</span> <span class="fl">2</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  Cutoff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>    <span class="fl">0.06</span>, <span class="fl">0.95</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">dfi_adjusted</span><span class="op">$</span><span class="va">cutoffs</span><span class="op">[</span><span class="st">"Fair"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"RMSEA"</span>, <span class="st">"CFI"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Match the cutoff index order to the plotted distributions.</span></span>
+<span><span class="va">dfi_plot_cutoffs</span><span class="op">$</span><span class="va">Index</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span></span>
+<span>  <span class="va">dfi_plot_cutoffs</span><span class="op">$</span><span class="va">Index</span>,</span>
+<span>  levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"RMSEA"</span>, <span class="st">"CFI"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot the distributions and both cutoff references.</span></span>
+<span><span class="va">dfi_plot_fair</span> <span class="op">&lt;-</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<span>  <span class="va">dfi_plot_data</span>,</span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Value</span>, fill <span class="op">=</span> <span class="va">Model</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span></span>
+<span>    position <span class="op">=</span> <span class="st">"identity"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>, bins <span class="op">=</span> <span class="fl">30</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span></span>
+<span>    data <span class="op">=</span> <span class="va">dfi_plot_cutoffs</span>,</span>
+<span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">Cutoff</span>, linetype <span class="op">=</span> <span class="va">Reference</span><span class="op">)</span>,</span>
+<span>    linewidth <span class="op">=</span> <span class="fl">0.6</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span></span>
+<span>    values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>      <span class="st">"Misspecified"</span> <span class="op">=</span> <span class="st">"#E9798C"</span>,</span>
+<span>      <span class="st">"True"</span> <span class="op">=</span> <span class="st">"#66C2F5"</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_linetype_manual</a></span><span class="op">(</span></span>
+<span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Hu &amp; Bentler Cutoff"</span>, <span class="st">"Dynamic Cutoff"</span><span class="op">)</span>,</span>
+<span>    values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>      <span class="st">"Hu &amp; Bentler Cutoff"</span> <span class="op">=</span> <span class="st">"dotted"</span>,</span>
+<span>      <span class="st">"Dynamic Cutoff"</span> <span class="op">=</span> <span class="st">"longdash"</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span></span>
+<span>    <span class="op">~</span><span class="va">Index</span>, scales <span class="op">=</span> <span class="st">"free"</span>, nrow <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>    strip.position <span class="op">=</span> <span class="st">"bottom"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Fair"</span>,</span>
+<span>    x <span class="op">=</span> <span class="cn">NULL</span>, y <span class="op">=</span> <span class="cn">NULL</span>, fill <span class="op">=</span> <span class="cn">NULL</span>, linetype <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span></span>
+<span>    axis.text.y <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    axis.ticks.y <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    strip.background <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    strip.placement <span class="op">=</span> <span class="st">"outside"</span>,</span>
+<span>    legend.position <span class="op">=</span> <span class="st">"bottom"</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Display the simulated distributions and cutoff references.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">dfi_plot_fair</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create the figure output directory if it is missing.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span></span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Figures"</span><span class="op">)</span>,</span>
+<span>  recursive <span class="op">=</span> <span class="cn">TRUE</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Save the plotted figure at the requested dimensions and resolution.</span></span>
+<span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span></span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Figures"</span>, <span class="st">"fig-dfi-adjusted-fair.png"</span><span class="op">)</span>,</span>
+<span>  plot <span class="op">=</span> <span class="va">dfi_plot_fair</span>, width <span class="op">=</span> <span class="fl">10</span>, height <span class="op">=</span> <span class="fl">5</span>, dpi <span class="op">=</span> <span class="fl">300</span></span>
+<span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p>Os índices observados atendem aos limites da referência razoável (<em>fair</em>): CFI de pelo menos 0,904, RMSEA de até 0,065 e limite superior do intervalo do RMSEA de até 0,069. A referência próxima (<em>close</em>) é mais exigente e não foi alcançada. A classificação DDDFI caracteriza, portanto, o ajuste como razoável sob as condições de calibração utilizadas.</p>
+</section></section><section id="diagnóstico-local" class="level2" data-number="8.6"><h2 data-number="8.6" class="anchored" data-anchor-id="diagnóstico-local">
+<span class="header-section-number">8.6</span> Diagnóstico local</h2>
+<p>O diagnóstico local caracteriza as dificuldades que permanecem no modelo modificado. A <a href="#tbl-adjusted-modification-indices-top20" class="quarto-xref">Tabela&nbsp;<span>8.6</span></a> apresenta os vinte maiores índices de modificação, com EPC bruto e padronizado. Esses resultados são aproximações da liberação individual de parâmetros e devem ser interpretados junto das cargas e dos resíduos, preservando a especificação delimitada na fundamentação <span class="citation" data-cites="nye2022 crede2019">(<a href="references.html#ref-crede2019" role="doc-biblioref">Crede &amp; Harms, 2019</a>; <a href="references.html#ref-nye2022" role="doc-biblioref">Nye, 2022</a>)</span>.</p>
+<div class="cell">
+<div id="tbl-adjusted-modification-indices-top20" class="cell quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-adjusted-modification-indices-top20-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;8.6: Vinte maiores índices de modificação do modelo modificado, com EPC bruto e padronizado.
+</figcaption><div aria-describedby="tbl-adjusted-modification-indices-top20-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;">Relação</th>
+<th style="text-align: right;">MI</th>
+<th style="text-align: right;">EPC</th>
+<th style="text-align: right;">EPC padronizado</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Q8 ~~ Q9</td>
+<td style="text-align: right;">46.113</td>
+<td style="text-align: right;">0.133</td>
+<td style="text-align: right;">0.214</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q23 ~~ Q25</td>
+<td style="text-align: right;">40.557</td>
+<td style="text-align: right;">0.139</td>
+<td style="text-align: right;">0.196</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">physical =~ Q6</td>
+<td style="text-align: right;">29.448</td>
+<td style="text-align: right;">-0.876</td>
+<td style="text-align: right;">-0.899</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q19 ~~ Q10</td>
+<td style="text-align: right;">28.806</td>
+<td style="text-align: right;">-0.065</td>
+<td style="text-align: right;">-0.210</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q12 ~~ Q14</td>
+<td style="text-align: right;">28.528</td>
+<td style="text-align: right;">0.115</td>
+<td style="text-align: right;">0.207</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q19 ~~ Q18</td>
+<td style="text-align: right;">23.793</td>
+<td style="text-align: right;">0.049</td>
+<td style="text-align: right;">0.144</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q20 ~~ Q12</td>
+<td style="text-align: right;">21.921</td>
+<td style="text-align: right;">-0.079</td>
+<td style="text-align: right;">-0.182</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">social =~ Q23</td>
+<td style="text-align: right;">21.493</td>
+<td style="text-align: right;">0.175</td>
+<td style="text-align: right;">0.184</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q11 ~~ Q10</td>
+<td style="text-align: right;">21.481</td>
+<td style="text-align: right;">0.069</td>
+<td style="text-align: right;">0.155</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q9 ~~ Q23</td>
+<td style="text-align: right;">20.005</td>
+<td style="text-align: right;">0.085</td>
+<td style="text-align: right;">0.142</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q16 ~~ Q17</td>
+<td style="text-align: right;">18.991</td>
+<td style="text-align: right;">0.057</td>
+<td style="text-align: right;">0.122</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q7 ~~ Q8</td>
+<td style="text-align: right;">18.261</td>
+<td style="text-align: right;">0.073</td>
+<td style="text-align: right;">0.130</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q22 ~~ Q23</td>
+<td style="text-align: right;">18.188</td>
+<td style="text-align: right;">0.071</td>
+<td style="text-align: right;">0.142</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">psycho =~ Q18</td>
+<td style="text-align: right;">17.309</td>
+<td style="text-align: right;">0.525</td>
+<td style="text-align: right;">0.550</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">environment =~ Q10</td>
+<td style="text-align: right;">17.039</td>
+<td style="text-align: right;">0.148</td>
+<td style="text-align: right;">0.164</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q12 ~~ Q13</td>
+<td style="text-align: right;">16.193</td>
+<td style="text-align: right;">0.076</td>
+<td style="text-align: right;">0.146</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q9 ~~ Q12</td>
+<td style="text-align: right;">16.154</td>
+<td style="text-align: right;">-0.082</td>
+<td style="text-align: right;">-0.141</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q19 ~~ Q3</td>
+<td style="text-align: right;">15.670</td>
+<td style="text-align: right;">-0.054</td>
+<td style="text-align: right;">-0.117</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">physical =~ Q21</td>
+<td style="text-align: right;">14.706</td>
+<td style="text-align: right;">0.169</td>
+<td style="text-align: right;">0.167</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q13 ~~ Q14</td>
+<td style="text-align: right;">13.738</td>
+<td style="text-align: right;">0.061</td>
+<td style="text-align: right;">0.134</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-adjusted-modification-indices-top20">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#tbl-adjusted-modification-indices-top20" class="quarto-xref">Tabela&nbsp;<span>8.6</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><code><a href="https://rdrr.io/pkg/lavaan/man/modificationIndices.html">lavaan::modificationIndices()</a></code> recebe o ajuste modificado; <code>standardized = TRUE</code> solicita os EPC padronizados, <code>cov.std = TRUE</code> utiliza variâncias residuais para padronizar covariâncias residuais, e <code>sort. = TRUE</code> ordena o retorno pelo MI. <code>mi_adjusted</code> mantém o retorno nativo e <code>mi_adjusted_all</code> seleciona cargas e covariâncias entre variáveis distintas. Parâmetros já livres, incluindo as covariâncias Q3–Q4 e Q17–Q18, são excluídos pelo comportamento padrão da função.</p>
+<p><code>slice_head(n = 20)</code> conserva as primeiras relações nessa ordem. <code>mi_adjusted_top</code> reúne <code>mi</code>, <code>epc</code> e <code>sepc.all</code>; este último usa as variâncias residuais na padronização das covariâncias. A exportação mantém todos os campos de <code>mi_adjusted_all</code> em <code>Output/Results/Tables/tbl-adjusted-modification-indices-full.csv</code>. Somente a cópia de apresentação recebe a substituição dos tis por <code>&amp;#126;</code> e o arredondamento. O top 20 não é exportado separadamente.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Retain the native output, ordered by modification index.</span></span>
+<span><span class="va">mi_adjusted</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/modificationIndices.html">modificationIndices</a></span><span class="op">(</span></span>
+<span>  <span class="va">fit_adjustedzemodel</span>, standardized <span class="op">=</span> <span class="cn">TRUE</span>, cov.std <span class="op">=</span> <span class="cn">TRUE</span>, sort. <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Keep candidate loadings and covariances between distinct variables.</span></span>
+<span><span class="va">mi_adjusted_all</span> <span class="op">&lt;-</span> <span class="va">mi_adjusted</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">op</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"=~"</span>, <span class="st">"~~"</span><span class="op">)</span>, <span class="va">lhs</span> <span class="op">!=</span> <span class="va">rhs</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Select the twenty largest MIs and their corresponding EPCs.</span></span>
+<span><span class="va">mi_adjusted_top</span> <span class="op">&lt;-</span> <span class="va">mi_adjusted_all</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice_head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">20</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/transmute.html">transmute</a></span><span class="op">(</span></span>
+<span>    Relação <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">lhs</span>, <span class="va">op</span>, <span class="va">rhs</span><span class="op">)</span>,</span>
+<span>    MI <span class="op">=</span> <span class="va">mi</span>, EPC <span class="op">=</span> <span class="va">epc</span>, `EPC padronizado` <span class="op">=</span> <span class="va">sepc.all</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Export all eligible relations, retaining the original precision and fields.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv2</a></span><span class="op">(</span></span>
+<span>  <span class="va">mi_adjusted_all</span>,</span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span></span>
+<span>    <span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-adjusted-modification-indices-full.csv"</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">FALSE</span>, na <span class="op">=</span> <span class="st">"NA"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Format the relation labels and present the top twenty MIs.</span></span>
+<span><span class="va">mi_adjusted_top</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Relação <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"~"</span>, <span class="st">"&amp;#126;"</span>, <span class="va">Relação</span>, fixed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"pipe"</span>, digits <span class="op">=</span> <span class="fl">3</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span>, escape <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p>A <a href="#fig-residual-correlations-adjusted" class="quarto-xref">Figura&nbsp;<span>8.3</span></a> apresenta as diferenças entre as correlações observadas e reproduzidas pelo modelo. Cada par aparece uma única vez, com cor proporcional à magnitude absoluta e rótulo que preserva o sinal. A referência de magnitude absoluta de 0,10 orienta a localização das discrepâncias remanescentes, em conjunto com os parâmetros e MI/EPC.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-residual-correlations-adjusted" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Mapa triangular das diferenças entre correlações observadas e reproduzidas para os 21 indicadores do modelo modificado.">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-residual-correlations-adjusted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08_model_comparison_files/figure-html/fig-residual-correlations-adjusted-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Mapa triangular das diferenças entre correlações observadas e reproduzidas para os 21 indicadores do modelo modificado." width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-residual-correlations-adjusted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;8.3: Resíduos de correlação do modelo modificado. As cores representam magnitudes absolutas; os rótulos preservam o sinal.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @fig-residual-correlations-adjusted">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#fig-residual-correlations-adjusted" class="quarto-xref">Figura&nbsp;<span>8.3</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><code><a href="https://rdrr.io/pkg/lavaan/man/lavResiduals.html">lavaan::lavResiduals()</a></code> calcula as diferenças entre as correlações observadas e reproduzidas por <code>fit_adjustedzemodel</code>. <code>type = "cor"</code> transforma as duas matrizes em correlações antes da subtração; <code>zstat = FALSE</code> e <code>summary = FALSE</code> dispensam estatísticas z e resumos globais. O componente <code>$cov</code> de <code>residuals_adjusted</code> contém a matriz solicitada, baseada nas estatísticas observadas utilizadas pelo ajuste com FIML.</p>
+<p><code><a href="https://rdrr.io/r/utils/write.table.html">write.csv2()</a></code> salva a matriz completa em <code>Output/Results/Tables/residual-correlations-adjusted.csv</code>, antes de mascarar a diagonal e o triângulo superior. A conversão por <code><a href="https://rdrr.io/r/base/table.html">as.table()</a></code> preserva a ordem dos indicadores nos fatores que identificam os pares. <code>residual_correlations_adjusted</code> conserva cada par uma única vez.</p>
+<p><code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot2::ggplot()</a></code> usa o valor absoluto no preenchimento; <code>geom_text()</code> mostra o resíduo com sinal e duas casas decimais. A escala e o tema seguem o capítulo anterior. <code>ggsave()</code> exporta o mesmo objeto apresentado na figura para <code>Output/Results/Figures/fig-residual-correlations-adjusted.png</code>. O bloco a seguir reproduz a preparação, a exportação e a apresentação.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Extract correlation differences, without residual z statistics.</span></span>
+<span><span class="va">residuals_adjusted</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/lavResiduals.html">lavResiduals</a></span><span class="op">(</span></span>
+<span>  <span class="va">fit_adjustedzemodel</span>, type <span class="op">=</span> <span class="st">"cor"</span>, zstat <span class="op">=</span> <span class="cn">FALSE</span>, summary <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Keep the indicator order returned by the adjusted-model fit.</span></span>
+<span><span class="va">residual_matrix_adjusted</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">residuals_adjusted</span><span class="op">$</span><span class="va">cov</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Export the complete adjusted-model matrix before masking repeated pairs and diagonals.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv2</a></span><span class="op">(</span></span>
+<span>  <span class="va">residual_matrix_adjusted</span>,</span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"residual-correlations-adjusted.csv"</span><span class="op">)</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">TRUE</span>, na <span class="op">=</span> <span class="st">"NA"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Mask the diagonal and repeated pairs for presentation.</span></span>
+<span><span class="va">residual_matrix_adjusted</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/lower.tri.html">upper.tri</a></span><span class="op">(</span><span class="va">residual_matrix_adjusted</span>, diag <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
+<span></span>
+<span><span class="co"># Convert the lower triangle into one row per item pair.</span></span>
+<span><span class="va">residual_correlations_adjusted</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">as.table</a></span><span class="op">(</span><span class="va">residual_matrix_adjusted</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Name the item-pair columns and their correlation differences.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">residual_correlations_adjusted</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Item1"</span>, <span class="st">"Item2"</span>, <span class="st">"Residuo"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Remove the masked cells and retain one row per item pair.</span></span>
+<span><span class="va">residual_correlations_adjusted</span> <span class="op">&lt;-</span> <span class="va">residual_correlations_adjusted</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">Residuo</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Color intensity shows magnitude; cell labels retain the sign.</span></span>
+<span><span class="va">residual_heatmap_adjusted</span> <span class="op">&lt;-</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<span>  <span class="va">residual_correlations_adjusted</span>,</span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Item2</span>, y <span class="op">=</span> <span class="va">Item1</span>, fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">Residuo</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_tile</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"white"</span>, linewidth <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text</a></span><span class="op">(</span></span>
+<span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span><span class="op">(</span><span class="st">"%.2f"</span>, <span class="va">Residuo</span><span class="op">)</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">2.2</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html">scale_fill_gradient</a></span><span class="op">(</span></span>
+<span>    low <span class="op">=</span> <span class="st">"white"</span>, high <span class="op">=</span> <span class="st">"#B2182B"</span>,</span>
+<span>    limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">residual_correlations_adjusted</span><span class="op">$</span><span class="va">Residuo</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    name <span class="op">=</span> <span class="st">"|Resíduo|"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html">scale_x_discrete</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"top"</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html">scale_y_discrete</a></span><span class="op">(</span>drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span></span>
+<span>    axis.text.x <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>    axis.title <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    panel.grid <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Save the plotted figure at the requested dimensions and resolution.</span></span>
+<span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span></span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Figures"</span>, <span class="st">"fig-residual-correlations-adjusted.png"</span><span class="op">)</span>,</span>
+<span>  plot <span class="op">=</span> <span class="va">residual_heatmap_adjusted</span>, width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">7</span>, dpi <span class="op">=</span> <span class="fl">300</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Display the residual correlation heatmap.</span></span>
+<span><span class="va">residual_heatmap_adjusted</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p>O maior resíduo absoluto é 0,128; 4 dos 210 pares apresentam magnitude de pelo menos 0,10. A leitura conjunta desse mapa, das cargas e dos MI/EPC documenta as limitações locais da especificação selecionada, em conjunto com a avaliação por DDDFI apresentada anteriormente. Q23–Q25 e Q8–Q9 destacam-se tanto nos resíduos quanto nos MI. A redução das discrepâncias em relação a H<sub>0</sub> considera também a retirada dos pares que envolviam os indicadores excluídos. As dificuldades remanescentes são registradas como limites da solução, encerrando as modificações nesta especificação.</p>
+<p>A revisão resultou em um modelo de quatro fatores com 21 indicadores, preservando os três itens sociais e incorporando as covariâncias residuais Q17–Q18. A solução apresentou ajuste compatível com a referência razoável do DDDFI e confiabilidade dos quatro escores acima de 0,70. A hipótese de ajuste próximo pelo RMSEA não foi rejeitada. Permaneceram cargas modestas e discrepâncias locais, que delimitam sua interpretação. Retemos essa especificação como solução exploratória para a amostra analisada, com os mesmos critérios de pré-processamento e estimação dos capítulos anteriores. Sua aplicação posterior deve considerar a cobertura reduzida dos domínios e requer avaliação em outra amostra.</p>
 
 
-<header id="title-block-header">
-
-
-</header>
-
-
-
-
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-brown2015" class="csl-entry" role="listitem">
+Brown, T. A. (2015). <em>Confirmatory <span>Factor Analysis</span> for <span>Applied Research</span></em>. The Guilford Press.
+</div>
+<div id="ref-cho2022" class="csl-entry" role="listitem">
+Cho, E. (2022). Reliability and <span>Omega Hierarchical</span> in <span>Multidimensional Data</span>: <span>A Comparison</span> of <span>Various Estimators</span>. <em>Psychological Methods</em>. <a href="https://doi.org/10.1037/met0000525">https://doi.org/10.1037/met0000525</a>
+</div>
+<div id="ref-crede2019" class="csl-entry" role="listitem">
+Crede, M., &amp; Harms, P. (2019). Questionable Research Practices When Using Confirmatory Factor Analysis. <em>Journal of Managerial Psychology</em>, <em>34</em>(1), 18–30. <a href="https://doi.org/10.1108/JMP-06-2018-0272">https://doi.org/10.1108/JMP-06-2018-0272</a>
+</div>
+<div id="ref-flora2020" class="csl-entry" role="listitem">
+Flora, D. B. (2020). Your <span>Coefficient Alpha Is Probably Wrong</span>, but <span>Which Coefficient Omega Is Right</span>? <span>A Tutorial</span> on <span>Using R</span> to <span>Obtain Better Reliability Estimates</span>. <em>Advances in Methods and Practices in Psychological Science</em>, <em>3</em>(4), 484–501. <a href="https://doi.org/10.1177/2515245920951747">https://doi.org/10.1177/2515245920951747</a>
+</div>
+<div id="ref-lin2022" class="csl-entry" role="listitem">
+Lin, L.-C., &amp; Yao, G. (2022). Validation of the Factor Structure of the <span>WHOQOL-BREF</span> Using Meta-Analysis of Exploratory Factor Analysis and Social Network Analysis. <em>Psychological Assessment</em>, <em>34</em>(7), 660–670. <a href="https://doi.org/10.1037/pas0001122">https://doi.org/10.1037/pas0001122</a>
+</div>
+<div id="ref-mcneishwolf2023dddf" class="csl-entry" role="listitem">
+McNeish, D., &amp; Wolf, M. G. (2023). <em>Direct <span>Discrepancy Dynamic Fit Index Cutoffs</span> for <span>Arbitrary Covariance Structure Models</span></em> [Preprint]. PsyArXiv. <a href="https://doi.org/10.31234/osf.io/4r9fq">https://doi.org/10.31234/osf.io/4r9fq</a>
+</div>
+<div id="ref-mosqueirataipe2026" class="csl-entry" role="listitem">
+<span class="nocase">Mosqueira Taipe, C. M., Amador Campos, J. A., Krieger, V., Miasso, A. I., Molina, N. P. F. M., &amp; dos Santos, P. L.</span> (2026). Systematic Review of the Factor Structure of <span>WHOQOL-bref</span> in Adult Population. <em>Quality of Life Research</em>, <em>35</em>(17), 1–18. <a href="https://doi.org/10.1007/s11136-025-04115-6">https://doi.org/10.1007/s11136-025-04115-6</a>
+</div>
+<div id="ref-nye2022" class="csl-entry" role="listitem">
+Nye, C. D. (2022). Reviewer <span>Resources</span>: <span>Confirmatory Factor Analysis</span>. <em>Organizational Research Methods</em>, 109442812211205. <a href="https://doi.org/10.1177/10944281221120541">https://doi.org/10.1177/10944281221120541</a>
+</div>
+<div id="ref-trizano-hermosilla2016" class="csl-entry" role="listitem">
+Trizano-Hermosilla, I., &amp; Alvarado, J. M. (2016). Best Alternatives to <span>Cronbach</span>’s Alpha Reliability in Realistic Conditions: <span>Congeneric</span> and Asymmetrical Measurements. <em>Frontiers in Psychology</em>, <em>7</em>(MAY). <a href="https://doi.org/10.3389/fpsyg.2016.00769">https://doi.org/10.3389/fpsyg.2016.00769</a>
+</div>
+</div>
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
     if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
@@ -826,9 +2211,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
       }
     }
   });
-  </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
+  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="./07_model_fit.html" class="pagination-link" aria-label="Ajuste do modelo">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Ajuste do modelo</span></span>
       </a>          
@@ -840,8 +2223,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
+<footer class="footer"><div class="nav-footer">
     <div class="nav-footer-left">
 <p><a href="https://www.phdpablo.com">por Pablo Rogers</a></p>
 </div>   
@@ -853,8 +2235,6 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 </div>
   </div>
 </footer>
-
-
 
 
 </body></html>

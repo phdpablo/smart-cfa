@@ -234,6 +234,7 @@ adjustedzemodel <- '
   social ~~ 1*social + environment
   environment ~~ 1*environment
 
-  # Freely estimated local dependence between Q3 and Q4
+  # Freely estimated local dependence
   Q4 ~~ Q3
+  Q17 ~~ Q18
 '
