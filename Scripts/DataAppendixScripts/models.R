@@ -218,11 +218,21 @@ h1modelfree <- '
 '
 
 # =============================================================================
-# Free analysis model: four correlated factors and Q3--Q4 covariance
+# Modified analysis model: 21 indicators and two residual covariances
 # =============================================================================
+# `adjustedzemodel` revises `analyzemodel` after the empirical diagnostics
+# and the substantive review presented in Section 8. It excludes Q5, Q15,
+# and Q24, retaining four correlated factors with 5 psychological, 6 physical,
+# 3 social, and 7 environmental indicators. Q3, Q4, and Q8 are retained to
+# preserve their content coverage despite their low loadings.
+# The model retains the Q3--Q4 residual covariance and adds Q17--Q18 to
+# represent shared functional content. It includes no cross-loadings.
+# Identification and freely estimated factor covariances match `analyzemodel`;
+# lavaan estimates the residual variances automatically. This specification
+# is an exploratory modification informed by the tutorial sample.
 
 adjustedzemodel <- '
-  # Freely estimated primary loadings
+  # Freely estimated primary loadings after excluding Q5, Q15, and Q24
   psycho =~ Q6 + Q7 + Q11 + Q19 + Q26
   physical =~ Q3 + Q4 + Q10 + Q16 + Q17 + Q18
   social =~ Q20 + Q21 + Q22
@@ -234,7 +244,9 @@ adjustedzemodel <- '
   social ~~ 1*social + environment
   environment ~~ 1*environment
 
-  # Freely estimated local dependence
+  # Retain the original residual covariance between pain and treatment needs.
   Q4 ~~ Q3
+
+  # Add residual dependence between daily activities and capacity for work.
   Q17 ~~ Q18
 '

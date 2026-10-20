@@ -452,54 +452,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7"><span id="sec-model-fit" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Ajuste do modelo</span></span></h1></header><header id="title-block-header">
 
-</header><div class="callout callout-style-default callout-important callout-titled" title="Como as análises estão organizadas">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Importante</span>Como as análises estão organizadas
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>O capítulo utiliza os scripts locais <a href="Scripts/DataAppendixScripts/models.R">models.R</a> e <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a>. O primeiro define as especificações empíricas <code>analyzemodel</code> e <code>h1modelfree</code>, correspondentes a H<sub>0</sub> e H<sub>1</sub>. O segundo carrega os pacotes e os parâmetros compartilhados pelo projeto.</p>
-<p>Os scripts <a href="Scripts/DataAppendixScripts/cache_utils.R">cache_utils.R</a> e <a href="Scripts/DataAppendixScripts/cache_loader.R">cache_loader.R</a> disponibilizam as funções de persistência já utilizadas nos capítulos anteriores. <code>cache_or_run()</code> permite reaproveitar um resultado existente ou executar e salvar um novo resultado em <code>.rds</code>; <code>cache_load_existing()</code> permite carregar os arquivos persistidos. As chamadas a <code><a href="https://rdrr.io/r/base/source.html">source()</a></code> apenas disponibilizam essas funções.</p>
-<p>O chunk abaixo lê a base analítica produzida no pré-processamento com <code><a href="https://readr.tidyverse.org/reference/read_delim.html">readr::read_csv2()</a></code> e a armazena em <code>analysis_data</code>. Em seguida, as duas chamadas diretas a <code><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">lavaan::cfa()</a></code> recriam <code>fit_analyzemodel</code> e <code>fit_h1modelfree</code>, com os mesmos nomes e argumentos do capítulo anterior. Assim, este arquivo pode ser executado em uma sessão independente, usando os scripts e a base persistida no projeto.</p>
-<p>Em cada ajuste, <code>model</code> recebe a especificação e <code>data</code> recebe a base analítica. <code>estimator = "MLR"</code> define a estimação robusta, <code>missing = "fiml"</code> incorpora as respostas ausentes e <code>std.lv = TRUE</code> fixa as variâncias dos fatores em 1.</p>
-<div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Load the empirical model specifications and shared packages and settings.</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Scripts"</span>, <span class="st">"DataAppendixScripts"</span>, <span class="st">"models.R"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Scripts"</span>, <span class="st">"DataAppendixScripts"</span>, <span class="st">"helpers.R"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Make the existing persistence functions available for later steps.</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Scripts"</span>, <span class="st">"DataAppendixScripts"</span>, <span class="st">"cache_utils.R"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Scripts"</span>, <span class="st">"DataAppendixScripts"</span>, <span class="st">"cache_loader.R"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Read the analytical dataset produced during preprocessing.</span></span>
-<span><span class="va">analysis_data</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv2</a></span><span class="op">(</span></span>
-<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Data"</span>, <span class="st">"AnalysisData"</span>, <span class="st">"whoqol_analysis.csv"</span><span class="op">)</span>,</span>
-<span>  na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">""</span>, <span class="st">"NA"</span><span class="op">)</span>, show_col_types <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Recreate the H0 fit using the same settings as in Chapter 6.</span></span>
-<span><span class="va">fit_analyzemodel</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">cfa</a></span><span class="op">(</span></span>
-<span>  model <span class="op">=</span> <span class="va">analyzemodel</span>, data <span class="op">=</span> <span class="va">analysis_data</span>, estimator <span class="op">=</span> <span class="st">"MLR"</span>,</span>
-<span>  missing <span class="op">=</span> <span class="st">"fiml"</span>, std.lv <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Recreate the H1 fit using the same settings as in Chapter 6.</span></span>
-<span><span class="va">fit_h1modelfree</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">cfa</a></span><span class="op">(</span></span>
-<span>  model <span class="op">=</span> <span class="va">h1modelfree</span>, data <span class="op">=</span> <span class="va">analysis_data</span>, estimator <span class="op">=</span> <span class="st">"MLR"</span>,</span>
-<span>  missing <span class="op">=</span> <span class="st">"fiml"</span>, std.lv <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-</div>
-</div>
-</div>
-</div>
-<section id="ajuste-global-dos-modelos-originais" class="level2" data-number="7.1"><h2 data-number="7.1" class="anchored" data-anchor-id="ajuste-global-dos-modelos-originais">
+</header><section id="ajuste-global-dos-modelos-originais" class="level2" data-number="7.1"><h2 data-number="7.1" class="anchored" data-anchor-id="ajuste-global-dos-modelos-originais">
 <span class="header-section-number">7.1</span> Ajuste global dos modelos originais</h2>
 <p>O ajuste global avalia em que medida as relações especificadas reproduzem a estrutura de covariâncias dos indicadores. Conforme a <a href="02_background.html#sec-theory-fit" class="quarto-xref"><span>Seção 2.5</span></a>, sua avaliação combina o teste de ajuste exato e índices que descrevem a magnitude do desajuste.</p>
 <p>A <a href="#tbl-model-fit-global" class="quarto-xref">Tabela&nbsp;<span>7.1</span></a> apresenta os resultados de H<sub>0</sub> e H<sub>1</sub> para os mesmos 1.243 participantes. O χ² e seu valor de p correspondem ao teste ajustado; CFI, TLI e RMSEA são apresentados nas versões robustas, incluindo os limites robustos do intervalo do RMSEA. O SRMR acompanha essas medidas como resumo adicional. A leitura conjunta dos indicadores orienta a avaliação das especificações originais <span class="citation" data-cites="mai2021 niemand2018">(<a href="references.html#ref-mai2021" role="doc-biblioref">Mai et al., 2021</a>; <a href="references.html#ref-niemand2018" role="doc-biblioref">Niemand &amp; Mai, 2018</a>)</span>.</p>
@@ -511,62 +464,65 @@ Tabela&nbsp;7.1: Ajuste global dos modelos originais H<sub>0</sub> e H<sub>1</su
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
 <thead><tr class="header">
-<th style="text-align: left;">Indicador</th>
-<th style="text-align: center;">H<sub>0</sub>
-</th>
-<th style="text-align: center;">H<sub>1</sub>
-</th>
+<th style="text-align: left;">Medida</th>
+<th style="text-align: right;">H0</th>
+<th style="text-align: right;">H1</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">N</td>
-<td style="text-align: center;">1243</td>
-<td style="text-align: center;">1243</td>
+<td style="text-align: right;">1243</td>
+<td style="text-align: right;">1243</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">χ² ajustado</td>
-<td style="text-align: center;">1354.78</td>
-<td style="text-align: center;">1277.024</td>
+<td style="text-align: left;">χ² ajust.</td>
+<td style="text-align: right;">1354.780</td>
+<td style="text-align: right;">1277.024</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Graus de liberdade</td>
-<td style="text-align: center;">245</td>
-<td style="text-align: center;">242</td>
+<td style="text-align: left;">df</td>
+<td style="text-align: right;">245</td>
+<td style="text-align: right;">242</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Valor de p</td>
-<td style="text-align: center;">&lt; 0.001</td>
-<td style="text-align: center;">&lt; 0.001</td>
+<td style="text-align: left;">p</td>
+<td style="text-align: right;">&lt; 0.001</td>
+<td style="text-align: right;">&lt; 0.001</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">CFI robusto</td>
-<td style="text-align: center;">0.885</td>
-<td style="text-align: center;">0.893</td>
+<td style="text-align: left;">CFI (robusto)</td>
+<td style="text-align: right;">0.885</td>
+<td style="text-align: right;">0.893</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">TLI robusto</td>
-<td style="text-align: center;">0.871</td>
-<td style="text-align: center;">0.878</td>
+<td style="text-align: left;">TLI (robusto)</td>
+<td style="text-align: right;">0.871</td>
+<td style="text-align: right;">0.878</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">RMSEA robusto</td>
-<td style="text-align: center;">0.066</td>
-<td style="text-align: center;">0.064</td>
+<td style="text-align: left;">RMSEA (robusto)</td>
+<td style="text-align: right;">0.066</td>
+<td style="text-align: right;">0.064</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">RMSEA robusto: limite inferior do IC de 90%</td>
-<td style="text-align: center;">0.062</td>
-<td style="text-align: center;">0.061</td>
+<td style="text-align: left;">RMSEA IC90% inf.</td>
+<td style="text-align: right;">0.062</td>
+<td style="text-align: right;">0.061</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">RMSEA robusto: limite superior do IC de 90%</td>
-<td style="text-align: center;">0.069</td>
-<td style="text-align: center;">0.067</td>
+<td style="text-align: left;">RMSEA IC90% sup.</td>
+<td style="text-align: right;">0.069</td>
+<td style="text-align: right;">0.067</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">p (RMSEA ≤ 0,05)</td>
+<td style="text-align: right;">&lt; 0.001</td>
+<td style="text-align: right;">&lt; 0.001</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">SRMR</td>
-<td style="text-align: center;">0.051</td>
-<td style="text-align: center;">0.049</td>
+<td style="text-align: right;">0.051</td>
+<td style="text-align: right;">0.049</td>
 </tr>
 </tbody>
 </table>
@@ -576,7 +532,7 @@ Tabela&nbsp;7.1: Ajuste global dos modelos originais H<sub>0</sub> e H<sub>1</su
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-model-fit-global">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -585,74 +541,66 @@ Tabela&nbsp;7.1: Ajuste global dos modelos originais H<sub>0</sub> e H<sub>1</su
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Os objetos de origem são <code>fit_analyzemodel</code> e <code>fit_h1modelfree</code>, recriados na preparação inicial. <code>summary(fit_analyzemodel, fit.measures = TRUE)</code> permite consultar um resumo do primeiro ajuste, incluindo parâmetros e índices. Para trabalhar diretamente com os valores, utilizamos <code><a href="https://rdrr.io/pkg/lavaan/man/fitMeasures.html">lavaan::fitMeasures()</a></code>, a função de extração indicada na <a href="https://lavaan.ugent.be/tutorial/inspect.html">documentação do lavaan</a>. Cada chamada retorna um vetor numérico nomeado, armazenado em <code>fit_measures_h0</code> ou <code>fit_measures_h1</code>. Esses objetos preservam as medidas retornadas pelo pacote, antes da seleção para a tabela.</p>
-<p>O mesmo chunk reúne a extração, a organização, a exportação e a apresentação da tabela. <code>fit_measure_names</code> explicita os nomes das medidas selecionadas e sua ordem: <code>ntotal</code> informa o número de participantes utilizados; <code>chisq.scaled</code>, <code>df.scaled</code> e <code>pvalue.scaled</code> fornecem a estatística ajustada, seus graus de liberdade e o valor de p correspondente. Os nomes <code>cfi.robust</code>, <code>tli.robust</code> e <code>rmsea.robust</code> selecionam diretamente as versões robustas de CFI, TLI e RMSEA. <code>rmsea.ci.lower.robust</code> e <code>rmsea.ci.upper.robust</code> recuperam os limites inferior e superior do intervalo de confiança robusto do RMSEA, com nível padrão de 90%. Por fim, <code>srmr</code> seleciona o resumo dos resíduos padronizados. Escrever os nomes completos no vetor permite identificar cada medida diretamente na chamada de seleção.</p>
-<p>Os índices <code>cfi.scaled</code>, <code>tli.scaled</code> e <code>rmsea.scaled</code> são distintos das versões <code>.robust</code> selecionadas. Mantemos explicitamente estas últimas na tabela. O SRMR utiliza o nome <code>srmr</code>; não recebe um sufixo robusto.</p>
-<p>Cada <code><a href="https://rdrr.io/r/base/data.frame.html">data.frame()</a></code> cria uma tabela intermediária com o nome original da medida em <code>Medida</code> e seu valor em <code>H0</code> ou <code>H1</code>. A indexação por <code>fit_measure_names</code> seleciona as mesmas medidas na mesma ordem nos dois vetores. <code><a href="https://rdrr.io/r/base/numeric.html">as.numeric()</a></code> preserva os valores e remove os nomes do vetor, já registrados em <code>Medida</code>. <code>fit_global</code> reúne a tabela de H<sub>0</sub> e a coluna de H<sub>1</sub>, acrescentando os rótulos legíveis em <code>Indicador</code>. Assim, cada linha identifica uma medida e as duas colunas numéricas correspondem aos modelos originais.</p>
-<p><code><a href="https://rdrr.io/r/utils/write.table.html">write.csv2()</a></code> grava essa tabela em <code>Output/Results/Tables/tbl-model-fit-global.csv</code>, com os valores numéricos sem arredondamento prévio, nomes originais das medidas e ausências como <code>NA</code>. A pasta de resultados já integra a organização do projeto. Na apresentação, <code>select()</code> mantém apenas <code>Indicador</code>, <code>H0</code> e <code>H1</code>; <code>mutate()</code> e <code>across()</code> formatam uma cópia, arredondando os indicadores a três casas decimais e usando <code><a href="https://rdrr.io/r/base/format.pval.html">format.pval()</a></code> para mostrar valores de p inferiores a 0,001 como <code>&lt;0.001</code>. Essa formatação não altera <code>fit_global</code> nem o CSV. <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> produz a tabela comum ao HTML e ao PDF; <code>escape = FALSE</code> permite os rótulos H<sub>0</sub>/H<sub>1</sub>.</p>
+<p>O bloco lê a base analítica com <code><a href="https://readr.tidyverse.org/reference/read_delim.html">readr::read_csv2()</a></code> e estima os dois modelos com <code><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">lavaan::cfa()</a></code>, mantendo as condições da <a href="06_estimation.html" class="quarto-xref"><span>Seção 6</span></a>. A função <code>table_fit()</code>, definida em <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a> e detalhada no racional da <a href="08_model_comparison.html#tbl-adjusted-model-fit-global" class="quarto-xref">Tabela&nbsp;<span>8.3</span></a>, prepara uma síntese padronizada para cada ajuste.</p>
+<p><code><a href="https://rdrr.io/r/base/attr.html">attr()</a></code> recupera os dados de apresentação de cada tabela, e <code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">dplyr::full_join()</a></code> os reúne pela medida, mantendo uma coluna para H<sub>0</sub> e outra para H<sub>1</sub>. A verificação anterior à união impede a exportação de dados ausentes ou vazios. As medidas numéricas completas também são recuperadas e organizadas em vetores nomeados por <code><a href="https://rdrr.io/r/stats/setNames.html">stats::setNames()</a></code> para alimentar os valores inseridos no texto.</p>
+<p><code><a href="https://readr.tidyverse.org/reference/write_delim.html">readr::write_excel_csv2()</a></code> exporta o conteúdo combinado para um CSV compatível com o Excel, preservando os mesmos rótulos, a ordem e os valores de exibição. <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> apresenta esse conteúdo lado a lado no HTML e no PDF. Com os scripts carregados, o bloco pode ser reproduzido com:</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Extract the original named vectors returned by lavaan.</span></span>
-<span><span class="va">fit_measures_h0</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/fitMeasures.html">fitMeasures</a></span><span class="op">(</span><span class="va">fit_analyzemodel</span><span class="op">)</span></span>
-<span><span class="va">fit_measures_h1</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/fitMeasures.html">fitMeasures</a></span><span class="op">(</span><span class="va">fit_h1modelfree</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Select only the measures needed for the global-fit table.</span></span>
-<span><span class="va">fit_measure_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
-<span>  <span class="st">"ntotal"</span>, <span class="st">"chisq.scaled"</span>, <span class="st">"df.scaled"</span>, <span class="st">"pvalue.scaled"</span>,</span>
-<span>  <span class="st">"cfi.robust"</span>, <span class="st">"tli.robust"</span>, <span class="st">"rmsea.robust"</span>,</span>
-<span>  <span class="st">"rmsea.ci.lower.robust"</span>, <span class="st">"rmsea.ci.upper.robust"</span>, <span class="st">"srmr"</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Read the analytical dataset produced during preprocessing.</span></span>
+<span><span class="va">analysis_data</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv2</a></span><span class="op">(</span></span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Data"</span>, <span class="st">"AnalysisData"</span>, <span class="st">"whoqol_analysis.csv"</span><span class="op">)</span>,</span>
+<span>  na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">""</span>, <span class="st">"NA"</span><span class="op">)</span>, show_col_types <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Keep a separate table for each original model.</span></span>
-<span><span class="va">fit_table_h0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
-<span>  Medida <span class="op">=</span> <span class="va">fit_measure_names</span>,</span>
-<span>  H0 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">fit_measures_h0</span><span class="op">[</span><span class="va">fit_measure_names</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co"># Recreate the H0 fit using the same settings as in Section 6.</span></span>
+<span><span class="va">fit_analyzemodel</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">cfa</a></span><span class="op">(</span></span>
+<span>  model <span class="op">=</span> <span class="va">analyzemodel</span>, data <span class="op">=</span> <span class="va">analysis_data</span>, estimator <span class="op">=</span> <span class="st">"MLR"</span>,</span>
+<span>  missing <span class="op">=</span> <span class="st">"fiml"</span>, std.lv <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">fit_table_h1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
-<span>  Medida <span class="op">=</span> <span class="va">fit_measure_names</span>,</span>
-<span>  H1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">fit_measures_h1</span><span class="op">[</span><span class="va">fit_measure_names</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co"># Recreate the H1 fit using the same settings as in Section 6.</span></span>
+<span><span class="va">fit_h1modelfree</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">cfa</a></span><span class="op">(</span></span>
+<span>  model <span class="op">=</span> <span class="va">h1modelfree</span>, data <span class="op">=</span> <span class="va">analysis_data</span>, estimator <span class="op">=</span> <span class="st">"MLR"</span>,</span>
+<span>  missing <span class="op">=</span> <span class="st">"fiml"</span>, std.lv <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Both tables use the same measures in the same order.</span></span>
-<span><span class="va">fit_global</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
-<span>  Indicador <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
-<span>    <span class="st">"N"</span>, <span class="st">"χ² ajustado"</span>, <span class="st">"Graus de liberdade"</span>, <span class="st">"Valor de p"</span>,</span>
-<span>    <span class="st">"CFI robusto"</span>, <span class="st">"TLI robusto"</span>, <span class="st">"RMSEA robusto"</span>,</span>
-<span>    <span class="st">"RMSEA robusto: limite inferior do IC de 90%"</span>,</span>
-<span>    <span class="st">"RMSEA robusto: limite superior do IC de 90%"</span>, <span class="st">"SRMR"</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  <span class="va">fit_table_h0</span>,</span>
-<span>  H1 <span class="op">=</span> <span class="va">fit_table_h1</span><span class="op">$</span><span class="va">H1</span></span>
-<span><span class="op">)</span></span>
+<span><span class="co"># Prepare each model's formatted fit summary.</span></span>
+<span><span class="va">fit_table_h0</span> <span class="op">&lt;-</span> <span class="fu">table_fit</span><span class="op">(</span><span class="va">fit_analyzemodel</span>, lang <span class="op">=</span> <span class="st">"pt"</span><span class="op">)</span></span>
+<span><span class="va">fit_table_h1</span> <span class="op">&lt;-</span> <span class="fu">table_fit</span><span class="op">(</span><span class="va">fit_h1modelfree</span>, lang <span class="op">=</span> <span class="st">"pt"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Export the numeric table before any display rounding.</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv2</a></span><span class="op">(</span></span>
+<span><span class="co"># Preserve full-precision measures for the values inserted in the text.</span></span>
+<span><span class="va">fit_data_h0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">fit_table_h0</span>, <span class="st">"fit_data"</span><span class="op">)</span></span>
+<span><span class="va">fit_data_h1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">fit_table_h1</span>, <span class="st">"fit_data"</span><span class="op">)</span></span>
+<span><span class="va">fit_measures_h0</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="va">fit_data_h0</span><span class="op">$</span><span class="va">estimate</span>, <span class="va">fit_data_h0</span><span class="op">$</span><span class="va">measure</span><span class="op">)</span></span>
+<span><span class="va">fit_measures_h1</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="va">fit_data_h1</span><span class="op">$</span><span class="va">estimate</span>, <span class="va">fit_data_h1</span><span class="op">$</span><span class="va">measure</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Validate the display data before joining and exporting the tables.</span></span>
+<span><span class="va">fit_display_h0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">fit_table_h0</span>, <span class="st">"table_data"</span><span class="op">)</span></span>
+<span><span class="va">fit_display_h1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">fit_table_h1</span>, <span class="st">"table_data"</span><span class="op">)</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">is.data.frame</a></span><span class="op">(</span><span class="va">fit_display_h0</span><span class="op">)</span> <span class="op">||</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">is.data.frame</a></span><span class="op">(</span><span class="va">fit_display_h1</span><span class="op">)</span> <span class="op">||</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">fit_display_h0</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0L</span> <span class="op">||</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">fit_display_h1</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0L</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"table_data is missing. Reload helpers.R and rerun this chunk."</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Join the displayed values by measure, preserving each model's column.</span></span>
+<span><span class="va">fit_global</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join</a></span><span class="op">(</span></span>
+<span>  <span class="va">fit_display_h0</span>,</span>
+<span>  <span class="va">fit_display_h1</span>,</span>
+<span>  by <span class="op">=</span> <span class="st">"Medida"</span>,</span>
+<span>  suffix <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"_H0"</span>, <span class="st">"_H1"</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>H0 <span class="op">=</span> <span class="va">Valor_H0</span>, H1 <span class="op">=</span> <span class="va">Valor_H1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Export exactly the content displayed in the combined table.</span></span>
+<span><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_excel_csv2</a></span><span class="op">(</span></span>
 <span>  <span class="va">fit_global</span>,</span>
 <span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-model-fit-global.csv"</span><span class="op">)</span>,</span>
-<span>  row.names <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  na <span class="op">=</span> <span class="st">"NA"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Present the table with rounded values and formatted p-values.</span></span>
-<span><span class="va">fit_global</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">Indicador</span>, <span class="va">H0</span>, <span class="va">H1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span></span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">H0</span>, <span class="va">H1</span><span class="op">)</span>,</span>
-<span>      <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span></span>
-<span>        <span class="va">Indicador</span> <span class="op">==</span> <span class="st">"Valor de p"</span>,</span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/base/format.pval.html">format.pval</a></span><span class="op">(</span><span class="va">.x</span>, digits <span class="op">=</span> <span class="fl">3</span>, eps <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span>,</span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">.x</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
-<span>      <span class="op">)</span></span>
-<span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span></span>
-<span>    col.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Indicador"</span>, <span class="st">"H~0~"</span>, <span class="st">"H~1~"</span><span class="op">)</span>,</span>
-<span>    align <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"l"</span>, <span class="st">"c"</span>, <span class="st">"c"</span><span class="op">)</span>,</span>
-<span>    escape <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span>  <span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="co"># Present both model summaries side by side.</span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">fit_global</span>, align <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"l"</span>, <span class="st">"r"</span>, <span class="st">"r"</span><span class="op">)</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </div>
@@ -674,72 +622,64 @@ Tabela&nbsp;7.2: Confiabilidade dos escores de domínio conforme a composição 
 <table class="cell caption-top table table-sm table-striped small">
 <thead><tr class="header">
 <th style="text-align: left;">Modelo</th>
-<th style="text-align: left;">Domínio</th>
+<th style="text-align: left;">Fator</th>
 <th style="text-align: right;">Itens</th>
 <th style="text-align: right;">Ômega</th>
 <th style="text-align: right;">GLB</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">Psicológico</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">psycho</td>
 <td style="text-align: right;">6</td>
 <td style="text-align: right;">0.815</td>
 <td style="text-align: right;">0.847</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">Físico</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">physical</td>
 <td style="text-align: right;">7</td>
 <td style="text-align: right;">0.770</td>
 <td style="text-align: right;">0.871</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">Relações sociais</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">social</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">0.712</td>
 <td style="text-align: right;">0.706</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">Ambiente</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">environment</td>
 <td style="text-align: right;">8</td>
 <td style="text-align: right;">0.785</td>
 <td style="text-align: right;">0.841</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">Psicológico</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">psycho</td>
 <td style="text-align: right;">8</td>
 <td style="text-align: right;">0.623</td>
 <td style="text-align: right;">0.861</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">Físico</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">physical</td>
 <td style="text-align: right;">7</td>
 <td style="text-align: right;">0.706</td>
 <td style="text-align: right;">0.871</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">Relações sociais</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">social</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">0.712</td>
 <td style="text-align: right;">0.706</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">Ambiente</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">environment</td>
 <td style="text-align: right;">9</td>
 <td style="text-align: right;">0.692</td>
 <td style="text-align: right;">0.850</td>
@@ -752,7 +692,7 @@ Tabela&nbsp;7.2: Confiabilidade dos escores de domínio conforme a composição 
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-domain-reliability">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -761,99 +701,42 @@ Tabela&nbsp;7.2: Confiabilidade dos escores de domínio conforme a composição 
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><code>domain_items</code> define os conjuntos de itens que compõem os escores, com pesos iguais. As quatro primeiras entradas correspondem aos domínios originais. As entradas <code>psycho_h1</code> e <code>environment_h1</code> acrescentam, respectivamente, Q8/Q9 e Q15 aos escores de H<sub>1</sub>. Essas seleções orientam o cálculo do GLB e a contagem de itens apresentada na tabela.</p>
-<p><code><a href="https://rdrr.io/pkg/semTools/man/compRelSEM.html">semTools::compRelSEM()</a></code> recebe diretamente os ajustes <code>fit_analyzemodel</code> e <code>fit_h1modelfree</code>, armazenando os coeficientes em <code>omega_h0</code> e <code>omega_h1</code>. O cálculo relaciona a variância atribuível ao fator à variância observada do escore, utilizando as cargas e as variâncias fatoriais estimadas em cada modelo. Assim, o ômega é calculado a partir da estrutura fatorial de H<sub>0</sub> ou H<sub>1</sub>.</p>
-<p><code>lavaan::lavInspect(..., "sampstat")$cov</code> recupera a matriz observada de covariâncias utilizada em cada ajuste. As matrizes ficam armazenadas em <code>reliability_cov_h0</code> e <code>reliability_cov_h1</code>, com os nomes dos itens nas linhas e colunas. Isso permite selecionar o bloco de covariâncias correspondente a cada domínio, preservando a escala original dos itens.</p>
-<p><code><a href="https://rdrr.io/pkg/psych/man/glb.algebraic.html">psych::glb.algebraic()</a></code> calcula o GLB para cada bloco selecionado. As listas <code>glb_h0</code> e <code>glb_h1</code> guardam os resultados dos quatro domínios, e o componente <code>$glb</code> fornece o coeficiente que será levado à tabela. Em H<sub>1</sub>, as seleções psicológica e ambiental utilizam os conjuntos ampliados, podendo produzir valores diferentes dos de H<sub>0</sub>. Para os domínios físico e social, esperamos GLB iguais, pois os itens, pesos e dados observados permanecem os mesmos.</p>
-<p><code>reliability_domains</code> organiza os resultados em oito linhas, quatro por modelo. As colunas identificam o modelo, o domínio, o número de itens e os dois coeficientes. <code><a href="https://rdrr.io/r/base/lengths.html">lengths()</a></code> conta os itens nas seleções correspondentes, e os valores de ômega e GLB são reunidos na mesma ordem dos domínios, sem arredondamento nesta etapa.</p>
-<p><code><a href="https://rdrr.io/r/utils/write.table.html">write.csv2()</a></code> salva a tabela com precisão integral em <code>Output/Results/Tables/tbl-domain-reliability.csv</code>. <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> apresenta a mesma tabela com três casas decimais. O código abaixo permite reproduzir esses blocos após a preparação inicial; <code>eval: false</code> evita sua execução novamente no callout.</p>
+<p>A função <code>table_reliability()</code>, definida em <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a> e apresentada no racional da <a href="08_model_comparison.html#tbl-adjusted-domain-reliability" class="quarto-xref">Tabela&nbsp;<span>8.4</span></a>, prepara uma tabela para cada ajuste. A composição dos escores é obtida diretamente de cada modelo, incluindo as cargas cruzadas de H<sub>1</sub>. Assim, ômega, GLB e contagem de itens correspondem aos conjuntos utilizados em cada escore.</p>
+<p><code><a href="https://rdrr.io/r/base/attr.html">attr()</a></code> recupera os dados de apresentação, e uma verificação impede a exportação de tabelas ausentes ou vazias. <code><a href="https://dplyr.tidyverse.org/reference/bind_rows.html">dplyr::bind_rows()</a></code> empilha os quatro escores de H<sub>0</sub> e, depois, os quatro de H<sub>1</sub>, acrescentando a coluna <code>Modelo</code> para identificar os dois blocos.</p>
+<p><code><a href="https://readr.tidyverse.org/reference/write_delim.html">readr::write_excel_csv2()</a></code> exporta o mesmo conteúdo apresentado, preservando rótulos, ordem e valores de exibição em um CSV compatível com o Excel. <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> apresenta os resultados em uma única tabela no HTML e no PDF. O bloco utiliza os ajustes já estimados; não repete a estimação nem executa simulações.</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Define equally weighted item sets, including the expanded H1 scores.</span></span>
-<span><span class="va">domain_items</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
-<span>  psycho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Q5"</span>, <span class="st">"Q6"</span>, <span class="st">"Q7"</span>, <span class="st">"Q11"</span>, <span class="st">"Q19"</span>, <span class="st">"Q26"</span><span class="op">)</span>,</span>
-<span>  physical <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Q3"</span>, <span class="st">"Q4"</span>, <span class="st">"Q10"</span>, <span class="st">"Q15"</span>, <span class="st">"Q16"</span>, <span class="st">"Q17"</span>, <span class="st">"Q18"</span><span class="op">)</span>,</span>
-<span>  social <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Q20"</span>, <span class="st">"Q21"</span>, <span class="st">"Q22"</span><span class="op">)</span>,</span>
-<span>  environment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Q8"</span>, <span class="st">"Q9"</span>, <span class="st">"Q12"</span>, <span class="st">"Q13"</span>, <span class="st">"Q14"</span>, <span class="st">"Q23"</span>, <span class="st">"Q24"</span>, <span class="st">"Q25"</span><span class="op">)</span>,</span>
-<span>  psycho_h1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Q5"</span>, <span class="st">"Q6"</span>, <span class="st">"Q7"</span>, <span class="st">"Q11"</span>, <span class="st">"Q19"</span>, <span class="st">"Q26"</span>, <span class="st">"Q8"</span>, <span class="st">"Q9"</span><span class="op">)</span>,</span>
-<span>  environment_h1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Q8"</span>, <span class="st">"Q9"</span>, <span class="st">"Q12"</span>, <span class="st">"Q13"</span>, <span class="st">"Q14"</span>, <span class="st">"Q23"</span>, <span class="st">"Q24"</span>, <span class="st">"Q25"</span>, <span class="st">"Q15"</span><span class="op">)</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Prepare each model's formatted score reliability table.</span></span>
+<span><span class="va">reliability_table_h0</span> <span class="op">&lt;-</span> <span class="fu">table_reliability</span><span class="op">(</span><span class="va">fit_analyzemodel</span>, lang <span class="op">=</span> <span class="st">"pt"</span><span class="op">)</span></span>
+<span><span class="va">reliability_table_h1</span> <span class="op">&lt;-</span> <span class="fu">table_reliability</span><span class="op">(</span><span class="va">fit_h1modelfree</span>, lang <span class="op">=</span> <span class="st">"pt"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Validate the display data before combining and exporting the tables.</span></span>
+<span><span class="va">reliability_display_h0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">reliability_table_h0</span>, <span class="st">"table_data"</span><span class="op">)</span></span>
+<span><span class="va">reliability_display_h1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">reliability_table_h1</span>, <span class="st">"table_data"</span><span class="op">)</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">is.data.frame</a></span><span class="op">(</span><span class="va">reliability_display_h0</span><span class="op">)</span> <span class="op">||</span></span>
+<span>    <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">is.data.frame</a></span><span class="op">(</span><span class="va">reliability_display_h1</span><span class="op">)</span> <span class="op">||</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">reliability_display_h0</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0L</span> <span class="op">||</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">reliability_display_h1</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0L</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"table_data is missing. Reload helpers.R and rerun this chunk."</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Stack the four factor scores of H0 first and H1 second.</span></span>
+<span><span class="va">reliability_domains</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html">bind_rows</a></span><span class="op">(</span></span>
+<span>  H0 <span class="op">=</span> <span class="va">reliability_display_h0</span>,</span>
+<span>  H1 <span class="op">=</span> <span class="va">reliability_display_h1</span>,</span>
+<span>  .id <span class="op">=</span> <span class="st">"Modelo"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Estimate domain-factor reliability with observed score variance denominators.</span></span>
-<span><span class="va">omega_h0</span> <span class="op">&lt;-</span> <span class="fu">semTools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/semTools/man/compRelSEM.html">compRelSEM</a></span><span class="op">(</span></span>
-<span>  <span class="va">fit_analyzemodel</span>, obs.var <span class="op">=</span> <span class="cn">TRUE</span>, tau.eq <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span>
-<span><span class="va">omega_h1</span> <span class="op">&lt;-</span> <span class="fu">semTools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/semTools/man/compRelSEM.html">compRelSEM</a></span><span class="op">(</span></span>
-<span>  <span class="va">fit_h1modelfree</span>, obs.var <span class="op">=</span> <span class="cn">TRUE</span>, tau.eq <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Extract the observed covariance matrix independently from each fitted model.</span></span>
-<span><span class="va">reliability_cov_h0</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/lavInspect.html">lavInspect</a></span><span class="op">(</span><span class="va">fit_analyzemodel</span>, <span class="st">"sampstat"</span><span class="op">)</span><span class="op">$</span><span class="va">cov</span></span>
-<span><span class="va">reliability_cov_h1</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/lavInspect.html">lavInspect</a></span><span class="op">(</span><span class="va">fit_h1modelfree</span>, <span class="st">"sampstat"</span><span class="op">)</span><span class="op">$</span><span class="va">cov</span></span>
-<span></span>
-<span><span class="co"># Keep each native GLB result, including solver status, for inspection.</span></span>
-<span><span class="co"># psych::glb.algebraic() requires the Rcsdp package.</span></span>
-<span><span class="va">glb_h0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
-<span>  psycho <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/glb.algebraic.html">glb.algebraic</a></span><span class="op">(</span></span>
-<span>    <span class="va">reliability_cov_h0</span><span class="op">[</span><span class="va">domain_items</span><span class="op">$</span><span class="va">psycho</span>, <span class="va">domain_items</span><span class="op">$</span><span class="va">psycho</span><span class="op">]</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  physical <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/glb.algebraic.html">glb.algebraic</a></span><span class="op">(</span></span>
-<span>    <span class="va">reliability_cov_h0</span><span class="op">[</span><span class="va">domain_items</span><span class="op">$</span><span class="va">physical</span>, <span class="va">domain_items</span><span class="op">$</span><span class="va">physical</span><span class="op">]</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  social <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/glb.algebraic.html">glb.algebraic</a></span><span class="op">(</span></span>
-<span>    <span class="va">reliability_cov_h0</span><span class="op">[</span><span class="va">domain_items</span><span class="op">$</span><span class="va">social</span>, <span class="va">domain_items</span><span class="op">$</span><span class="va">social</span><span class="op">]</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  environment <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/glb.algebraic.html">glb.algebraic</a></span><span class="op">(</span></span>
-<span>    <span class="va">reliability_cov_h0</span><span class="op">[</span><span class="va">domain_items</span><span class="op">$</span><span class="va">environment</span>, <span class="va">domain_items</span><span class="op">$</span><span class="va">environment</span><span class="op">]</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="va">glb_h1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
-<span>  psycho <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/glb.algebraic.html">glb.algebraic</a></span><span class="op">(</span></span>
-<span>    <span class="va">reliability_cov_h1</span><span class="op">[</span><span class="va">domain_items</span><span class="op">$</span><span class="va">psycho_h1</span>, <span class="va">domain_items</span><span class="op">$</span><span class="va">psycho_h1</span><span class="op">]</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  physical <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/glb.algebraic.html">glb.algebraic</a></span><span class="op">(</span></span>
-<span>    <span class="va">reliability_cov_h1</span><span class="op">[</span><span class="va">domain_items</span><span class="op">$</span><span class="va">physical</span>, <span class="va">domain_items</span><span class="op">$</span><span class="va">physical</span><span class="op">]</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  social <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/glb.algebraic.html">glb.algebraic</a></span><span class="op">(</span></span>
-<span>    <span class="va">reliability_cov_h1</span><span class="op">[</span><span class="va">domain_items</span><span class="op">$</span><span class="va">social</span>, <span class="va">domain_items</span><span class="op">$</span><span class="va">social</span><span class="op">]</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  environment <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/glb.algebraic.html">glb.algebraic</a></span><span class="op">(</span></span>
-<span>    <span class="va">reliability_cov_h1</span><span class="op">[</span><span class="va">domain_items</span><span class="op">$</span><span class="va">environment_h1</span>, <span class="va">domain_items</span><span class="op">$</span><span class="va">environment_h1</span><span class="op">]</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Assemble one numeric table from the independent results, without rounding.</span></span>
-<span><span class="va">reliability_domains</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
-<span>  Modelo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"H~0~"</span>, <span class="st">"H~1~"</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>,</span>
-<span>  Domínio <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Psicológico"</span>, <span class="st">"Físico"</span>, <span class="st">"Relações sociais"</span>, <span class="st">"Ambiente"</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>,</span>
-<span>  Itens <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lengths.html">lengths</a></span><span class="op">(</span><span class="va">domain_items</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
-<span>    <span class="st">"psycho"</span>, <span class="st">"physical"</span>, <span class="st">"social"</span>, <span class="st">"environment"</span>,</span>
-<span>    <span class="st">"psycho_h1"</span>, <span class="st">"physical"</span>, <span class="st">"social"</span>, <span class="st">"environment_h1"</span></span>
-<span>  <span class="op">)</span><span class="op">]</span><span class="op">)</span>,</span>
-<span>  Ômega <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
-<span>    <span class="va">omega_h0</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"psycho"</span>, <span class="st">"physical"</span>, <span class="st">"social"</span>, <span class="st">"environment"</span><span class="op">)</span><span class="op">]</span>,</span>
-<span>    <span class="va">omega_h1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"psycho"</span>, <span class="st">"physical"</span>, <span class="st">"social"</span>, <span class="st">"environment"</span><span class="op">)</span><span class="op">]</span></span>
-<span>  <span class="op">)</span><span class="op">)</span>,</span>
-<span>  GLB <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
-<span>    <span class="va">glb_h0</span><span class="op">$</span><span class="va">psycho</span><span class="op">$</span><span class="va">glb</span>, <span class="va">glb_h0</span><span class="op">$</span><span class="va">physical</span><span class="op">$</span><span class="va">glb</span>,</span>
-<span>    <span class="va">glb_h0</span><span class="op">$</span><span class="va">social</span><span class="op">$</span><span class="va">glb</span>, <span class="va">glb_h0</span><span class="op">$</span><span class="va">environment</span><span class="op">$</span><span class="va">glb</span>,</span>
-<span>    <span class="va">glb_h1</span><span class="op">$</span><span class="va">psycho</span><span class="op">$</span><span class="va">glb</span>, <span class="va">glb_h1</span><span class="op">$</span><span class="va">physical</span><span class="op">$</span><span class="va">glb</span>,</span>
-<span>    <span class="va">glb_h1</span><span class="op">$</span><span class="va">social</span><span class="op">$</span><span class="va">glb</span>, <span class="va">glb_h1</span><span class="op">$</span><span class="va">environment</span><span class="op">$</span><span class="va">glb</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  row.names <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Save the numeric table before any display rounding.</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv2</a></span><span class="op">(</span></span>
+<span><span class="co"># Export exactly the content displayed in the combined table.</span></span>
+<span><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_excel_csv2</a></span><span class="op">(</span></span>
 <span>  <span class="va">reliability_domains</span>,</span>
 <span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-domain-reliability.csv"</span><span class="op">)</span>,</span>
-<span>  row.names <span class="op">=</span> <span class="cn">FALSE</span>, na <span class="op">=</span> <span class="st">"NA"</span></span>
+<span>  na <span class="op">=</span> <span class="st">"NA"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Print the table with three decimal places and formatted H0/H1 labels.</span></span>
-<span><span class="va">reliability_domains</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">3</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span>, escape <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="co"># Present the two model blocks in one table.</span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">reliability_domains</span>, align <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"l"</span>, <span class="st">"l"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span><span class="op">)</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </div>
@@ -879,7 +762,7 @@ Figura&nbsp;7.1: Distribuições de RMSEA, CFI e TLI robustos e SRMR em 1.000 re
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Racional da @fig-empirical-fit-distributions">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -888,17 +771,17 @@ Figura&nbsp;7.1: Distribuições de RMSEA, CFI e TLI robustos e SRMR em 1.000 re
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>A preparação seleciona os 24 indicadores em <code>analysis_data</code>, usando <code>lavaan::lavNames(..., "ov")</code> para respeitar a ordem das variáveis observadas de cada ajuste. <code>indicators_h0</code> e <code>indicators_h1</code> contêm as mesmas respostas, ordenadas conforme os respectivos modelos. <code><a href="https://rdrr.io/pkg/psych/man/skew.html">psych::skew()</a></code> e <code><a href="https://rdrr.io/pkg/psych/man/skew.html">psych::kurtosi()</a></code> calculam a assimetria e a curtose excedente de cada item, com <code>na.rm = TRUE</code> para desconsiderar suas respostas ausentes. A conversão <code><a href="https://rdrr.io/r/base/matrix.html">as.matrix()</a></code> fornece a essas funções uma matriz numérica. <code><a href="https://rdrr.io/pkg/simsem/man/bindDist.html">simsem::bindDist()</a></code> reúne os momentos em <code>dist_h0</code> e <code>dist_h1</code>.</p>
-<p>Em <code><a href="https://rdrr.io/pkg/simsem/man/sim.html">simsem::sim()</a></code>, <code>generate</code> recebe o ajuste empírico usado como população geradora, enquanto <code>model</code> recebe a especificação estimada nas novas amostras. Na primeira chamada, o gerador e o modelo de análise correspondem a H<sub>0</sub>. Na segunda, <code>generate = fit_h1modelfree</code> mantém as cargas cruzadas na população geradora, enquanto <code>model = analyzemodel</code> ajusta H<sub>0</sub> e omite essas relações. <code>nRep = SIM</code>, <code>n = N_EMP</code> e <code>seed = SEED</code> recuperam, respectivamente, 1.000 replicações, 1.243 participantes e a semente 123321, definidas em <code>helpers.R</code>. <code>indDist</code> recebe a distribuição marginal preparada para cada condição. <code>simsem::miss(logical = is.na(...))</code> reaplica as posições das células ausentes. <code>lavaanfun = "cfa"</code>, <code>estimator = "MLR"</code>, <code>missing = "fiml"</code> e <code>std.lv = TRUE</code> mantêm o procedimento de estimação e a identificação dos ajustes originais. <code>multicore = TRUE</code> solicita processamento paralelo.</p>
+<p>Em <code><a href="https://rdrr.io/pkg/simsem/man/sim.html">simsem::sim()</a></code>, <code>generate</code> recebe o ajuste empírico usado como população geradora, enquanto <code>model</code> recebe a especificação estimada nas novas amostras. Na primeira chamada, o gerador e o modelo de análise correspondem a H<sub>0</sub>. Na segunda, <code>generate = fit_h1modelfree</code> mantém as cargas cruzadas na população geradora, enquanto <code>model = analyzemodel</code> ajusta H<sub>0</sub> e omite essas relações. <code>nRep = SIM</code> e <code>seed = SEED</code> recuperam as 1.000 replicações e a semente 123321, definidas em <code>helpers.R</code>. <code>n = nrow(analysis_data)</code> utiliza o número de participantes da base analítica lida nesta seção. <code>indDist</code> recebe a distribuição marginal preparada para cada condição. <code>simsem::miss(logical = is.na(...))</code> reaplica as posições das células ausentes. <code>lavaanfun = "cfa"</code>, <code>estimator = "MLR"</code>, <code>missing = "fiml"</code> e <code>std.lv = TRUE</code> mantêm o procedimento de estimação e a identificação dos ajustes originais. <code>multicore = TRUE</code> solicita processamento paralelo.</p>
 <p><code>cache_or_run()</code> disponibiliza <code>sim_h0_empirical</code> e <code>sim_h1_empirical</code>. Se o objeto já estiver no ambiente, ele é reaproveitado; caso contrário, a função procura <code>sim_h0_empirical.rds</code> ou <code>sim_h1_empirical.rds</code> em <code>Data/IntermediateData</code>. Com os arquivos existentes, a expressão de simulação não é executada. Se um arquivo não existir, a chamada executa a simulação e grava o resultado ao término.</p>
 <p><code>cutoff_fixed</code> reúne os cortes obtidos por duas chamadas a <code><a href="https://rdrr.io/pkg/simsem/man/getCutoff.html">simsem::getCutoff()</a></code>, ambas aplicadas a <code>sim_h0_empirical</code> e com <code>alpha = ALPHA</code>, a referência de 5%. Para <code>rmsea.robust</code> e <code>srmr</code>, a função obtém o percentil 95. Para <code>cfi.robust</code> e <code>tli.robust</code>, <code>revDirec = TRUE</code> solicita o percentil 5. Essa indicação explícita é necessária porque os nomes robustos de CFI/TLI não integram a lista de inversão automática do pacote. <code><a href="https://rdrr.io/r/base/cbind.html">cbind()</a></code> reúne os quatro limites em uma linha, na ordem RMSEA, SRMR, CFI e TLI.</p>
 <p><code>power_fixed</code> reúne as proporções de rejeição na condição alternativa, calculadas por <code><a href="https://rdrr.io/pkg/simsem/man/getPowerFit.html">simsem::getPowerFit()</a></code>. Cada chamada recebe os limites de <code>cutoff_fixed</code> pelo argumento <code>cutoff</code>, convertido em vetor nomeado com <code><a href="https://rdrr.io/r/base/unlist.html">unlist()</a></code>. RMSEA/SRMR indicam rejeição acima do limite; para CFI/TLI robustos, <code>revDirec = TRUE</code> indica rejeição abaixo dele. Fornecer os cortes explicitamente assegura que o poder e a figura utilizem os mesmos limites.</p>
 <p><code>power_cutoff_fixed</code> mantém as linhas <code>Poder</code> e <code>Ponto de corte</code> e as quatro colunas de índices. <code><a href="https://rdrr.io/r/base/cbind.html">rbind()</a></code> reúne os valores, e <code>toupper(names(power_fixed))</code> define os cabeçalhos. <code><a href="https://rdrr.io/r/utils/write.table.html">write.csv2()</a></code> exporta a matriz sem arredondamento prévio para <code>Output/Results/Tables/tbl-empirical-power-cutoffs.csv</code>, preservando os nomes das linhas. Essa tabela auxiliar permanece oculta na apresentação; os objetos ficam disponíveis para consulta e interpretação.</p>
 <p><code><a href="https://rdrr.io/pkg/simsem/man/plotPowerFit.html">simsem::plotPowerFit()</a></code> recebe <code>sim_h1_empirical</code> como condição alternativa e <code>nullObject = sim_h0_empirical</code> como referência sob especificação correta. <code>cutoff = unlist(cutoff_fixed[1, ])</code> fornece os quatro limites nomeados, substituindo sua obtenção automática. Assim, as linhas vermelhas correspondem às caudas definidas na calibração. <code>usedFit = FITS_ROB</code> seleciona <code>rmsea.robust</code>, <code>srmr</code>, <code>cfi.robust</code> e <code>tli.robust</code>. A chamada mantém os quatro painéis em uma figura, sem repetir simulações ou alterar os objetos originais.</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Keep the same 24 indicators in the order used by each fitted model.</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Keep the same 24 indicators in the order used by each fitted model.</span></span>
 <span><span class="va">indicators_h0</span> <span class="op">&lt;-</span> <span class="va">analysis_data</span><span class="op">[</span></span>
 <span>  <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/lavNames.html">lavNames</a></span><span class="op">(</span><span class="va">fit_analyzemodel</span>, <span class="st">"ov"</span><span class="op">)</span></span>
 <span><span class="op">]</span></span>
@@ -924,7 +807,7 @@ Figura&nbsp;7.1: Distribuições de RMSEA, CFI e TLI robustos e SRMR em 1.000 re
 <span>  <span class="fu">simsem</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/simsem/man/sim.html">sim</a></span><span class="op">(</span></span>
 <span>    nRep <span class="op">=</span> <span class="va">SIM</span>,</span>
 <span>    model <span class="op">=</span> <span class="va">analyzemodel</span>,</span>
-<span>    n <span class="op">=</span> <span class="va">N_EMP</span>,</span>
+<span>    n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">analysis_data</span><span class="op">)</span>,</span>
 <span>    generate <span class="op">=</span> <span class="va">fit_analyzemodel</span>,</span>
 <span>    indDist <span class="op">=</span> <span class="va">dist_h0</span>,</span>
 <span>    miss <span class="op">=</span> <span class="fu">simsem</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/simsem/man/miss.html">miss</a></span><span class="op">(</span>logical <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">indicators_h0</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -943,7 +826,7 @@ Figura&nbsp;7.1: Distribuições de RMSEA, CFI e TLI robustos e SRMR em 1.000 re
 <span>  <span class="fu">simsem</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/simsem/man/sim.html">sim</a></span><span class="op">(</span></span>
 <span>    nRep <span class="op">=</span> <span class="va">SIM</span>,</span>
 <span>    model <span class="op">=</span> <span class="va">analyzemodel</span>,</span>
-<span>    n <span class="op">=</span> <span class="va">N_EMP</span>,</span>
+<span>    n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">analysis_data</span><span class="op">)</span>,</span>
 <span>    generate <span class="op">=</span> <span class="va">fit_h1modelfree</span>,</span>
 <span>    indDist <span class="op">=</span> <span class="va">dist_h1</span>,</span>
 <span>    miss <span class="op">=</span> <span class="fu">simsem</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/simsem/man/miss.html">miss</a></span><span class="op">(</span>logical <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">indicators_h1</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -990,11 +873,13 @@ Figura&nbsp;7.1: Distribuições de RMSEA, CFI e TLI robustos e SRMR em 1.000 re
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Combine power and cutoffs in one table.</span></span>
 <span><span class="va">power_cutoff_fixed</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span></span>
 <span>  <span class="st">"Poder"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">power_fixed</span><span class="op">)</span>,</span>
 <span>  <span class="st">"Ponto de corte"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">cutoff_fixed</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Format the fit-index column labels.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">power_cutoff_fixed</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">toupper</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">power_fixed</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Export the numeric results before display rounding.</span></span>
@@ -1167,7 +1052,7 @@ Tabela&nbsp;7.3: Vinte maiores índices de modificação de H<sub>0</sub>, com E
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-modification-indices-top20">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1176,41 +1061,31 @@ Tabela&nbsp;7.3: Vinte maiores índices de modificação de H<sub>0</sub>, com E
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><code><a href="https://rdrr.io/pkg/lavaan/man/modificationIndices.html">lavaan::modificationIndices()</a></code> recebe <code>fit_analyzemodel</code>, o ajuste original de H<sub>0</sub>. <code>sort. = TRUE</code> ordena o retorno pelo MI, do maior para o menor; <code>standardized = TRUE</code> solicita também os EPC padronizados. <code>cov.std = TRUE</code> utiliza variâncias residuais na padronização das covariâncias residuais. O retorno completo permanece em <code>mi_h0</code>, sem limitar inicialmente o número de linhas.</p>
-<p><code><a href="https://rdrr.io/r/stats/filter.html">filter()</a></code> constrói <code>mi_all</code>, conservando os operadores <code>=~</code> (cargas) e <code>~~</code> (covariâncias) e excluindo as variâncias diagonais com <code>lhs != rhs</code>. Os parâmetros já livres são removidos pelo comportamento padrão da função. As cargas cruzadas fixadas em zero em H<sub>0</sub> permanecem entre as relações candidatas examinadas, sem que sua presença determine sua liberação.</p>
-<p><code>slice_head(n = 20)</code> seleciona as vinte primeiras relações, respeitando a ordenação por MI. Não há uma ordenação independente por EPC. <code>transmute()</code> constrói <code>mi_top</code>: <code>Relação</code> combina <code>lhs</code>, <code>op</code> e <code>rhs</code>; <code>MI</code> vem de <code>mi</code>; <code>EPC</code> vem de <code>epc</code>, na métrica original; e <code>EPC padronizado</code> vem de <code>sepc.all</code>. Para uma carga, esse último valor padroniza as variáveis envolvidas; para uma covariância residual, usa as variâncias residuais. Ele é uma aproximação da mudança ao liberar uma relação individualmente, não a estimativa de um modelo já reespecificado. A <a href="https://lavaan.ugent.be/tutorial/modindices.html">documentação do lavaan</a> detalha os campos retornados.</p>
-<p><code><a href="https://rdrr.io/r/utils/write.table.html">write.csv2()</a></code> salva somente <code>mi_all</code> em <code>Output/Results/Tables/tbl-modification-indices-full.csv</code>, sem arredondamento prévio. Esse arquivo mantém todas as relações elegíveis e os campos retornados, incluindo os outros EPC padronizados. <code>mi_top</code> permanece na memória como seleção para apresentação, recuperável a partir da tabela completa; não é exportado em outro CSV. Na cópia de apresentação, <code><a href="https://rdrr.io/r/base/grep.html">gsub()</a></code> representa cada til por <code>&amp;#126;</code>, preservando os operadores como texto comum, sem formatação de código ou interpretação como Markdown. <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> produz a tabela com três casas decimais para HTML e PDF. A transformação é aplicada somente à impressão; os objetos <code>mi_all</code> e <code>mi_top</code> e o CSV completo mantêm as relações originais.</p>
+<p>A função <code>table_mi()</code>, definida em <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a> e apresentada no racional da <a href="08_model_comparison.html#tbl-adjusted-modification-indices-top20" class="quarto-xref">Tabela&nbsp;<span>8.6</span></a>, recebe o ajuste de H<sub>0</sub> e apresenta suas vinte maiores relações candidatas, com MI e EPC bruto e padronizado. A ordenação segue o MI; os EPC acompanham cada relação.</p>
+<p><code><a href="https://rdrr.io/r/base/attr.html">attr()</a></code> recupera todas as relações elegíveis e seus valores completos em <code>mi_all</code>, utilizado nos valores inseridos no texto, e o conteúdo de apresentação para exportação. Uma verificação impede a gravação de dados ausentes ou vazios. <code><a href="https://readr.tidyverse.org/reference/write_delim.html">readr::write_excel_csv2()</a></code> salva as mesmas vinte relações apresentadas no HTML e no PDF, preservando os rótulos e valores de exibição.</p>
+<p>A expressão final apresenta a tabela formatada internamente por <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code>, com os operadores lavaan preservados no documento. O bloco utiliza o ajuste existente e não estima um modelo modificado.</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Retain the native H0 output, ordered by modification index.</span></span>
-<span><span class="va">mi_h0</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/modificationIndices.html">modificationIndices</a></span><span class="op">(</span></span>
-<span>  <span class="va">fit_analyzemodel</span>, standardized <span class="op">=</span> <span class="cn">TRUE</span>, cov.std <span class="op">=</span> <span class="cn">TRUE</span>, sort. <span class="op">=</span> <span class="cn">TRUE</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Prepare the twenty largest modification indices for H0 in Portuguese.</span></span>
+<span><span class="va">mi_table_h0</span> <span class="op">&lt;-</span> <span class="fu">table_mi</span><span class="op">(</span><span class="va">fit_analyzemodel</span>, lang <span class="op">=</span> <span class="st">"pt"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Preserve all full-precision candidates for the values inserted in the text.</span></span>
+<span><span class="va">mi_all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">mi_table_h0</span>, <span class="st">"mi_data"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Validate and export exactly the content displayed in the table.</span></span>
+<span><span class="va">mi_table_data_h0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">mi_table_h0</span>, <span class="st">"table_data"</span><span class="op">)</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">is.data.frame</a></span><span class="op">(</span><span class="va">mi_table_data_h0</span><span class="op">)</span> <span class="op">||</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">mi_table_data_h0</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0L</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"table_data is missing or empty. Reload helpers.R and check the model."</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_excel_csv2</a></span><span class="op">(</span></span>
+<span>  <span class="va">mi_table_data_h0</span>,</span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-modification-indices-top20.csv"</span><span class="op">)</span>,</span>
+<span>  na <span class="op">=</span> <span class="st">"NA"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Keep candidate cross-loadings and covariances, without diagonal variances.</span></span>
-<span><span class="va">mi_all</span> <span class="op">&lt;-</span> <span class="va">mi_h0</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">op</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"=~"</span>, <span class="st">"~~"</span><span class="op">)</span>, <span class="va">lhs</span> <span class="op">!=</span> <span class="va">rhs</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Select twenty H0 relations using MI order, with their corresponding EPCs.</span></span>
-<span><span class="va">mi_top</span> <span class="op">&lt;-</span> <span class="va">mi_all</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice_head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">20</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/transmute.html">transmute</a></span><span class="op">(</span></span>
-<span>    Relação <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">lhs</span>, <span class="va">op</span>, <span class="va">rhs</span><span class="op">)</span>,</span>
-<span>    MI <span class="op">=</span> <span class="va">mi</span>, EPC <span class="op">=</span> <span class="va">epc</span>, `EPC padronizado` <span class="op">=</span> <span class="va">sepc.all</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Save the full modification indices to CSV files for further analysis.</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv2</a></span><span class="op">(</span></span>
-<span>  <span class="va">mi_all</span>,</span>
-<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-modification-indices-full.csv"</span><span class="op">)</span>,</span>
-<span>  row.names <span class="op">=</span> <span class="cn">FALSE</span>, na <span class="op">=</span> <span class="st">"NA"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Print the top-10 modification indices table with formatted relations for display.</span></span>
-<span><span class="va">mi_top</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Relação <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"~"</span>, <span class="st">"&amp;#126;"</span>, <span class="va">Relação</span>, fixed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"pipe"</span>, digits <span class="op">=</span> <span class="fl">3</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span>, escape <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="co"># Present the formatted modification index table.</span></span>
+<span><span class="va">mi_table_h0</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </div>
@@ -1222,7 +1097,7 @@ Tabela&nbsp;7.3: Vinte maiores índices de modificação de H<sub>0</sub>, com E
 <p>A <a href="#fig-residual-correlations" class="quarto-xref">Figura&nbsp;<span>7.2</span></a> apresenta os resíduos de H<sub>0</sub>, com os itens na ordem do modelo de análise. A intensidade da cor representa o valor absoluto do resíduo; os números preservam o sinal. Cada par aparece uma única vez. A referência de magnitude absoluta de 0,10 discutida na <a href="02_background.html#sec-theory-fit" class="quarto-xref"><span>Seção 2.5</span></a> orienta a inspeção conjunta com MI, EPC e conteúdo dos itens.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-residual-correlations" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Mapa triangular de H₀ com diferenças entre correlações observadas e reproduzidas para os 24 indicadores." data-fig-align="center">
+<div id="fig-residual-correlations" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Mapa triangular de H₀ com diferenças entre correlações observadas e reproduzidas para os 24 indicadores.">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-residual-correlations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="07_model_fit_files/figure-html/fig-residual-correlations-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Mapa triangular de H₀ com diferenças entre correlações observadas e reproduzidas para os 24 indicadores." width="768">
 </div>
@@ -1233,7 +1108,7 @@ Figura&nbsp;7.2: Resíduos de correlação de H₀. As cores representam magnitu
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Racional da @fig-residual-correlations">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1242,66 +1117,33 @@ Figura&nbsp;7.2: Resíduos de correlação de H₀. As cores representam magnitu
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><code><a href="https://rdrr.io/pkg/lavaan/man/lavResiduals.html">lavaan::lavResiduals()</a></code> recebe <code>fit_analyzemodel</code> e retorna os resíduos de H<sub>0</sub>. <code>type = "cor"</code> transforma separadamente as matrizes de covariâncias observada e reproduzida em correlações antes de calcular a diferença. <code>zstat = FALSE</code> dispensa a divisão dos resíduos pelos erros-padrão, e <code>summary = FALSE</code> dispensa os resumos globais. Essa escolha representa magnitudes de discrepância em escala de correlação, conforme a <a href="https://search.r-project.org/CRAN/refmans/lavaan/html/lavResiduals.html">documentação da função</a>. As estatísticas observadas são as utilizadas pelo ajuste com FIML; não calculamos uma nova matriz por exclusão dos casos incompletos.</p>
-<p>O retorno completo fica em <code>residuals_h0</code>. O componente <code>$cov</code> fornece a matriz de resíduos solicitada, mesmo com <code>type = "cor"</code>. <code><a href="https://rdrr.io/r/base/matrix.html">as.matrix()</a></code> cria <code>residual_matrix_h0</code> para exportação e apresentação, preservando os nomes e a ordem dos indicadores do ajuste de H<sub>0</sub>.</p>
-<p><code><a href="https://rdrr.io/r/utils/write.table.html">write.csv2()</a></code> exporta a matriz completa, com nomes de linhas e precisão original, em <code>Output/Results/Tables/residual-correlations-h0.csv</code>. Depois da exportação, <code>upper.tri(..., diag = TRUE)</code> mascara o triângulo superior e a diagonal na matriz de apresentação. O objeto original <code>residuals_h0</code> permanece intacto.</p>
-<p><code><a href="https://rdrr.io/r/base/table.html">as.table()</a></code> e <code><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame()</a></code> organizam a matriz em linhas de pares. <code>residual_correlations</code> contém <code>Item1</code>, <code>Item2</code> e <code>Residuo</code>. O filtro elimina as células mascaradas. Os fatores produzidos por <code><a href="https://rdrr.io/r/base/table.html">as.table()</a></code> preservam a ordem dos itens da matriz nos eixos.</p>
-<p><code>ggplot()</code> usa <code>abs(Residuo)</code> no preenchimento e <code>geom_text()</code> mostra o valor com sinal, arredondado a duas casas apenas no rótulo. <code>scale_fill_gradient()</code> vai de zero ao maior resíduo absoluto de H<sub>0</sub>; <code>coord_fixed()</code> mantém as células quadradas. A diagonal e a metade repetida ficam vazias. As cores orientam a leitura da magnitude. <code>residual_heatmap</code> é o mesmo objeto apresentado e exportado por <code>ggsave()</code> em <code>Output/Results/Figures/fig-residual-correlations.png</code>, com 300 dpi.</p>
+<p><code>plot_stdres()</code> recebe o modelo ajustado e cria o mapa dos resíduos de correlação. Internamente, <code>tidy_stdres()</code> organiza as diferenças entre as correlações observadas e reproduzidas, obtidas por <code><a href="https://rdrr.io/pkg/lavaan/man/lavResiduals.html">lavaan::lavResiduals()</a></code>. Os valores usam as estatísticas observadas do ajuste com FIML, sem nova exclusão de casos incompletos e sem conversão em estatísticas z.</p>
+<p>A função mantém a ordem dos indicadores e apresenta cada par uma única vez, sem diagonal. A cor representa a magnitude absoluta; os rótulos preservam o sinal e mostram duas casas decimais. O retorno é um objeto <code>ggplot</code>, que pode ser apresentado, personalizado ou salvo.</p>
+<p><code><a href="https://rdrr.io/r/base/attr.html">attr()</a></code> recupera a matriz completa e os pares com precisão original para exportação e valores no texto. <code><a href="https://rdrr.io/r/utils/write.table.html">write.csv2()</a></code> salva a matriz em <code>Output/Results/Tables/residual-correlations-h0.csv</code>; <code>ggsave()</code> exporta o mesmo gráfico apresentado em <code>Output/Results/Figures/fig-residual-correlations.png</code>.</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Extract correlation differences, without residual z statistics.</span></span>
-<span><span class="va">residuals_h0</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/lavResiduals.html">lavResiduals</a></span><span class="op">(</span></span>
-<span>  <span class="va">fit_analyzemodel</span>, type <span class="op">=</span> <span class="st">"cor"</span>, zstat <span class="op">=</span> <span class="cn">FALSE</span>, summary <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Create the correlation residual heatmap.</span></span>
+<span><span class="va">residual_heatmap</span> <span class="op">&lt;-</span> <span class="fu">plot_stdres</span><span class="op">(</span><span class="va">fit_analyzemodel</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Keep the indicator order returned by the H0 fit.</span></span>
-<span><span class="va">residual_matrix_h0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">residuals_h0</span><span class="op">$</span><span class="va">cov</span><span class="op">)</span></span>
+<span><span class="co"># Preserve full-precision residuals for export and inline results.</span></span>
+<span><span class="va">residual_matrix_h0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">residual_heatmap</span>, <span class="st">"residual_matrix"</span><span class="op">)</span></span>
+<span><span class="va">residual_correlations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">residual_heatmap</span>, <span class="st">"residual_data"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Export the complete H0 matrix before masking repeated pairs and diagonals.</span></span>
+<span><span class="co"># Export the complete correlation residual matrix.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv2</a></span><span class="op">(</span></span>
 <span>  <span class="va">residual_matrix_h0</span>,</span>
 <span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"residual-correlations-h0.csv"</span><span class="op">)</span>,</span>
 <span>  row.names <span class="op">=</span> <span class="cn">TRUE</span>, na <span class="op">=</span> <span class="st">"NA"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">residual_matrix_h0</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/lower.tri.html">upper.tri</a></span><span class="op">(</span><span class="va">residual_matrix_h0</span>, diag <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
-<span></span>
-<span><span class="co"># Convert the lower triangle into one row per item pair.</span></span>
-<span><span class="va">residual_correlations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">as.table</a></span><span class="op">(</span><span class="va">residual_matrix_h0</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">residual_correlations</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Item1"</span>, <span class="st">"Item2"</span>, <span class="st">"Residuo"</span><span class="op">)</span></span>
-<span><span class="va">residual_correlations</span> <span class="op">&lt;-</span> <span class="va">residual_correlations</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">Residuo</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Color intensity shows magnitude; cell labels retain the sign.</span></span>
-<span><span class="va">residual_heatmap</span> <span class="op">&lt;-</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
-<span>  <span class="va">residual_correlations</span>,</span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Item2</span>, y <span class="op">=</span> <span class="va">Item1</span>, fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">Residuo</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_tile</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"white"</span>, linewidth <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text</a></span><span class="op">(</span></span>
-<span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span><span class="op">(</span><span class="st">"%.2f"</span>, <span class="va">Residuo</span><span class="op">)</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">2.2</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html">scale_fill_gradient</a></span><span class="op">(</span></span>
-<span>    low <span class="op">=</span> <span class="st">"white"</span>, high <span class="op">=</span> <span class="st">"#B2182B"</span>,</span>
-<span>    limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">residual_correlations</span><span class="op">$</span><span class="va">Residuo</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>    name <span class="op">=</span> <span class="st">"|Resíduo|"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html">scale_x_discrete</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"top"</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html">scale_y_discrete</a></span><span class="op">(</span>drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span></span>
-<span>    axis.text.x <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
-<span>    axis.title <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    panel.grid <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
+<span><span class="co"># Save the residual correlation heatmap.</span></span>
 <span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span></span>
 <span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Figures"</span>, <span class="st">"fig-residual-correlations.png"</span><span class="op">)</span>,</span>
 <span>  plot <span class="op">=</span> <span class="va">residual_heatmap</span>, width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">7</span>, dpi <span class="op">=</span> <span class="fl">300</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Display the residual correlation heatmap.</span></span>
 <span><span class="va">residual_heatmap</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
@@ -1310,7 +1152,7 @@ Figura&nbsp;7.2: Resíduos de correlação de H₀. As cores representam magnitu
 </div>
 <p>Inicialmente, o diagnóstico local de H<sub>0</sub> pode envolver os três itens cujas cargas cruzadas foram previamente consideradas em H<sub>1</sub>. Para Q15, a carga adicional no domínio Ambiente aparece diretamente entre os maiores índices de modificação (MI = 74,630; EPC padronizado = 0,330). O item também apresenta resíduos de correlação positivos com Q3 e Q4, de aproximadamente 0,21 e 0,15, respectivamente, indicando associações subestimadas pela especificação atual. Para Q8 e Q9, destaca-se a covariância residual entre os itens (MI = 45,560; EPC padronizado = 0,211), acompanhada de um resíduo de correlação de aproximadamente 0,13. Esses resultados retomam dificuldades de representação envolvendo os itens contemplados na formulação de H<sub>1</sub>, embora a dependência residual entre Q8 e Q9 não constitua, isoladamente, evidência de suas cargas adicionais no domínio Psicológico.</p>
 <p>O diagnóstico também evidencia dificuldades além das relações previstas em H<sub>1</sub>. Q5 participa de indicações de cargas adicionais nos domínios físico e ambiental e de dependências com Q6 e Q14. O resíduo de correlação Q5–Q14, de 0,239, constitui a maior discrepância absoluta da matriz. Q24 combina carga padronizada baixa, indicação de carga adicional no domínio psicológico e dependência com Q25, cujo resíduo de correlação é 0,181. Em conjunto com os problemas de Q15, esses resultados destacam Q5, Q15 e Q24 como candidatos à investigação de uma especificação modificada. Q8 permanece como candidato adicional, considerando sua carga baixa e a relação residual com Q9. As cargas reduzidas de Q3/Q4 e a dependência indicada entre Q17/Q18 também integram o diagnóstico, embora representem dificuldades distintas de mensuração.</p>
-<p>A avaliação global apontou limitações nas especificações originais, e a simulação situou o ajuste observado de H<sub>0</sub> além dos limites de sua referência de ajuste exato. A leitura conjunta das cargas, dos resíduos e dos MI/EPC localizou relações que merecem investigação substantiva. Esses achados motivam examinar modificações, cuja seleção exige avaliar o conteúdo dos itens e a cobertura dos domínios. Na <a href="08_model_comparison.html" class="quarto-xref"><span>Capítulo 8</span></a>, os candidatos serão confrontados com os precedentes bibliográficos para fundamentar a nova especificação e suas condições de uso. As alterações selecionadas a partir destes dados serão apresentadas como exploração posterior; sua contribuição para o ajuste será verificada pela reestimação.</p>
+<p>A avaliação global apontou limitações nas especificações originais, e a simulação situou o ajuste observado de H<sub>0</sub> além dos limites de sua referência de ajuste exato. A leitura conjunta das cargas, dos resíduos e dos MI/EPC localizou relações que merecem investigação substantiva. Esses achados motivam examinar modificações, cuja seleção exige avaliar o conteúdo dos itens e a cobertura dos domínios. Na <a href="08_model_comparison.html" class="quarto-xref"><span>Seção 8</span></a>, os candidatos serão confrontados com os precedentes bibliográficos para fundamentar a nova especificação e suas condições de uso. As alterações selecionadas a partir destes dados serão apresentadas como exploração posterior; sua contribuição para o ajuste será verificada pela reestimação.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">

@@ -451,30 +451,10 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7"><span id="sec-preprocessing" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Pré-processamento</span></span></h1></header><header id="title-block-header">
 
-</header><div class="callout callout-style-default callout-important callout-titled" title="Como a seção está estruturada">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Importante</span>Como a seção está estruturada
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>O arquivo <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a> carrega os pacotes compartilhados pelo projeto. Os parâmetros específicos desta análise são definidos nos chunks em que são utilizados, para que o leitor possa acompanhar a origem de cada decisão. Cada saída é produzida depois da operação que a fundamenta e recebe, no HTML, um callout com a explicação dos objetos, funções, argumentos e parâmetros.</p>
-<div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Scripts"</span>, <span class="st">"DataAppendixScripts"</span>, <span class="st">"helpers.R"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-</div>
-</div>
-</div>
-</div>
-<p>O pré-processamento em questionários de autorelato tem como finalidade proteger as análises vindouras de vieses introduzidos por respostas descuidadas ou com esforço insuficiente (<em>Careless or Insufficient Effort Responding</em> — C/IER), registros incompletos ou com respostas inconsistentes, e a inspeção preliminar das variáveis para prospecção de problemas. Nas seções anteriores não precisamos dos dados coletados, mas a partir de agora, temos que fazer exercícios com dados brutos, e por isso, vamos utilizar a mesma base de dados empregada por <span class="citation" data-cites="rogers2024c">Rogers (<a href="references.html#ref-rogers2024c" role="doc-biblioref">2024</a>)</span> e <span class="citation" data-cites="rogers2022">Rogers (<a href="references.html#ref-rogers2022" role="doc-biblioref">2022</a>)</span>.</p>
+</header><p>O pré-processamento em questionários de autorelato tem como finalidade proteger as análises vindouras de vieses introduzidos por respostas descuidadas ou com esforço insuficiente (<em>Careless or Insufficient Effort Responding</em> — C/IER), registros incompletos ou com respostas inconsistentes, e a inspeção preliminar das variáveis para prospecção de problemas. Nas seções anteriores não precisamos dos dados coletados, mas a partir de agora, temos que fazer exercícios com dados brutos, e por isso, vamos utilizar a mesma base de dados empregada por <span class="citation" data-cites="rogers2024c">Rogers (<a href="references.html#ref-rogers2024c" role="doc-biblioref">2024</a>)</span> e <span class="citation" data-cites="rogers2022">Rogers (<a href="references.html#ref-rogers2022" role="doc-biblioref">2022</a>)</span>.</p>
 <p>Nesse tutorial, entretanto, o processamento parte dos 1.546 registros brutos e explicita tanto os critérios procedurais (<em>ex-ante</em>) quanto os indicadores estatísticos (<em>ex-post</em>) de triagem C/IER. Como os trabalhos anteriores <span class="citation" data-cites="rogers2024c rogers2022">(<a href="references.html#ref-rogers2022" role="doc-biblioref">Rogers, 2022</a>, <a href="references.html#ref-rogers2024c" role="doc-biblioref">2024</a>)</span> partiram de uma base pré-processada de 1.047 participantes, eventuais diferenças entre seus resultados e os deste tutorial não devem ser atribuídas exclusivamente ao tratamento ordinal ou contínuo dos itens. Após a verificação da integridade do banco e a remoção de registros sem identificação ou com mais de cinco respostas ausentes na WHOQOL-Bref (como veremos adiante, o objetivo é simular estimação com dados <em>missings</em>), a amostra elegível foi submetida a um protocolo sequencial de triagem C/IER.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Como a amostra elegível foi obtida">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -483,18 +463,21 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>O chunk <code>data-preparation</code> importa o arquivo bruto com <code>read_csv2()</code>, cria os vetores que identificam os itens da escala e de atenção, verifica a presença das colunas obrigatórias e interrompe a execução com <code>cli_abort()</code> se alguma estiver ausente. Em seguida, converte as respostas para formato numérico, transforma os timestamps com <code><a href="https://rdrr.io/r/base/as.POSIXlt.html">as.POSIXct()</a></code>, calcula a duração em segundos com <code><a href="https://rdrr.io/r/base/difftime.html">difftime()</a></code> e cria a flag <code>dropout</code>. O objeto <code>eligible_data</code> mantém apenas os registros com identificação e no máximo cinco respostas ausentes nos 26 itens da escala. Por fim, <code><a href="https://rdrr.io/r/base/files2.html">dir.create()</a></code> garante a existência do diretório e <code>write_csv2()</code> salva essa base intermediária no projeto.</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">raw_data</span> <span class="op">&lt;-</span> <span class="fu">read_csv2</span><span class="op">(</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Import the raw questionnaire data.</span></span>
+<span><span class="va">raw_data</span> <span class="op">&lt;-</span> <span class="fu">read_csv2</span><span class="op">(</span></span>
 <span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Data"</span>, <span class="st">"InputData"</span>, <span class="st">"data.csv"</span><span class="op">)</span>,</span>
 <span>  show_col_types <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Identify the scale items and attention checks.</span></span>
 <span><span class="va">scale_items</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Q"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">26</span><span class="op">)</span></span>
 <span><span class="va">attention_items</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"CQ"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Check that all required columns are available.</span></span>
 <span><span class="va">required_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
 <span>  <span class="st">"ID"</span>, <span class="st">"CREATED"</span>, <span class="st">"MODIFIED"</span>, <span class="va">attention_items</span>, <span class="va">scale_items</span></span>
 <span><span class="op">)</span></span>
@@ -505,6 +488,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
+<span><span class="co"># Flag incomplete records and prepare response values and durations.</span></span>
 <span><span class="va">prepared_data</span> <span class="op">&lt;-</span> <span class="va">raw_data</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span></span>
 <span>    dropout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">ID</span><span class="op">)</span> <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="fu">pick</span><span class="op">(</span><span class="fu">all_of</span><span class="op">(</span><span class="va">scale_items</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">5</span>,</span>
@@ -520,11 +504,14 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 <span>    <span class="fu">across</span><span class="op">(</span><span class="fu">all_of</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">attention_items</span>, <span class="va">scale_items</span><span class="op">)</span><span class="op">)</span>, <span class="va">as.numeric</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Retain the records eligible for response screening.</span></span>
 <span><span class="va">eligible_data</span> <span class="op">&lt;-</span> <span class="va">prepared_data</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">dropout</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Create the output directory if it is missing.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Data"</span>, <span class="st">"IntermediateData"</span><span class="op">)</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Save the eligible sample.</span></span>
 <span><span class="fu">write_csv2</span><span class="op">(</span></span>
 <span>  <span class="va">eligible_data</span>,</span>
 <span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Data"</span>, <span class="st">"IntermediateData"</span>, <span class="st">"whoqol_eligible.csv"</span><span class="op">)</span></span>
@@ -539,7 +526,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 <span class="header-section-number">5.1</span> Exclusões procedurais</h2>
 <p>No âmbito dos controles <em>ex-ante</em>, utilizamos itens de atenção inseridos no questionário e a duração total de preenchimento da pesquisa. <span class="citation" data-cites="curran2016 ward2023">(<a href="references.html#ref-curran2016" role="doc-biblioref">Curran, 2016</a>; <a href="references.html#ref-ward2023" role="doc-biblioref">Ward &amp; Meade, 2023</a>)</span>. A falha em pelo menos dois dos três itens de atenção incluídos foi interpretada como evidência de C/IER <span class="citation" data-cites="desimone2015 chauliac2023">(<a href="references.html#ref-chauliac2023" role="doc-biblioref">Chauliac et al., 2023</a>; <a href="references.html#ref-desimone2015" role="doc-biblioref">DeSimone et al., 2015</a>)</span>. Também foram excluídos os questionários de indivíduos com velocidade inferior a quatro segundos por item, limiar considerado incompatível com o processamento semântico reflexivo requerido pelo instrumento <span class="citation" data-cites="huang2012 curran2016 jones2023">(<a href="references.html#ref-curran2016" role="doc-biblioref">Curran, 2016</a>; <a href="references.html#ref-huang2012" role="doc-biblioref">Huang et al., 2012</a>; <a href="references.html#ref-jones2023" role="doc-biblioref">Jones et al., 2023</a>)</span>.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Operacionalização dos itens de atenção e tempo">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -548,11 +535,12 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>O chunk <code>hurdle-procedural</code> seleciona o identificador, os itens de atenção, a duração e os itens da escala. <code><a href="https://rdrr.io/r/base/colSums.html">rowSums()</a></code> conta as respostas incorretas nos controles; <code>fail_attention</code> sinaliza pelo menos duas falhas, enquanto <code>fail_time</code> sinaliza <code>TIME &lt; 416</code>, equivalente a quatro segundos por item no questionário completo de 104 itens. O objeto resultante é salvo com <code>write_csv2()</code> como base intermediária dos critérios procedurais.</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">procedural_data</span> <span class="op">&lt;-</span> <span class="va">eligible_data</span> <span class="op">|&gt;</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Flag failures in attention checks and response time.</span></span>
+<span><span class="va">procedural_data</span> <span class="op">&lt;-</span> <span class="va">eligible_data</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="va">ID</span>, <span class="fu">all_of</span><span class="op">(</span><span class="va">attention_items</span><span class="op">)</span>, <span class="va">TIME</span>, <span class="fu">all_of</span><span class="op">(</span><span class="va">scale_items</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span></span>
 <span>    qc_failures <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">all_of</span><span class="op">(</span><span class="va">attention_items</span><span class="op">)</span>, <span class="op">~</span> <span class="va">.x</span> <span class="op">!=</span> <span class="fl">1</span><span class="op">)</span>,</span>
@@ -561,6 +549,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 <span>    fail_time <span class="op">=</span> <span class="va">TIME</span> <span class="op">&lt;</span> <span class="fl">416</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Save the procedural screening results.</span></span>
 <span><span class="fu">write_csv2</span><span class="op">(</span></span>
 <span>  <span class="va">procedural_data</span>,</span>
 <span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Data"</span>, <span class="st">"IntermediateData"</span>, <span class="st">"whoqol_procedural.csv"</span><span class="op">)</span></span>
@@ -574,7 +563,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 <span class="header-section-number">5.2</span> Critérios estatísticos</h2>
 <p>Como critérios <em>ex-post</em> empregamos a medida de <em>Longstring</em>, o IRV e a Distância de Mahalanobis <span class="citation" data-cites="dunn2018a biemann2025">(<a href="references.html#ref-biemann2025" role="doc-biblioref">Biemann et al., 2025</a>; <a href="references.html#ref-dunn2018a" role="doc-biblioref">Dunn et al., 2018</a>)</span>. O primeiro permite identificar padrões mecânicos de marcação uniforme; o segundo detecta tanto variabilidade anormalmente baixas quanto dispersão alta; e o terceiro identifica padrões multivariados distantes do comportamento normativo da amostra, condizentes com aleatoriedade excesiva <span class="citation" data-cites="curran2016 hong2020 meade2012 desimone2015">(<a href="references.html#ref-curran2016" role="doc-biblioref">Curran, 2016</a>; <a href="references.html#ref-desimone2015" role="doc-biblioref">DeSimone et al., 2015</a>; <a href="references.html#ref-hong2020" role="doc-biblioref">Hong et al., 2020</a>; <a href="references.html#ref-meade2012" role="doc-biblioref">Meade &amp; Craig, 2012</a>)</span>. Considerou-se problemática uma sequência contínua (<em>Longstring</em>) superior à metade dos itens da WHOQOL-BREF; para o IRV, utilizaram-se os percentis 1% e 99%; e, para a Distância de Mahalanobis, o percentil 99%. Esses limiares foram definidos <em>a priori</em> com base na extensão da escala e nas caudas extremas das distribuições amostrais, buscando equilibrar sensibilidade à desatenção e preservação de respondentes sinceros <span class="citation" data-cites="goldammer2020 steedle2018 arthur2021">(<a href="references.html#ref-arthur2021" role="doc-biblioref">Arthur et al., 2021</a>; <a href="references.html#ref-goldammer2020" role="doc-biblioref">Goldammer et al., 2020</a>; <a href="references.html#ref-steedle2018" role="doc-biblioref">Steedle, 2018</a>)</span>.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Cálculo dos índices estatísticos">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -583,11 +572,12 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>O chunk <code>indicator-calculation</code> calcula, antes da recodificação dos itens invertidos, <code>Longstring</code> com <code><a href="https://rdrr.io/pkg/careless/man/longstring.html">careless::longstring()</a></code>, IRV com <code><a href="https://rdrr.io/pkg/careless/man/irv.html">careless::irv()</a></code> e a distância multivariada com <code><a href="https://rdrr.io/pkg/modi/man/MDmiss.html">modi::MDmiss()</a></code>. <code><a href="https://rdrr.io/r/stats/quantile.html">quantile()</a></code> obtém os limites amostrais do IRV e da distância de Mahalanobis; em seguida, <code>mutate()</code> cria as três flags estatísticas. A seleção final reúne os indicadores e suas flags, e <code>write_csv2()</code> salva essa base para auditoria. O chunk seguinte resume esses valores na tabela de estatísticas e pontos de corte.</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">indicator_data</span> <span class="op">&lt;-</span> <span class="va">procedural_data</span> <span class="op">|&gt;</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Calculate longstring, response variability, and Mahalanobis distance.</span></span>
+<span><span class="va">indicator_data</span> <span class="op">&lt;-</span> <span class="va">procedural_data</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span></span>
 <span>    longstring <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span><span class="op">(</span><span class="fu">careless</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/careless/man/longstring.html">longstring</a></span><span class="op">(</span><span class="fu">pick</span><span class="op">(</span><span class="fu">all_of</span><span class="op">(</span><span class="va">scale_items</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    irv <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu">careless</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/careless/man/irv.html">irv</a></span><span class="op">(</span></span>
@@ -600,6 +590,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 <span>    <span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Define the empirical cutoffs for variability and Mahalanobis distance.</span></span>
 <span><span class="va">irv_cutoffs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span></span>
 <span>  <span class="va">indicator_data</span><span class="op">$</span><span class="va">irv</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.01</span>, <span class="fl">.99</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  names <span class="op">=</span> <span class="cn">FALSE</span>, type <span class="op">=</span> <span class="fl">7</span></span>
@@ -609,6 +600,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 <span>  names <span class="op">=</span> <span class="cn">FALSE</span>, type <span class="op">=</span> <span class="fl">7</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Apply the response-screening rules.</span></span>
 <span><span class="va">screened_data</span> <span class="op">&lt;-</span> <span class="va">indicator_data</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span></span>
 <span>    fail_longstring <span class="op">=</span> <span class="va">longstring</span> <span class="op">&gt;</span> <span class="fl">13</span>,</span>
@@ -616,6 +608,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 <span>    fail_mahalanobis <span class="op">=</span> <span class="va">mahalanobis</span> <span class="op">&gt;=</span> <span class="va">mahalanobis_cutoff</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Save the statistical screening indicators.</span></span>
 <span><span class="fu">write_csv2</span><span class="op">(</span></span>
 <span>  <span class="va">screened_data</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">select</span><span class="op">(</span><span class="va">ID</span>, <span class="va">longstring</span>, <span class="va">irv</span>, <span class="va">mahalanobis</span>, <span class="va">fail_longstring</span>,</span>
@@ -688,7 +681,7 @@ Tabela&nbsp;5.1: Pontos de corte dos indicadores estatísticos.
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-indicator-cutoffs">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -697,11 +690,12 @@ Tabela&nbsp;5.1: Pontos de corte dos indicadores estatísticos.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>O chunk constrói a tabela <code>indicator_cutoffs</code> a partir dos indicadores calculados no chunk anterior. Para cada índice, <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code>, <code><a href="https://rdrr.io/r/stats/sd.html">sd()</a></code> e <code><a href="https://rdrr.io/r/stats/median.html">median()</a></code> resumem a tendência central e a dispersão; <code><a href="https://rdrr.io/r/stats/quantile.html">quantile()</a></code> obtém os percentis inferior e superior observados na amostra elegível. A coluna <code>Regra de exclusão</code> registra o critério que será usado na triagem, sem transformar essa tabela descritiva em uma nova etapa de decisão. Em seguida, <code><a href="https://rdrr.io/r/base/files2.html">dir.create()</a></code> garante a existência da pasta de resultados, <code>write_csv2()</code> exporta a tabela completa para o projeto e <code>mutate(across(...))</code> arredonda apenas a cópia exibida no HTML antes de <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> renderizar o output.</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">indicator_cutoffs</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Summarize the statistical screening cutoffs.</span></span>
+<span><span class="va">indicator_cutoffs</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span></span>
 <span>  Indicador <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Longstring"</span>, <span class="st">"IRV"</span>, <span class="st">"Distância de Mahalanobis"</span><span class="op">)</span>,</span>
 <span>  Média <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">indicator_data</span><span class="op">$</span><span class="va">longstring</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>            <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">indicator_data</span><span class="op">$</span><span class="va">irv</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
@@ -728,11 +722,13 @@ Tabela&nbsp;5.1: Pontos de corte dos indicadores estatísticos.
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span><span class="op">)</span>,</span>
 <span>           recursive <span class="op">=</span> <span class="cn">TRUE</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Save the screening cutoffs.</span></span>
 <span><span class="fu">write_csv2</span><span class="op">(</span></span>
 <span>  <span class="va">indicator_cutoffs</span>,</span>
 <span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-indicator-cutoffs.csv"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Present the screening cutoffs with three decimal places.</span></span>
 <span><span class="va">indicator_cutoffs</span> <span class="op">|&gt;</span> <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">.x</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
@@ -789,7 +785,7 @@ Tabela&nbsp;5.2: Frequência de falhas em cada obstáculo de limpeza.
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-hurdle-summary">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -798,12 +794,13 @@ Tabela&nbsp;5.2: Frequência de falhas em cada obstáculo de limpeza.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>O chunk começa com <code>screened_data</code>, que contém os indicadores e as flags dos cinco obstáculos. <code>rowSums(across(starts_with("fail_")))</code> conta quantas barreiras foram falhadas por participante; como a regra é de múltiplos obstáculos, <code>exclude = hurdles_failed &gt; 0</code> exclui qualquer participante que falhe em pelo menos uma barreira. A função <code>pmap_chr()</code> percorre as cinco flags na mesma linha, seleciona os nomes dos critérios sinalizados e os concatena em <code>evidence</code>, produzindo um registro auditável da decisão individual.</p>
 <p>Em seguida, <code>intermediate_data</code> preserva a base com os indicadores, flags, contagem de falhas e evidências. <code>criterion_summary</code> agrega as flags por critério, calcula o número de participantes sinalizados e o percentual em relação à amostra elegível. <code><a href="https://rdrr.io/r/base/files2.html">dir.create()</a></code> prepara os diretórios; os dois primeiros <code>write_csv2()</code> salvam a base intermediária e o log de exclusões; por fim, <code>mutate()</code> arredonda apenas a cópia apresentada, <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> gera a tabela e o último <code>write_csv2()</code> preserva a tabela completa no projeto.</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">screened_data</span> <span class="op">&lt;-</span> <span class="va">screened_data</span> <span class="op">|&gt;</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Apply the response-screening rules.</span></span>
+<span><span class="va">screened_data</span> <span class="op">&lt;-</span> <span class="va">screened_data</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span></span>
 <span>    hurdles_failed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">starts_with</span><span class="op">(</span><span class="st">"fail_"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    exclude <span class="op">=</span> <span class="va">hurdles_failed</span> <span class="op">&gt;</span> <span class="fl">0</span>,</span>
@@ -817,6 +814,7 @@ Tabela&nbsp;5.2: Frequência de falhas em cada obstáculo de limpeza.
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Preserve the screening data and summarize failures by criterion.</span></span>
 <span><span class="va">intermediate_data</span> <span class="op">&lt;-</span> <span class="va">screened_data</span></span>
 <span><span class="va">criterion_summary</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span></span>
 <span>  Critério <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Itens de atenção"</span>, <span class="st">"Tempo de resposta"</span>, <span class="st">"Longstring"</span>, <span class="st">"IRV"</span>,</span>
@@ -829,22 +827,28 @@ Tabela&nbsp;5.2: Frequência de falhas em cada obstáculo de limpeza.
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span>`Percentual (%)` <span class="op">=</span> <span class="va">`N sinalizado`</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">screened_data</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Create the output directory if it is missing.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Data"</span>, <span class="st">"IntermediateData"</span><span class="op">)</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Create the output directory if it is missing.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"DataAppendixOutput"</span>, <span class="st">"Tables"</span><span class="op">)</span>,</span>
 <span>           recursive <span class="op">=</span> <span class="cn">TRUE</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Save the complete preprocessing data.</span></span>
 <span><span class="fu">write_csv2</span><span class="op">(</span><span class="va">intermediate_data</span>, <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span></span>
 <span>  <span class="st">"Data"</span>, <span class="st">"IntermediateData"</span>, <span class="st">"whoqol_preprocessed.csv"</span></span>
 <span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Save the respondent exclusion log.</span></span>
 <span><span class="fu">write_csv2</span><span class="op">(</span><span class="va">intermediate_data</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">exclude</span><span class="op">)</span>, <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span></span>
 <span>  <span class="st">"Output"</span>, <span class="st">"DataAppendixOutput"</span>, <span class="st">"Tables"</span>, <span class="st">"exclusion_log.csv"</span></span>
 <span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Present the frequency of screening failures.</span></span>
 <span><span class="va">criterion_summary</span> <span class="op">|&gt;</span> <span class="fu">mutate</span><span class="op">(</span>`Percentual (%)` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">`Percentual (%)`</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Save the screening failure summary.</span></span>
 <span><span class="fu">write_csv2</span><span class="op">(</span></span>
 <span>  <span class="va">criterion_summary</span>,</span>
 <span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-hurdle-summary.csv"</span><span class="op">)</span></span>
@@ -895,7 +899,7 @@ Tabela&nbsp;5.3: Trajetória da amostra durante o pré-processamento.
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-analysis-sample-summary">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -904,16 +908,18 @@ Tabela&nbsp;5.3: Trajetória da amostra durante o pré-processamento.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>O chunk parte de <code>screened_data</code>, que já contém a decisão criada no chunk anterior. <code>filter(!exclude)</code> retém somente os participantes que superaram todas as barreiras; <code>select()</code> mantém o identificador e os itens da escala; e <code>mutate(across(...))</code> recodifica os itens invertidos para a direção analítica final. O objeto <code>sample_summary</code> registra a trajetória desde o banco bruto até a amostra final usando <code><a href="https://rdrr.io/r/base/nrow.html">nrow()</a></code> e <code><a href="https://rdrr.io/r/base/sum.html">sum()</a></code> sobre as flags de exclusão.</p>
-<p><code><a href="https://rdrr.io/r/base/files2.html">dir.create()</a></code> garante a existência do diretório da base analítica, e <code>write_csv2()</code> salva <code>final_analysis_data</code> para reutilização nos capítulos de mensuração. <code><a href="https://rdrr.io/r/base/stopifnot.html">stopifnot()</a></code> verifica a correspondência entre o número de linhas da base final e a regra de exclusão, além de confirmar a presença de um identificador em cada registro. Por fim, <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> apresenta a tabela e outro <code>write_csv2()</code> salva a trajetória amostral em formato tabular.</p>
+<p><code><a href="https://rdrr.io/r/base/files2.html">dir.create()</a></code> garante a existência do diretório da base analítica, e <code>write_csv2()</code> salva <code>final_analysis_data</code> para reutilização nas seções de mensuração. <code><a href="https://rdrr.io/r/base/stopifnot.html">stopifnot()</a></code> verifica a correspondência entre o número de linhas da base final e a regra de exclusão, além de confirmar a presença de um identificador em cada registro. Por fim, <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> apresenta a tabela e outro <code>write_csv2()</code> salva a trajetória amostral em formato tabular.</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">final_analysis_data</span> <span class="op">&lt;-</span> <span class="va">screened_data</span> <span class="op">|&gt;</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Retain eligible respondents and reverse-score the negative items.</span></span>
+<span><span class="va">final_analysis_data</span> <span class="op">&lt;-</span> <span class="va">screened_data</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">exclude</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="va">ID</span>, <span class="fu">all_of</span><span class="op">(</span><span class="va">scale_items</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">all_of</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Q3"</span>, <span class="st">"Q4"</span>, <span class="st">"Q26"</span><span class="op">)</span><span class="op">)</span>, <span class="op">~</span> <span class="fl">6</span> <span class="op">-</span> <span class="va">.x</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Summarize the sample size at each preprocessing stage.</span></span>
 <span><span class="va">sample_summary</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span></span>
 <span>  Etapa <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Banco bruto"</span>, <span class="st">"Dropouts removidos"</span>, <span class="st">"Elegíveis aos obstáculos"</span>,</span>
 <span>            <span class="st">"Excluídos por pelo menos um obstáculo"</span>, <span class="st">"Amostra analítica final"</span><span class="op">)</span>,</span>
@@ -921,19 +927,24 @@ Tabela&nbsp;5.3: Trajetória da amostra durante o pré-processamento.
 <span>        <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">intermediate_data</span><span class="op">$</span><span class="va">exclude</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">final_analysis_data</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Create the output directory if it is missing.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Data"</span>, <span class="st">"AnalysisData"</span><span class="op">)</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Save the final analysis data.</span></span>
 <span><span class="fu">write_csv2</span><span class="op">(</span><span class="va">final_analysis_data</span>, <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span></span>
 <span>  <span class="st">"Data"</span>, <span class="st">"AnalysisData"</span>, <span class="st">"whoqol_analysis.csv"</span></span>
 <span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Check the final sample size and respondent identifiers.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html">stopifnot</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">final_analysis_data</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="op">!</span><span class="va">intermediate_data</span><span class="op">$</span><span class="va">exclude</span><span class="op">)</span>,</span>
 <span>  <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">anyNA</a></span><span class="op">(</span><span class="va">final_analysis_data</span><span class="op">$</span><span class="va">ID</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Present the sample-selection summary.</span></span>
 <span><span class="va">sample_summary</span> <span class="op">|&gt;</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Save the sample-selection summary.</span></span>
 <span><span class="fu">write_csv2</span><span class="op">(</span></span>
 <span>  <span class="va">sample_summary</span>,</span>
 <span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-analysis-sample-summary.csv"</span><span class="op">)</span></span>
@@ -1196,7 +1207,7 @@ Tabela&nbsp;5.4: Estatísticas descritivas dos itens utilizados na AFC.
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-item-description">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1205,16 +1216,19 @@ Tabela&nbsp;5.4: Estatísticas descritivas dos itens utilizados na AFC.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>O chunk começa definindo <code>analysis_items</code> como o conjunto de indicadores que será utilizado na AFC e cria <code>item_data</code> a partir da base analítica final, portanto depois da aplicação dos obstáculos e da recodificação dos itens invertidos. Para o diagnóstico de colinearidade, <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> ajusta uma única regressão auxiliar em que <code>ID</code> atua apenas como variável resposta e todos os itens entram como preditores. Como o VIF depende da relação entre os preditores, e não do conteúdo da variável resposta, <code><a href="https://rdrr.io/pkg/car/man/vif.html">car::vif()</a></code> retorna o VIF de cada item em uma única chamada. <code><a href="https://rdrr.io/r/base/names.html">names()</a></code> recupera os nomes dos preditores e <code><a href="https://rdrr.io/r/base/numeric.html">as.numeric()</a></code> transforma os valores retornados em uma coluna para a tabela.</p>
 <p>Em paralelo, <code><a href="https://rdrr.io/pkg/psych/man/describe.html">psych::describe()</a></code> resume cada item com o número de respostas válidas, média, desvio-padrão, assimetria e curtose. <code><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame()</a></code>, <code>rownames_to_column()</code> e <code>as_tibble()</code> reorganizam o resultado para que o nome do item passe a ser uma coluna; <code>transmute()</code> seleciona e renomeia somente as estatísticas que serão apresentadas. <code>left_join()</code> combina essa descrição com os VIFs usando <code>Item</code> como chave.</p>
 <p>Por fim, <code>write_csv2()</code> salva a tabela completa sem arredondamento. A expressão <code>mutate(across(where(is.numeric), ...))</code> arredonda apenas a cópia encaminhada ao HTML, e <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> produz a tabela exibida no documento.</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">analysis_items</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Q"</span>, <span class="fl">3</span><span class="op">:</span><span class="fl">26</span><span class="op">)</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Identify the indicators used in the factor analysis.</span></span>
+<span><span class="va">analysis_items</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Q"</span>, <span class="fl">3</span><span class="op">:</span><span class="fl">26</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Select the analysis items.</span></span>
 <span><span class="va">item_data</span> <span class="op">&lt;-</span> <span class="va">final_analysis_data</span> <span class="op">|&gt;</span> <span class="fu">select</span><span class="op">(</span><span class="fu">all_of</span><span class="op">(</span><span class="va">analysis_items</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Estimate an auxiliary regression and extract item VIFs.</span></span>
 <span><span class="va">vif_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">ID</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">final_analysis_data</span> <span class="op">|&gt;</span></span>
 <span>                  <span class="fu">select</span><span class="op">(</span><span class="va">ID</span>, <span class="fu">all_of</span><span class="op">(</span><span class="va">analysis_items</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>                na.action <span class="op">=</span> <span class="va">na.omit</span><span class="op">)</span></span>
@@ -1223,6 +1237,7 @@ Tabela&nbsp;5.4: Estatísticas descritivas dos itens utilizados na AFC.
 <span>  VIF <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/vif.html">vif</a></span><span class="op">(</span><span class="va">vif_model</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Calculate the descriptive statistics for each item.</span></span>
 <span><span class="va">item_description</span> <span class="op">&lt;-</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/describe.html">describe</a></span><span class="op">(</span><span class="va">item_data</span>, fast <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">rownames_to_column</span><span class="op">(</span><span class="st">"Item"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">as_tibble</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">transmute</span><span class="op">(</span></span>
@@ -1230,13 +1245,16 @@ Tabela&nbsp;5.4: Estatísticas descritivas dos itens utilizados na AFC.
 <span>    Assimetria <span class="op">=</span> <span class="va">skew</span>, Curtose <span class="op">=</span> <span class="va">kurtosis</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Combine item descriptions and collinearity diagnostics.</span></span>
 <span><span class="va">item_description</span> <span class="op">&lt;-</span> <span class="fu">left_join</span><span class="op">(</span><span class="va">item_description</span>, <span class="va">vif_values</span>, by <span class="op">=</span> <span class="st">"Item"</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Save the item statistics before display rounding.</span></span>
 <span><span class="fu">write_csv2</span><span class="op">(</span></span>
 <span>  <span class="va">item_description</span>,</span>
 <span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-item-description.csv"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Present the item statistics with three decimal places.</span></span>
 <span><span class="va">item_description</span> <span class="op">|&gt;</span> <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">.x</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
@@ -1260,7 +1278,7 @@ Figura&nbsp;5.1: Distribuição das categorias de resposta Likert no construto R
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Racional da @fig-likert-social">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1269,18 +1287,20 @@ Figura&nbsp;5.1: Distribuição das categorias de resposta Likert no construto R
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>O exemplo reproduzível utiliza o construto Relações sociais, formado pelos itens <code>Q20</code>, <code>Q21</code> e <code>Q22</code>. As colunas são convertidas em fatores ordenados com cinco níveis possíveis. Essa declaração é necessária porque algumas categorias podem não ter sido observadas na amostra; <code>nlevels = 5</code> informa ao <code>likert</code> que a escala continua tendo cinco categorias, mesmo quando uma delas apresenta frequência zero.</p>
 <p><code><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame()</a></code> fornece à função o tipo de objeto esperado pelo pacote. Em seguida, <code>likert()</code> calcula as frequências relativas e a chamada <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> com <code>centered = TRUE</code> produz as barras divergentes em torno do ponto central. As cores padrão do pacote são mantidas nesta etapa. O resultado recebe apenas os rótulos básicos com <code>ggtitle()</code> e <code>labs()</code> e é exportado como figura PNG por <code>ggsave()</code> para <code>Output/Results/Figures</code>.</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">social_items</span> <span class="op">&lt;-</span> <span class="va">item_data</span> <span class="op">|&gt;</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Prepare the social-domain items as five-category factors.</span></span>
+<span><span class="va">social_items</span> <span class="op">&lt;-</span> <span class="va">item_data</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="va">Q20</span><span class="op">:</span><span class="va">Q22</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">everything</span><span class="op">(</span><span class="op">)</span>, <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span></span>
 <span>    <span class="va">.x</span>, levels <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, ordered <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>  <span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Plot the response distributions for the social-domain items.</span></span>
 <span><span class="va">social_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span></span>
 <span>  <span class="fu">likert</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/likert/man/likert.html">likert</a></span><span class="op">(</span><span class="va">social_items</span>, nlevels <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,</span>
 <span>  centered <span class="op">=</span> <span class="cn">TRUE</span>, include.center <span class="op">=</span> <span class="cn">TRUE</span>,</span>

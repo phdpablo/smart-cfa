@@ -442,28 +442,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7"><span id="sec-estimation" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Processo de estimação</span></span></h1></header><header id="title-block-header">
 
-</header><div class="callout callout-style-default callout-important callout-titled" title="Como as análises estão organizadas">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Importante</span>Como as análises estão organizadas
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>O capítulo utiliza os scripts locais <a href="Scripts/DataAppendixScripts/models.R">models.R</a> e <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a>, além da base <code>whoqol_analysis.csv</code>. Os modelos empíricos são os objetos <code>analyzemodel</code> e <code>h1modelfree</code>, definidos em <code>models.R</code>. O primeiro corresponde ao H<sub>0</sub>, com quatro fatores correlacionados e a covariância residual entre <code>Q3</code> e <code>Q4</code>. O segundo corresponde ao H<sub>1</sub> e acrescenta os três <em>cross-loadings</em> previamente justificados: <code>Q8</code> e <code>Q9</code> em <code>psycho</code>, e <code>Q15</code> em <code>environment</code>.</p>
-<div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Scripts"</span>, <span class="st">"DataAppendixScripts"</span>, <span class="st">"models.R"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Scripts"</span>, <span class="st">"DataAppendixScripts"</span>, <span class="st">"helpers.R"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-</div>
-</div>
-</div>
-</div>
-<p>Depois da seleção dos modelos e do pré-processamento, esta seção estima as duas especificações da AFC na amostra de análise final. A estimação converte as relações previstas nos modelos em parâmetros amostrais e aplica as condições definidas nas etapas anteriores: tratamento contínuo dos itens, MLR, FIML e identificação pela variância dos fatores <span class="citation" data-cites="jackson2009 nye2022">(<a href="references.html#ref-jackson2009" role="doc-biblioref">Jackson et al., 2009</a>; <a href="references.html#ref-nye2022" role="doc-biblioref">Nye, 2022</a>)</span>.</p>
+</header><p>Depois da seleção dos modelos e do pré-processamento, essa seção estima as duas especificações da AFC na amostra de análise final. A estimação converte as relações previstas nos modelos em parâmetros amostrais e aplica as condições definidas nas etapas anteriores: tratamento contínuo dos itens, MLR, FIML e identificação pela variância dos fatores <span class="citation" data-cites="jackson2009 nye2022">(<a href="references.html#ref-jackson2009" role="doc-biblioref">Jackson et al., 2009</a>; <a href="references.html#ref-nye2022" role="doc-biblioref">Nye, 2022</a>)</span>.</p>
 <section id="fundamentação-da-estimação" class="level2" data-number="6.1"><h2 data-number="6.1" class="anchored" data-anchor-id="fundamentação-da-estimação">
 <span class="header-section-number">6.1</span> Fundamentação da estimação</h2>
 <p>Os itens foram tratados como variáveis contínuas, conforme a justificativa desenvolvida na <a href="02_background.html#sec-theory-estimation" class="quarto-xref"><span>Seção 2.4</span></a>. Segundo <span class="citation" data-cites="rhemtulla2012">Rhemtulla et al. (<a href="references.html#ref-rhemtulla2012" role="doc-biblioref">2012</a>)</span>, a MLR apresenta desempenho adequado em condições com cinco ou mais categorias, especialmente com limiares aproximadamente simétricos. <span class="citation" data-cites="robitzsch2020a">Robitzsch (<a href="references.html#ref-robitzsch2020a" role="doc-biblioref">2020</a>)</span> e <span class="citation" data-cites="robitzsch2022a">Robitzsch (<a href="references.html#ref-robitzsch2022a" role="doc-biblioref">2022</a>)</span> mostram que as abordagens contínua e ordinal definem alvos paramétricos distintos. Com cinco categorias e uma estrutura fatorial previamente definida, este estudo adota a formulação contínua como aproximação de mensuração.</p>
@@ -482,530 +461,418 @@ Tabela&nbsp;6.1: Parâmetros fatoriais estimados nos modelos H<sub>0</sub> e H<s
 </figcaption><div aria-describedby="tbl-estimation-parameters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
-<colgroup>
-<col style="width: 10%">
-<col style="width: 17%">
-<col style="width: 7%">
-<col style="width: 8%">
-<col style="width: 17%">
-<col style="width: 10%">
-<col style="width: 26%">
-</colgroup>
 <thead><tr class="header">
 <th style="text-align: left;">Modelo</th>
-<th style="text-align: left;">Fator</th>
-<th style="text-align: left;">Item</th>
-<th style="text-align: right;">Carga</th>
-<th style="text-align: right;">Erro-padrão</th>
+<th style="text-align: left;">Relação</th>
+<th style="text-align: right;">Estimativa</th>
+<th style="text-align: right;">EP</th>
 <th style="text-align: right;">z</th>
-<th style="text-align: right;">Carga padronizada</th>
+<th style="text-align: right;">Padronizada</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">psycho</td>
-<td style="text-align: left;">Q5</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">psycho =~ Q5</td>
 <td style="text-align: right;">0.542</td>
 <td style="text-align: right;">0.023</td>
 <td style="text-align: right;">23.989</td>
 <td style="text-align: right;">0.663</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">psycho</td>
-<td style="text-align: left;">Q6</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">psycho =~ Q6</td>
 <td style="text-align: right;">0.620</td>
 <td style="text-align: right;">0.028</td>
 <td style="text-align: right;">22.061</td>
 <td style="text-align: right;">0.636</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">psycho</td>
-<td style="text-align: left;">Q7</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">psycho =~ Q7</td>
 <td style="text-align: right;">0.556</td>
 <td style="text-align: right;">0.023</td>
 <td style="text-align: right;">24.291</td>
 <td style="text-align: right;">0.648</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">psycho</td>
-<td style="text-align: left;">Q11</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">psycho =~ Q11</td>
 <td style="text-align: right;">0.609</td>
 <td style="text-align: right;">0.028</td>
 <td style="text-align: right;">21.676</td>
 <td style="text-align: right;">0.612</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">psycho</td>
-<td style="text-align: left;">Q19</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">psycho =~ Q19</td>
 <td style="text-align: right;">0.772</td>
 <td style="text-align: right;">0.022</td>
 <td style="text-align: right;">35.762</td>
 <td style="text-align: right;">0.820</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">psycho</td>
-<td style="text-align: left;">Q26</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">psycho =~ Q26</td>
 <td style="text-align: right;">0.541</td>
 <td style="text-align: right;">0.028</td>
 <td style="text-align: right;">19.157</td>
 <td style="text-align: right;">0.581</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">physical</td>
-<td style="text-align: left;">Q3</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">physical =~ Q3</td>
 <td style="text-align: right;">0.395</td>
 <td style="text-align: right;">0.030</td>
 <td style="text-align: right;">13.150</td>
 <td style="text-align: right;">0.420</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">physical</td>
-<td style="text-align: left;">Q4</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">physical =~ Q4</td>
 <td style="text-align: right;">0.387</td>
 <td style="text-align: right;">0.032</td>
 <td style="text-align: right;">12.025</td>
 <td style="text-align: right;">0.384</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">physical</td>
-<td style="text-align: left;">Q10</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">physical =~ Q10</td>
 <td style="text-align: right;">0.650</td>
 <td style="text-align: right;">0.023</td>
 <td style="text-align: right;">28.113</td>
 <td style="text-align: right;">0.720</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">physical</td>
-<td style="text-align: left;">Q15</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">physical =~ Q15</td>
 <td style="text-align: right;">0.380</td>
 <td style="text-align: right;">0.028</td>
 <td style="text-align: right;">13.513</td>
 <td style="text-align: right;">0.471</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">physical</td>
-<td style="text-align: left;">Q16</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">physical =~ Q16</td>
 <td style="text-align: right;">0.559</td>
 <td style="text-align: right;">0.028</td>
 <td style="text-align: right;">19.973</td>
 <td style="text-align: right;">0.541</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">physical</td>
-<td style="text-align: left;">Q17</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">physical =~ Q17</td>
 <td style="text-align: right;">0.819</td>
 <td style="text-align: right;">0.020</td>
 <td style="text-align: right;">40.897</td>
 <td style="text-align: right;">0.890</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">physical</td>
-<td style="text-align: left;">Q18</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">physical =~ Q18</td>
 <td style="text-align: right;">0.802</td>
 <td style="text-align: right;">0.023</td>
 <td style="text-align: right;">35.540</td>
 <td style="text-align: right;">0.840</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">social</td>
-<td style="text-align: left;">Q20</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">social =~ Q20</td>
 <td style="text-align: right;">0.708</td>
 <td style="text-align: right;">0.023</td>
 <td style="text-align: right;">30.520</td>
 <td style="text-align: right;">0.795</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">social</td>
-<td style="text-align: left;">Q21</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">social =~ Q21</td>
 <td style="text-align: right;">0.513</td>
 <td style="text-align: right;">0.030</td>
 <td style="text-align: right;">17.008</td>
 <td style="text-align: right;">0.509</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">social</td>
-<td style="text-align: left;">Q22</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">social =~ Q22</td>
 <td style="text-align: right;">0.637</td>
 <td style="text-align: right;">0.025</td>
 <td style="text-align: right;">25.597</td>
 <td style="text-align: right;">0.721</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">environment</td>
-<td style="text-align: left;">Q8</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">environment =~ Q8</td>
 <td style="text-align: right;">0.466</td>
 <td style="text-align: right;">0.029</td>
 <td style="text-align: right;">15.915</td>
 <td style="text-align: right;">0.477</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">environment</td>
-<td style="text-align: left;">Q9</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">environment =~ Q9</td>
 <td style="text-align: right;">0.504</td>
 <td style="text-align: right;">0.027</td>
 <td style="text-align: right;">18.719</td>
 <td style="text-align: right;">0.570</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">environment</td>
-<td style="text-align: left;">Q12</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">environment =~ Q12</td>
 <td style="text-align: right;">0.758</td>
 <td style="text-align: right;">0.029</td>
 <td style="text-align: right;">26.024</td>
 <td style="text-align: right;">0.690</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">environment</td>
-<td style="text-align: left;">Q13</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">environment =~ Q13</td>
 <td style="text-align: right;">0.507</td>
 <td style="text-align: right;">0.027</td>
 <td style="text-align: right;">18.649</td>
 <td style="text-align: right;">0.613</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">environment</td>
-<td style="text-align: left;">Q14</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">environment =~ Q14</td>
 <td style="text-align: right;">0.648</td>
 <td style="text-align: right;">0.027</td>
 <td style="text-align: right;">23.623</td>
 <td style="text-align: right;">0.678</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">environment</td>
-<td style="text-align: left;">Q23</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">environment =~ Q23</td>
 <td style="text-align: right;">0.485</td>
 <td style="text-align: right;">0.029</td>
 <td style="text-align: right;">16.894</td>
 <td style="text-align: right;">0.511</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">environment</td>
-<td style="text-align: left;">Q24</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">environment =~ Q24</td>
 <td style="text-align: right;">0.465</td>
 <td style="text-align: right;">0.031</td>
 <td style="text-align: right;">15.090</td>
 <td style="text-align: right;">0.483</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>0</sub>
-</td>
-<td style="text-align: left;">environment</td>
-<td style="text-align: left;">Q25</td>
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">environment =~ Q25</td>
 <td style="text-align: right;">0.492</td>
 <td style="text-align: right;">0.031</td>
 <td style="text-align: right;">16.075</td>
 <td style="text-align: right;">0.503</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">psycho</td>
-<td style="text-align: left;">Q5</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">psycho =~ Q5</td>
 <td style="text-align: right;">0.541</td>
 <td style="text-align: right;">0.023</td>
 <td style="text-align: right;">23.884</td>
 <td style="text-align: right;">0.662</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">psycho</td>
-<td style="text-align: left;">Q6</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">psycho =~ Q6</td>
 <td style="text-align: right;">0.621</td>
 <td style="text-align: right;">0.028</td>
 <td style="text-align: right;">22.037</td>
 <td style="text-align: right;">0.638</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">psycho</td>
-<td style="text-align: left;">Q7</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">psycho =~ Q7</td>
 <td style="text-align: right;">0.558</td>
 <td style="text-align: right;">0.023</td>
 <td style="text-align: right;">24.251</td>
 <td style="text-align: right;">0.650</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">psycho</td>
-<td style="text-align: left;">Q11</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">psycho =~ Q11</td>
 <td style="text-align: right;">0.609</td>
 <td style="text-align: right;">0.028</td>
 <td style="text-align: right;">21.691</td>
 <td style="text-align: right;">0.612</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">psycho</td>
-<td style="text-align: left;">Q19</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">psycho =~ Q19</td>
 <td style="text-align: right;">0.773</td>
 <td style="text-align: right;">0.022</td>
 <td style="text-align: right;">35.835</td>
 <td style="text-align: right;">0.822</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">psycho</td>
-<td style="text-align: left;">Q26</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">psycho =~ Q26</td>
 <td style="text-align: right;">0.541</td>
 <td style="text-align: right;">0.028</td>
 <td style="text-align: right;">19.167</td>
 <td style="text-align: right;">0.582</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">psycho</td>
-<td style="text-align: left;">Q8</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">psycho =~ Q8</td>
 <td style="text-align: right;">0.160</td>
 <td style="text-align: right;">0.049</td>
 <td style="text-align: right;">3.263</td>
 <td style="text-align: right;">0.163</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">psycho</td>
-<td style="text-align: left;">Q9</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">psycho =~ Q9</td>
 <td style="text-align: right;">0.108</td>
 <td style="text-align: right;">0.043</td>
 <td style="text-align: right;">2.512</td>
 <td style="text-align: right;">0.122</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">physical</td>
-<td style="text-align: left;">Q3</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">physical =~ Q3</td>
 <td style="text-align: right;">0.388</td>
 <td style="text-align: right;">0.030</td>
 <td style="text-align: right;">12.960</td>
 <td style="text-align: right;">0.413</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">physical</td>
-<td style="text-align: left;">Q4</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">physical =~ Q4</td>
 <td style="text-align: right;">0.382</td>
 <td style="text-align: right;">0.032</td>
 <td style="text-align: right;">11.849</td>
 <td style="text-align: right;">0.378</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">physical</td>
-<td style="text-align: left;">Q10</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">physical =~ Q10</td>
 <td style="text-align: right;">0.644</td>
 <td style="text-align: right;">0.023</td>
 <td style="text-align: right;">27.504</td>
 <td style="text-align: right;">0.713</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">physical</td>
-<td style="text-align: left;">Q15</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">physical =~ Q15</td>
 <td style="text-align: right;">0.221</td>
 <td style="text-align: right;">0.032</td>
 <td style="text-align: right;">6.839</td>
 <td style="text-align: right;">0.274</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">physical</td>
-<td style="text-align: left;">Q16</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">physical =~ Q16</td>
 <td style="text-align: right;">0.558</td>
 <td style="text-align: right;">0.028</td>
 <td style="text-align: right;">19.818</td>
 <td style="text-align: right;">0.540</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">physical</td>
-<td style="text-align: left;">Q17</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">physical =~ Q17</td>
 <td style="text-align: right;">0.826</td>
 <td style="text-align: right;">0.020</td>
 <td style="text-align: right;">42.158</td>
 <td style="text-align: right;">0.897</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">physical</td>
-<td style="text-align: left;">Q18</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">physical =~ Q18</td>
 <td style="text-align: right;">0.807</td>
 <td style="text-align: right;">0.022</td>
 <td style="text-align: right;">36.559</td>
 <td style="text-align: right;">0.845</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">social</td>
-<td style="text-align: left;">Q20</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">social =~ Q20</td>
 <td style="text-align: right;">0.709</td>
 <td style="text-align: right;">0.023</td>
 <td style="text-align: right;">30.508</td>
 <td style="text-align: right;">0.796</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">social</td>
-<td style="text-align: left;">Q21</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">social =~ Q21</td>
 <td style="text-align: right;">0.513</td>
 <td style="text-align: right;">0.030</td>
 <td style="text-align: right;">17.005</td>
 <td style="text-align: right;">0.509</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">social</td>
-<td style="text-align: left;">Q22</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">social =~ Q22</td>
 <td style="text-align: right;">0.637</td>
 <td style="text-align: right;">0.025</td>
 <td style="text-align: right;">25.560</td>
 <td style="text-align: right;">0.721</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">environment</td>
-<td style="text-align: left;">Q8</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">environment =~ Q8</td>
 <td style="text-align: right;">0.329</td>
 <td style="text-align: right;">0.050</td>
 <td style="text-align: right;">6.559</td>
 <td style="text-align: right;">0.336</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">environment</td>
-<td style="text-align: left;">Q9</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">environment =~ Q9</td>
 <td style="text-align: right;">0.410</td>
 <td style="text-align: right;">0.045</td>
 <td style="text-align: right;">9.187</td>
 <td style="text-align: right;">0.464</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">environment</td>
-<td style="text-align: left;">Q12</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">environment =~ Q12</td>
 <td style="text-align: right;">0.769</td>
 <td style="text-align: right;">0.029</td>
 <td style="text-align: right;">26.536</td>
 <td style="text-align: right;">0.700</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">environment</td>
-<td style="text-align: left;">Q13</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">environment =~ Q13</td>
 <td style="text-align: right;">0.516</td>
 <td style="text-align: right;">0.027</td>
 <td style="text-align: right;">18.977</td>
 <td style="text-align: right;">0.624</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">environment</td>
-<td style="text-align: left;">Q14</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">environment =~ Q14</td>
 <td style="text-align: right;">0.656</td>
 <td style="text-align: right;">0.028</td>
 <td style="text-align: right;">23.846</td>
 <td style="text-align: right;">0.687</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">environment</td>
-<td style="text-align: left;">Q23</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">environment =~ Q23</td>
 <td style="text-align: right;">0.482</td>
 <td style="text-align: right;">0.029</td>
 <td style="text-align: right;">16.694</td>
 <td style="text-align: right;">0.509</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">environment</td>
-<td style="text-align: left;">Q24</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">environment =~ Q24</td>
 <td style="text-align: right;">0.470</td>
 <td style="text-align: right;">0.031</td>
 <td style="text-align: right;">15.098</td>
 <td style="text-align: right;">0.488</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">environment</td>
-<td style="text-align: left;">Q25</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">environment =~ Q25</td>
 <td style="text-align: right;">0.497</td>
 <td style="text-align: right;">0.031</td>
 <td style="text-align: right;">15.953</td>
 <td style="text-align: right;">0.508</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">H<sub>1</sub>
-</td>
-<td style="text-align: left;">environment</td>
-<td style="text-align: left;">Q15</td>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">environment =~ Q15</td>
 <td style="text-align: right;">0.257</td>
 <td style="text-align: right;">0.033</td>
 <td style="text-align: right;">7.851</td>
@@ -1019,7 +886,7 @@ Tabela&nbsp;6.1: Parâmetros fatoriais estimados nos modelos H<sub>0</sub> e H<s
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-estimation-parameters">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1028,18 +895,20 @@ Tabela&nbsp;6.1: Parâmetros fatoriais estimados nos modelos H<sub>0</sub> e H<s
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>O primeiro bloco lê a base analítica produzida no capítulo de pré-processamento. Em seguida, <code><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">lavaan::cfa()</a></code> ajusta os objetos <code>analyzemodel</code> e <code>h1modelfree</code> com máxima verossimilhança robusta (MLR), informação completa (FIML) para as ausências e identificação por variâncias latentes fixadas. Como os dois ajustes usam a mesma base e os mesmos argumentos, a diferença entre eles permanece restrita à especificação das cargas cruzadas.</p>
-<p><code>lavaan::parameterEstimates(..., standardized = TRUE)</code> reúne as estimativas não padronizadas, os erros-padrão robustos, as estatísticas de teste e as soluções padronizadas. O filtro <code>op == "=~"</code> mantém somente as relações de carga fatorial; variâncias, covariâncias fatoriais e variâncias residuais serão examinadas nas etapas apropriadas. A coluna <code>std.all</code> fornece a carga padronizada, enquanto <code>est</code>, <code>se</code> e <code>z</code> preservam, respectivamente, a carga na escala do ajuste, sua incerteza e a estatística de teste.</p>
-<p>As tabelas específicas de H<sub>0</sub> e H<sub>1</sub> são combinadas por <code><a href="https://dplyr.tidyverse.org/reference/bind_rows.html">dplyr::bind_rows()</a></code> e recebem a coluna <code>Modelo</code>, o que permite apresentar os resultados lado a lado sem repetir a mesma tabela no texto. <code><a href="https://rdrr.io/r/utils/write.table.html">write.csv2()</a></code> salva a versão completa, com a precisão original, em <code>Output/Results/Tables</code>; essa exportação é útil para auditoria e reutilização independente da renderização. Na saída exibida, <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">dplyr::mutate()</a></code> arredonda apenas uma cópia destinada à apresentação, sem alterar o arquivo salvo. Por fim, <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> transforma essa cópia em uma tabela formatada para o HTML e o PDF.</p>
+<p>O bloco lê a base analítica com <code><a href="https://readr.tidyverse.org/reference/read_delim.html">readr::read_csv2()</a></code> e estima os dois modelos com <code><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">lavaan::cfa()</a></code>, mantendo as mesmas condições de estimação. A função <code>table_par()</code>, definida em <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a>, prepara uma tabela de cargas para cada ajuste, com as relações na sintaxe lavaan, estimativas brutas, erros-padrão, estatísticas z e cargas padronizadas. Sua auxiliar <code>tidy_par()</code> organiza os parâmetros e preserva os valores numéricos completos; a seleção padrão apresenta somente as cargas livres.</p>
+<p><code><a href="https://rdrr.io/r/base/attr.html">attr()</a></code> recupera os dados de apresentação, e uma verificação impede a exportação de tabelas ausentes ou vazias. <code><a href="https://dplyr.tidyverse.org/reference/bind_rows.html">dplyr::bind_rows()</a></code> empilha as cargas de H<sub>0</sub> e, depois, as de H<sub>1</sub>, acrescentando a coluna <code>Modelo</code> para identificar cada bloco. As cargas cruzadas permanecem nas linhas de H<sub>1</sub>.</p>
+<p><code><a href="https://readr.tidyverse.org/reference/write_delim.html">readr::write_excel_csv2()</a></code> exporta o mesmo conteúdo apresentado, preservando rótulos, ordem e valores de exibição em um CSV compatível com o Excel. <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> apresenta os dois blocos em uma única tabela no HTML e no PDF. Com os scripts carregados, o bloco pode ser reproduzido com:</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">analysis_data</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv2</a></span><span class="op">(</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Read the preprocessed analysis data.</span></span>
+<span><span class="va">analysis_data</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv2</a></span><span class="op">(</span></span>
 <span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Data"</span>, <span class="st">"AnalysisData"</span>, <span class="st">"whoqol_analysis.csv"</span><span class="op">)</span>,</span>
 <span>  na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">""</span>, <span class="st">"NA"</span><span class="op">)</span>,</span>
 <span>  show_col_types <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Estimate H0 and H1 using MLR/FIML and unit latent variances.</span></span>
 <span><span class="va">fit_analyzemodel</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">cfa</a></span><span class="op">(</span></span>
 <span>  model <span class="op">=</span> <span class="va">analyzemodel</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">analysis_data</span>,</span>
@@ -1056,56 +925,36 @@ Tabela&nbsp;6.1: Parâmetros fatoriais estimados nos modelos H<sub>0</sub> e H<s
 <span>  std.lv <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">parameter_estimates_analyzemodel</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/parameterEstimates.html">parameterEstimates</a></span><span class="op">(</span></span>
-<span>  <span class="va">fit_analyzemodel</span>,</span>
-<span>  standardized <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">op</span> <span class="op">==</span> <span class="st">"=~"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/transmute.html">transmute</a></span><span class="op">(</span></span>
-<span>    Modelo <span class="op">=</span> <span class="st">"H~0~"</span>,</span>
-<span>    Fator <span class="op">=</span> <span class="va">lhs</span>,</span>
-<span>    Item <span class="op">=</span> <span class="va">rhs</span>,</span>
-<span>    Carga <span class="op">=</span> <span class="va">est</span>,</span>
-<span>    `Erro-padrão` <span class="op">=</span> <span class="va">se</span>,</span>
-<span>        z <span class="op">=</span> <span class="va">z</span>,</span>
-<span>    `Carga padronizada` <span class="op">=</span> <span class="va">std.all</span></span>
-<span>  <span class="op">)</span></span>
+<span><span class="co"># Prepare each model's formatted loading table.</span></span>
+<span><span class="va">parameter_table_h0</span> <span class="op">&lt;-</span> <span class="fu">table_par</span><span class="op">(</span><span class="va">fit_analyzemodel</span>, lang <span class="op">=</span> <span class="st">"pt"</span><span class="op">)</span></span>
+<span><span class="va">parameter_table_h1</span> <span class="op">&lt;-</span> <span class="fu">table_par</span><span class="op">(</span><span class="va">fit_h1modelfree</span>, lang <span class="op">=</span> <span class="st">"pt"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">parameter_estimates_h1modelfree</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/parameterEstimates.html">parameterEstimates</a></span><span class="op">(</span></span>
-<span>  <span class="va">fit_h1modelfree</span>,</span>
-<span>  standardized <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">op</span> <span class="op">==</span> <span class="st">"=~"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/transmute.html">transmute</a></span><span class="op">(</span></span>
-<span>    Modelo <span class="op">=</span> <span class="st">"H~1~"</span>,</span>
-<span>    Fator <span class="op">=</span> <span class="va">lhs</span>,</span>
-<span>    Item <span class="op">=</span> <span class="va">rhs</span>,</span>
-<span>    Carga <span class="op">=</span> <span class="va">est</span>,</span>
-<span>    `Erro-padrão` <span class="op">=</span> <span class="va">se</span>,</span>
-<span>        z <span class="op">=</span> <span class="va">z</span>,</span>
-<span>    `Carga padronizada` <span class="op">=</span> <span class="va">std.all</span></span>
-<span>  <span class="op">)</span></span>
+<span><span class="co"># Validate the display data before combining and exporting the tables.</span></span>
+<span><span class="va">parameter_display_h0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">parameter_table_h0</span>, <span class="st">"table_data"</span><span class="op">)</span></span>
+<span><span class="va">parameter_display_h1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">parameter_table_h1</span>, <span class="st">"table_data"</span><span class="op">)</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">is.data.frame</a></span><span class="op">(</span><span class="va">parameter_display_h0</span><span class="op">)</span> <span class="op">||</span></span>
+<span>    <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">is.data.frame</a></span><span class="op">(</span><span class="va">parameter_display_h1</span><span class="op">)</span> <span class="op">||</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">parameter_display_h0</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0L</span> <span class="op">||</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">parameter_display_h1</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0L</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"table_data is missing. Reload helpers.R and rerun this chunk."</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
 <span></span>
+<span><span class="co"># Stack H0 first and H1 second, identifying the model for every loading.</span></span>
 <span><span class="va">parameter_estimates</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html">bind_rows</a></span><span class="op">(</span></span>
-<span>  <span class="va">parameter_estimates_analyzemodel</span>,</span>
-<span>  <span class="va">parameter_estimates_h1modelfree</span></span>
+<span>  H0 <span class="op">=</span> <span class="va">parameter_display_h0</span>,</span>
+<span>  H1 <span class="op">=</span> <span class="va">parameter_display_h1</span>,</span>
+<span>  .id <span class="op">=</span> <span class="st">"Modelo"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv2</a></span><span class="op">(</span></span>
+<span><span class="co"># Export exactly the content displayed in the combined table.</span></span>
+<span><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_excel_csv2</a></span><span class="op">(</span></span>
 <span>  <span class="va">parameter_estimates</span>,</span>
 <span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-estimation-parameters.csv"</span><span class="op">)</span>,</span>
-<span>  row.names <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  na <span class="op">=</span> <span class="st">"NA"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">parameter_estimates</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span></span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">Carga</span>, <span class="va">`Erro-padrão`</span>, <span class="va">z</span>, <span class="va">`Carga padronizada`</span><span class="op">)</span>,</span>
-<span>      <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">.x</span>, <span class="fl">3</span><span class="op">)</span></span>
-<span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>escape <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="co"># Present the two model blocks in one table.</span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">parameter_estimates</span>, align <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"l"</span>, <span class="st">"l"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span><span class="op">)</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </div>
@@ -1163,7 +1012,7 @@ Tabela&nbsp;6.2: Verificações de convergência e admissibilidade das soluçõe
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-estimation-checks">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1172,31 +1021,37 @@ Tabela&nbsp;6.2: Verificações de convergência e admissibilidade das soluçõe
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><code>lavInspect(fit, "converged")</code> identifica se o algoritmo terminou com uma solução convergida. A tabela de parâmetros é inspecionada para localizar variâncias negativas e cargas padronizadas maiores que 1, que podem caracterizar soluções Heywood. O número de parâmetros livres é recuperado para documentar a complexidade estimada de cada especificação.</p>
 <p>O objeto <code>diagnostic_fits</code> apenas reúne os dois ajustes já estimados para que a mesma sequência de inspeções seja aplicada a H<sub>0</sub> e H<sub>1</sub>; ele não realiza uma nova estimação. <code><a href="https://rdrr.io/pkg/lavaan/man/parTable.html">lavaan::parTable()</a></code> fornece a coluna <code>free</code>, que permite contar os parâmetros efetivamente estimados, enquanto <code>lavaan::lavInspect(..., "nobs")</code> recupera o tamanho amostral utilizado pelo ajuste e <code>lavaan::lavInspect(..., "converged")</code> informa se o algoritmo convergiu.</p>
 <p>As variâncias são obtidas com <code><a href="https://rdrr.io/pkg/lavaan/man/parameterEstimates.html">lavaan::parameterEstimates()</a></code> filtrando as relações de variância (<code>op == "~~"</code> e <code>lhs == rhs</code>). As cargas padronizadas são recuperadas com <code><a href="https://rdrr.io/pkg/lavaan/man/standardizedSolution.html">lavaan::standardizedSolution()</a></code> e filtradas para as relações de carga (<code>op == "=~"</code>). A contagem de valores negativos e de cargas maiores que 1 resume os dois diagnósticos de admissibilidade apresentados na tabela.</p>
 <p>Depois dessas operações, <code><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble::tibble()</a></code> organiza uma linha para cada modelo e somente as seis colunas relevantes para esta etapa. <code><a href="https://rdrr.io/r/utils/write.table.html">write.csv2()</a></code> salva essa tabela diagnóstica em <code>Output/Results/Tables/tbl-estimation-checks.csv</code>, preservando uma cópia tabular para auditoria. A chamada final a <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> apresenta o mesmo objeto no HTML e no PDF; portanto, a tabela exibida e o CSV derivam da mesma estrutura, sem uma reconstrução posterior do resultado.</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">diagnostic_fits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Collect the fitted models for diagnostic checks.</span></span>
+<span><span class="va">diagnostic_fits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
 <span>  H0 <span class="op">=</span> <span class="va">fit_analyzemodel</span>,</span>
 <span>  H1 <span class="op">=</span> <span class="va">fit_h1modelfree</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Check convergence and admissibility for each fitted model.</span></span>
 <span><span class="va">estimation_checks</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html">imap_dfr</a></span><span class="op">(</span></span>
 <span>  <span class="va">diagnostic_fits</span>,</span>
 <span>  <span class="kw">function</span><span class="op">(</span><span class="va">fit</span>, <span class="va">model_name</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="co"># Identify the freely estimated parameters.</span></span>
 <span>    <span class="va">parameter_table</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/parTable.html">parTable</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
 <span>    <span class="va">free_parameters</span> <span class="op">&lt;-</span> <span class="va">parameter_table</span> <span class="op">|&gt;</span></span>
 <span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">free</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
 <span></span>
+<span>    <span class="co"># Extract the estimated variances.</span></span>
 <span>    <span class="va">variance_table</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/parameterEstimates.html">parameterEstimates</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">op</span> <span class="op">==</span> <span class="st">"~~"</span>, <span class="va">lhs</span> <span class="op">==</span> <span class="va">rhs</span><span class="op">)</span></span>
 <span></span>
+<span>    <span class="co"># Extract the standardized factor loadings.</span></span>
 <span>    <span class="va">standardized_loadings</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/standardizedSolution.html">standardizedSolution</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">op</span> <span class="op">==</span> <span class="st">"=~"</span><span class="op">)</span></span>
 <span></span>
+<span>    <span class="co"># Count improper estimates and check convergence.</span></span>
 <span>    <span class="va">negative_variances</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">variance_table</span><span class="op">$</span><span class="va">est</span> <span class="op">&lt;</span> <span class="fl">0</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span>    <span class="va">heywood_loadings</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span></span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">standardized_loadings</span><span class="op">$</span><span class="va">est.std</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">1</span>,</span>
@@ -1204,6 +1059,7 @@ Tabela&nbsp;6.2: Verificações de convergência e admissibilidade das soluçõe
 <span>    <span class="op">)</span></span>
 <span>    <span class="va">converged</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Logic.html">isTRUE</a></span><span class="op">(</span><span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/lavInspect.html">lavInspect</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"converged"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
+<span>    <span class="co"># Summarize the diagnostic checks for the current model.</span></span>
 <span>    <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
 <span>      Modelo <span class="op">=</span> <span class="va">model_name</span>,</span>
 <span>      `N observado` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span><span class="op">(</span><span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/lavInspect.html">lavInspect</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"nobs"</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -1215,6 +1071,7 @@ Tabela&nbsp;6.2: Verificações de convergência e admissibilidade das soluçõe
 <span>  <span class="op">}</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Save the convergence and admissibility checks.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv2</a></span><span class="op">(</span></span>
 <span>  <span class="va">estimation_checks</span>,</span>
 <span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-estimation-checks.csv"</span><span class="op">)</span>,</span>
@@ -1222,6 +1079,7 @@ Tabela&nbsp;6.2: Verificações de convergência e admissibilidade das soluçõe
 <span>  na <span class="op">=</span> <span class="st">"NA"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Present the convergence and admissibility checks.</span></span>
 <span><span class="va">estimation_checks</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
