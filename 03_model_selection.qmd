@@ -2,16 +2,25 @@
 
 :::: {.content-visible unless-format="pdf"}
 
-::: {.callout-important title="Como as análises foram estruturadas nesse artigo-tutorial" collapse="true"}
+::: {.callout-important title="Como as análises estão organizadas" collapse="true"}
 
-As análises desse artigo-tutorial seguem princípios de programação funcional e do [Tidyverse Style Guide](https://style.tidyverse.org/): funções pequenas e reutilizáveis, nomes em `snake_case`, uso do pipe nativo `|>` quando apropriado e separação entre computação e apresentação. Os `.html` e `.pdf` preservam o enredo científico, mas um `callout` de cada saída nos `.html` mostra o racional das chamadas responsáveis pela respectiva saída. Análises mais extensas serão mantidas em notebooks `.qmd` autônomos. Esses princípios orientam a organização do código. Para uma reprodutibilidade completa, é necessário baixar/clonar o projeto e executar as recomendações do [README](README.md) na raiz do [projeto](https://github.com/phdpablo/smart-cfa).
+A partir dessa seção, as análises seguem princípios de programação funcional e do [Tidyverse Style Guide](https://style.tidyverse.org/): funções pequenas e reutilizáveis, nomes em `snake_case`, uso do pipe nativo `|>` e separação entre computação e apresentação quando apropriado. Preservamos as nomenclaturas dos modelos e as constantes compartilhadas do projeto.
 
-As especificações reutilizáveis nessa seção estão em [models.R](Scripts/DataAppendixScripts/models.R) e as funções auxiliares em [helpers.R](Scripts/DataAppendixScripts/helpers.R), que são antecipadamentes chamadas no início da seção por:
+Nas seções seguintes, cada arquivo começa com um chunk de preparação oculto, que carrega com `source()` os scripts locais necessários à análise. O script [models.R](Scripts/DataAppendixScripts/models.R) reúne as especificações populacionais e empíricas dos modelos. O script [helpers.R](Scripts/DataAppendixScripts/helpers.R) carrega os pacotes e define funções auxiliares e parâmetros compartilhados. Os caminhos são resolvidos por `here::here()` a partir da raiz do projeto. Os scripts são reutilizáveis, mas sua seleção varia entre as seções: o pré-processamento, por exemplo, utiliza apenas `helpers.R`, enquanto as etapas com simulação também carregam os scripts de cache.
+
+O script [cache_utils.R](Scripts/DataAppendixScripts/cache_utils.R) define `cache_or_run()`, que reaproveita um objeto da sessão ou seu arquivo `.rds` e, quando nenhum deles existe, executa a expressão e salva o resultado. O script [cache_loader.R](Scripts/DataAppendixScripts/cache_loader.R) define `cache_load_existing()`, que lê os arquivos `.rds` de `Data/IntermediateData` e disponibiliza os objetos na sessão. Esses dois scripts são carregados nas seções que utilizam simulações. Esses arquivos permitem reutilizar resultados, especialmente de simulações, e são distintos do cache de chunks do Quarto.
+
+Cada seção prepara os objetos de que necessita, desde que os dados e resultados exigidos estejam disponíveis no projeto. A leitura dos dados, a estimação dos modelos e as demais operações específicas aparecem nos chunks das saídas correspondentes (Racional da saída). No pré-processamento, a obtenção de algumas análises tem um bloco próprio, pois produz a base intermediária utilizada nas etapas seguintes.
+
+Os documentos HTML e PDF preservam o enredo científico. No HTML, cada saída (tabela ou figura) recebe um callout com a finalidade das operações , a origem dos objetos e a explicação das funções e dos argumentos relevantes, seguido do código para reproduzi-la (Racional da saída). Para reproduzir o trabalho completo, é necessário baixar ou clonar o [projeto](https://github.com/phdpablo/smart-cfa) e seguir as orientações do [README](README.md).
+
+O bloco abaixo exemplifica e executa a preparação dessa seção:
 
 ```{r}
 #| label: setup-model-selection
 #| code-fold: true
 
+# Load the scripts required for this section.
 source(here::here("Scripts", "DataAppendixScripts", "models.R"))
 source(here::here("Scripts", "DataAppendixScripts", "helpers.R"))
 ```
@@ -42,20 +51,40 @@ Nesse sentido, a partir da leitura de @lin2022, formulamos nosso modelo de anál
 #| fig-align: center
 #| echo: false
 
-plot_color(popmodel)
+# Draw the reference population model.
+plot_color(popmodel, node_labels = LABELS)
 ```
 
 :::: {.content-visible unless-format="pdf"}
 
 ::: {.callout-note title="Racional da @fig-popmodel" collapse="true"}
 
-A chamada usa o objeto `popmodel`, definido e documentado em [models.R](Scripts/DataAppendixScripts/models.R), e a função `plot_color()`, implementada em [helpers.R](Scripts/DataAppendixScripts/helpers.R). O objeto descreve a identificação, as cargas fatoriais e a covariância residual Q3--Q4; e a função controla a representação estrutural e as cores dessas relações. Após carregar os dois scripts conforme indicado no início da seção, a figura pode ser reproduzida com:
+A figura utiliza a especificação populacional `popmodel`, definida em
+[models.R](Scripts/DataAppendixScripts/models.R), com cargas fixadas e
+covariância residual Q3--Q4. A função `plot_color()`, implementada em
+[helpers.R](Scripts/DataAppendixScripts/helpers.R), recebe essa especificação
+no argumento `model` e a converte com `semPlot::semPlotModel()` para desenhar
+o diagrama com `semPlot::semPaths()`. Ela também aceita um modelo já ajustado.
+
+O argumento opcional `node_labels = LABELS` utiliza o vetor nomeado definido
+em `helpers.R` para substituir `psycho`, `physical`, `social` e `environment`
+por `PSI`, `FIS`, `SOC` e `AMB`. As substituições são feitas pelo nome original de
+cada nó; nomes não incluídos no vetor são preservados. Sem esse argumento,
+a função mantém os nomes presentes no modelo.
+
+Os demais argumentos usam seus padrões: `layout = "circle"` organiza o
+diagrama em círculo e `what_labels = "est"` apresenta os valores da
+especificação fornecida, que aqui são os parâmetros populacionais fixados.
+
+Após carregar os scripts indicados no
+início da seção, a figura pode ser reproduzida com:
 
 ```{r}
 #| eval: false
 #| code-fold: true
 
-plot_color(popmodel)
+# Draw the reference population model.
+plot_color(popmodel, node_labels = LABELS)
 ```
 
 :::
@@ -80,22 +109,30 @@ Preservamos as cargas de Q8 e Q9 no domínio ambiental e a de Q15 no domínio f�
 #| fig-align: center
 #| echo: false
 
-plot_color(h1model)
+# Draw the alternative population model.
+plot_color(h1model, node_labels = LABELS)
 ```
 
 :::: {.content-visible unless-format="pdf"}
 
 ::: {.callout-note title="Racional da @fig-h1model" collapse="true"}
 
-A chamada usa o objeto `h1model`, definido e documentado no script [models.R](Scripts/DataAppendixScripts/models.R), e a função `plot_color()`, implementada no script [helpers.R](Scripts/DataAppendixScripts/helpers.R). O objeto acrescenta ao primeiro modelo as cargas cruzadas PSI → Q8, PSI → Q9 e AMB → Q15; a mesma função exibe as estimativas fixadas do modelo populacional. Após carregar os dois scripts conforme indicado no início da seção, a figura pode ser reproduzida com:
+A chamada utiliza `h1model`, definido em
+[models.R](Scripts/DataAppendixScripts/models.R), e mantém a função e os
+argumentos apresentados no racional da @fig-popmodel. A especificação
+acrescenta as cargas cruzadas PSI → Q8, PSI → Q9 e AMB → Q15, preservando as
+cargas principais. `node_labels = LABELS` mantém as mesmas abreviações;
+os valores exibidos continuam sendo os parâmetros populacionais fixados.
+Após a preparação inicial, a figura pode ser reproduzida com:
 
 ```{r}
 #| eval: false
 #| code-fold: true
 
-plot_color(h1model)
+# Draw the alternative population model.
+plot_color(h1model, node_labels = LABELS)
 ```
 
 :::
-
+    
 ::::

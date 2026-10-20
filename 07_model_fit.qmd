@@ -1,67 +1,15 @@
 # Ajuste do modelo {#sec-model-fit}
 
-:::: {.content-visible unless-format="pdf"}
-
-::: {.callout-important title="Como as análises estão organizadas" collapse="true"}
-
-O capítulo utiliza os scripts locais
-[models.R](Scripts/DataAppendixScripts/models.R) e
-[helpers.R](Scripts/DataAppendixScripts/helpers.R). O primeiro define as
-especificações empíricas `analyzemodel` e `h1modelfree`, correspondentes a H~0~ e
-H~1~. O segundo carrega os pacotes e os parâmetros compartilhados pelo projeto.
-
-Os scripts [cache_utils.R](Scripts/DataAppendixScripts/cache_utils.R) e
-[cache_loader.R](Scripts/DataAppendixScripts/cache_loader.R) disponibilizam as
-funções de persistência já utilizadas nos capítulos anteriores.
-`cache_or_run()` permite reaproveitar um resultado existente ou executar e salvar
-um novo resultado em `.rds`; `cache_load_existing()` permite carregar os arquivos
-persistidos. As chamadas a `source()` apenas disponibilizam essas funções.
-
-O chunk abaixo lê a base analítica produzida no pré-processamento com
-`readr::read_csv2()` e a armazena em `analysis_data`. Em seguida, as duas chamadas
-diretas a `lavaan::cfa()` recriam `fit_analyzemodel` e `fit_h1modelfree`, com os
-mesmos nomes e argumentos do capítulo anterior. Assim, este arquivo pode ser
-executado em uma sessão independente, usando os scripts e a base persistida no
-projeto.
-
-Em cada ajuste, `model` recebe a especificação e `data` recebe a base analítica.
-`estimator = "MLR"` define a estimação robusta, `missing = "fiml"` incorpora as
-respostas ausentes e `std.lv = TRUE` fixa as variâncias dos fatores em 1.
-
 ```{r}
 #| label: setup-model-fit
-#| code-fold: true
+#| include: false
 
-# Load the empirical model specifications and shared packages and settings.
+# Load the scripts required for this section.
 source(here::here("Scripts", "DataAppendixScripts", "models.R"))
 source(here::here("Scripts", "DataAppendixScripts", "helpers.R"))
-
-# Make the existing persistence functions available for later steps.
 source(here::here("Scripts", "DataAppendixScripts", "cache_utils.R"))
 source(here::here("Scripts", "DataAppendixScripts", "cache_loader.R"))
-
-# Read the analytical dataset produced during preprocessing.
-analysis_data <- readr::read_csv2(
-  here::here("Data", "AnalysisData", "whoqol_analysis.csv"),
-  na = c("", "NA"), show_col_types = FALSE
-)
-
-# Recreate the H0 fit using the same settings as in Chapter 6.
-fit_analyzemodel <- lavaan::cfa(
-  model = analyzemodel, data = analysis_data, estimator = "MLR",
-  missing = "fiml", std.lv = TRUE
-)
-
-# Recreate the H1 fit using the same settings as in Chapter 6.
-fit_h1modelfree <- lavaan::cfa(
-  model = h1modelfree, data = analysis_data, estimator = "MLR",
-  missing = "fiml", std.lv = TRUE
-)
 ```
-
-:::
-
-::::
 
 
 ## Ajuste global dos modelos originais
@@ -83,66 +31,60 @@ especificações originais [@mai2021; @niemand2018].
 #| tbl-cap: "Ajuste global dos modelos originais H~0~ e H~1~, estimados por MLR/FIML."
 #| echo: false
 
-# Extract the original named vectors returned by lavaan.
-fit_measures_h0 <- lavaan::fitMeasures(fit_analyzemodel)
-fit_measures_h1 <- lavaan::fitMeasures(fit_h1modelfree)
-
-# Select only the measures needed for the global-fit table.
-fit_measure_names <- c(
-  "ntotal", "chisq.scaled", "df.scaled", "pvalue.scaled",
-  "cfi.robust", "tli.robust", "rmsea.robust",
-  "rmsea.ci.lower.robust", "rmsea.ci.upper.robust", "srmr"
+# Read the analytical dataset produced during preprocessing.
+analysis_data <- readr::read_csv2(
+  here::here("Data", "AnalysisData", "whoqol_analysis.csv"),
+  na = c("", "NA"), show_col_types = FALSE
 )
 
-# Keep a separate table for each original model.
-fit_table_h0 <- data.frame(
-  Medida = fit_measure_names,
-  H0 = as.numeric(fit_measures_h0[fit_measure_names])
+# Recreate the H0 fit using the same settings as in Section 6.
+fit_analyzemodel <- lavaan::cfa(
+  model = analyzemodel, data = analysis_data, estimator = "MLR",
+  missing = "fiml", std.lv = TRUE
 )
 
-fit_table_h1 <- data.frame(
-  Medida = fit_measure_names,
-  H1 = as.numeric(fit_measures_h1[fit_measure_names])
+# Recreate the H1 fit using the same settings as in Section 6.
+fit_h1modelfree <- lavaan::cfa(
+  model = h1modelfree, data = analysis_data, estimator = "MLR",
+  missing = "fiml", std.lv = TRUE
 )
 
-# Both tables use the same measures in the same order.
-fit_global <- data.frame(
-  Indicador = c(
-    "N", "χ² ajustado", "Graus de liberdade", "Valor de p",
-    "CFI robusto", "TLI robusto", "RMSEA robusto",
-    "RMSEA robusto: limite inferior do IC de 90%",
-    "RMSEA robusto: limite superior do IC de 90%", "SRMR"
-  ),
-  fit_table_h0,
-  H1 = fit_table_h1$H1
-)
+# Prepare each model's formatted fit summary.
+fit_table_h0 <- table_fit(fit_analyzemodel, lang = "pt")
+fit_table_h1 <- table_fit(fit_h1modelfree, lang = "pt")
 
-# Export the numeric table before any display rounding.
-write.csv2(
+# Preserve full-precision measures for the values inserted in the text.
+fit_data_h0 <- attr(fit_table_h0, "fit_data")
+fit_data_h1 <- attr(fit_table_h1, "fit_data")
+fit_measures_h0 <- stats::setNames(fit_data_h0$estimate, fit_data_h0$measure)
+fit_measures_h1 <- stats::setNames(fit_data_h1$estimate, fit_data_h1$measure)
+
+# Validate the display data before joining and exporting the tables.
+fit_display_h0 <- attr(fit_table_h0, "table_data")
+fit_display_h1 <- attr(fit_table_h1, "table_data")
+if (!is.data.frame(fit_display_h0) || !is.data.frame(fit_display_h1) ||
+    nrow(fit_display_h0) == 0L || nrow(fit_display_h1) == 0L) {
+  stop("table_data is missing. Reload helpers.R and rerun this chunk.")
+}
+
+# Join the displayed values by measure, preserving each model's column.
+fit_global <- dplyr::full_join(
+  fit_display_h0,
+  fit_display_h1,
+  by = "Medida",
+  suffix = c("_H0", "_H1")
+) |>
+  dplyr::rename(H0 = Valor_H0, H1 = Valor_H1)
+
+# Export exactly the content displayed in the combined table.
+readr::write_excel_csv2(
   fit_global,
   here::here("Output", "Results", "Tables", "tbl-model-fit-global.csv"),
-  row.names = FALSE,
   na = "NA"
 )
 
-# Present the table with rounded values and formatted p-values.
-fit_global |>
-  dplyr::select(Indicador, H0, H1) |>
-  dplyr::mutate(
-    dplyr::across(
-      c(H0, H1),
-      ~ ifelse(
-        Indicador == "Valor de p",
-        format.pval(.x, digits = 3, eps = 0.001),
-        as.character(round(.x, 3))
-      )
-    )
-  ) |>
-  knitr::kable(
-    col.names = c("Indicador", "H~0~", "H~1~"),
-    align = c("l", "c", "c"),
-    escape = FALSE
-  )
+# Present both model summaries side by side.
+knitr::kable(fit_global, align = c("l", "r", "r"), row.names = FALSE)
 ```
 
 
@@ -150,112 +92,82 @@ fit_global |>
 
 ::: {.callout-note title="Racional da @tbl-model-fit-global" collapse="true"}
 
-Os objetos de origem são `fit_analyzemodel` e `fit_h1modelfree`, recriados na
-preparação inicial. `summary(fit_analyzemodel, fit.measures = TRUE)` permite
-consultar um resumo do primeiro ajuste, incluindo parâmetros e índices. Para
-trabalhar diretamente com os valores, utilizamos `lavaan::fitMeasures()`, a
-função de extração indicada na
-[documentação do lavaan](https://lavaan.ugent.be/tutorial/inspect.html).
-Cada chamada retorna um vetor numérico nomeado, armazenado em
-`fit_measures_h0` ou `fit_measures_h1`. Esses objetos preservam as medidas
-retornadas pelo pacote, antes da seleção para a tabela.
+O bloco lê a base analítica com `readr::read_csv2()` e estima os dois modelos
+com `lavaan::cfa()`, mantendo as condições da @sec-estimation. A função
+`table_fit()`, definida em [helpers.R](Scripts/DataAppendixScripts/helpers.R)
+e detalhada no racional da @tbl-adjusted-model-fit-global, prepara uma
+síntese padronizada para cada ajuste.
 
-O mesmo chunk reúne a extração, a organização, a exportação e a apresentação da tabela. `fit_measure_names` explicita os nomes das medidas selecionadas e sua ordem: `ntotal` informa o número de
-participantes utilizados; `chisq.scaled`, `df.scaled` e `pvalue.scaled` fornecem
-a estatística ajustada, seus graus de liberdade e o valor de p correspondente.
-Os nomes `cfi.robust`, `tli.robust` e `rmsea.robust` selecionam diretamente
-as versões robustas de CFI, TLI e RMSEA. `rmsea.ci.lower.robust` e
-`rmsea.ci.upper.robust` recuperam os limites inferior e superior do intervalo
-de confiança robusto do RMSEA, com nível padrão de 90%. Por fim, `srmr`
-seleciona o resumo dos resíduos padronizados. Escrever os nomes completos
-no vetor permite identificar cada medida diretamente na chamada de seleção.
+`attr()` recupera os dados de apresentação de cada tabela, e
+`dplyr::full_join()` os reúne pela medida, mantendo uma coluna para H~0~ e
+outra para H~1~. A verificação anterior à união impede a exportação de dados
+ausentes ou vazios. As medidas numéricas completas também são recuperadas e
+organizadas em vetores nomeados por `stats::setNames()` para alimentar os
+valores inseridos no texto.
 
-Os índices `cfi.scaled`, `tli.scaled` e `rmsea.scaled` são distintos das versões
-`.robust` selecionadas. Mantemos explicitamente estas últimas na tabela. O
-SRMR utiliza o nome `srmr`; não recebe um sufixo robusto.
-
-Cada `data.frame()` cria uma tabela intermediária com o nome original da medida
-em `Medida` e seu valor em `H0` ou `H1`. A indexação por `fit_measure_names`
-seleciona as mesmas medidas na mesma ordem nos dois vetores. `as.numeric()`
-preserva os valores e remove os nomes do vetor, já registrados em `Medida`.
-`fit_global` reúne a tabela de H~0~ e a coluna de H~1~, acrescentando os rótulos
-legíveis em `Indicador`. Assim, cada linha identifica uma medida e as duas
-colunas numéricas correspondem aos modelos originais.
-
-`write.csv2()` grava essa tabela em
-`Output/Results/Tables/tbl-model-fit-global.csv`, com os valores numéricos
-sem arredondamento prévio, nomes originais das medidas e ausências como `NA`.
-A pasta de resultados já integra a organização do projeto. Na apresentação,
-`select()` mantém apenas `Indicador`, `H0` e `H1`; `mutate()` e `across()`
-formatam uma cópia, arredondando os indicadores a três casas decimais e usando
-`format.pval()` para mostrar valores de p inferiores a 0,001 como `<0.001`.
-Essa formatação não altera `fit_global` nem o CSV. `knitr::kable()` produz a
-tabela comum ao HTML e ao PDF; `escape = FALSE` permite os rótulos H~0~/H~1~.
+`readr::write_excel_csv2()` exporta o conteúdo combinado para um CSV
+compatível com o Excel, preservando os mesmos rótulos, a ordem e os valores
+de exibição. `knitr::kable()` apresenta esse conteúdo lado a lado no HTML e
+no PDF. Com os scripts carregados, o bloco pode ser reproduzido com:
 
 ```{r}
 #| eval: false
 #| code-fold: true
 
-# Extract the original named vectors returned by lavaan.
-fit_measures_h0 <- lavaan::fitMeasures(fit_analyzemodel)
-fit_measures_h1 <- lavaan::fitMeasures(fit_h1modelfree)
-
-# Select only the measures needed for the global-fit table.
-fit_measure_names <- c(
-  "ntotal", "chisq.scaled", "df.scaled", "pvalue.scaled",
-  "cfi.robust", "tli.robust", "rmsea.robust",
-  "rmsea.ci.lower.robust", "rmsea.ci.upper.robust", "srmr"
+# Read the analytical dataset produced during preprocessing.
+analysis_data <- readr::read_csv2(
+  here::here("Data", "AnalysisData", "whoqol_analysis.csv"),
+  na = c("", "NA"), show_col_types = FALSE
 )
 
-# Keep a separate table for each original model.
-fit_table_h0 <- data.frame(
-  Medida = fit_measure_names,
-  H0 = as.numeric(fit_measures_h0[fit_measure_names])
+# Recreate the H0 fit using the same settings as in Section 6.
+fit_analyzemodel <- lavaan::cfa(
+  model = analyzemodel, data = analysis_data, estimator = "MLR",
+  missing = "fiml", std.lv = TRUE
 )
 
-fit_table_h1 <- data.frame(
-  Medida = fit_measure_names,
-  H1 = as.numeric(fit_measures_h1[fit_measure_names])
+# Recreate the H1 fit using the same settings as in Section 6.
+fit_h1modelfree <- lavaan::cfa(
+  model = h1modelfree, data = analysis_data, estimator = "MLR",
+  missing = "fiml", std.lv = TRUE
 )
 
-# Both tables use the same measures in the same order.
-fit_global <- data.frame(
-  Indicador = c(
-    "N", "χ² ajustado", "Graus de liberdade", "Valor de p",
-    "CFI robusto", "TLI robusto", "RMSEA robusto",
-    "RMSEA robusto: limite inferior do IC de 90%",
-    "RMSEA robusto: limite superior do IC de 90%", "SRMR"
-  ),
-  fit_table_h0,
-  H1 = fit_table_h1$H1
-)
+# Prepare each model's formatted fit summary.
+fit_table_h0 <- table_fit(fit_analyzemodel, lang = "pt")
+fit_table_h1 <- table_fit(fit_h1modelfree, lang = "pt")
 
-# Export the numeric table before any display rounding.
-write.csv2(
+# Preserve full-precision measures for the values inserted in the text.
+fit_data_h0 <- attr(fit_table_h0, "fit_data")
+fit_data_h1 <- attr(fit_table_h1, "fit_data")
+fit_measures_h0 <- stats::setNames(fit_data_h0$estimate, fit_data_h0$measure)
+fit_measures_h1 <- stats::setNames(fit_data_h1$estimate, fit_data_h1$measure)
+
+# Validate the display data before joining and exporting the tables.
+fit_display_h0 <- attr(fit_table_h0, "table_data")
+fit_display_h1 <- attr(fit_table_h1, "table_data")
+if (!is.data.frame(fit_display_h0) || !is.data.frame(fit_display_h1) ||
+    nrow(fit_display_h0) == 0L || nrow(fit_display_h1) == 0L) {
+  stop("table_data is missing. Reload helpers.R and rerun this chunk.")
+}
+
+# Join the displayed values by measure, preserving each model's column.
+fit_global <- dplyr::full_join(
+  fit_display_h0,
+  fit_display_h1,
+  by = "Medida",
+  suffix = c("_H0", "_H1")
+) |>
+  dplyr::rename(H0 = Valor_H0, H1 = Valor_H1)
+
+# Export exactly the content displayed in the combined table.
+readr::write_excel_csv2(
   fit_global,
   here::here("Output", "Results", "Tables", "tbl-model-fit-global.csv"),
-  row.names = FALSE,
   na = "NA"
 )
 
-# Present the table with rounded values and formatted p-values.
-fit_global |>
-  dplyr::select(Indicador, H0, H1) |>
-  dplyr::mutate(
-    dplyr::across(
-      c(H0, H1),
-      ~ ifelse(
-        Indicador == "Valor de p",
-        format.pval(.x, digits = 3, eps = 0.001),
-        as.character(round(.x, 3))
-      )
-    )
-  ) |>
-  knitr::kable(
-    col.names = c("Indicador", "H~0~", "H~1~"),
-    align = c("l", "c", "c"),
-    escape = FALSE
-  )
+# Present both model summaries side by side.
+knitr::kable(fit_global, align = c("l", "r", "r"), row.names = FALSE)
 ```
 
 :::
@@ -332,222 +244,94 @@ da confiabilidade baseada no modelo que inclui a covariância residual Q3–Q4
 #|   Confiabilidade dos escores de domínio conforme a composição em H~0~ e H~1~
 #| echo: false
 
-# Define equally weighted item sets, including the expanded H1 scores.
-domain_items <- list(
-  psycho = c("Q5", "Q6", "Q7", "Q11", "Q19", "Q26"),
-  physical = c("Q3", "Q4", "Q10", "Q15", "Q16", "Q17", "Q18"),
-  social = c("Q20", "Q21", "Q22"),
-  environment = c("Q8", "Q9", "Q12", "Q13", "Q14", "Q23", "Q24", "Q25"),
-  psycho_h1 = c("Q5", "Q6", "Q7", "Q11", "Q19", "Q26", "Q8", "Q9"),
-  environment_h1 = c("Q8", "Q9", "Q12", "Q13", "Q14", "Q23", "Q24", "Q25", "Q15")
+# Prepare each model's formatted score reliability table.
+reliability_table_h0 <- table_reliability(fit_analyzemodel, lang = "pt")
+reliability_table_h1 <- table_reliability(fit_h1modelfree, lang = "pt")
+
+# Validate the display data before combining and exporting the tables.
+reliability_display_h0 <- attr(reliability_table_h0, "table_data")
+reliability_display_h1 <- attr(reliability_table_h1, "table_data")
+if (!is.data.frame(reliability_display_h0) ||
+    !is.data.frame(reliability_display_h1) ||
+    nrow(reliability_display_h0) == 0L || nrow(reliability_display_h1) == 0L) {
+  stop("table_data is missing. Reload helpers.R and rerun this chunk.")
+}
+
+# Stack the four factor scores of H0 first and H1 second.
+reliability_domains <- dplyr::bind_rows(
+  H0 = reliability_display_h0,
+  H1 = reliability_display_h1,
+  .id = "Modelo"
 )
 
-# Estimate domain-factor reliability with observed score variance denominators.
-omega_h0 <- semTools::compRelSEM(
-  fit_analyzemodel, obs.var = TRUE, tau.eq = FALSE
-)
-omega_h1 <- semTools::compRelSEM(
-  fit_h1modelfree, obs.var = TRUE, tau.eq = FALSE
-)
-
-# Extract the observed covariance matrix independently from each fitted model.
-reliability_cov_h0 <- lavaan::lavInspect(fit_analyzemodel, "sampstat")$cov
-reliability_cov_h1 <- lavaan::lavInspect(fit_h1modelfree, "sampstat")$cov
-
-# Keep each native GLB result, including solver status, for inspection.
-# psych::glb.algebraic() requires the Rcsdp package.
-glb_h0 <- list(
-  psycho = psych::glb.algebraic(
-    reliability_cov_h0[domain_items$psycho, domain_items$psycho]
-  ),
-  physical = psych::glb.algebraic(
-    reliability_cov_h0[domain_items$physical, domain_items$physical]
-  ),
-  social = psych::glb.algebraic(
-    reliability_cov_h0[domain_items$social, domain_items$social]
-  ),
-  environment = psych::glb.algebraic(
-    reliability_cov_h0[domain_items$environment, domain_items$environment]
-  )
-)
-glb_h1 <- list(
-  psycho = psych::glb.algebraic(
-    reliability_cov_h1[domain_items$psycho_h1, domain_items$psycho_h1]
-  ),
-  physical = psych::glb.algebraic(
-    reliability_cov_h1[domain_items$physical, domain_items$physical]
-  ),
-  social = psych::glb.algebraic(
-    reliability_cov_h1[domain_items$social, domain_items$social]
-  ),
-  environment = psych::glb.algebraic(
-    reliability_cov_h1[domain_items$environment_h1, domain_items$environment_h1]
-  )
-)
-
-# Assemble one numeric table from the independent results, without rounding.
-reliability_domains <- data.frame(
-  Modelo = rep(c("H~0~", "H~1~"), each = 4),
-  Domínio = rep(c("Psicológico", "Físico", "Relações sociais", "Ambiente"), 2),
-  Itens = lengths(domain_items[c(
-    "psycho", "physical", "social", "environment",
-    "psycho_h1", "physical", "social", "environment_h1"
-  )]),
-  Ômega = as.numeric(c(
-    omega_h0[c("psycho", "physical", "social", "environment")],
-    omega_h1[c("psycho", "physical", "social", "environment")]
-  )),
-  GLB = c(
-    glb_h0$psycho$glb, glb_h0$physical$glb,
-    glb_h0$social$glb, glb_h0$environment$glb,
-    glb_h1$psycho$glb, glb_h1$physical$glb,
-    glb_h1$social$glb, glb_h1$environment$glb
-  ),
-  row.names = NULL
-)
-
-# Save the numeric table before any display rounding.
-write.csv2(
+# Export exactly the content displayed in the combined table.
+readr::write_excel_csv2(
   reliability_domains,
   here::here("Output", "Results", "Tables", "tbl-domain-reliability.csv"),
-  row.names = FALSE, na = "NA"
+  na = "NA"
 )
 
-# Print the table with three decimal places and formatted H0/H1 labels.
-reliability_domains |>
-  knitr::kable(digits = 3, row.names = FALSE, escape = FALSE)
+# Present the two model blocks in one table.
+knitr::kable(reliability_domains, align = c("l", "l", "r", "r", "r"),
+  row.names = FALSE)
 ```
 
 :::: {.content-visible unless-format="pdf"}
 
 ::: {.callout-note title="Racional da @tbl-domain-reliability" collapse="true"}
 
-`domain_items` define os conjuntos de itens que compõem os escores, com pesos
-iguais. As quatro primeiras entradas correspondem aos domínios originais.
-As entradas `psycho_h1` e `environment_h1` acrescentam, respectivamente,
-Q8/Q9 e Q15 aos escores de H~1~. Essas seleções orientam o cálculo do GLB
-e a contagem de itens apresentada na tabela.
+A função `table_reliability()`, definida em
+[helpers.R](Scripts/DataAppendixScripts/helpers.R) e apresentada no racional
+da @tbl-adjusted-domain-reliability, prepara uma tabela para cada ajuste.
+A composição dos escores é obtida diretamente de cada modelo, incluindo
+as cargas cruzadas de H~1~. Assim, ômega, GLB e contagem de itens correspondem
+aos conjuntos utilizados em cada escore.
 
-`semTools::compRelSEM()` recebe diretamente os ajustes `fit_analyzemodel` e
-`fit_h1modelfree`, armazenando os coeficientes em `omega_h0` e `omega_h1`.
-O cálculo relaciona a variância atribuível ao fator à variância observada
-do escore, utilizando as cargas e as variâncias fatoriais estimadas em cada
-modelo. Assim, o ômega é calculado a partir da estrutura fatorial de H~0~
-ou H~1~.
+`attr()` recupera os dados de apresentação, e uma verificação impede a
+exportação de tabelas ausentes ou vazias. `dplyr::bind_rows()` empilha os
+quatro escores de H~0~ e, depois, os quatro de H~1~, acrescentando a coluna
+`Modelo` para identificar os dois blocos.
 
-`lavaan::lavInspect(..., "sampstat")$cov` recupera a matriz observada de
-covariâncias utilizada em cada ajuste. As matrizes ficam armazenadas em
-`reliability_cov_h0` e `reliability_cov_h1`, com os nomes dos itens nas linhas
-e colunas. Isso permite selecionar o bloco de covariâncias correspondente
-a cada domínio, preservando a escala original dos itens.
-
-`psych::glb.algebraic()` calcula o GLB para cada bloco selecionado. As listas
-`glb_h0` e `glb_h1` guardam os resultados dos quatro domínios, e o componente
-`$glb` fornece o coeficiente que será levado à tabela. Em H~1~, as seleções
-psicológica e ambiental utilizam os conjuntos ampliados, podendo produzir
-valores diferentes dos de H~0~. Para os domínios físico e social, esperamos
-GLB iguais, pois os itens, pesos e dados observados permanecem os mesmos.
-
-`reliability_domains` organiza os resultados em oito linhas, quatro por
-modelo. As colunas identificam o modelo, o domínio, o número de itens e os
-dois coeficientes. `lengths()` conta os itens nas seleções correspondentes,
-e os valores de ômega e GLB são reunidos na mesma ordem dos domínios, sem
-arredondamento nesta etapa.
-
-`write.csv2()` salva a tabela com precisão integral em
-`Output/Results/Tables/tbl-domain-reliability.csv`. `knitr::kable()` apresenta
-a mesma tabela com três casas decimais. O código abaixo permite reproduzir
-esses blocos após a preparação inicial; `eval: false` evita sua execução
-novamente no callout.
+`readr::write_excel_csv2()` exporta o mesmo conteúdo apresentado, preservando
+rótulos, ordem e valores de exibição em um CSV compatível com o Excel.
+`knitr::kable()` apresenta os resultados em uma única tabela no HTML e no
+PDF. O bloco utiliza os ajustes já estimados; não repete a estimação nem
+executa simulações.
 
 ```{r}
 #| eval: false
 #| code-fold: true
 
-# Define equally weighted item sets, including the expanded H1 scores.
-domain_items <- list(
-  psycho = c("Q5", "Q6", "Q7", "Q11", "Q19", "Q26"),
-  physical = c("Q3", "Q4", "Q10", "Q15", "Q16", "Q17", "Q18"),
-  social = c("Q20", "Q21", "Q22"),
-  environment = c("Q8", "Q9", "Q12", "Q13", "Q14", "Q23", "Q24", "Q25"),
-  psycho_h1 = c("Q5", "Q6", "Q7", "Q11", "Q19", "Q26", "Q8", "Q9"),
-  environment_h1 = c("Q8", "Q9", "Q12", "Q13", "Q14", "Q23", "Q24", "Q25", "Q15")
+# Prepare each model's formatted score reliability table.
+reliability_table_h0 <- table_reliability(fit_analyzemodel, lang = "pt")
+reliability_table_h1 <- table_reliability(fit_h1modelfree, lang = "pt")
+
+# Validate the display data before combining and exporting the tables.
+reliability_display_h0 <- attr(reliability_table_h0, "table_data")
+reliability_display_h1 <- attr(reliability_table_h1, "table_data")
+if (!is.data.frame(reliability_display_h0) ||
+    !is.data.frame(reliability_display_h1) ||
+    nrow(reliability_display_h0) == 0L || nrow(reliability_display_h1) == 0L) {
+  stop("table_data is missing. Reload helpers.R and rerun this chunk.")
+}
+
+# Stack the four factor scores of H0 first and H1 second.
+reliability_domains <- dplyr::bind_rows(
+  H0 = reliability_display_h0,
+  H1 = reliability_display_h1,
+  .id = "Modelo"
 )
 
-# Estimate domain-factor reliability with observed score variance denominators.
-omega_h0 <- semTools::compRelSEM(
-  fit_analyzemodel, obs.var = TRUE, tau.eq = FALSE
-)
-omega_h1 <- semTools::compRelSEM(
-  fit_h1modelfree, obs.var = TRUE, tau.eq = FALSE
-)
-
-# Extract the observed covariance matrix independently from each fitted model.
-reliability_cov_h0 <- lavaan::lavInspect(fit_analyzemodel, "sampstat")$cov
-reliability_cov_h1 <- lavaan::lavInspect(fit_h1modelfree, "sampstat")$cov
-
-# Keep each native GLB result, including solver status, for inspection.
-# psych::glb.algebraic() requires the Rcsdp package.
-glb_h0 <- list(
-  psycho = psych::glb.algebraic(
-    reliability_cov_h0[domain_items$psycho, domain_items$psycho]
-  ),
-  physical = psych::glb.algebraic(
-    reliability_cov_h0[domain_items$physical, domain_items$physical]
-  ),
-  social = psych::glb.algebraic(
-    reliability_cov_h0[domain_items$social, domain_items$social]
-  ),
-  environment = psych::glb.algebraic(
-    reliability_cov_h0[domain_items$environment, domain_items$environment]
-  )
-)
-glb_h1 <- list(
-  psycho = psych::glb.algebraic(
-    reliability_cov_h1[domain_items$psycho_h1, domain_items$psycho_h1]
-  ),
-  physical = psych::glb.algebraic(
-    reliability_cov_h1[domain_items$physical, domain_items$physical]
-  ),
-  social = psych::glb.algebraic(
-    reliability_cov_h1[domain_items$social, domain_items$social]
-  ),
-  environment = psych::glb.algebraic(
-    reliability_cov_h1[domain_items$environment_h1, domain_items$environment_h1]
-  )
-)
-
-# Assemble one numeric table from the independent results, without rounding.
-reliability_domains <- data.frame(
-  Modelo = rep(c("H~0~", "H~1~"), each = 4),
-  Domínio = rep(c("Psicológico", "Físico", "Relações sociais", "Ambiente"), 2),
-  Itens = lengths(domain_items[c(
-    "psycho", "physical", "social", "environment",
-    "psycho_h1", "physical", "social", "environment_h1"
-  )]),
-  Ômega = as.numeric(c(
-    omega_h0[c("psycho", "physical", "social", "environment")],
-    omega_h1[c("psycho", "physical", "social", "environment")]
-  )),
-  GLB = c(
-    glb_h0$psycho$glb, glb_h0$physical$glb,
-    glb_h0$social$glb, glb_h0$environment$glb,
-    glb_h1$psycho$glb, glb_h1$physical$glb,
-    glb_h1$social$glb, glb_h1$environment$glb
-  ),
-  row.names = NULL
-)
-
-# Save the numeric table before any display rounding.
-write.csv2(
+# Export exactly the content displayed in the combined table.
+readr::write_excel_csv2(
   reliability_domains,
   here::here("Output", "Results", "Tables", "tbl-domain-reliability.csv"),
-  row.names = FALSE, na = "NA"
+  na = "NA"
 )
 
-# Print the table with three decimal places and formatted H0/H1 labels.
-reliability_domains |>
-  knitr::kable(digits = 3, row.names = FALSE, escape = FALSE)
+# Present the two model blocks in one table.
+knitr::kable(reliability_domains, align = c("l", "l", "r", "r", "r"),
+  row.names = FALSE)
 ```
 
 :::
@@ -638,7 +422,7 @@ sim_h0_empirical <- cache_or_run("sim_h0_empirical", {
   simsem::sim(
     nRep = SIM,
     model = analyzemodel,
-    n = N_EMP,
+    n = nrow(analysis_data),
     generate = fit_analyzemodel,
     indDist = dist_h0,
     miss = simsem::miss(logical = is.na(indicators_h0)),
@@ -663,7 +447,7 @@ sim_h1_empirical <- cache_or_run("sim_h1_empirical", {
   simsem::sim(
     nRep = SIM,
     model = analyzemodel,
-    n = N_EMP,
+    n = nrow(analysis_data),
     generate = fit_h1modelfree,
     indDist = dist_h1,
     miss = simsem::miss(logical = is.na(indicators_h1)),
@@ -680,7 +464,6 @@ sim_h1_empirical <- cache_or_run("sim_h1_empirical", {
 ```{r}
 #| label: prepare-empirical-power-cutoffs
 #| include: false
-#| cache: false
 
 # Calibrate the 95th percentiles for RMSEA/SRMR and 5th for robust CFI/TLI.
 cutoff_fixed <- cbind(
@@ -716,11 +499,13 @@ power_fixed <- c(
   )
 )
 
+# Combine power and cutoffs in one table.
 power_cutoff_fixed <- rbind(
   "Poder" = as.numeric(power_fixed),
   "Ponto de corte" = as.numeric(cutoff_fixed[1, ])
 )
 
+# Format the fit-index column labels.
 colnames(power_cutoff_fixed) <- toupper(names(power_fixed))
 
 # Export the numeric results before display rounding.
@@ -773,9 +558,9 @@ geradora, enquanto `model` recebe a especificação estimada nas novas amostras.
 Na primeira chamada, o gerador e o modelo de análise correspondem a H~0~.
 Na segunda, `generate = fit_h1modelfree` mantém as cargas cruzadas na população
 geradora, enquanto `model = analyzemodel` ajusta H~0~ e omite essas relações.
-`nRep = SIM`, `n = N_EMP` e `seed = SEED` recuperam, respectivamente,
-1.000 replicações, 1.243 participantes e a semente 123321, definidas em
-`helpers.R`. `indDist` recebe a distribuição marginal preparada para cada
+`nRep = SIM` e `seed = SEED` recuperam as 1.000 replicações e a semente
+123321, definidas em `helpers.R`. `n = nrow(analysis_data)` utiliza o número
+de participantes da base analítica lida nesta seção. `indDist` recebe a distribuição marginal preparada para cada
 condição. `simsem::miss(logical = is.na(...))` reaplica as posições das células
 ausentes.
 `lavaanfun = "cfa"`, `estimator = "MLR"`, `missing = "fiml"` e
@@ -849,7 +634,7 @@ sim_h0_empirical <- cache_or_run("sim_h0_empirical", {
   simsem::sim(
     nRep = SIM,
     model = analyzemodel,
-    n = N_EMP,
+    n = nrow(analysis_data),
     generate = fit_analyzemodel,
     indDist = dist_h0,
     miss = simsem::miss(logical = is.na(indicators_h0)),
@@ -868,7 +653,7 @@ sim_h1_empirical <- cache_or_run("sim_h1_empirical", {
   simsem::sim(
     nRep = SIM,
     model = analyzemodel,
-    n = N_EMP,
+    n = nrow(analysis_data),
     generate = fit_h1modelfree,
     indDist = dist_h1,
     miss = simsem::miss(logical = is.na(indicators_h1)),
@@ -915,11 +700,13 @@ power_fixed <- c(
   )
 )
 
+# Combine power and cutoffs in one table.
 power_cutoff_fixed <- rbind(
   "Poder" = as.numeric(power_fixed),
   "Ponto de corte" = as.numeric(cutoff_fixed[1, ])
 )
 
+# Format the fit-index column labels.
 colnames(power_cutoff_fixed) <- toupper(names(power_fixed))
 
 # Export the numeric results before display rounding.
@@ -1003,34 +790,25 @@ EPC correspondentes.
 #|   Vinte maiores índices de modificação de H~0~, com EPC bruto e padronizado.
 #| echo: false
 
-# Retain the native H0 output, ordered by modification index.
-mi_h0 <- lavaan::modificationIndices(
-  fit_analyzemodel, standardized = TRUE, cov.std = TRUE, sort. = TRUE
+# Prepare the twenty largest modification indices for H0 in Portuguese.
+mi_table_h0 <- table_mi(fit_analyzemodel, lang = "pt")
+
+# Preserve all full-precision candidates for the values inserted in the text.
+mi_all <- attr(mi_table_h0, "mi_data")
+
+# Validate and export exactly the content displayed in the table.
+mi_table_data_h0 <- attr(mi_table_h0, "table_data")
+if (!is.data.frame(mi_table_data_h0) || nrow(mi_table_data_h0) == 0L) {
+  stop("table_data is missing or empty. Reload helpers.R and check the model.")
+}
+readr::write_excel_csv2(
+  mi_table_data_h0,
+  here::here("Output", "Results", "Tables", "tbl-modification-indices-top20.csv"),
+  na = "NA"
 )
 
-# Keep candidate cross-loadings and covariances, without diagonal variances.
-mi_all <- mi_h0 |>
-  dplyr::filter(op %in% c("=~", "~~"), lhs != rhs)
-
-# Select twenty H0 relations using MI order, with their corresponding EPCs.
-mi_top <- mi_all |>
-  dplyr::slice_head(n = 20) |>
-  dplyr::transmute(
-    Relação = paste(lhs, op, rhs),
-    MI = mi, EPC = epc, `EPC padronizado` = sepc.all
-  )
-
-# Save the full modification indices to CSV files for further analysis.
-write.csv2(
-  mi_all,
-  here::here("Output", "Results", "Tables", "tbl-modification-indices-full.csv"),
-  row.names = FALSE, na = "NA"
-)
-
-# Print the top-10 modification indices table with formatted relations for display.
-mi_top |>
-  dplyr::mutate(Relação = gsub("~", "&#126;", Relação, fixed = TRUE)) |>
-  knitr::kable(format = "pipe", digits = 3, row.names = FALSE, escape = FALSE)
+# Present the formatted modification index table.
+mi_table_h0
 ```
 
 
@@ -1038,74 +816,45 @@ mi_top |>
 
 ::: {.callout-note title="Racional da @tbl-modification-indices-top20" collapse="true"}
 
-`lavaan::modificationIndices()` recebe `fit_analyzemodel`, o ajuste original
-de H~0~. `sort. = TRUE` ordena o retorno pelo MI, do maior para o menor;
-`standardized = TRUE` solicita também os EPC padronizados. `cov.std = TRUE`
-utiliza variâncias residuais na padronização das covariâncias residuais.
-O retorno completo permanece em `mi_h0`, sem limitar inicialmente o número
-de linhas.
+A função `table_mi()`, definida em
+[helpers.R](Scripts/DataAppendixScripts/helpers.R) e apresentada no racional
+da @tbl-adjusted-modification-indices-top20, recebe o ajuste de H~0~ e
+apresenta suas vinte maiores relações candidatas, com MI e EPC bruto e
+padronizado. A ordenação segue o MI; os EPC acompanham cada relação.
 
-`filter()` constrói `mi_all`, conservando os operadores `=~` (cargas) e `~~`
-(covariâncias) e excluindo as variâncias diagonais com `lhs != rhs`.
-Os parâmetros já livres são removidos pelo comportamento padrão da função.
-As cargas cruzadas fixadas em zero em H~0~ permanecem entre as relações
-candidatas examinadas, sem que sua presença determine sua liberação.
+`attr()` recupera todas as relações elegíveis e seus valores completos em
+`mi_all`, utilizado nos valores inseridos no texto, e o conteúdo de
+apresentação para exportação. Uma verificação impede a gravação de dados
+ausentes ou vazios. `readr::write_excel_csv2()` salva as mesmas vinte relações
+apresentadas no HTML e no PDF, preservando os rótulos e valores de exibição.
 
-`slice_head(n = 20)` seleciona as vinte primeiras relações, respeitando a
-ordenação por MI. Não há uma ordenação independente por EPC.
-`transmute()` constrói `mi_top`: `Relação` combina
-`lhs`, `op` e `rhs`; `MI` vem de `mi`; `EPC` vem de `epc`, na métrica original;
-e `EPC padronizado` vem de `sepc.all`. Para uma carga, esse último valor
-padroniza as variáveis envolvidas; para uma covariância residual, usa as
-variâncias residuais. Ele é uma aproximação da mudança ao liberar uma
-relação individualmente, não a estimativa de um modelo já reespecificado.
-A [documentação do lavaan](https://lavaan.ugent.be/tutorial/modindices.html)
-detalha os campos retornados.
-
-`write.csv2()` salva somente `mi_all` em
-`Output/Results/Tables/tbl-modification-indices-full.csv`, sem arredondamento
-prévio. Esse arquivo mantém todas as relações elegíveis e os campos
-retornados, incluindo os outros EPC padronizados. `mi_top` permanece na
-memória como seleção para apresentação, recuperável a partir da tabela
-completa; não é exportado em outro CSV.
-Na cópia de apresentação, `gsub()` representa cada til por `&#126;`,
-preservando os operadores como texto comum, sem formatação de código ou
-interpretação como Markdown. `knitr::kable()` produz a tabela com três casas
-decimais para HTML e PDF. A transformação é aplicada somente à impressão;
-os objetos `mi_all` e `mi_top` e o CSV completo mantêm as relações originais.
+A expressão final apresenta a tabela formatada internamente por
+`knitr::kable()`, com os operadores lavaan preservados no documento.
+O bloco utiliza o ajuste existente e não estima um modelo modificado.
 
 ```{r}
 #| eval: false
 #| code-fold: true
 
-# Retain the native H0 output, ordered by modification index.
-mi_h0 <- lavaan::modificationIndices(
-  fit_analyzemodel, standardized = TRUE, cov.std = TRUE, sort. = TRUE
+# Prepare the twenty largest modification indices for H0 in Portuguese.
+mi_table_h0 <- table_mi(fit_analyzemodel, lang = "pt")
+
+# Preserve all full-precision candidates for the values inserted in the text.
+mi_all <- attr(mi_table_h0, "mi_data")
+
+# Validate and export exactly the content displayed in the table.
+mi_table_data_h0 <- attr(mi_table_h0, "table_data")
+if (!is.data.frame(mi_table_data_h0) || nrow(mi_table_data_h0) == 0L) {
+  stop("table_data is missing or empty. Reload helpers.R and check the model.")
+}
+readr::write_excel_csv2(
+  mi_table_data_h0,
+  here::here("Output", "Results", "Tables", "tbl-modification-indices-top20.csv"),
+  na = "NA"
 )
 
-# Keep candidate cross-loadings and covariances, without diagonal variances.
-mi_all <- mi_h0 |>
-  dplyr::filter(op %in% c("=~", "~~"), lhs != rhs)
-
-# Select twenty H0 relations using MI order, with their corresponding EPCs.
-mi_top <- mi_all |>
-  dplyr::slice_head(n = 20) |>
-  dplyr::transmute(
-    Relação = paste(lhs, op, rhs),
-    MI = mi, EPC = epc, `EPC padronizado` = sepc.all
-  )
-
-# Save the full modification indices to CSV files for further analysis.
-write.csv2(
-  mi_all,
-  here::here("Output", "Results", "Tables", "tbl-modification-indices-full.csv"),
-  row.names = FALSE, na = "NA"
-)
-
-# Print the top-10 modification indices table with formatted relations for display.
-mi_top |>
-  dplyr::mutate(Relação = gsub("~", "&#126;", Relação, fixed = TRUE)) |>
-  knitr::kable(format = "pipe", digits = 3, row.names = FALSE, escape = FALSE)
+# Present the formatted modification index table.
+mi_table_h0
 ```
 
 :::
@@ -1127,55 +876,22 @@ uma única vez. A referência de magnitude absoluta de 0,10 discutida na
 ```{r}
 #| label: prepare-residual-correlations
 #| include: false
-#| cache: false
 
-# Extract correlation differences, without residual z statistics.
-residuals_h0 <- lavaan::lavResiduals(
-  fit_analyzemodel, type = "cor", zstat = FALSE, summary = FALSE
-)
+# Create the correlation residual heatmap.
+residual_heatmap <- plot_stdres(fit_analyzemodel)
 
-# Keep the indicator order returned by the H0 fit.
-residual_matrix_h0 <- as.matrix(residuals_h0$cov)
+# Preserve full-precision residuals for export and inline results.
+residual_matrix_h0 <- attr(residual_heatmap, "residual_matrix")
+residual_correlations <- attr(residual_heatmap, "residual_data")
 
-# Export the complete H0 matrix before masking repeated pairs and diagonals.
+# Export the complete correlation residual matrix.
 write.csv2(
   residual_matrix_h0,
   here::here("Output", "Results", "Tables", "residual-correlations-h0.csv"),
   row.names = TRUE, na = "NA"
 )
 
-residual_matrix_h0[upper.tri(residual_matrix_h0, diag = TRUE)] <- NA
-
-# Convert the lower triangle into one row per item pair.
-residual_correlations <- as.data.frame(as.table(residual_matrix_h0))
-names(residual_correlations) <- c("Item1", "Item2", "Residuo")
-residual_correlations <- residual_correlations |>
-  dplyr::filter(!is.na(Residuo))
-
-# Color intensity shows magnitude; cell labels retain the sign.
-residual_heatmap <- ggplot2::ggplot(
-  residual_correlations,
-  ggplot2::aes(x = Item2, y = Item1, fill = abs(Residuo))
-) +
-  ggplot2::geom_tile(color = "white", linewidth = 0.2) +
-  ggplot2::geom_text(
-    ggplot2::aes(label = sprintf("%.2f", Residuo)), size = 2.2
-  ) +
-  ggplot2::scale_fill_gradient(
-    low = "white", high = "#B2182B",
-    limits = c(0, max(abs(residual_correlations$Residuo))),
-    name = "|Resíduo|"
-  ) +
-  ggplot2::scale_x_discrete(position = "top", drop = FALSE) +
-  ggplot2::scale_y_discrete(drop = FALSE) +
-  ggplot2::coord_fixed() +
-  ggplot2::theme_minimal(base_size = 10) +
-  ggplot2::theme(
-    axis.text.x = ggplot2::element_text(angle = 45, hjust = 1),
-    axis.title = ggplot2::element_blank(),
-    panel.grid = ggplot2::element_blank()
-  )
-
+# Save the residual correlation heatmap.
 ggplot2::ggsave(
   here::here("Output", "Results", "Figures", "fig-residual-correlations.png"),
   plot = residual_heatmap, width = 8, height = 7, dpi = 300
@@ -1194,8 +910,8 @@ ggplot2::ggsave(
 #| fig-height: 7
 #| fig-align: center
 #| echo: false
-#| cache: false
 
+# Display the residual correlation heatmap.
 residual_heatmap
 ```
 
@@ -1203,95 +919,47 @@ residual_heatmap
 
 ::: {.callout-note title="Racional da @fig-residual-correlations" collapse="true"}
 
-`lavaan::lavResiduals()` recebe `fit_analyzemodel` e retorna os resíduos de H~0~.
-`type = "cor"` transforma separadamente as matrizes de covariâncias observada
-e reproduzida em correlações antes de calcular a diferença. `zstat = FALSE`
-dispensa a divisão dos resíduos pelos erros-padrão, e `summary = FALSE`
-dispensa os resumos globais. Essa escolha representa magnitudes de
-discrepância em escala de correlação, conforme a
-[documentação da função](https://search.r-project.org/CRAN/refmans/lavaan/html/lavResiduals.html).
-As estatísticas observadas são as utilizadas pelo ajuste com FIML;
-não calculamos uma nova matriz por exclusão dos casos incompletos.
+`plot_stdres()` recebe o modelo ajustado e cria o mapa dos resíduos de
+correlação. Internamente, `tidy_stdres()` organiza as diferenças entre as
+correlações observadas e reproduzidas, obtidas por `lavaan::lavResiduals()`.
+Os valores usam as estatísticas observadas do ajuste com FIML, sem nova
+exclusão de casos incompletos e sem conversão em estatísticas z.
 
-O retorno completo fica em `residuals_h0`. O componente `$cov` fornece a
-matriz de resíduos solicitada, mesmo com `type = "cor"`.
-`as.matrix()` cria `residual_matrix_h0` para exportação e apresentação,
-preservando os nomes e a ordem dos indicadores do ajuste de H~0~.
+A função mantém a ordem dos indicadores e apresenta cada par uma única vez,
+sem diagonal. A cor representa a magnitude absoluta; os rótulos preservam
+o sinal e mostram duas casas decimais. O retorno é um objeto `ggplot`, que
+pode ser apresentado, personalizado ou salvo.
 
-`write.csv2()` exporta a matriz completa, com nomes de linhas e precisão
-original, em `Output/Results/Tables/residual-correlations-h0.csv`.
-Depois da exportação, `upper.tri(..., diag = TRUE)` mascara o triângulo
-superior e a diagonal na matriz de apresentação. O objeto original
-`residuals_h0` permanece intacto.
-
-`as.table()` e `as.data.frame()` organizam a matriz em linhas de pares.
-`residual_correlations` contém `Item1`, `Item2` e `Residuo`.
-O filtro elimina as células mascaradas. Os fatores produzidos por
-`as.table()` preservam a ordem dos itens da matriz nos eixos.
-
-`ggplot()` usa `abs(Residuo)` no preenchimento e `geom_text()` mostra o valor
-com sinal, arredondado a duas casas apenas no rótulo.
-`scale_fill_gradient()` vai de zero ao maior resíduo absoluto de H~0~;
-`coord_fixed()` mantém as células quadradas. A diagonal e a metade repetida
-ficam vazias. As cores orientam a leitura da magnitude. `residual_heatmap` é o mesmo objeto apresentado e exportado por `ggsave()` em
-`Output/Results/Figures/fig-residual-correlations.png`, com 300 dpi.
+`attr()` recupera a matriz completa e os pares com precisão original para
+exportação e valores no texto. `write.csv2()` salva a matriz em
+`Output/Results/Tables/residual-correlations-h0.csv`; `ggsave()` exporta
+o mesmo gráfico apresentado em `Output/Results/Figures/fig-residual-correlations.png`.
 
 ```{r}
 #| eval: false
 #| code-fold: true
 
-# Extract correlation differences, without residual z statistics.
-residuals_h0 <- lavaan::lavResiduals(
-  fit_analyzemodel, type = "cor", zstat = FALSE, summary = FALSE
-)
+# Create the correlation residual heatmap.
+residual_heatmap <- plot_stdres(fit_analyzemodel)
 
-# Keep the indicator order returned by the H0 fit.
-residual_matrix_h0 <- as.matrix(residuals_h0$cov)
+# Preserve full-precision residuals for export and inline results.
+residual_matrix_h0 <- attr(residual_heatmap, "residual_matrix")
+residual_correlations <- attr(residual_heatmap, "residual_data")
 
-# Export the complete H0 matrix before masking repeated pairs and diagonals.
+# Export the complete correlation residual matrix.
 write.csv2(
   residual_matrix_h0,
   here::here("Output", "Results", "Tables", "residual-correlations-h0.csv"),
   row.names = TRUE, na = "NA"
 )
 
-residual_matrix_h0[upper.tri(residual_matrix_h0, diag = TRUE)] <- NA
-
-# Convert the lower triangle into one row per item pair.
-residual_correlations <- as.data.frame(as.table(residual_matrix_h0))
-names(residual_correlations) <- c("Item1", "Item2", "Residuo")
-residual_correlations <- residual_correlations |>
-  dplyr::filter(!is.na(Residuo))
-
-# Color intensity shows magnitude; cell labels retain the sign.
-residual_heatmap <- ggplot2::ggplot(
-  residual_correlations,
-  ggplot2::aes(x = Item2, y = Item1, fill = abs(Residuo))
-) +
-  ggplot2::geom_tile(color = "white", linewidth = 0.2) +
-  ggplot2::geom_text(
-    ggplot2::aes(label = sprintf("%.2f", Residuo)), size = 2.2
-  ) +
-  ggplot2::scale_fill_gradient(
-    low = "white", high = "#B2182B",
-    limits = c(0, max(abs(residual_correlations$Residuo))),
-    name = "|Resíduo|"
-  ) +
-  ggplot2::scale_x_discrete(position = "top", drop = FALSE) +
-  ggplot2::scale_y_discrete(drop = FALSE) +
-  ggplot2::coord_fixed() +
-  ggplot2::theme_minimal(base_size = 10) +
-  ggplot2::theme(
-    axis.text.x = ggplot2::element_text(angle = 45, hjust = 1),
-    axis.title = ggplot2::element_blank(),
-    panel.grid = ggplot2::element_blank()
-  )
-
+# Save the residual correlation heatmap.
 ggplot2::ggsave(
   here::here("Output", "Results", "Figures", "fig-residual-correlations.png"),
   plot = residual_heatmap, width = 8, height = 7, dpi = 300
 )
 
+# Display the residual correlation heatmap.
 residual_heatmap
 ```
 
@@ -1305,14 +973,14 @@ Ambiente aparece diretamente entre os maiores índices de modificação
 (MI = `r formatC(mi_all$mi[mi_all$lhs == "environment" & mi_all$op == "=~" & mi_all$rhs == "Q15"], format = "f", digits = 3, decimal.mark = ",")`;
 EPC padronizado = `r formatC(mi_all$sepc.all[mi_all$lhs == "environment" & mi_all$op == "=~" & mi_all$rhs == "Q15"], format = "f", digits = 3, decimal.mark = ",")`).
 O item também apresenta resíduos de correlação positivos com Q3 e Q4, de
-aproximadamente `r formatC(residuals_h0$cov["Q3", "Q15"], format = "f", digits = 2, decimal.mark = ",")`
-e `r formatC(residuals_h0$cov["Q4", "Q15"], format = "f", digits = 2, decimal.mark = ",")`,
+aproximadamente `r formatC(residual_matrix_h0["Q3", "Q15"], format = "f", digits = 2, decimal.mark = ",")`
+e `r formatC(residual_matrix_h0["Q4", "Q15"], format = "f", digits = 2, decimal.mark = ",")`,
 respectivamente, indicando associações subestimadas pela especificação atual.
 Para Q8 e Q9, destaca-se a covariância residual entre os itens
 (MI = `r formatC(mi_all$mi[mi_all$op == "~~" & ((mi_all$lhs == "Q8" & mi_all$rhs == "Q9") | (mi_all$lhs == "Q9" & mi_all$rhs == "Q8"))], format = "f", digits = 3, decimal.mark = ",")`;
 EPC padronizado = `r formatC(mi_all$sepc.all[mi_all$op == "~~" & ((mi_all$lhs == "Q8" & mi_all$rhs == "Q9") | (mi_all$lhs == "Q9" & mi_all$rhs == "Q8"))], format = "f", digits = 3, decimal.mark = ",")`),
 acompanhada de um resíduo de correlação de aproximadamente
-`r formatC(residuals_h0$cov["Q8", "Q9"], format = "f", digits = 2, decimal.mark = ",")`.
+`r formatC(residual_matrix_h0["Q8", "Q9"], format = "f", digits = 2, decimal.mark = ",")`.
 Esses resultados retomam dificuldades de representação envolvendo os itens
 contemplados na formulação de H~1~, embora a dependência residual entre Q8 e
 Q9 não constitua, isoladamente, evidência de suas cargas adicionais no domínio
@@ -1321,11 +989,11 @@ Psicológico.
 O diagnóstico também evidencia dificuldades além das relações previstas em
 H~1~. Q5 participa de indicações de cargas adicionais nos domínios físico e
 ambiental e de dependências com Q6 e Q14. O resíduo de correlação Q5–Q14,
-de `r formatC(residuals_h0$cov["Q5", "Q14"], format = "f", digits = 3, decimal.mark = ",")`,
+de `r formatC(residual_matrix_h0["Q5", "Q14"], format = "f", digits = 3, decimal.mark = ",")`,
 constitui a maior discrepância absoluta da matriz. Q24 combina carga
 padronizada baixa, indicação de carga adicional no domínio psicológico e
 dependência com Q25, cujo resíduo de correlação é
-`r formatC(residuals_h0$cov["Q24", "Q25"], format = "f", digits = 3, decimal.mark = ",")`.
+`r formatC(residual_matrix_h0["Q24", "Q25"], format = "f", digits = 3, decimal.mark = ",")`.
 Em conjunto com os problemas de Q15, esses resultados destacam Q5, Q15 e Q24
 como candidatos à investigação de uma especificação modificada.
 Q8 permanece como candidato adicional, considerando sua carga baixa e a

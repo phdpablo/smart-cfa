@@ -1,25 +1,12 @@
 # Pré-processamento {#sec-preprocessing}
 
-:::: {.content-visible unless-format="pdf"}
-
-::: {.callout-important title="Como a seção está estruturada" collapse="true"}
-
-O arquivo [helpers.R](Scripts/DataAppendixScripts/helpers.R) carrega os pacotes compartilhados pelo projeto. Os
-parâmetros específicos desta análise são definidos nos chunks em que são
-utilizados, para que o leitor possa acompanhar a origem de cada decisão. Cada
-saída é produzida depois da operação que a fundamenta e recebe, no HTML, um
-callout com a explicação dos objetos, funções, argumentos e parâmetros.
-
 ```{r}
 #| label: setup-preprocessing
-#| code-fold: true
+#| include: false
 
+# Load the scripts required for this section.
 source(here::here("Scripts", "DataAppendixScripts", "helpers.R"))
 ```
-
-:::
-
-::::
 
 O pré-processamento em questionários de autorelato tem como finalidade proteger as análises vindouras de vieses introduzidos por respostas descuidadas ou com esforço insuficiente (*Careless or Insufficient Effort Responding* — C/IER), registros incompletos ou com respostas inconsistentes, e a inspeção preliminar das variáveis para prospecção de problemas. Nas seções anteriores não precisamos dos dados coletados, mas a partir de agora, temos que fazer exercícios com dados brutos, e por isso, vamos utilizar a mesma base de dados empregada por @rogers2024c e @rogers2022. 
 
@@ -45,14 +32,17 @@ no projeto.
 #| label: data-preparation
 #| code-fold: true
 
+# Import the raw questionnaire data.
 raw_data <- read_csv2(
   here::here("Data", "InputData", "data.csv"),
   show_col_types = FALSE
 )
 
+# Identify the scale items and attention checks.
 scale_items <- paste0("Q", 1:26)
 attention_items <- paste0("CQ", 1:3)
 
+# Check that all required columns are available.
 required_columns <- c(
   "ID", "CREATED", "MODIFIED", attention_items, scale_items
 )
@@ -63,6 +53,7 @@ if (length(missing_columns) > 0) {
   )
 }
 
+# Flag incomplete records and prepare response values and durations.
 prepared_data <- raw_data |>
   mutate(
     dropout = is.na(ID) | rowSums(is.na(pick(all_of(scale_items)))) > 5,
@@ -78,11 +69,14 @@ prepared_data <- raw_data |>
     across(all_of(c(attention_items, scale_items)), as.numeric)
   )
 
+# Retain the records eligible for response screening.
 eligible_data <- prepared_data |>
   filter(!dropout)
 
+# Create the output directory if it is missing.
 dir.create(here::here("Data", "IntermediateData"), showWarnings = FALSE)
 
+# Save the eligible sample.
 write_csv2(
   eligible_data,
   here::here("Data", "IntermediateData", "whoqol_eligible.csv")
@@ -128,6 +122,7 @@ intermediária dos critérios procedurais.
 #| label: hurdle-procedural
 #| code-fold: true
 
+# Flag failures in attention checks and response time.
 procedural_data <- eligible_data |>
   select(ID, all_of(attention_items), TIME, all_of(scale_items)) |>
   mutate(
@@ -137,6 +132,7 @@ procedural_data <- eligible_data |>
     fail_time = TIME < 416
   )
 
+# Save the procedural screening results.
 write_csv2(
   procedural_data,
   here::here("Data", "IntermediateData", "whoqol_procedural.csv")
@@ -176,6 +172,7 @@ valores na tabela de estatísticas e pontos de corte.
 #| label: indicator-calculation
 #| code-fold: true
 
+# Calculate longstring, response variability, and Mahalanobis distance.
 indicator_data <- procedural_data |>
   mutate(
     longstring = as.integer(careless::longstring(pick(all_of(scale_items)))),
@@ -189,6 +186,7 @@ indicator_data <- procedural_data |>
     ))
   )
 
+# Define the empirical cutoffs for variability and Mahalanobis distance.
 irv_cutoffs <- quantile(
   indicator_data$irv, probs = c(.01, .99), na.rm = TRUE,
   names = FALSE, type = 7
@@ -198,6 +196,7 @@ mahalanobis_cutoff <- quantile(
   names = FALSE, type = 7
 )
 
+# Apply the response-screening rules.
 screened_data <- indicator_data |>
   mutate(
     fail_longstring = longstring > 13,
@@ -205,6 +204,7 @@ screened_data <- indicator_data |>
     fail_mahalanobis = mahalanobis >= mahalanobis_cutoff
   )
 
+# Save the statistical screening indicators.
 write_csv2(
   screened_data |>
     select(ID, longstring, irv, mahalanobis, fail_longstring,
@@ -222,6 +222,7 @@ write_csv2(
 #| tbl-cap: "Pontos de corte dos indicadores estatísticos."
 #| echo: false
 
+# Summarize the statistical screening cutoffs.
 indicator_cutoffs <- tibble(
   Indicador = c("Longstring", "IRV", "Distância de Mahalanobis"),
   Média = c(mean(indicator_data$longstring, na.rm = TRUE),
@@ -245,14 +246,17 @@ indicator_cutoffs <- tibble(
   )
 )
 
+# Create the output directory if it is missing.
 dir.create(here::here("Output", "Results", "Tables"),
            recursive = TRUE, showWarnings = FALSE)
 
+# Save the screening cutoffs.
 write_csv2(
   indicator_cutoffs,
   here::here("Output", "Results", "Tables", "tbl-indicator-cutoffs.csv")
 )
 
+# Present the screening cutoffs with three decimal places.
 indicator_cutoffs |> mutate(across(where(is.numeric), ~ round(.x, 3))) |>
   knitr::kable()
 ```
@@ -275,6 +279,7 @@ no HTML antes de `knitr::kable()` renderizar o output.
 #| eval: false
 #| code-fold: true
 
+# Summarize the statistical screening cutoffs.
 indicator_cutoffs <- tibble(
   Indicador = c("Longstring", "IRV", "Distância de Mahalanobis"),
   Média = c(mean(indicator_data$longstring, na.rm = TRUE),
@@ -302,11 +307,13 @@ indicator_cutoffs <- tibble(
 dir.create(here::here("Output", "Results", "Tables"),
            recursive = TRUE, showWarnings = FALSE)
 
+# Save the screening cutoffs.
 write_csv2(
   indicator_cutoffs,
   here::here("Output", "Results", "Tables", "tbl-indicator-cutoffs.csv")
 )
 
+# Present the screening cutoffs with three decimal places.
 indicator_cutoffs |> mutate(across(where(is.numeric), ~ round(.x, 3))) |>
   knitr::kable()
 ```
@@ -335,6 +342,7 @@ representam uma única forma de comportamento inadequado.
 #| tbl-cap: "Frequência de falhas em cada obstáculo de limpeza."
 #| echo: false
 
+# Apply the response-screening rules.
 screened_data <- screened_data |>
   mutate(
     hurdles_failed = rowSums(across(starts_with("fail_"))),
@@ -349,6 +357,7 @@ screened_data <- screened_data |>
     )
   )
 
+# Preserve the screening data and summarize failures by criterion.
 intermediate_data <- screened_data
 criterion_summary <- tibble(
   Critério = c("Itens de atenção", "Tempo de resposta", "Longstring", "IRV",
@@ -361,23 +370,28 @@ criterion_summary <- tibble(
 ) |>
   mutate(`Percentual (%)` = `N sinalizado` / nrow(screened_data) * 100)
 
-
+# Create the intermediate-data directory if it is missing.
 dir.create(here::here("Data", "IntermediateData"), showWarnings = FALSE)
 
+# Create the output directory if it is missing.
 dir.create(here::here("Output", "DataAppendixOutput", "Tables"),
            recursive = TRUE, showWarnings = FALSE)
 
+# Save the complete preprocessing data.
 write_csv2(intermediate_data, here::here(
   "Data", "IntermediateData", "whoqol_preprocessed.csv"
 ))
 
+# Save the respondent exclusion log.
 write_csv2(intermediate_data |> filter(exclude), here::here(
   "Output", "DataAppendixOutput", "Tables", "exclusion_log.csv"
 ))
 
+# Present the frequency of screening failures.
 criterion_summary |> mutate(`Percentual (%)` = round(`Percentual (%)`, 1)) |>
   knitr::kable()
 
+# Save the screening failure summary.
 write_csv2(
   criterion_summary,
   here::here("Output", "Results", "Tables", "tbl-hurdle-summary.csv")
@@ -408,6 +422,7 @@ tabela e o último `write_csv2()` preserva a tabela completa no projeto.
 #| eval: false
 #| code-fold: true
 
+# Apply the response-screening rules.
 screened_data <- screened_data |>
   mutate(
     hurdles_failed = rowSums(across(starts_with("fail_"))),
@@ -422,6 +437,7 @@ screened_data <- screened_data |>
     )
   )
 
+# Preserve the screening data and summarize failures by criterion.
 intermediate_data <- screened_data
 criterion_summary <- tibble(
   Critério = c("Itens de atenção", "Tempo de resposta", "Longstring", "IRV",
@@ -434,22 +450,28 @@ criterion_summary <- tibble(
 ) |>
   mutate(`Percentual (%)` = `N sinalizado` / nrow(screened_data) * 100)
 
+# Create the output directory if it is missing.
 dir.create(here::here("Data", "IntermediateData"), showWarnings = FALSE)
 
+# Create the output directory if it is missing.
 dir.create(here::here("Output", "DataAppendixOutput", "Tables"),
            recursive = TRUE, showWarnings = FALSE)
 
+# Save the complete preprocessing data.
 write_csv2(intermediate_data, here::here(
   "Data", "IntermediateData", "whoqol_preprocessed.csv"
 ))
 
+# Save the respondent exclusion log.
 write_csv2(intermediate_data |> filter(exclude), here::here(
   "Output", "DataAppendixOutput", "Tables", "exclusion_log.csv"
 ))
 
+# Present the frequency of screening failures.
 criterion_summary |> mutate(`Percentual (%)` = round(`Percentual (%)`, 1)) |>
   knitr::kable()
 
+# Save the screening failure summary.
 write_csv2(
   criterion_summary,
   here::here("Output", "Results", "Tables", "tbl-hurdle-summary.csv")
@@ -475,11 +497,13 @@ concentrada em padrões considerados incompatíveis com a resposta cuidadosa. A
 #| tbl-cap: "Trajetória da amostra durante o pré-processamento."
 #| echo: false
 
+# Retain eligible respondents and reverse-score the negative items.
 final_analysis_data <- screened_data |>
   filter(!exclude) |>
   select(ID, all_of(scale_items)) |>
   mutate(across(all_of(c("Q3", "Q4", "Q26")), ~ 6 - .x))
 
+# Summarize the sample size at each preprocessing stage.
 sample_summary <- tibble(
   Etapa = c("Banco bruto", "Dropouts removidos", "Elegíveis aos obstáculos",
             "Excluídos por pelo menos um obstáculo", "Amostra analítica final"),
@@ -487,19 +511,24 @@ sample_summary <- tibble(
         sum(intermediate_data$exclude), nrow(final_analysis_data))
 )
 
+# Create the output directory if it is missing.
 dir.create(here::here("Data", "AnalysisData"), showWarnings = FALSE)
 
+# Save the final analysis data.
 write_csv2(final_analysis_data, here::here(
   "Data", "AnalysisData", "whoqol_analysis.csv"
 ))
 
+# Check the final sample size and respondent identifiers.
 stopifnot(
   nrow(final_analysis_data) == sum(!intermediate_data$exclude),
   !anyNA(final_analysis_data$ID)
 )
 
+# Present the sample-selection summary.
 sample_summary |> knitr::kable()
 
+# Save the sample-selection summary.
 write_csv2(
   sample_summary,
   here::here("Output", "Results", "Tables", "tbl-analysis-sample-summary.csv")
@@ -518,7 +547,7 @@ final. O objeto `sample_summary` registra a trajetória desde o banco bruto até
 a amostra final usando `nrow()` e `sum()` sobre as flags de exclusão.
 
 `dir.create()` garante a existência do diretório da base analítica, e
-`write_csv2()` salva `final_analysis_data` para reutilização nos capítulos de
+`write_csv2()` salva `final_analysis_data` para reutilização nas seções de
 mensuração. `stopifnot()` verifica a correspondência entre o número de linhas
 da base final e a regra de exclusão, além de confirmar a presença de um
 identificador em cada registro. Por fim, `knitr::kable()` apresenta a tabela e
@@ -528,11 +557,13 @@ outro `write_csv2()` salva a trajetória amostral em formato tabular.
 #| eval: false
 #| code-fold: true
 
+# Retain eligible respondents and reverse-score the negative items.
 final_analysis_data <- screened_data |>
   filter(!exclude) |>
   select(ID, all_of(scale_items)) |>
   mutate(across(all_of(c("Q3", "Q4", "Q26")), ~ 6 - .x))
 
+# Summarize the sample size at each preprocessing stage.
 sample_summary <- tibble(
   Etapa = c("Banco bruto", "Dropouts removidos", "Elegíveis aos obstáculos",
             "Excluídos por pelo menos um obstáculo", "Amostra analítica final"),
@@ -540,19 +571,24 @@ sample_summary <- tibble(
         sum(intermediate_data$exclude), nrow(final_analysis_data))
 )
 
+# Create the output directory if it is missing.
 dir.create(here::here("Data", "AnalysisData"), showWarnings = FALSE)
 
+# Save the final analysis data.
 write_csv2(final_analysis_data, here::here(
   "Data", "AnalysisData", "whoqol_analysis.csv"
 ))
 
+# Check the final sample size and respondent identifiers.
 stopifnot(
   nrow(final_analysis_data) == sum(!intermediate_data$exclude),
   !anyNA(final_analysis_data$ID)
 )
 
+# Present the sample-selection summary.
 sample_summary |> knitr::kable()
 
+# Save the sample-selection summary.
 write_csv2(
   sample_summary,
   here::here("Output", "Results", "Tables", "tbl-analysis-sample-summary.csv")
@@ -582,9 +618,12 @@ Esses resultados são apresentados na
 #| tbl-cap: "Estatísticas descritivas dos itens utilizados na AFC."
 #| echo: false
 
+# Identify the indicators used in the factor analysis.
 analysis_items <- paste0("Q", 3:26)
 
+# Select the analysis items.
 item_data <- final_analysis_data |> select(all_of(analysis_items))
+# Estimate an auxiliary regression and extract item VIFs.
 vif_model <- lm(ID ~ ., data = final_analysis_data |>
                   select(ID, all_of(analysis_items)),
                 na.action = na.omit)
@@ -593,6 +632,7 @@ vif_values <- tibble(
   VIF = as.numeric(car::vif(vif_model))
 )
 
+# Calculate the descriptive statistics for each item.
 item_description <- psych::describe(item_data, fast = FALSE) |>
   as.data.frame() |> rownames_to_column("Item") |> as_tibble() |>
   transmute(
@@ -600,13 +640,16 @@ item_description <- psych::describe(item_data, fast = FALSE) |>
     Assimetria = skew, Curtose = kurtosis
   )
 
+# Combine item descriptions and collinearity diagnostics.
 item_description <- left_join(item_description, vif_values, by = "Item")
 
+# Save the item statistics before display rounding.
 write_csv2(
   item_description,
   here::here("Output", "Results", "Tables", "tbl-item-description.csv")
 )
 
+# Present the item statistics with three decimal places.
 item_description |> mutate(across(where(is.numeric), ~ round(.x, 3))) |>
   knitr::kable()
 ```
@@ -640,10 +683,13 @@ ao HTML, e `knitr::kable()` produz a tabela exibida no documento.
 #| eval: false
 #| code-fold: true
 
+# Identify the indicators used in the factor analysis.
 analysis_items <- paste0("Q", 3:26)
 
+# Select the analysis items.
 item_data <- final_analysis_data |> select(all_of(analysis_items))
 
+# Estimate an auxiliary regression and extract item VIFs.
 vif_model <- lm(ID ~ ., data = final_analysis_data |>
                   select(ID, all_of(analysis_items)),
                 na.action = na.omit)
@@ -652,6 +698,7 @@ vif_values <- tibble(
   VIF = as.numeric(car::vif(vif_model))
 )
 
+# Calculate the descriptive statistics for each item.
 item_description <- psych::describe(item_data, fast = FALSE) |>
   as.data.frame() |> rownames_to_column("Item") |> as_tibble() |>
   transmute(
@@ -659,13 +706,16 @@ item_description <- psych::describe(item_data, fast = FALSE) |>
     Assimetria = skew, Curtose = kurtosis
   )
 
+# Combine item descriptions and collinearity diagnostics.
 item_description <- left_join(item_description, vif_values, by = "Item")
 
+# Save the item statistics before display rounding.
 write_csv2(
   item_description,
   here::here("Output", "Results", "Tables", "tbl-item-description.csv")
 )
 
+# Present the item statistics with three decimal places.
 item_description |> mutate(across(where(is.numeric), ~ round(.x, 3))) |>
   knitr::kable()
 ```
@@ -708,6 +758,7 @@ comprometida por colinearidade elevada.
 #| fig-height: 4.5
 #| echo: false
 
+# Prepare the social-domain items as five-category factors.
 social_items <- item_data |>
   select(Q20:Q22) |>
   mutate(across(everything(), ~ factor(
@@ -715,6 +766,7 @@ social_items <- item_data |>
   ))) |>
   as.data.frame()
 
+# Plot the response distributions for the social-domain items.
 social_plot <- plot(
   likert::likert(social_items, nlevels = 5),
   centered = TRUE, include.center = TRUE,
@@ -755,6 +807,7 @@ os rótulos básicos com `ggtitle()` e `labs()` e é exportado como figura PNG p
 #| eval: false
 #| code-fold: true
 
+# Prepare the social-domain items as five-category factors.
 social_items <- item_data |>
   select(Q20:Q22) |>
   mutate(across(everything(), ~ factor(
@@ -762,6 +815,7 @@ social_items <- item_data |>
   ))) |>
   as.data.frame()
 
+# Plot the response distributions for the social-domain items.
 social_plot <- plot(
   likert::likert(social_items, nlevels = 5),
   centered = TRUE, include.center = TRUE,

@@ -1,6 +1,10 @@
 quarto-required: "=1.9.37"
 lang: pt-BR
 
+language:
+  crossref-ch-prefix: "Seção"
+  crossref-sec-prefix: "Seção"
+
 project: # https://quarto.org/docs/projects/quarto-projects.html
   type: book # Specifies this project is a book format.
   execute-dir: project # Resolves relative R paths from the repository root.

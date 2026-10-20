@@ -1,30 +1,15 @@
 # Processo de estimação {#sec-estimation}
 
-:::: {.content-visible unless-format="pdf"}
-
-::: {.callout-important title="Como as análises estão organizadas" collapse="true"}
-
-O capítulo utiliza os scripts locais [models.R](Scripts/DataAppendixScripts/models.R)
-e [helpers.R](Scripts/DataAppendixScripts/helpers.R), além da base
-`whoqol_analysis.csv`. Os modelos empíricos são os objetos `analyzemodel` e
-`h1modelfree`, definidos em `models.R`. O primeiro corresponde ao H~0~, com quatro
-fatores correlacionados e a covariância residual entre `Q3` e `Q4`. O segundo
-corresponde ao H~1~ e acrescenta os três *cross-loadings* previamente justificados:
-`Q8` e `Q9` em `psycho`, e `Q15` em `environment`.
-
 ```{r}
 #| label: setup-estimation
-#| code-fold: true
+#| include: false
 
+# Load the scripts required for this section.
 source(here::here("Scripts", "DataAppendixScripts", "models.R"))
 source(here::here("Scripts", "DataAppendixScripts", "helpers.R"))
 ```
 
-:::
-
-::::
-
-Depois da seleção dos modelos e do pré-processamento, esta seção estima as duas
+Depois da seleção dos modelos e do pré-processamento, essa seção estima as duas
 especificações da AFC na amostra de análise final. A estimação converte as
 relações previstas nos modelos em parâmetros amostrais e aplica as condições
 definidas nas etapas anteriores: tratamento contínuo dos itens, MLR, FIML e
@@ -79,12 +64,14 @@ estimados com os índices de ajuste e os critérios de comparação dos modelos.
 #| tbl-cap: "Parâmetros fatoriais estimados nos modelos H~0~ e H~1~."
 #| echo: false
 
+# Read the preprocessed analysis data.
 analysis_data <- readr::read_csv2(
   here::here("Data", "AnalysisData", "whoqol_analysis.csv"),
   na = c("", "NA"),
   show_col_types = FALSE
 )
 
+# Estimate H0 and H1 using MLR/FIML and unit latent variances.
 fit_analyzemodel <- lavaan::cfa(
   model = analyzemodel,
   data = analysis_data,
@@ -101,97 +88,72 @@ fit_h1modelfree <- lavaan::cfa(
   std.lv = TRUE
 )
 
-parameter_estimates_analyzemodel <- lavaan::parameterEstimates(
-  fit_analyzemodel,
-  standardized = TRUE
-) |>
-  dplyr::filter(op == "=~") |>
-  dplyr::transmute(
-    Modelo = "H~0~",
-    Fator = lhs,
-    Item = rhs,
-    Carga = est,
-    `Erro-padrão` = se,
-    z = z,
-    `Carga padronizada` = std.all
-  )
+# Prepare each model's formatted loading table.
+parameter_table_h0 <- table_par(fit_analyzemodel, lang = "pt")
+parameter_table_h1 <- table_par(fit_h1modelfree, lang = "pt")
 
-parameter_estimates_h1modelfree <- lavaan::parameterEstimates(
-  fit_h1modelfree,
-  standardized = TRUE
-) |>
-  dplyr::filter(op == "=~") |>
-  dplyr::transmute(
-    Modelo = "H~1~",
-    Fator = lhs,
-    Item = rhs,
-    Carga = est,
-    `Erro-padrão` = se,
-    z = z,
-    `Carga padronizada` = std.all
-  )
+# Validate the display data before combining and exporting the tables.
+parameter_display_h0 <- attr(parameter_table_h0, "table_data")
+parameter_display_h1 <- attr(parameter_table_h1, "table_data")
+if (!is.data.frame(parameter_display_h0) ||
+    !is.data.frame(parameter_display_h1) ||
+    nrow(parameter_display_h0) == 0L || nrow(parameter_display_h1) == 0L) {
+  stop("table_data is missing. Reload helpers.R and rerun this chunk.")
+}
 
+# Stack H0 first and H1 second, identifying the model for every loading.
 parameter_estimates <- dplyr::bind_rows(
-  parameter_estimates_analyzemodel,
-  parameter_estimates_h1modelfree
+  H0 = parameter_display_h0,
+  H1 = parameter_display_h1,
+  .id = "Modelo"
 )
 
-write.csv2(
+# Export exactly the content displayed in the combined table.
+readr::write_excel_csv2(
   parameter_estimates,
   here::here("Output", "Results", "Tables", "tbl-estimation-parameters.csv"),
-  row.names = FALSE,
   na = "NA"
 )
 
-parameter_estimates |>
-  dplyr::mutate(
-    dplyr::across(
-      c(Carga, `Erro-padrão`, z, `Carga padronizada`),
-      ~ round(.x, 3)
-    )
-  ) |>
-  knitr::kable(escape = FALSE)
-
+# Present the two model blocks in one table.
+knitr::kable(parameter_estimates, align = c("l", "l", "r", "r", "r", "r"),
+  row.names = FALSE)
 ```
 
 :::: {.content-visible unless-format="pdf"}
 
 ::: {.callout-note title="Racional da @tbl-estimation-parameters" collapse="true"}
 
-O primeiro bloco lê a base analítica produzida no capítulo de pré-processamento.
-Em seguida, `lavaan::cfa()` ajusta os objetos `analyzemodel` e `h1modelfree`
-com máxima verossimilhança robusta (MLR), informação completa (FIML) para as ausências e
-identificação por variâncias latentes fixadas. Como os dois ajustes usam a
-mesma base e os mesmos argumentos, a diferença entre eles permanece restrita à
-especificação das cargas cruzadas.
+O bloco lê a base analítica com `readr::read_csv2()` e estima os dois modelos
+com `lavaan::cfa()`, mantendo as mesmas condições de estimação. A função
+`table_par()`, definida em [helpers.R](Scripts/DataAppendixScripts/helpers.R),
+prepara uma tabela de cargas para cada ajuste, com as relações na sintaxe
+lavaan, estimativas brutas, erros-padrão, estatísticas z e cargas padronizadas.
+Sua auxiliar `tidy_par()` organiza os parâmetros e preserva os valores
+numéricos completos; a seleção padrão apresenta somente as cargas livres.
 
-`lavaan::parameterEstimates(..., standardized = TRUE)` reúne as estimativas
-não padronizadas, os erros-padrão robustos, as estatísticas de teste e as soluções
-padronizadas. O filtro `op == "=~"` mantém somente as relações de carga
-fatorial; variâncias, covariâncias fatoriais e variâncias residuais serão
-examinadas nas etapas apropriadas. A coluna `std.all` fornece a carga
-padronizada, enquanto `est`, `se` e `z` preservam, respectivamente, a carga na
-escala do ajuste, sua incerteza e a estatística de teste.
+`attr()` recupera os dados de apresentação, e uma verificação impede a
+exportação de tabelas ausentes ou vazias. `dplyr::bind_rows()` empilha as
+cargas de H~0~ e, depois, as de H~1~, acrescentando a coluna `Modelo` para
+identificar cada bloco. As cargas cruzadas permanecem nas linhas de H~1~.
 
-As tabelas específicas de H~0~ e H~1~ são combinadas por `dplyr::bind_rows()` e
-recebem a coluna `Modelo`, o que permite apresentar os resultados lado a lado
-sem repetir a mesma tabela no texto. `write.csv2()` salva a versão completa,
-com a precisão original, em `Output/Results/Tables`; essa exportação é útil
-para auditoria e reutilização independente da renderização. Na saída exibida,
-`dplyr::mutate()` arredonda apenas uma cópia destinada à apresentação, sem
-alterar o arquivo salvo. Por fim, `knitr::kable()` transforma essa cópia em uma
-tabela formatada para o HTML e o PDF.
+`readr::write_excel_csv2()` exporta o mesmo conteúdo apresentado, preservando
+rótulos, ordem e valores de exibição em um CSV compatível com o Excel.
+`knitr::kable()` apresenta os dois blocos em uma única tabela no HTML e no
+PDF. Com os scripts carregados, o bloco pode ser reproduzido com:
 
 ```{r}
 #| eval: false
 #| code-fold: true
 
+# Read the preprocessed analysis data.
 analysis_data <- readr::read_csv2(
   here::here("Data", "AnalysisData", "whoqol_analysis.csv"),
   na = c("", "NA"),
   show_col_types = FALSE
 )
 
+# Estimate H0 and H1 using MLR/FIML and unit latent variances.
 fit_analyzemodel <- lavaan::cfa(
   model = analyzemodel,
   data = analysis_data,
@@ -208,56 +170,36 @@ fit_h1modelfree <- lavaan::cfa(
   std.lv = TRUE
 )
 
-parameter_estimates_analyzemodel <- lavaan::parameterEstimates(
-  fit_analyzemodel,
-  standardized = TRUE
-) |>
-  dplyr::filter(op == "=~") |>
-  dplyr::transmute(
-    Modelo = "H~0~",
-    Fator = lhs,
-    Item = rhs,
-    Carga = est,
-    `Erro-padrão` = se,
-        z = z,
-    `Carga padronizada` = std.all
-  )
+# Prepare each model's formatted loading table.
+parameter_table_h0 <- table_par(fit_analyzemodel, lang = "pt")
+parameter_table_h1 <- table_par(fit_h1modelfree, lang = "pt")
 
-parameter_estimates_h1modelfree <- lavaan::parameterEstimates(
-  fit_h1modelfree,
-  standardized = TRUE
-) |>
-  dplyr::filter(op == "=~") |>
-  dplyr::transmute(
-    Modelo = "H~1~",
-    Fator = lhs,
-    Item = rhs,
-    Carga = est,
-    `Erro-padrão` = se,
-        z = z,
-    `Carga padronizada` = std.all
-  )
+# Validate the display data before combining and exporting the tables.
+parameter_display_h0 <- attr(parameter_table_h0, "table_data")
+parameter_display_h1 <- attr(parameter_table_h1, "table_data")
+if (!is.data.frame(parameter_display_h0) ||
+    !is.data.frame(parameter_display_h1) ||
+    nrow(parameter_display_h0) == 0L || nrow(parameter_display_h1) == 0L) {
+  stop("table_data is missing. Reload helpers.R and rerun this chunk.")
+}
 
+# Stack H0 first and H1 second, identifying the model for every loading.
 parameter_estimates <- dplyr::bind_rows(
-  parameter_estimates_analyzemodel,
-  parameter_estimates_h1modelfree
+  H0 = parameter_display_h0,
+  H1 = parameter_display_h1,
+  .id = "Modelo"
 )
 
-write.csv2(
+# Export exactly the content displayed in the combined table.
+readr::write_excel_csv2(
   parameter_estimates,
   here::here("Output", "Results", "Tables", "tbl-estimation-parameters.csv"),
-  row.names = FALSE,
   na = "NA"
 )
 
-parameter_estimates |>
-  dplyr::mutate(
-    dplyr::across(
-      c(Carga, `Erro-padrão`, z, `Carga padronizada`),
-      ~ round(.x, 3)
-    )
-  ) |>
-  knitr::kable(escape = FALSE)
+# Present the two model blocks in one table.
+knitr::kable(parameter_estimates, align = c("l", "l", "r", "r", "r", "r"),
+  row.names = FALSE)
 ```
 
 :::
@@ -282,24 +224,30 @@ a avaliação do ajuste global e local.
 #| tbl-cap: "Verificações de convergência e admissibilidade das soluções estimadas."
 #| echo: false
 
+# Collect the fitted models for diagnostic checks.
 diagnostic_fits <- list(
   H0 = fit_analyzemodel,
   H1 = fit_h1modelfree
 )
 
+# Check convergence and admissibility for each fitted model.
 estimation_checks <- purrr::imap_dfr(
   diagnostic_fits,
   function(fit, model_name) {
+    # Identify the freely estimated parameters.
     parameter_table <- lavaan::parTable(fit)
     free_parameters <- parameter_table |>
       dplyr::filter(free > 0)
 
+    # Extract the estimated variances.
     variance_table <- lavaan::parameterEstimates(fit) |>
       dplyr::filter(op == "~~", lhs == rhs)
 
+    # Extract the standardized factor loadings.
     standardized_loadings <- lavaan::standardizedSolution(fit) |>
       dplyr::filter(op == "=~")
 
+    # Count improper estimates and check convergence.
     negative_variances <- sum(variance_table$est < 0, na.rm = TRUE)
     heywood_loadings <- sum(
       abs(standardized_loadings$est.std) > 1,
@@ -307,6 +255,7 @@ estimation_checks <- purrr::imap_dfr(
     )
     converged <- isTRUE(lavaan::lavInspect(fit, "converged"))
 
+    # Summarize the diagnostic checks for the current model.
     tibble::tibble(
       Modelo = model_name,
       `N observado` = as.integer(lavaan::lavInspect(fit, "nobs")),
@@ -318,6 +267,7 @@ estimation_checks <- purrr::imap_dfr(
   }
 )
 
+# Save the convergence and admissibility checks.
 write.csv2(
   estimation_checks,
   here::here("Output", "Results", "Tables", "tbl-estimation-checks.csv"),
@@ -325,6 +275,7 @@ write.csv2(
   na = "NA"
 )
 
+# Present the convergence and admissibility checks.
 estimation_checks |>
   knitr::kable()
 ```
@@ -364,24 +315,30 @@ resultado.
 #| eval: false
 #| code-fold: true
 
+# Collect the fitted models for diagnostic checks.
 diagnostic_fits <- list(
   H0 = fit_analyzemodel,
   H1 = fit_h1modelfree
 )
 
+# Check convergence and admissibility for each fitted model.
 estimation_checks <- purrr::imap_dfr(
   diagnostic_fits,
   function(fit, model_name) {
+    # Identify the freely estimated parameters.
     parameter_table <- lavaan::parTable(fit)
     free_parameters <- parameter_table |>
       dplyr::filter(free > 0)
 
+    # Extract the estimated variances.
     variance_table <- lavaan::parameterEstimates(fit) |>
       dplyr::filter(op == "~~", lhs == rhs)
 
+    # Extract the standardized factor loadings.
     standardized_loadings <- lavaan::standardizedSolution(fit) |>
       dplyr::filter(op == "=~")
 
+    # Count improper estimates and check convergence.
     negative_variances <- sum(variance_table$est < 0, na.rm = TRUE)
     heywood_loadings <- sum(
       abs(standardized_loadings$est.std) > 1,
@@ -389,6 +346,7 @@ estimation_checks <- purrr::imap_dfr(
     )
     converged <- isTRUE(lavaan::lavInspect(fit, "converged"))
 
+    # Summarize the diagnostic checks for the current model.
     tibble::tibble(
       Modelo = model_name,
       `N observado` = as.integer(lavaan::lavInspect(fit, "nobs")),
@@ -400,6 +358,7 @@ estimation_checks <- purrr::imap_dfr(
   }
 )
 
+# Save the convergence and admissibility checks.
 write.csv2(
   estimation_checks,
   here::here("Output", "Results", "Tables", "tbl-estimation-checks.csv"),
@@ -407,6 +366,7 @@ write.csv2(
   na = "NA"
 )
 
+# Present the convergence and admissibility checks.
 estimation_checks |>
   knitr::kable()
 ```

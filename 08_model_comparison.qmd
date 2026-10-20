@@ -1,71 +1,16 @@
 # Comparações e modificações dos modelos {#sec-model-comparison}
 
 
-:::: {.content-visible unless-format="pdf"}
-
-::: {.callout-important title="Como as análises estão organizadas" collapse="true"}
-
-A seção utiliza os scripts locais
-[models.R](Scripts/DataAppendixScripts/models.R) e
-[helpers.R](Scripts/DataAppendixScripts/helpers.R). O primeiro contém a
-especificação `adjustedzemodel`, com 21 indicadores distribuídos em quatro
-fatores: 5 psicológicos, 6 físicos, 3 sociais e 7 ambientais. A especificação
-exclui Q5, Q15 e Q24, retém Q3, Q4 e Q8 e prevê as covariâncias residuais
-Q3–Q4 e Q17–Q18. O segundo script carrega os pacotes e os parâmetros
-compartilhados pelo projeto.
-
-Os scripts [cache_utils.R](Scripts/DataAppendixScripts/cache_utils.R) e
-[cache_loader.R](Scripts/DataAppendixScripts/cache_loader.R) disponibilizam
-as funções de persistência utilizadas no projeto. As chamadas a `source()`
-carregam suas definições para as etapas seguintes.
-
-A função `readr::read_csv2()` lê a base analítica produzida no
-pré-processamento, [whoqol_analysis.csv](Data/AnalysisData/whoqol_analysis.csv),
-e a armazena em `analysis_data`. O argumento `na` identifica as representações
-de respostas ausentes.
-
-A chamada a `lavaan::cfa()` estima o modelo modificado e o armazena em
-`fit_adjustedzemodel`, utilizado nas saídas das etapas seguintes. O argumento
-`model` recebe `adjustedzemodel` e `data` recebe `analysis_data`.
-`estimator = "MLR"` define a estimação robusta, `missing = "fiml"` incorpora
-as respostas ausentes e `std.lv = TRUE` fixa as variâncias dos fatores em 1.
-
-Os caminhos são resolvidos por `here::here()` a partir da raiz do projeto.
-O setup recria esses objetos em cada execução, permitindo trabalhar neste
-capítulo em uma sessão independente. O bloco abaixo reproduz a preparação.
-
 ```{r}
 #| label: setup-model-comparison
-#| code-fold: true
+#| include: false
 
-# Load the model specifications.
+# Load the scripts required for this section.
 source(here::here("Scripts", "DataAppendixScripts", "models.R"))
-
-# Load shared packages, settings, and functions.
 source(here::here("Scripts", "DataAppendixScripts", "helpers.R"))
-
-# Load the functions for saving and reusing cached results.
 source(here::here("Scripts", "DataAppendixScripts", "cache_utils.R"))
-
-# Load the functions for reading persisted results.
 source(here::here("Scripts", "DataAppendixScripts", "cache_loader.R"))
-
-# Read the preprocessed analysis data
-analysis_data <- readr::read_csv2(
-  here::here("Data", "AnalysisData", "whoqol_analysis.csv"),
-  na = c("", "NA"), show_col_types = FALSE
-)
-
-# Fit the adjusted model using MLR/FIML and unit latent variances.
-fit_adjustedzemodel <- lavaan::cfa(
-  model = adjustedzemodel, data = analysis_data, estimator = "MLR",
-  missing = "fiml", std.lv = TRUE
-)
 ```
-
-:::
-
-::::
 
 ## Fundamentação das modificações {#sec-modification-rationale}
 
@@ -197,7 +142,7 @@ resultante, com as duas covariâncias residuais e os indicadores preservados.
 #| echo: false
 
 # Draw the adjusted model without numerical edge labels.
-plot_color(adjustedzemodel, what_labels = "no")
+plot_color(adjustedzemodel, node_labels = LABELS, what_labels = "no")
 ```
 
 :::: {.content-visible unless-format="pdf"}
@@ -215,7 +160,7 @@ para desenhar o modelo com as mesmas cores e abreviações da
 #| code-fold: true
 
 # Draw the adjusted model without numerical edge labels.
-plot_color(adjustedzemodel, what_labels = "no")
+plot_color(adjustedzemodel, node_labels = LABELS, what_labels = "no")
 ```
 
 :::
@@ -235,99 +180,101 @@ modificado.
 #| tbl-cap: "Parâmetros fatoriais estimados no modelo modificado."
 #| echo: false
 
-# Extract the adjusted model parameter estimates.
-parameter_estimates_adjusted <- lavaan::parameterEstimates(
-  fit_adjustedzemodel,
-  standardized = TRUE
+# Read the preprocessed analysis data
+analysis_data <- readr::read_csv2(
+  here::here("Data", "AnalysisData", "whoqol_analysis.csv"),
+  na = c("", "NA"), show_col_types = FALSE
 )
 
-# Select the factor loadings and organize the parameter table.
-parameters_adjusted <- parameter_estimates_adjusted |>
-  dplyr::filter(op == "=~") |>
-  dplyr::transmute(
-    Fator = lhs,
-    Item = rhs,
-    Carga = est,
-    `Erro-padrão` = se,
-    z = z,
-    `Carga padronizada` = std.all
-  )
+# Fit the adjusted model using MLR/FIML and unit latent variances.
+fit_adjustedzemodel <- lavaan::cfa(
+  model = adjustedzemodel, data = analysis_data, estimator = "MLR",
+  missing = "fiml", std.lv = TRUE
+)
 
-# Export the table at its original numerical precision.
-write.csv2(
-  parameters_adjusted,
+# Prepare the formatted loading table in Portuguese.
+parameter_table_adjusted <- table_par(fit_adjustedzemodel, lang = "pt")
+
+# Preserve full-precision parameters for the values inserted in the text.
+parameter_estimates_adjusted <- attr(parameter_table_adjusted, "par_data")
+
+# Validate and export exactly the content displayed in the table.
+parameter_table_data_adjusted <- attr(parameter_table_adjusted, "table_data")
+if (!is.data.frame(parameter_table_data_adjusted) ||
+    nrow(parameter_table_data_adjusted) == 0L) {
+  stop("table_data is missing. Reload helpers.R and rerun this chunk.")
+}
+readr::write_excel_csv2(
+  parameter_table_data_adjusted,
   here::here("Output", "Results", "Tables", "tbl-adjusted-parameters.csv"),
-  row.names = FALSE,
   na = "NA"
 )
 
-# Round a display copy and present the factor loadings.
-parameters_adjusted |>
-  dplyr::mutate(
-    dplyr::across(
-      c(Carga, `Erro-padrão`, z, `Carga padronizada`),
-      ~ round(.x, 3)
-    )
-  ) |>
-  knitr::kable(escape = FALSE)
+# Present the formatted loading table.
+parameter_table_adjusted
 ```
 
 :::: {.content-visible unless-format="pdf"}
 
 ::: {.callout-note title="Racional da @tbl-adjusted-parameters" collapse="true"}
 
-`lavaan::parameterEstimates(..., standardized = TRUE)` extrai as estimativas
-não padronizadas, os erros-padrão robustos, as estatísticas de teste e a
-solução padronizada de `fit_adjustedzemodel`, criado no setup.
-`parameter_estimates_adjusted` preserva o retorno completo.
-O filtro `op == "=~"` seleciona somente as cargas fatoriais;
-`transmute()` organiza as colunas de `parameters_adjusted`.
-`std.all` fornece a carga padronizada.
+O bloco lê a base analítica com `readr::read_csv2()` e estima o modelo
+modificado com `lavaan::cfa()`, mantendo as condições da @sec-estimation.
+A função `table_par()`, definida em
+[helpers.R](Scripts/DataAppendixScripts/helpers.R), prepara a tabela de
+cargas fatoriais. Internamente, `tidy_par()` organiza os parâmetros do lavaan
+e preserva seus valores numéricos completos. A coluna de relação mantém a
+sintaxe do modelo, identificando o fator e o item de cada carga; a apresentação
+é formatada por `knitr::kable()`.
 
-`write.csv2()` salva os valores com precisão original em
-`Output/Results/Tables/tbl-adjusted-parameters.csv`. Na apresentação,
-`mutate()` e `across()` arredondam as quatro colunas numéricas a três casas
-decimais, e `knitr::kable()` apresenta a tabela no mesmo padrão anterior.
+A função também permite selecionar covariâncias, variâncias, interceptos,
+médias, limiares e regressões, isoladamente ou em conjunto. Nessa tabela,
+a seleção padrão apresenta somente as cargas livres, com estimativas brutas,
+erros-padrão, estatísticas z e cargas padronizadas.
+
+`attr()` recupera os parâmetros completos para os valores inseridos no texto
+e o conteúdo de apresentação para exportação. Uma verificação impede a
+gravação de dados ausentes ou vazios. `readr::write_excel_csv2()` salva o mesmo
+conteúdo exibido no HTML e no PDF, preservando rótulos, ordem e valores de
+exibição em um CSV compatível com o Excel. A expressão final apresenta a
+tabela preparada. Com os scripts carregados, o bloco pode ser reproduzido com:
 
 ```{r}
 #| eval: false
 #| code-fold: true
 
-# Extract the adjusted model parameter estimates.
-parameter_estimates_adjusted <- lavaan::parameterEstimates(
-  fit_adjustedzemodel,
-  standardized = TRUE
+# Read the preprocessed analysis data
+analysis_data <- readr::read_csv2(
+  here::here("Data", "AnalysisData", "whoqol_analysis.csv"),
+  na = c("", "NA"), show_col_types = FALSE
 )
 
-# Select the factor loadings and organize the parameter table.
-parameters_adjusted <- parameter_estimates_adjusted |>
-  dplyr::filter(op == "=~") |>
-  dplyr::transmute(
-    Fator = lhs,
-    Item = rhs,
-    Carga = est,
-    `Erro-padrão` = se,
-    z = z,
-    `Carga padronizada` = std.all
-  )
+# Fit the adjusted model using MLR/FIML and unit latent variances.
+fit_adjustedzemodel <- lavaan::cfa(
+  model = adjustedzemodel, data = analysis_data, estimator = "MLR",
+  missing = "fiml", std.lv = TRUE
+)
 
-# Export the table at its original numerical precision.
-write.csv2(
-  parameters_adjusted,
+# Prepare the formatted loading table in Portuguese.
+parameter_table_adjusted <- table_par(fit_adjustedzemodel, lang = "pt")
+
+# Preserve full-precision parameters for the values inserted in the text.
+parameter_estimates_adjusted <- attr(parameter_table_adjusted, "par_data")
+
+# Validate and export exactly the content displayed in the table.
+parameter_table_data_adjusted <- attr(parameter_table_adjusted, "table_data")
+if (!is.data.frame(parameter_table_data_adjusted) ||
+    nrow(parameter_table_data_adjusted) == 0L) {
+  stop("table_data is missing. Reload helpers.R and rerun this chunk.")
+}
+readr::write_excel_csv2(
+  parameter_table_data_adjusted,
   here::here("Output", "Results", "Tables", "tbl-adjusted-parameters.csv"),
-  row.names = FALSE,
   na = "NA"
 )
 
-# Round a display copy and present the factor loadings.
-parameters_adjusted |>
-  dplyr::mutate(
-    dplyr::across(
-      c(Carga, `Erro-padrão`, z, `Carga padronizada`),
-      ~ round(.x, 3)
-    )
-  ) |>
-  knitr::kable(escape = FALSE)
+# Present the formatted loading table.
+parameter_table_adjusted
 ```
 
 :::
@@ -335,9 +282,9 @@ parameters_adjusted |>
 ::::
 
 As cargas de Q3, Q4 e Q8 permanecem modestas:
-`r formatC(parameters_adjusted[["Carga padronizada"]][parameters_adjusted$Item == "Q3"], format = "f", digits = 3, decimal.mark = ",")`,
-`r formatC(parameters_adjusted[["Carga padronizada"]][parameters_adjusted$Item == "Q4"], format = "f", digits = 3, decimal.mark = ",")` e
-`r formatC(parameters_adjusted[["Carga padronizada"]][parameters_adjusted$Item == "Q8"], format = "f", digits = 3, decimal.mark = ",")`,
+`r formatC(parameter_estimates_adjusted$std.all[parameter_estimates_adjusted$op == "=~" & parameter_estimates_adjusted$rhs == "Q3"], format = "f", digits = 3, decimal.mark = ",")`,
+`r formatC(parameter_estimates_adjusted$std.all[parameter_estimates_adjusted$op == "=~" & parameter_estimates_adjusted$rhs == "Q4"], format = "f", digits = 3, decimal.mark = ",")` e
+`r formatC(parameter_estimates_adjusted$std.all[parameter_estimates_adjusted$op == "=~" & parameter_estimates_adjusted$rhs == "Q8"], format = "f", digits = 3, decimal.mark = ",")`,
 respectivamente. A retenção desses indicadores preserva os conteúdos de dor,
 necessidade de tratamento e segurança, reconhecendo a representação parcial
 desses aspectos pelos fatores. Embora as cargas modestas permitam cogitar a exclusão de Q3, Q4 e Q8, optamos por preservar esses indicadores e a covariância Q3–Q4, limitando a exploração posterior. Modificações sucessivas poderiam favorecer um ajuste excessivo às particularidades dessa amostra, com menor possibilidade de generalização.
@@ -358,121 +305,81 @@ o modelo de 21 indicadores.
 #| tbl-cap: "Ajuste global do modelo modificado, estimado por MLR/FIML."
 #| echo: false
 
-# Retain the native named vector and select the Chapter 7 definitions.
-fit_measures_adjusted <- lavaan::fitMeasures(fit_adjustedzemodel)
+# Prepare the formatted global fit table in Portuguese.
+fit_table_adjusted <- table_fit(fit_adjustedzemodel, lang = "pt")
 
-# Select the adjusted test and robust global fit indices.
-fit_measure_names_adjusted <- c(
-  "ntotal", "chisq.scaled", "df.scaled", "pvalue.scaled",
-  "cfi.robust", "tli.robust", "rmsea.robust",
-  "rmsea.ci.lower.robust", "rmsea.ci.upper.robust",
-  "rmsea.pvalue.robust", "srmr"
+# Preserve full-precision measures for the values inserted in the text.
+fit_data_adjusted <- attr(fit_table_adjusted, "fit_data")
+fit_measures_adjusted <- stats::setNames(
+  fit_data_adjusted$estimate, fit_data_adjusted$measure
 )
 
-# Combine readable labels, measure names, and fit values.
-fit_global_adjusted <- data.frame(
-  Indicador = c(
-    "N", "χ² ajustado", "Graus de liberdade", "Valor de p",
-    "CFI robusto", "TLI robusto", "RMSEA robusto",
-    "RMSEA robusto: limite inferior do IC de 90%",
-    "RMSEA robusto: limite superior do IC de 90%",
-    "Valor de p: RMSEA robusto ≤ 0,05", "SRMR"
-  ),
-  Medida = fit_measure_names_adjusted,
-  Modificado = as.numeric(fit_measures_adjusted[fit_measure_names_adjusted])
-)
-
-# Export the table at its original numerical precision.
-write.csv2(
-  fit_global_adjusted,
+# Validate and export exactly the content displayed in the table.
+fit_table_data_adjusted <- attr(fit_table_adjusted, "table_data")
+if (!is.data.frame(fit_table_data_adjusted) ||
+    nrow(fit_table_data_adjusted) == 0L) {
+  stop("table_data is missing. Reload helpers.R and rerun this chunk.")
+}
+readr::write_excel_csv2(
+  fit_table_data_adjusted,
   here::here("Output", "Results", "Tables", "tbl-adjusted-model-fit-global.csv"),
-  row.names = FALSE, na = "NA"
+  na = "NA"
 )
 
-# Format a display copy and present the global fit indices.
-fit_global_adjusted |>
-  dplyr::select(Indicador, Modificado) |>
-  dplyr::mutate(
-    Modificado = ifelse(
-      grepl("^Valor de p", Indicador),
-      format.pval(Modificado, digits = 3, eps = 0.001, scientific = FALSE),
-      as.character(round(Modificado, 3))
-    )
-  ) |>
-  knitr::kable(
-    col.names = c("Indicador", "Modificado"),
-    align = c("l", "c"),
-    escape = FALSE
-  )
+# Present the formatted global fit table.
+fit_table_adjusted
 ```
 
 :::: {.content-visible unless-format="pdf"}
 
 ::: {.callout-note title="Racional da @tbl-adjusted-model-fit-global" collapse="true"}
 
-`lavaan::fitMeasures()` retorna o vetor nomeado `fit_measures_adjusted`.
-`fit_measure_names_adjusted` seleciona `ntotal`, o teste ajustado
-(`chisq.scaled`, `df.scaled`, `pvalue.scaled`), os índices `.robust`, os limites
-robustos do intervalo do RMSEA, `rmsea.pvalue.robust` para o teste de ajuste
-próximo (hipótese nula: RMSEA ≤ 0,05) e `srmr`. As versões `.scaled` de CFI, TLI e
-RMSEA são distintas das versões `.robust` utilizadas nesta tabela.
+A função `table_fit()`, definida em
+[helpers.R](Scripts/DataAppendixScripts/helpers.R), recebe o modelo ajustado
+e prepara a tabela de ajuste global. Internamente, `tidy_fit()` organiza
+as medidas do lavaan, seleciona as versões compatíveis com o teste utilizado
+na estimação e preserva os valores numéricos completos. A apresentação é
+formatada por `knitr::kable()`.
 
-`fit_global_adjusted` conserva os rótulos, os nomes originais e os valores
-numéricos; `write.csv2()` salva o objeto em
-`Output/Results/Tables/tbl-adjusted-model-fit-global.csv`. A seleção das duas
-colunas e a formatação dos valores de p e das casas decimais afetam somente
-a cópia apresentada por `knitr::kable()`.
+O resultado reúne a tabela e seus dados de origem. `attr()` recupera as
+medidas completas para os valores inseridos no texto e o conteúdo formatado
+para exportação. `stats::setNames()` organiza as medidas em um vetor nomeado,
+facilitando sua consulta. Antes de gravar o arquivo, uma verificação impede
+a exportação de dados ausentes ou vazios.
+
+`readr::write_excel_csv2()` salva o mesmo conteúdo apresentado no HTML e no
+PDF, preservando rótulos, ordem e valores de exibição em um CSV compatível
+com o Excel. A expressão final apresenta a tabela. A estimação do modelo
+permanece na etapa anterior; este bloco organiza, exporta e apresenta seus
+resultados.
 
 ```{r}
 #| eval: false
 #| code-fold: true
 
-# Retain the native named vector and select the Chapter 7 definitions.
-fit_measures_adjusted <- lavaan::fitMeasures(fit_adjustedzemodel)
+# Prepare the formatted global fit table in Portuguese.
+fit_table_adjusted <- table_fit(fit_adjustedzemodel, lang = "pt")
 
-# Select the adjusted test and robust global fit indices.
-fit_measure_names_adjusted <- c(
-  "ntotal", "chisq.scaled", "df.scaled", "pvalue.scaled",
-  "cfi.robust", "tli.robust", "rmsea.robust",
-  "rmsea.ci.lower.robust", "rmsea.ci.upper.robust",
-  "rmsea.pvalue.robust", "srmr"
+# Preserve full-precision measures for the values inserted in the text.
+fit_data_adjusted <- attr(fit_table_adjusted, "fit_data")
+fit_measures_adjusted <- stats::setNames(
+  fit_data_adjusted$estimate, fit_data_adjusted$measure
 )
 
-# Combine readable labels, measure names, and fit values.
-fit_global_adjusted <- data.frame(
-  Indicador = c(
-    "N", "χ² ajustado", "Graus de liberdade", "Valor de p",
-    "CFI robusto", "TLI robusto", "RMSEA robusto",
-    "RMSEA robusto: limite inferior do IC de 90%",
-    "RMSEA robusto: limite superior do IC de 90%",
-    "Valor de p: RMSEA robusto ≤ 0,05", "SRMR"
-  ),
-  Medida = fit_measure_names_adjusted,
-  Modificado = as.numeric(fit_measures_adjusted[fit_measure_names_adjusted])
-)
-
-# Export the table at its original numerical precision.
-write.csv2(
-  fit_global_adjusted,
+# Validate and export exactly the content displayed in the table.
+fit_table_data_adjusted <- attr(fit_table_adjusted, "table_data")
+if (!is.data.frame(fit_table_data_adjusted) ||
+    nrow(fit_table_data_adjusted) == 0L) {
+  stop("table_data is missing. Reload helpers.R and rerun this chunk.")
+}
+readr::write_excel_csv2(
+  fit_table_data_adjusted,
   here::here("Output", "Results", "Tables", "tbl-adjusted-model-fit-global.csv"),
-  row.names = FALSE, na = "NA"
+  na = "NA"
 )
 
-# Format a display copy and present the global fit indices.
-fit_global_adjusted |>
-  dplyr::select(Indicador, Modificado) |>
-  dplyr::mutate(
-    Modificado = ifelse(
-      grepl("^Valor de p", Indicador),
-      format.pval(Modificado, digits = 3, eps = 0.001, scientific = FALSE),
-      as.character(round(Modificado, 3))
-    )
-  ) |>
-  knitr::kable(
-    col.names = c("Indicador", "Modificado"),
-    align = c("l", "c"),
-    escape = FALSE
-  )
+# Present the formatted global fit table.
+fit_table_adjusted
 ```
 
 :::
@@ -507,159 +414,76 @@ discutida [@flora2020; @cho2022; @trizano-hermosilla2016].
 #| tbl-cap: "Confiabilidade dos escores no modelo modificado."
 #| echo: false
 
-# Define the equally weighted item sets retained in the modified model.
-adjusted_domain_items <- list(
-  psycho = c("Q6", "Q7", "Q11", "Q19", "Q26"),
-  physical = c("Q3", "Q4", "Q10", "Q16", "Q17", "Q18"),
-  social = c("Q20", "Q21", "Q22"),
-  environment = c("Q8", "Q9", "Q12", "Q13", "Q14", "Q23", "Q25")
-)
+# Prepare the formatted score reliability table in Portuguese.
+reliability_table_adjusted <- table_reliability(fit_adjustedzemodel, lang = "pt")
 
-# Estimate domain-factor reliability using observed score variances.
-omega_adjusted <- semTools::compRelSEM(
-  fit_adjustedzemodel, obs.var = TRUE, tau.eq = FALSE
-)
+# Preserve full-precision coefficients for the values inserted in the text.
+reliability_adjusted <- attr(reliability_table_adjusted, "reliability_data")
 
-# Extract the observed covariance matrix used by the principal fit.
-reliability_cov_adjusted <- lavaan::lavInspect(
-  fit_adjustedzemodel, "sampstat"
-)$cov
-
-# Keep each native GLB result, including solver status, for inspection.
-glb_adjusted <- list(
-  psycho = psych::glb.algebraic(
-    reliability_cov_adjusted[
-      adjusted_domain_items$psycho, adjusted_domain_items$psycho
-    ]
-  ),
-  physical = psych::glb.algebraic(
-    reliability_cov_adjusted[
-      adjusted_domain_items$physical, adjusted_domain_items$physical
-    ]
-  ),
-  social = psych::glb.algebraic(
-    reliability_cov_adjusted[
-      adjusted_domain_items$social, adjusted_domain_items$social
-    ]
-  ),
-  environment = psych::glb.algebraic(
-    reliability_cov_adjusted[
-      adjusted_domain_items$environment, adjusted_domain_items$environment
-    ]
-  )
-)
-
-# Assemble the numeric table in the same domain order as Chapter 7.
-reliability_adjusted <- data.frame(
-  Domínio = c("Psicológico", "Físico", "Relações sociais", "Ambiente"),
-  Itens = lengths(adjusted_domain_items),
-  Ômega = as.numeric(omega_adjusted[names(adjusted_domain_items)]),
-  GLB = c(
-    glb_adjusted$psycho$glb, glb_adjusted$physical$glb,
-    glb_adjusted$social$glb, glb_adjusted$environment$glb
-  ),
-  row.names = NULL
-)
-
-# Save the numeric table before any display rounding.
-write.csv2(
-  reliability_adjusted,
+# Validate and export exactly the content displayed in the table.
+reliability_table_data_adjusted <- attr(reliability_table_adjusted, "table_data")
+if (!is.data.frame(reliability_table_data_adjusted) ||
+    nrow(reliability_table_data_adjusted) == 0L) {
+  stop("table_data is missing. Reload helpers.R and rerun this chunk.")
+}
+readr::write_excel_csv2(
+  reliability_table_data_adjusted,
   here::here("Output", "Results", "Tables", "tbl-adjusted-domain-reliability.csv"),
-  row.names = FALSE, na = "NA"
+  na = "NA"
 )
 
-# Present the domain reliability coefficients with three decimal places.
-reliability_adjusted |>
-  knitr::kable(digits = 3, row.names = FALSE, escape = FALSE)
+# Present the formatted score reliability table.
+reliability_table_adjusted
 ```
 
 :::: {.content-visible unless-format="pdf"}
 
 ::: {.callout-note title="Racional da @tbl-adjusted-domain-reliability" collapse="true"}
 
-`adjusted_domain_items` explicita a composição dos escores com pesos iguais.
-`semTools::compRelSEM()` recebe `fit_adjustedzemodel` e calcula `omega_adjusted`
-com os mesmos argumentos do capítulo anterior: `obs.var = TRUE` utiliza a
-variância observada do escore, e `tau.eq = FALSE` permite cargas distintas.
+A função `table_reliability()`, definida em
+[helpers.R](Scripts/DataAppendixScripts/helpers.R), recebe o modelo ajustado
+e prepara a tabela de confiabilidade. Sua auxiliar `tidy_reliability()`
+identifica os itens de cada fator no modelo e calcula os coeficientes para
+os escores com pesos iguais. `semTools::compRelSEM()` fornece o ômega,
+enquanto `psych::glb.algebraic()` calcula o GLB a partir da matriz observada
+dos mesmos itens. Os nomes dos fatores são preservados.
 
-`lavaan::lavInspect(..., "sampstat")$cov` recupera a matriz observada utilizada
-no ajuste. Cada chamada a `psych::glb.algebraic()` seleciona o bloco de um
-domínio; `glb_adjusted` preserva os resultados nativos, e `$glb` fornece os
-coeficientes. `reliability_adjusted` reúne domínio, contagem de itens, ômega e
-GLB na mesma ordem da seção anterior.
+`attr()` recupera os coeficientes completos para os valores inseridos no
+texto e o conteúdo de apresentação para exportação. Os dados completos
+também preservam a composição dos escores e os resultados nativos dos
+cálculos, permitindo consultar os diagnósticos. Uma verificação impede a
+gravação de uma tabela ausente ou vazia.
 
-`write.csv2()` exporta os valores com precisão original para
-`Output/Results/Tables/tbl-adjusted-domain-reliability.csv`.
-`knitr::kable()` apresenta a tabela com três casas decimais.
+`readr::write_excel_csv2()` salva o mesmo conteúdo apresentado no HTML e no
+PDF, preservando rótulos, ordem e valores de exibição em um CSV compatível
+com o Excel. A expressão final apresenta a tabela, formatada internamente
+por `knitr::kable()`. O bloco utiliza o ajuste já estimado;
+não realiza uma nova estimação nem executa simulações.
 
 ```{r}
 #| eval: false
 #| code-fold: true
 
-# Define the equally weighted item sets retained in the modified model.
-adjusted_domain_items <- list(
-  psycho = c("Q6", "Q7", "Q11", "Q19", "Q26"),
-  physical = c("Q3", "Q4", "Q10", "Q16", "Q17", "Q18"),
-  social = c("Q20", "Q21", "Q22"),
-  environment = c("Q8", "Q9", "Q12", "Q13", "Q14", "Q23", "Q25")
-)
+# Prepare the formatted score reliability table in Portuguese.
+reliability_table_adjusted <- table_reliability(fit_adjustedzemodel, lang = "pt")
 
-# Estimate domain-factor reliability using observed score variances.
-omega_adjusted <- semTools::compRelSEM(
-  fit_adjustedzemodel, obs.var = TRUE, tau.eq = FALSE
-)
+# Preserve full-precision coefficients for the values inserted in the text.
+reliability_adjusted <- attr(reliability_table_adjusted, "reliability_data")
 
-# Extract the observed covariance matrix used by the principal fit.
-reliability_cov_adjusted <- lavaan::lavInspect(
-  fit_adjustedzemodel, "sampstat"
-)$cov
-
-# Keep each native GLB result, including solver status, for inspection.
-glb_adjusted <- list(
-  psycho = psych::glb.algebraic(
-    reliability_cov_adjusted[
-      adjusted_domain_items$psycho, adjusted_domain_items$psycho
-    ]
-  ),
-  physical = psych::glb.algebraic(
-    reliability_cov_adjusted[
-      adjusted_domain_items$physical, adjusted_domain_items$physical
-    ]
-  ),
-  social = psych::glb.algebraic(
-    reliability_cov_adjusted[
-      adjusted_domain_items$social, adjusted_domain_items$social
-    ]
-  ),
-  environment = psych::glb.algebraic(
-    reliability_cov_adjusted[
-      adjusted_domain_items$environment, adjusted_domain_items$environment
-    ]
-  )
-)
-
-# Assemble the numeric table in the same domain order as Chapter 7.
-reliability_adjusted <- data.frame(
-  Domínio = c("Psicológico", "Físico", "Relações sociais", "Ambiente"),
-  Itens = lengths(adjusted_domain_items),
-  Ômega = as.numeric(omega_adjusted[names(adjusted_domain_items)]),
-  GLB = c(
-    glb_adjusted$psycho$glb, glb_adjusted$physical$glb,
-    glb_adjusted$social$glb, glb_adjusted$environment$glb
-  ),
-  row.names = NULL
-)
-
-# Save the numeric table before any display rounding.
-write.csv2(
-  reliability_adjusted,
+# Validate and export exactly the content displayed in the table.
+reliability_table_data_adjusted <- attr(reliability_table_adjusted, "table_data")
+if (!is.data.frame(reliability_table_data_adjusted) ||
+    nrow(reliability_table_data_adjusted) == 0L) {
+  stop("table_data is missing. Reload helpers.R and rerun this chunk.")
+}
+readr::write_excel_csv2(
+  reliability_table_data_adjusted,
   here::here("Output", "Results", "Tables", "tbl-adjusted-domain-reliability.csv"),
-  row.names = FALSE, na = "NA"
+  na = "NA"
 )
 
-# Present the domain reliability coefficients with three decimal places.
-reliability_adjusted |>
-  knitr::kable(digits = 3, row.names = FALSE, escape = FALSE)
+# Present the formatted score reliability table.
+reliability_table_adjusted
 ```
 
 :::
@@ -671,13 +495,13 @@ o escore social preserva seus três indicadores. O ômega e o GLB permanecem aci
 [@cho2022; @trizano-hermosilla2016].
 
 Os ômegas variam de
-`r formatC(min(reliability_adjusted$Ômega), format = "f", digits = 3, decimal.mark = ",")`
+`r formatC(min(reliability_adjusted$omega), format = "f", digits = 3, decimal.mark = ",")`
 a
-`r formatC(max(reliability_adjusted$Ômega), format = "f", digits = 3, decimal.mark = ",")`;
+`r formatC(max(reliability_adjusted$omega), format = "f", digits = 3, decimal.mark = ",")`;
 os GLB, de
-`r formatC(min(reliability_adjusted$GLB), format = "f", digits = 3, decimal.mark = ",")`
+`r formatC(min(reliability_adjusted$glb), format = "f", digits = 3, decimal.mark = ",")`
 a
-`r formatC(max(reliability_adjusted$GLB), format = "f", digits = 3, decimal.mark = ",")`.
+`r formatC(max(reliability_adjusted$glb), format = "f", digits = 3, decimal.mark = ",")`.
 Em relação a H~0~, os ômegas psicológico, físico e ambiental diminuíram,
 enquanto o social permaneceu praticamente estável. A melhora do
 ajuste global foi acompanhada de redução da cobertura dos domínios e de pequenas
@@ -690,7 +514,7 @@ por discrepância direta (DDDFI), com referências de ajuste aproximado,
 enquanto a simulação da @sec-model-fit examinou a referência de ajuste exato
 dos modelos empíricos [@mcneishwolf2023dddf].
 
-### DDDFI
+### 3DFI
 
 A calibração considera os 21 indicadores, a não normalidade e a estimação
 robusta. São utilizadas 1.000 replicações e três magnitudes médias absolutas de
@@ -739,65 +563,41 @@ dfi_adjusted <- readRDS(
   here::here("Data", "IntermediateData", "dfi_adjusted.rds")
 )
 
-# Select the three discrepancy levels and retain the achieved MAD values.
-dfi_cutoffs_adjusted <- data.frame(
-  Referência = c("Próximo", "Razoável", "Medíocre"),
-  MAD = as.numeric(dfi_adjusted$cutoffs[c("Close", "Fair", "Mediocre"), "MAD"]),
-  `MAD simulado` = as.numeric(
-    dfi_adjusted$cutoffs[c("Close", "Fair", "Mediocre"), "Sim. MAD"]
-  ),
-  CFI = as.numeric(dfi_adjusted$cutoffs[c("Close", "Fair", "Mediocre"), "CFI"]),
-  RMSEA = as.numeric(
-    dfi_adjusted$cutoffs[c("Close", "Fair", "Mediocre"), "RMSEA"]
-  ),
-  `Limite superior do IC do RMSEA` = as.numeric(
-    dfi_adjusted$cutoffs[c("Close", "Fair", "Mediocre"), "90% CI"]
-  ),
-  check.names = FALSE
-)
+# Format the calibrated DDDFI reference table.
+dfi_table_adjusted <- table_3dfi(dfi_adjusted, lang = "pt")
 
-# Export the calibrated reference values before display rounding.
-write.csv2(
-  dfi_cutoffs_adjusted,
+# Export exactly the content displayed in the table.
+dfi_table_data_adjusted <- attr(dfi_table_adjusted, "table_data")
+readr::write_excel_csv2(
+  dfi_table_data_adjusted,
   here::here("Output", "Results", "Tables", "tbl-adjusted-dfi-cutoffs.csv"),
-  row.names = FALSE, na = "NA"
+  na = "NA"
 )
 
-# Present the model-specific cutoffs with three decimal places.
-knitr::kable(dfi_cutoffs_adjusted, digits = 3, row.names = FALSE)
+# Display the calibrated reference table.
+dfi_table_adjusted
 ```
 
 :::: {.content-visible unless-format="pdf"}
 
 ::: {.callout-note title="Racional da @tbl-adjusted-dfi-cutoffs" collapse="true"}
 
-O primeiro bloco seleciona os indicadores de `fit_adjustedzemodel` com
-`lavaan::lavNames(..., "ov")`. `as.data.frame()` organiza `dfi_data`,
-preservando as respostas ausentes.
+`lavaan::lavNames()` seleciona os indicadores do modelo modificado e
+`as.data.frame()` organiza os dados, preservando as respostas ausentes.
+`dynamic::DDDFI()` calibra os limites a partir do modelo e desses dados;
+`set.seed()` fixa a semente. `cache_or_run()` reutiliza ou salva a calibração,
+e a remoção dos dados simulados reduz o tamanho do arquivo.
 
-`cache_or_run()` reutiliza a calibração existente ou executa e salva o
-resultado em `Data/IntermediateData/dfi_adjusted.rds`.
-`set.seed(SEED)` fixa a semente da simulação.
+`readRDS()` recupera o resultado salvo. `table_3dfi()` recebe essa calibração
+e chama `tidy_3dfi()` para organizar as referências próximo, razoável e
+medíocre. A tabela apresenta MAD solicitado e simulado, CFI, RMSEA e o
+limite superior do IC de 90% do RMSEA, com três casas decimais e rótulos em
+português. A função apenas organiza o resultado existente.
 
-`dynamic::DDDFI()` recebe o modelo ajustado e `dfi_data`.
-Os argumentos principais são `scale = "nonnormal"`, para dados não normais;
-`estimator = "MLR"`, para estimação robusta; `reps = 1000`, para 1.000
-replicações; e `MAD`, que define as três magnitudes de discrepância.
-A remoção de `$simulated_data` reduz o arquivo salvo, mantendo os índices e
-os limites necessários à apresentação.
-
-`readRDS()` lê o resultado persistido. Com o cache disponível, a renderização
-reutiliza a calibração. Se o modelo ou a configuração mudar, esse cache
-precisa ser regenerado, pois `cache_or_run()` não verifica essas mudanças.
-
-`data.frame()` organiza `dfi_cutoffs_adjusted` com as linhas `Close`, `Fair`
-e `Mediocre` de `$cutoffs`. `MAD` informa a discrepância solicitada e
-`Sim. MAD`, a alcançada. As demais colunas fornecem os limites de CFI,
-RMSEA e do extremo superior do intervalo de 90% do RMSEA.
-
-`write.csv2()` exporta a tabela para `tbl-adjusted-dfi-cutoffs.csv`.
-`knitr::kable()` apresenta os valores com três casas decimais. O exemplo
-abaixo reproduz a sequência completa sem executá-la novamente no callout.
+`attr()` recupera o conteúdo apresentado; `write_excel_csv2()` exporta as
+mesmas células para `Output/Results/Tables/tbl-adjusted-dfi-cutoffs.csv`,
+com codificação compatível com Excel. O objeto da tabela é apresentado ao
+final. O exemplo abaixo reproduz a sequência completa.
 
 ```{r}
 #| eval: false
@@ -837,32 +637,19 @@ dfi_adjusted <- readRDS(
   here::here("Data", "IntermediateData", "dfi_adjusted.rds")
 )
 
-# Select the three discrepancy levels and retain the achieved MAD values.
-dfi_cutoffs_adjusted <- data.frame(
-  Referência = c("Próximo", "Razoável", "Medíocre"),
-  MAD = as.numeric(dfi_adjusted$cutoffs[c("Close", "Fair", "Mediocre"), "MAD"]),
-  `MAD simulado` = as.numeric(
-    dfi_adjusted$cutoffs[c("Close", "Fair", "Mediocre"), "Sim. MAD"]
-  ),
-  CFI = as.numeric(dfi_adjusted$cutoffs[c("Close", "Fair", "Mediocre"), "CFI"]),
-  RMSEA = as.numeric(
-    dfi_adjusted$cutoffs[c("Close", "Fair", "Mediocre"), "RMSEA"]
-  ),
-  `Limite superior do IC do RMSEA` = as.numeric(
-    dfi_adjusted$cutoffs[c("Close", "Fair", "Mediocre"), "90% CI"]
-  ),
-  check.names = FALSE
-)
+# Format the calibrated DDDFI reference table.
+dfi_table_adjusted <- table_3dfi(dfi_adjusted, lang = "pt")
 
-# Export the calibrated reference values before display rounding.
-write.csv2(
-  dfi_cutoffs_adjusted,
+# Export exactly the content displayed in the table.
+dfi_table_data_adjusted <- attr(dfi_table_adjusted, "table_data")
+readr::write_excel_csv2(
+  dfi_table_data_adjusted,
   here::here("Output", "Results", "Tables", "tbl-adjusted-dfi-cutoffs.csv"),
-  row.names = FALSE, na = "NA"
+  na = "NA"
 )
 
-# Present the model-specific cutoffs with three decimal places.
-knitr::kable(dfi_cutoffs_adjusted, digits = 3, row.names = FALSE)
+# Display the calibrated reference table.
+dfi_table_adjusted
 ```
 
 :::
@@ -881,7 +668,6 @@ visualizar a diferença entre as duas referências de interpretação.
 #| fig-width: 10
 #| fig-height: 5
 #| echo: false
-#| cache: false
 
 # Combine the reference and fair-discrepancy simulated indices.
 dfi_plot_data <- rbind(
@@ -1144,94 +930,75 @@ fundamentação [@nye2022; @crede2019].
 #| label: tbl-adjusted-modification-indices-top20
 #| tbl-cap: "Vinte maiores índices de modificação do modelo modificado, com EPC bruto e padronizado."
 #| echo: false
-#| cache: false
 
-# Retain the native output, ordered by modification index.
-mi_adjusted <- lavaan::modificationIndices(
-  fit_adjustedzemodel, standardized = TRUE, cov.std = TRUE, sort. = TRUE
-)
+# Prepare the twenty largest modification indices in Portuguese.
+mi_table_adjusted <- table_mi(fit_adjustedzemodel, lang = "pt")
 
-# Keep candidate loadings and covariances between distinct variables.
-mi_adjusted_all <- mi_adjusted |>
-  dplyr::filter(op %in% c("=~", "~~"), lhs != rhs)
-
-# Select the twenty largest MIs and their corresponding EPCs.
-mi_adjusted_top <- mi_adjusted_all |>
-  dplyr::slice_head(n = 20) |>
-  dplyr::transmute(
-    Relação = paste(lhs, op, rhs),
-    MI = mi, EPC = epc, `EPC padronizado` = sepc.all
-  )
-
-# Export all eligible relations, retaining the original precision and fields.
-write.csv2(
-  mi_adjusted_all,
+# Validate and export exactly the content displayed in the table.
+mi_table_data_adjusted <- attr(mi_table_adjusted, "table_data")
+if (!is.data.frame(mi_table_data_adjusted) ||
+    nrow(mi_table_data_adjusted) == 0L) {
+  stop("table_data is missing or empty. Reload helpers.R and check the model.")
+}
+readr::write_excel_csv2(
+  mi_table_data_adjusted,
   here::here(
-    "Output", "Results", "Tables", "tbl-adjusted-modification-indices-full.csv"
+    "Output", "Results", "Tables", "tbl-adjusted-modification-indices-top20.csv"
   ),
-  row.names = FALSE, na = "NA"
+  na = "NA"
 )
 
-# Format the relation labels and present the top twenty MIs.
-mi_adjusted_top |>
-  dplyr::mutate(Relação = gsub("~", "&#126;", Relação, fixed = TRUE)) |>
-  knitr::kable(format = "pipe", digits = 3, row.names = FALSE, escape = FALSE)
+# Present the formatted modification index table.
+mi_table_adjusted
 ```
 
 :::: {.content-visible unless-format="pdf"}
 
 ::: {.callout-note title="Racional da @tbl-adjusted-modification-indices-top20" collapse="true"}
 
-`lavaan::modificationIndices()` recebe o ajuste modificado;
-`standardized = TRUE` solicita os EPC padronizados, `cov.std = TRUE` utiliza
-variâncias residuais para padronizar covariâncias residuais, e `sort. = TRUE`
-ordena o retorno pelo MI. `mi_adjusted` mantém o retorno nativo e
-`mi_adjusted_all` seleciona cargas e covariâncias entre variáveis distintas.
-Parâmetros já livres, incluindo as covariâncias Q3–Q4 e Q17–Q18, são
-excluídos pelo comportamento padrão da função.
+A função `table_mi()`, definida em
+[helpers.R](Scripts/DataAppendixScripts/helpers.R), recebe o modelo ajustado
+e apresenta as maiores relações candidatas, em ordem decrescente de MI.
+Sua auxiliar `tidy_mi()` organiza o retorno de `lavaan::modificationIndices()`,
+selecionando cargas e covariâncias entre variáveis distintas e preservando
+os valores completos. A tabela reúne a relação, o MI e os EPC bruto e
+padronizado. Relações já livres no modelo não entram na seleção.
 
-`slice_head(n = 20)` conserva as primeiras relações nessa ordem.
-`mi_adjusted_top` reúne `mi`, `epc` e `sepc.all`; este último usa as variâncias
-residuais na padronização das covariâncias. A exportação mantém todos os
-campos de `mi_adjusted_all` em
-`Output/Results/Tables/tbl-adjusted-modification-indices-full.csv`.
-Somente a cópia de apresentação recebe a substituição dos tis por `&#126;`
-e o arredondamento. O top 20 não é exportado separadamente.
+`attr()` recupera o conteúdo de apresentação, e uma verificação impede a
+exportação de dados ausentes ou vazios. `readr::write_excel_csv2()` salva as
+mesmas vinte relações apresentadas no HTML e no PDF, com rótulos e valores
+de exibição preservados. Todas as relações elegíveis e seus valores
+completos permanecem disponíveis no atributo `mi_data` do resultado.
+
+A expressão final apresenta a tabela formatada internamente por
+`knitr::kable()`. A proteção dos tis ocorre apenas na representação
+Markdown, para preservar os operadores lavaan no documento; o CSV contém
+os operadores como texto comum. O bloco utiliza o ajuste existente e não
+estima um modelo modificado.
 
 ```{r}
 #| eval: false
 #| code-fold: true
 
-# Retain the native output, ordered by modification index.
-mi_adjusted <- lavaan::modificationIndices(
-  fit_adjustedzemodel, standardized = TRUE, cov.std = TRUE, sort. = TRUE
-)
+# Prepare the twenty largest modification indices in Portuguese.
+mi_table_adjusted <- table_mi(fit_adjustedzemodel, lang = "pt")
 
-# Keep candidate loadings and covariances between distinct variables.
-mi_adjusted_all <- mi_adjusted |>
-  dplyr::filter(op %in% c("=~", "~~"), lhs != rhs)
-
-# Select the twenty largest MIs and their corresponding EPCs.
-mi_adjusted_top <- mi_adjusted_all |>
-  dplyr::slice_head(n = 20) |>
-  dplyr::transmute(
-    Relação = paste(lhs, op, rhs),
-    MI = mi, EPC = epc, `EPC padronizado` = sepc.all
-  )
-
-# Export all eligible relations, retaining the original precision and fields.
-write.csv2(
-  mi_adjusted_all,
+# Validate and export exactly the content displayed in the table.
+mi_table_data_adjusted <- attr(mi_table_adjusted, "table_data")
+if (!is.data.frame(mi_table_data_adjusted) ||
+    nrow(mi_table_data_adjusted) == 0L) {
+  stop("table_data is missing or empty. Reload helpers.R and check the model.")
+}
+readr::write_excel_csv2(
+  mi_table_data_adjusted,
   here::here(
-    "Output", "Results", "Tables", "tbl-adjusted-modification-indices-full.csv"
+    "Output", "Results", "Tables", "tbl-adjusted-modification-indices-top20.csv"
   ),
-  row.names = FALSE, na = "NA"
+  na = "NA"
 )
 
-# Format the relation labels and present the top twenty MIs.
-mi_adjusted_top |>
-  dplyr::mutate(Relação = gsub("~", "&#126;", Relação, fixed = TRUE)) |>
-  knitr::kable(format = "pipe", digits = 3, row.names = FALSE, escape = FALSE)
+# Present the formatted modification index table.
+mi_table_adjusted
 ```
 
 :::
@@ -1247,61 +1014,22 @@ discrepâncias remanescentes, em conjunto com os parâmetros e MI/EPC.
 ```{r}
 #| label: prepare-residual-correlations-adjusted
 #| include: false
-#| cache: false
 
-# Extract correlation differences, without residual z statistics.
-residuals_adjusted <- lavaan::lavResiduals(
-  fit_adjustedzemodel, type = "cor", zstat = FALSE, summary = FALSE
-)
+# Create the correlation residual heatmap.
+residual_heatmap_adjusted <- plot_stdres(fit_adjustedzemodel)
 
-# Keep the indicator order returned by the adjusted-model fit.
-residual_matrix_adjusted <- as.matrix(residuals_adjusted$cov)
+# Preserve full-precision residuals for export and inline results.
+residual_matrix_adjusted <- attr(residual_heatmap_adjusted, "residual_matrix")
+residual_correlations_adjusted <- attr(residual_heatmap_adjusted, "residual_data")
 
-# Export the complete adjusted-model matrix before masking repeated pairs and diagonals.
+# Export the complete correlation residual matrix.
 write.csv2(
   residual_matrix_adjusted,
   here::here("Output", "Results", "Tables", "residual-correlations-adjusted.csv"),
   row.names = TRUE, na = "NA"
 )
 
-# Mask the diagonal and repeated pairs for presentation.
-residual_matrix_adjusted[upper.tri(residual_matrix_adjusted, diag = TRUE)] <- NA
-
-# Convert the lower triangle into one row per item pair.
-residual_correlations_adjusted <- as.data.frame(as.table(residual_matrix_adjusted))
-
-# Name the item-pair columns and their correlation differences.
-names(residual_correlations_adjusted) <- c("Item1", "Item2", "Residuo")
-
-# Remove the masked cells and retain one row per item pair.
-residual_correlations_adjusted <- residual_correlations_adjusted |>
-  dplyr::filter(!is.na(Residuo))
-
-# Color intensity shows magnitude; cell labels retain the sign.
-residual_heatmap_adjusted <- ggplot2::ggplot(
-  residual_correlations_adjusted,
-  ggplot2::aes(x = Item2, y = Item1, fill = abs(Residuo))
-) +
-  ggplot2::geom_tile(color = "white", linewidth = 0.2) +
-  ggplot2::geom_text(
-    ggplot2::aes(label = sprintf("%.2f", Residuo)), size = 2.2
-  ) +
-  ggplot2::scale_fill_gradient(
-    low = "white", high = "#B2182B",
-    limits = c(0, max(abs(residual_correlations_adjusted$Residuo))),
-    name = "|Resíduo|"
-  ) +
-  ggplot2::scale_x_discrete(position = "top", drop = FALSE) +
-  ggplot2::scale_y_discrete(drop = FALSE) +
-  ggplot2::coord_fixed() +
-  ggplot2::theme_minimal(base_size = 10) +
-  ggplot2::theme(
-    axis.text.x = ggplot2::element_text(angle = 45, hjust = 1),
-    axis.title = ggplot2::element_blank(),
-    panel.grid = ggplot2::element_blank()
-  )
-
-# Save the plotted figure at the requested dimensions and resolution.
+# Save the residual correlation heatmap.
 ggplot2::ggsave(
   here::here("Output", "Results", "Figures", "fig-residual-correlations-adjusted.png"),
   plot = residual_heatmap_adjusted, width = 8, height = 7, dpi = 300
@@ -1315,7 +1043,6 @@ ggplot2::ggsave(
 #| fig-height: 7
 #| fig-align: center
 #| echo: false
-#| cache: false
 
 # Display the residual correlation heatmap.
 residual_heatmap_adjusted
@@ -1325,82 +1052,35 @@ residual_heatmap_adjusted
 
 ::: {.callout-note title="Racional da @fig-residual-correlations-adjusted" collapse="true"}
 
-`lavaan::lavResiduals()` calcula as diferenças entre as correlações observadas
-e reproduzidas por `fit_adjustedzemodel`. `type = "cor"` transforma as duas
-matrizes em correlações antes da subtração; `zstat = FALSE` e `summary = FALSE`
-dispensam estatísticas z e resumos globais. O componente `$cov` de
-`residuals_adjusted` contém a matriz solicitada, baseada nas estatísticas
-observadas utilizadas pelo ajuste com FIML.
+`plot_stdres()` aplica ao modelo modificado o procedimento explicado no
+racional da @fig-residual-correlations. O mapa mantém a ordem dos indicadores,
+a cor pela magnitude absoluta e os rótulos com sinal.
 
-`write.csv2()` salva a matriz completa em
-`Output/Results/Tables/residual-correlations-adjusted.csv`, antes de mascarar
-a diagonal e o triângulo superior. A conversão por `as.table()` preserva a
-ordem dos indicadores nos fatores que identificam os pares.
-`residual_correlations_adjusted` conserva cada par uma única vez.
-
-`ggplot2::ggplot()` usa o valor absoluto no preenchimento; `geom_text()`
-mostra o resíduo com sinal e duas casas decimais. A escala e o tema seguem
-o capítulo anterior. `ggsave()` exporta o mesmo objeto apresentado na figura
-para `Output/Results/Figures/fig-residual-correlations-adjusted.png`.
-O bloco a seguir reproduz a preparação, a exportação e a apresentação.
+`attr()` recupera os resíduos com precisão original para os valores no texto
+e para a exportação da matriz completa por `write.csv2()` em
+`Output/Results/Tables/residual-correlations-adjusted.csv`. `ggsave()` salva
+o mesmo gráfico apresentado em
+`Output/Results/Figures/fig-residual-correlations-adjusted.png`.
 
 ```{r}
 #| eval: false
 #| code-fold: true
 
-# Extract correlation differences, without residual z statistics.
-residuals_adjusted <- lavaan::lavResiduals(
-  fit_adjustedzemodel, type = "cor", zstat = FALSE, summary = FALSE
-)
+# Create the correlation residual heatmap.
+residual_heatmap_adjusted <- plot_stdres(fit_adjustedzemodel)
 
-# Keep the indicator order returned by the adjusted-model fit.
-residual_matrix_adjusted <- as.matrix(residuals_adjusted$cov)
+# Preserve full-precision residuals for export and inline results.
+residual_matrix_adjusted <- attr(residual_heatmap_adjusted, "residual_matrix")
+residual_correlations_adjusted <- attr(residual_heatmap_adjusted, "residual_data")
 
-# Export the complete adjusted-model matrix before masking repeated pairs and diagonals.
+# Export the complete correlation residual matrix.
 write.csv2(
   residual_matrix_adjusted,
   here::here("Output", "Results", "Tables", "residual-correlations-adjusted.csv"),
   row.names = TRUE, na = "NA"
 )
 
-# Mask the diagonal and repeated pairs for presentation.
-residual_matrix_adjusted[upper.tri(residual_matrix_adjusted, diag = TRUE)] <- NA
-
-# Convert the lower triangle into one row per item pair.
-residual_correlations_adjusted <- as.data.frame(as.table(residual_matrix_adjusted))
-
-# Name the item-pair columns and their correlation differences.
-names(residual_correlations_adjusted) <- c("Item1", "Item2", "Residuo")
-
-# Remove the masked cells and retain one row per item pair.
-residual_correlations_adjusted <- residual_correlations_adjusted |>
-  dplyr::filter(!is.na(Residuo))
-
-# Color intensity shows magnitude; cell labels retain the sign.
-residual_heatmap_adjusted <- ggplot2::ggplot(
-  residual_correlations_adjusted,
-  ggplot2::aes(x = Item2, y = Item1, fill = abs(Residuo))
-) +
-  ggplot2::geom_tile(color = "white", linewidth = 0.2) +
-  ggplot2::geom_text(
-    ggplot2::aes(label = sprintf("%.2f", Residuo)), size = 2.2
-  ) +
-  ggplot2::scale_fill_gradient(
-    low = "white", high = "#B2182B",
-    limits = c(0, max(abs(residual_correlations_adjusted$Residuo))),
-    name = "|Resíduo|"
-  ) +
-  ggplot2::scale_x_discrete(position = "top", drop = FALSE) +
-  ggplot2::scale_y_discrete(drop = FALSE) +
-  ggplot2::coord_fixed() +
-  ggplot2::theme_minimal(base_size = 10) +
-  ggplot2::theme(
-    axis.text.x = ggplot2::element_text(angle = 45, hjust = 1),
-    axis.title = ggplot2::element_blank(),
-    panel.grid = ggplot2::element_blank()
-  )
-
-# Save the plotted figure at the requested dimensions and resolution.
+# Save the residual correlation heatmap.
 ggplot2::ggsave(
   here::here("Output", "Results", "Figures", "fig-residual-correlations-adjusted.png"),
   plot = residual_heatmap_adjusted, width = 8, height = 7, dpi = 300
@@ -1415,8 +1095,8 @@ residual_heatmap_adjusted
 ::::
 
 O maior resíduo absoluto é
-`r formatC(max(abs(residual_correlations_adjusted$Residuo)), format = "f", digits = 3, decimal.mark = ",")`;
-`r sum(abs(residual_correlations_adjusted$Residuo) >= 0.10)` dos
+`r formatC(max(abs(residual_correlations_adjusted$residual)), format = "f", digits = 3, decimal.mark = ",")`;
+`r sum(abs(residual_correlations_adjusted$residual) >= 0.10)` dos
 `r nrow(residual_correlations_adjusted)` pares apresentam magnitude de pelo
 menos 0,10. A leitura conjunta desse mapa, das cargas e dos MI/EPC documenta
 as limitações locais da especificação selecionada, em conjunto com a avaliação
@@ -1432,6 +1112,6 @@ razoável do DDDFI e confiabilidade dos quatro escores acima de 0,70.
 A hipótese de ajuste próximo pelo RMSEA não foi rejeitada. Permaneceram cargas modestas
 e discrepâncias locais, que delimitam sua interpretação. Retemos essa
 especificação como solução exploratória para a amostra analisada, com os
-mesmos critérios de pré-processamento e estimação dos capítulos anteriores.
+mesmos critérios de pré-processamento e estimação das seções anteriores.
 Sua aplicação posterior deve considerar a cobertura reduzida dos domínios
 e requer avaliação em outra amostra.

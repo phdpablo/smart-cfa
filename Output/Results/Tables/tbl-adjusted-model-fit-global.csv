@@ -1,12 +1,12 @@
-"Indicador";"Medida";"Modificado"
-"N";"ntotal";1243
-"χ² ajustado";"chisq.scaled";630,857327675206
-"Graus de liberdade";"df.scaled";181
-"Valor de p";"pvalue.scaled";0
-"CFI robusto";"cfi.robust";0,944546565175217
-"TLI robusto";"tli.robust";0,935661760700528
-"RMSEA robusto";"rmsea.robust";0,0490473323404704
-"RMSEA robusto: limite inferior do IC de 90%";"rmsea.ci.lower.robust";0,0448990640046737
-"RMSEA robusto: limite superior do IC de 90%";"rmsea.ci.upper.robust";0,0532557702456116
-"Valor de p: RMSEA robusto ≤ 0,05";"rmsea.pvalue.robust";0,638781851619461
-"SRMR";"srmr";0,035391539251817
+﻿"Medida";"Valor"
+"N";"1243"
+"χ² ajust.";"630.857"
+"df";"181"
+"p";"< 0.001"
+"CFI (robusto)";"0.945"
+"TLI (robusto)";"0.936"
+"RMSEA (robusto)";"0.049"
+"RMSEA IC90% inf.";"0.045"
+"RMSEA IC90% sup.";"0.053"
+"p (RMSEA ≤ 0,05)";"0.639"
+"SRMR";"0.035"

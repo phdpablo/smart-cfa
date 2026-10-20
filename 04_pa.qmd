@@ -1,39 +1,15 @@
 # Análise de poder {#sec-pa}
 
-:::: {.content-visible unless-format="pdf"}
-
-::: {.callout-important title="Como as análises desta seção estão organizadas" collapse="true"}
-
-O script
-[models.R](Scripts/DataAppendixScripts/models.R) define os modelos populacionais
-e o modelo de análise. O script
-[helpers.R](Scripts/DataAppendixScripts/helpers.R) carrega os pacotes e define
-os parâmetros compartilhados das análises, como o número de replicações, as
-sequências de tamanhos amostrais, as sementes, os critérios de decisão, a
-distribuição não normal e a proporção de dados ausentes.
-
-Os scripts [cache_utils.R](Scripts/DataAppendixScripts/cache_utils.R) e
-[cache_loader.R](Scripts/DataAppendixScripts/cache_loader.R) reproduzem a
-a lógica de execução ou leitura das simulações adotadas. O
-script [pre_render_cache.R](Scripts/DataAppendixScripts/pre_render_cache.R)
-garante a existência do carregador antes da renderização. As chamadas das
-funções analíticas e de simulação permanecem diretamente nesse arquivo.
-
 ```{r}
 #| label: setup-pa
-#| code-fold: true
+#| include: false
 
+# Load the scripts required for this section.
 source(here::here("Scripts", "DataAppendixScripts", "models.R"))
 source(here::here("Scripts", "DataAppendixScripts", "helpers.R"))
 source(here::here("Scripts", "DataAppendixScripts", "cache_utils.R"))
 source(here::here("Scripts", "DataAppendixScripts", "cache_loader.R"))
-
-cache_load_existing()
 ```
-
-:::
-
-::::
 
 Em muitas pesquisas empíricas, uma escala não constitui o desfecho final, mas
 o modelo de medida de construtos posteriormente relacionados em um modelo
@@ -77,6 +53,7 @@ informação completa. A @tbl-power-assumptions sintetiza essas decisões.
 #| tbl-cap: "Pressupostos da análise de poder a priori."
 #| echo: false
 
+# Summarize the assumptions used for power analysis.
 power_assumptions <- tribble(
   ~component, ~specification, ~basis,
   "Modelo de referência",
@@ -94,6 +71,7 @@ power_assumptions <- tribble(
   "Poder-alvo", format(POWER, nsmall = 2), "Definido a priori"
 )
 
+# Present the summary table.
 kable(
   power_assumptions,
   col.names = c("Componente", "Especificação", "Base"),
@@ -114,13 +92,14 @@ significância e o poder desejado sincronizados com as análises seguintes. A
 função `kable()`, do pacote **knitr**, apenas organiza esse objeto para
 apresentação em @tbl-power-assumptions.
 
-Após carregar os scripts indicados no início da seção, a tabela pode ser
+Após a preparação comum descrita na @sec-model-selection, a tabela pode ser
 reproduzida com:
 
 ```{r}
 #| eval: false
 #| code-fold: true
 
+# Summarize the assumptions used for power analysis.
 power_assumptions <- tribble(
   ~component, ~specification, ~basis,
   "Modelo de referência",
@@ -138,6 +117,7 @@ power_assumptions <- tribble(
   "Poder-alvo", format(POWER, nsmall = 2), "Definido a priori"
 )
 
+# Present the summary table.
 kable(
   power_assumptions,
   col.names = c("Componente", "Especificação", "Base"),
@@ -170,6 +150,7 @@ as relações presentes na população.
 #| label: analytical-power
 #| include: false
 
+# Calculate the required sample size from the specified models.
 ap_h1model <- semPower.powerLav(
   type = "a-priori",
   alpha = ALPHA,
@@ -185,6 +166,74 @@ Considerando nível de significância de 5% e poder desejado de 80%, o método
 analítico indicou um tamanho amostral mínimo de `r ap_h1model$requiredN` participantes. Esse valor é
 utilizado como ponto de partida para a etapa de simulação, e não como
 recomendação amostral definitiva.
+
+A @tbl-analytical-power reúne as medidas da análise e o tamanho amostral
+necessário para alcançar o poder desejado.
+
+```{r}
+#| label: tbl-analytical-power
+#| tbl-cap: "Resultados da análise analítica de poder baseada nos modelos."
+#| echo: false
+
+# Present the analytical power results separately from the plot.
+table_sempower(ap_h1model, lang = "pt")
+```
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Racional da @tbl-analytical-power" collapse="true"}
+
+O objeto `ap_h1model` é criado pela função `semPower.powerLav()`, do pacote
+**semPower**. O argumento `type = "a-priori"` solicita o tamanho amostral
+necessário para alcançar o poder definido na variável `POWER`, considerando o
+nível de significância armazenado em `ALPHA`. O objeto `h1model`, definido no
+script [models.R](Scripts/DataAppendixScripts/models.R), representa a estrutura
+populacional com as três cargas cruzadas. O objeto `analyzemodel` representa o
+modelo de análise que omite essas relações.
+
+O argumento `lavOptions = list(std.lv = TRUE)` identifica os fatores por meio
+de variâncias unitárias, enquanto `p = P` informa o número de indicadores
+observados. A função `table_sempower()`, definida em
+[helpers.R](Scripts/DataAppendixScripts/helpers.R), apresenta os resultados em
+uma tabela independente. O argumento `lang = "pt"` seleciona os nomes das
+colunas e as descrições das medidas em português; o padrão `lang = "en"`
+apresenta esses textos em inglês, preservando os símbolos e os valores.
+A função chama automaticamente `tidy_sempower()` para extrair as medidas de
+`ap_h1model` e `format_metric_val()` para formatar os valores; não é necessário
+executar essas auxiliares antes de solicitar a tabela. Como a análise
+é a priori, o tamanho amostral, o parâmetro de não centralidade, o erro tipo II
+e o poder são recuperados de `requiredN`, `impliedNCP`, `impliedBeta` e
+`impliedPower`. As demais linhas apresentam a discrepância populacional, os
+índices de ajuste disponíveis, os graus de liberdade, o qui-quadrado crítico
+e o nível de significância. `knitr::kable()` organiza as colunas Medida,
+Símbolo e Valor; `align = c("l", "c", "r")` define seus alinhamentos.
+A formatação altera apenas a apresentação dos valores.
+
+Após a preparação descrita na @sec-model-selection, a tabela pode ser
+reproduzida com:
+
+```{r}
+#| eval: false
+#| code-fold: true
+
+# Calculate the required sample size from the specified models.
+ap_h1model <- semPower.powerLav(
+  type = "a-priori",
+  alpha = ALPHA,
+  power = POWER,
+  modelPop = h1model,
+  modelH0 = analyzemodel,
+  lavOptions = list(std.lv = TRUE),
+  p = P
+)
+
+# Present the analytical power results separately from the plot.
+table_sempower(ap_h1model, lang = "pt")
+```
+
+:::
+
+::::
 
 A @fig-analytical-power apresenta as distribuições central e não central do
 qui-quadrado. A distribuição sob a hipótese nula representa o comportamento
@@ -207,42 +256,32 @@ o poder estatístico.
 #| fig-align: center
 #| echo: false
 
-summary(ap_h1model)
+# Plot the chi-square distributions without the console summary.
+plot_sempower(ap_h1model)
 ```
 
 :::: {.content-visible unless-format="pdf"}
 
 ::: {.callout-note title="Racional da @fig-analytical-power" collapse="true"}
 
-O objeto `ap_h1model` é criado pela função `semPower.powerLav()`, do pacote
-**semPower**. O argumento `type = "a-priori"` solicita o tamanho amostral
-necessário para alcançar o poder definido na variável `POWER`, considerando o
-nível de significância armazenado em `ALPHA`. O objeto `h1model`, definido no
-script [models.R](Scripts/DataAppendixScripts/models.R), representa a estrutura
-populacional com as três cargas cruzadas. O objeto `analyzemodel` representa o
-modelo de análise que omite essas relações.
-
-O argumento `lavOptions = list(std.lv = TRUE)` identifica os fatores por meio
-de variâncias unitárias, enquanto `p = P` informa o número de indicadores
-observados. Por fim, a função `summary()` apresenta os resultados da análise e
-produz as distribuições representadas em @fig-analytical-power. Após carregar
-os scripts indicados no início da seção, a saída pode ser reproduzida com:
+A função `plot_sempower()`, definida em
+[helpers.R](Scripts/DataAppendixScripts/helpers.R), utiliza o mesmo objeto
+`ap_h1model` da @tbl-analytical-power. Ela chama `semPower::semPower.showPlot()`
+com o valor crítico `chiCrit`, os graus de liberdade `df` e o parâmetro de
+não centralidade `impliedNCP`. Esses valores definem as distribuições e as
+regiões de erro representadas na figura. O argumento `linewidth = 1.2`
+controla a espessura das curvas e `show_labels = TRUE` mantém os rótulos
+originais em inglês. A opção `lang` pertence à tabela e não se aplica a essa
+função de desenho.
+A chamada produz apenas o gráfico, sem o resumo textual de `summary()`.
+Com `ap_h1model` já estimado, a figura pode ser reproduzida com:
 
 ```{r}
 #| eval: false
 #| code-fold: true
 
-ap_h1model <- semPower.powerLav(
-  type = "a-priori",
-  alpha = ALPHA,
-  power = POWER,
-  modelPop = h1model,
-  modelH0 = analyzemodel,
-  lavOptions = list(std.lv = TRUE),
-  p = P
-)
-
-summary(ap_h1model)
+# Plot the chi-square distributions without the console summary.
+plot_sempower(ap_h1model)
 ```
 
 :::
@@ -270,6 +309,7 @@ misspecificação previamente definida.
 #| label: sim-popmodel-varying
 #| include: false
 
+# Reuse or simulate the reference population across sample sizes.
 popmodel_varying <- cache_or_run("popmodel_101to400", {
   sim(
     NULL,
@@ -292,6 +332,7 @@ popmodel_varying <- cache_or_run("popmodel_101to400", {
 #| label: sim-h1model-varying
 #| include: false
 
+# Reuse or simulate the alternative population across sample sizes.
 h1model_varying <- cache_or_run("h1model_101to400", {
   sim(
     NULL,
@@ -329,6 +370,7 @@ realizadas em cada tamanho (@fig-realistic-curve).
 #| fig-align: center
 #| echo: false
 
+# Plot power across sample sizes.
 plotPowerFit(
   h1model_varying,
   popmodel_varying,
@@ -366,6 +408,7 @@ logísticas suavizadas. A simulação e a figura podem ser reproduzidas com:
 #| eval: false
 #| code-fold: true
 
+# Reuse or simulate the reference population across sample sizes.
 popmodel_varying <- cache_or_run("popmodel_101to400", {
   sim(
     NULL,
@@ -383,6 +426,7 @@ popmodel_varying <- cache_or_run("popmodel_101to400", {
   )
 })
 
+# Reuse or simulate the alternative population across sample sizes.
 h1model_varying <- cache_or_run("h1model_101to400", {
   sim(
     NULL,
@@ -400,6 +444,7 @@ h1model_varying <- cache_or_run("h1model_101to400", {
   )
 })
 
+# Plot power across sample sizes.
 plotPowerFit(
   h1model_varying,
   popmodel_varying,
@@ -425,6 +470,7 @@ plotPowerFit(
 #| fig-align: center
 #| echo: false
 
+# Plot the unsmoothed power curves.
 plotPowerFit(
   h1model_varying,
   popmodel_varying,
@@ -452,6 +498,7 @@ com:
 #| eval: false
 #| code-fold: true
 
+# Plot the unsmoothed power curves.
 plotPowerFit(
   h1model_varying,
   popmodel_varying,
@@ -479,6 +526,7 @@ excessivamente próximo do limite adotado.
 #|   Poder e pontos de corte calibrados pelo modelo para N = 150.
 #| echo: false
 
+# Estimate power at N = 150 using model-calibrated cutoffs.
 power_varying <- getPowerFit(
   h1model_varying,
   nullObject = popmodel_varying,
@@ -487,6 +535,7 @@ power_varying <- getPowerFit(
   usedFit = FITS
 )
 
+# Extract the model-calibrated cutoffs at N = 150.
 cutoff_varying <- getCutoff(
   popmodel_varying,
   alpha = ALPHA,
@@ -494,13 +543,16 @@ cutoff_varying <- getCutoff(
   usedFit = FITS
 )
 
+# Combine power and cutoffs in one table.
 power_cutoff_varying <- rbind(
   "Poder" = as.numeric(power_varying),
   "Ponto de corte" = as.numeric(cutoff_varying[1, ])
 )
 
+# Format the fit-index column labels.
 colnames(power_cutoff_varying) <- toupper(names(power_varying))
 
+# Present the summary table.
 kable(power_cutoff_varying, digits = 3, align = "c")
 ```
 
@@ -526,6 +578,7 @@ reproduzida com:
 #| eval: false
 #| code-fold: true
 
+# Estimate power at N = 150 using model-calibrated cutoffs.
 power_varying <- getPowerFit(
   h1model_varying,
   nullObject = popmodel_varying,
@@ -534,6 +587,7 @@ power_varying <- getPowerFit(
   usedFit = FITS
 )
 
+# Extract the model-calibrated cutoffs at N = 150.
 cutoff_varying <- getCutoff(
   popmodel_varying,
   alpha = ALPHA,
@@ -541,13 +595,16 @@ cutoff_varying <- getCutoff(
   usedFit = FITS
 )
 
+# Combine power and cutoffs in one table.
 power_cutoff_varying <- rbind(
   "Poder" = as.numeric(power_varying),
   "Ponto de corte" = as.numeric(cutoff_varying[1, ])
 )
 
+# Format the fit-index column labels.
 colnames(power_cutoff_varying) <- toupper(names(power_varying))
 
+# Present the summary table.
 kable(power_cutoff_varying, digits = 3, align = "c")
 ```
 
@@ -592,6 +649,7 @@ das distribuições empíricas dos índices de ajuste nesse tamanho específico.
 #| label: sim-popmodel-fixed
 #| include: false
 
+# Reuse or simulate the reference population at the target sample size.
 popmodel_fixed <- cache_or_run("popmodel_200", {
   sim(
     SIM,
@@ -614,6 +672,7 @@ popmodel_fixed <- cache_or_run("popmodel_200", {
 #| label: sim-h1model-fixed
 #| include: false
 
+# Reuse or simulate the alternative population at the target sample size.
 h1model_fixed <- cache_or_run("h1model_200", {
   sim(
     SIM,
@@ -650,6 +709,7 @@ a representação gráfica da capacidade de identificar a misspecificação.
 #| fig-align: center
 #| echo: false
 
+# Plot the fit-index distributions at the target sample size.
 plotPowerFit(
   h1model_fixed,
   popmodel_fixed,
@@ -681,6 +741,7 @@ reproduzidas com:
 #| eval: false
 #| code-fold: true
 
+# Reuse or simulate the reference population at the target sample size.
 popmodel_fixed <- cache_or_run("popmodel_200", {
   sim(
     SIM,
@@ -698,6 +759,7 @@ popmodel_fixed <- cache_or_run("popmodel_200", {
   )
 })
 
+# Reuse or simulate the alternative population at the target sample size.
 h1model_fixed <- cache_or_run("h1model_200", {
   sim(
     SIM,
@@ -715,6 +777,7 @@ h1model_fixed <- cache_or_run("h1model_200", {
   )
 })
 
+# Plot the fit-index distributions at the target sample size.
 plotPowerFit(
   h1model_fixed,
   popmodel_fixed,
@@ -741,26 +804,31 @@ os resultados para $N=200$.
 #|   N = 200.
 #| echo: false
 
+# Estimate power using the calibrated cutoffs.
 power_fixed <- getPowerFit(
   h1model_fixed,
   nullObject = popmodel_fixed,
   alpha = ALPHA,
   usedFit = FITS
-)
+)[FITS]
 
+# Extract the model-calibrated cutoffs at the target sample size.
 cutoff_fixed <- getCutoff(
   popmodel_fixed,
   alpha = ALPHA,
   usedFit = FITS
-)
+)[, FITS, drop = FALSE]
 
+# Combine power and cutoffs in one table.
 power_cutoff_fixed <- rbind(
   "Poder" = as.numeric(power_fixed),
   "Ponto de corte" = as.numeric(cutoff_fixed[1, ])
 )
 
+# Format the fit-index column labels.
 colnames(power_cutoff_fixed) <- toupper(names(power_fixed))
 
+# Present the summary table.
 kable(power_cutoff_fixed, digits = 3, align = "c")
 ```
 
@@ -776,7 +844,9 @@ seleção `[FITS]` conserva no objeto `power_fixed` somente RMSEA, SRMR, CFI e
 TLI, excluindo outras estatísticas retornadas pela função.
 
 A função `getCutoff()` obtém os pontos de corte dos mesmos quatro índices em
-`popmodel_fixed`. Como todas as replicações possuem 200 participantes, não é
+`popmodel_fixed`; `[, FITS, drop = FALSE]` seleciona e ordena suas colunas
+para corresponder ao vetor de poder. Como todas as replicações possuem
+200 participantes, não é
 necessário fornecer o argumento `nVal`. Os objetos `power_fixed` e
 `cutoff_fixed` são reunidos em `power_cutoff_fixed`, apresentado por `kable()`
 em @tbl-power-cutoff-fixed. Após carregar as simulações, a tabela pode ser
@@ -786,26 +856,31 @@ reproduzida com:
 #| eval: false
 #| code-fold: true
 
+# Estimate power using the calibrated cutoffs.
 power_fixed <- getPowerFit(
   h1model_fixed,
   nullObject = popmodel_fixed,
   alpha = ALPHA,
   usedFit = FITS
-)
+)[FITS]
 
+# Extract the model-calibrated cutoffs at the target sample size.
 cutoff_fixed <- getCutoff(
   popmodel_fixed,
   alpha = ALPHA,
   usedFit = FITS
-)
+)[, FITS, drop = FALSE]
 
+# Combine power and cutoffs in one table.
 power_cutoff_fixed <- rbind(
   "Poder" = as.numeric(power_fixed),
   "Ponto de corte" = as.numeric(cutoff_fixed[1, ])
 )
 
+# Format the fit-index column labels.
 colnames(power_cutoff_fixed) <- toupper(names(power_fixed))
 
+# Present the summary table.
 kable(power_cutoff_fixed, digits = 3, align = "c")
 ```
 
@@ -841,6 +916,7 @@ corte tradicionais, e a @tbl-power-traditional apresenta o poder resultante.
 #| fig-align: center
 #| echo: false
 
+# Plot power using conventional cutoffs.
 plotPowerFit(
   h1model_fixed,
   popmodel_fixed,
@@ -870,6 +946,7 @@ tradicionais. Após carregar as simulações, a figura pode ser reproduzida com:
 #| eval: false
 #| code-fold: true
 
+# Plot power using conventional cutoffs.
 plotPowerFit(
   h1model_fixed,
   popmodel_fixed,
@@ -890,6 +967,7 @@ plotPowerFit(
 #|   N = 200.
 #| echo: false
 
+# Estimate power using conventional cutoffs.
 power_traditional <- getPowerFit(
   h1model_fixed,
   cutoff = RULE_OF_THUMB,
@@ -897,11 +975,14 @@ power_traditional <- getPowerFit(
   usedFit = FITS
 )
 
+# Arrange the power estimates in a single row.
 power_traditional_tbl <- t(as.data.frame(power_traditional))
 
+# Label the fit indices and power row.
 colnames(power_traditional_tbl) <- toupper(names(power_traditional))
 rownames(power_traditional_tbl) <- "Poder"
 
+# Present the summary table.
 kable(power_traditional_tbl, digits = 3, align = "c")
 ```
 
@@ -925,6 +1006,7 @@ tabela pode ser reproduzida com:
 #| eval: false
 #| code-fold: true
 
+# Estimate power using conventional cutoffs.
 power_traditional <- getPowerFit(
   h1model_fixed,
   cutoff = RULE_OF_THUMB,
@@ -932,11 +1014,14 @@ power_traditional <- getPowerFit(
   usedFit = FITS
 )
 
+# Arrange the power estimates in a single row.
 power_traditional_tbl <- t(as.data.frame(power_traditional))
 
+# Label the fit indices and power row.
 colnames(power_traditional_tbl) <- toupper(names(power_traditional))
 rownames(power_traditional_tbl) <- "Poder"
 
+# Present the summary table.
 kable(power_traditional_tbl, digits = 3, align = "c")
 ```
 
