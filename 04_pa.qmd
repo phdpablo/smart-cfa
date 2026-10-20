@@ -20,33 +20,30 @@ a probabilidade de detectar uma omissão estrutural definida antes da coleta.
 
 ## Pressupostos a priori
 
-A análise de poder foi planejada a partir dos dois modelos de medida
-fundamentados na @sec-model-selection. A segunda especificação do modelo não é tratada como um modelo concorrente
-a ser diretamente estimado e comparado com o primeiro. Em vez disso,
+A AP foi planejada a partir dos dois modelos de medida
+fundamentados na @sec-model-selection. Nesta análise, a segunda especificação
 representa uma condição populacional alternativa na qual o ajuste do modelo
 mais parcimonioso implica a omissão deliberada das três cargas cruzadas.
 
 As cargas fatoriais principais, as correlações entre os fatores e as variâncias
 residuais foram definidas com base nas evidências meta-analíticas e nas revisões
 apresentadas anteriormente [@lin2022; @mosqueirataipe2026; @skevington2018]. Consequentemente, a
-análise de poder é conduzida *a priori*: as características da população e a
+AP é conduzida *a priori*: as características da população e a
 magnitude da misspecificação são estabelecidas antes do acesso aos dados
 empíricos utilizados nas seções subsequentes.
 
 Além da estrutura fatorial, as simulações incorporam duas condições
-frequentemente encontradas em aplicações reais da análise fatorial
-confirmatória: não normalidade e dados ausentes. A distribuição dos indicadores
+frequentemente encontradas em aplicações reais da AFC: não normalidade e dados ausentes. A distribuição dos indicadores
 admite assimetrias entre $-1$ e $+1$ e valores de curtose entre aproximadamente
 1,7 e 2,0, representando desvios moderados da normalidade compatíveis com
 resultados anteriores obtidos com o WHOQOL-Bref [@yoshitake2015].
 
 Também se pressupõe que 10% das respostas estejam ausentes segundo um mecanismo
-completamente ao acaso. A adoção do mecanismo MCAR permite representar a perda
+completamente ao acaso (*Missing Completely at Random* — MCAR). A adoção desse mecanismo permite representar a perda
 de informação decorrente dos dados ausentes sem exigir a formulação adicional
 de um padrão prospectivo de ausência dependente de variáveis observadas. Em
-todas as condições, os modelos são estimados por máxima verossimilhança robusta,
-enquanto os dados ausentes são tratados por máxima verossimilhança com
-informação completa. A @tbl-power-assumptions sintetiza essas decisões.
+todas as condições, os modelos são estimados por MLR,
+enquanto os dados ausentes são tratados por FIML. A @tbl-power-assumptions sintetiza essas decisões.
 
 ```{r}
 #| label: tbl-power-assumptions
@@ -85,7 +82,7 @@ kable(
 
 **Finalidade**
 
-Reunir as decisões que definem o cenário da análise de poder, relacionando cada especificação ao seu fundamento.
+Reunir as decisões que definem o cenário da AP, relacionando cada especificação ao seu fundamento.
 
 **Preparação**
 
@@ -285,14 +282,13 @@ plot_sempower(ap_h1model)
 
 ::::
 
-## Simulação Monte Carlo
+## SMC com tamanho amostral variável
 
 Embora a abordagem analítica forneça um ponto de partida objetivo, ela não
 representa integralmente as condições realísticas previstas na literatura. Por
-esse motivo, a etapa seguinte utiliza uma simulação Monte Carlo que combina não
+esse motivo, a etapa seguinte utiliza uma SMC que combina não
 normalidade moderada e 10% de dados ausentes MCAR, mantendo a estimação por
-máxima verossimilhança robusta (MLR) com tratamento dos dados ausentes por informação
-completa (FIMLR).
+MLR com tratamento dos dados ausentes por FIML.
 
 Os tamanhos amostrais variam de 101 a 400 participantes. Em cada tamanho, são
 realizadas dez replicações sob duas condições populacionais. Na condição de
@@ -632,7 +628,7 @@ necessariamente garante precisão adequada para todos os parâmetros do modelo
 
 Diante da possibilidade de que 150 participantes representem uma solução
 limítrofe, adota-se $N=200$ como tamanho amostral de planejamento. Essa decisão
-não constitui uma regra universal para análise fatorial confirmatória. Trata-se
+não constitui uma regra universal para AFC. Trata-se
 de uma escolha prudencial que considera, simultaneamente, os resultados das
 curvas de poder, a complexidade do modelo de medida, as condições não ideais de
 distribuição e missing e a ausência, neste tutorial, de uma avaliação completa
@@ -1058,3 +1054,10 @@ analítica oferece uma estimativa inicial baseada na discrepância populacional;
 a simulação com tamanho variável mostra como o poder evolui entre 101 e 400
 participantes; e a simulação com 1.000 replicações em $N=200$ fornece uma
 avaliação mais estável do planejamento amostral escolhido.
+
+Os limites obtidos em $N=200$ pertencem às condições desse planejamento:
+parâmetros populacionais definidos pela literatura, não normalidade moderada
+e 10% de ausências MCAR. Sua aplicação a uma amostra com outro tamanho,
+distribuições ou parâmetros requer uma calibração correspondente a essas
+condições. O resultado central dessa etapa é o desempenho esperado para
+detectar a omissão estipulada, condicionado ao cenário simulado.

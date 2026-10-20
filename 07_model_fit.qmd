@@ -84,7 +84,17 @@ readr::write_excel_csv2(
 )
 
 # Present both model summaries side by side.
-knitr::kable(fit_global, align = c("l", "r", "r"), row.names = FALSE)
+fit_global_display <- fit_global
+if (knitr::is_latex_output()) {
+  fit_global_display$Medida <- gsub(
+    "χ²", "$\\chi^2$", fit_global_display$Medida, fixed = TRUE
+  )
+  fit_global_display$Medida <- gsub(
+    "≤", "$\\leq$", fit_global_display$Medida, fixed = TRUE
+  )
+}
+knitr::kable(fit_global_display, format = "pipe", align = c("l", "r", "r"),
+  row.names = FALSE)
 ```
 
 
@@ -167,7 +177,17 @@ readr::write_excel_csv2(
 )
 
 # Present both model summaries side by side.
-knitr::kable(fit_global, align = c("l", "r", "r"), row.names = FALSE)
+fit_global_display <- fit_global
+if (knitr::is_latex_output()) {
+  fit_global_display$Medida <- gsub(
+    "χ²", "$\\chi^2$", fit_global_display$Medida, fixed = TRUE
+  )
+  fit_global_display$Medida <- gsub(
+    "≤", "$\\leq$", fit_global_display$Medida, fixed = TRUE
+  )
+}
+knitr::kable(fit_global_display, format = "pipe", align = c("l", "r", "r"),
+  row.names = FALSE)
 ```
 
 :::
@@ -228,8 +248,7 @@ dos parâmetros fatoriais e da variância observada do escore. Essa avaliação
 complementa o ajuste global e depende da adequação da especificação utilizada
 [@flora2020; @cho2022].
 
-A @tbl-domain-reliability apresenta o ômega e o maior limite inferior de
-confiabilidade (GLB) para os quatro domínios em H~0~ e H~1~. Em H~1~, o escore
+A @tbl-domain-reliability apresenta o ômega e o GLB para os quatro domínios em H~0~ e H~1~. Em H~1~, o escore
 psicológico inclui também Q8 e Q9, e o ambiental inclui Q15, passando a
 oito e nove itens, respectivamente. Os demais escores mantêm sua composição. O GLB é calculado separadamente a partir da matriz observada
 recuperada de cada ajuste, permitindo verificar a correspondência dos
@@ -348,12 +367,17 @@ não resolvem as limitações de ajuste global identificadas anteriormente.
 
 ## Distribuições dos índices sob os modelos empíricos
 
-A análise de poder utilizou parâmetros populacionais definidos a partir da
+A AP utilizou parâmetros populacionais definidos a partir da
 literatura e de pressupostos de planejamento. Após a estimação, as cargas e
 as correlações observadas diferiram dessas condições. A avaliação por
 simulação foi, portanto, parametrizada pelos ajustes empíricos, preservando
 a estrutura dos modelos e incorporando o tamanho amostral e as características
 distributivas consideradas na análise atual [@leite2023; @moshagen2024].
+Os limites do planejamento em $N=200$ são, portanto, recalculados para os
+1.243 participantes, com parâmetros estimados, distribuições marginais e
+padrão de ausências da amostra analítica. Essa mudança desloca a pergunta
+do tamanho amostral necessário para o comportamento esperado dos índices
+nas condições empíricas.
 
 Os parâmetros estimados definem populações geradoras hipotéticas. Sob a
 primeira condição, os dados são gerados e analisados segundo H~0~, fornecendo
@@ -368,13 +392,14 @@ A avaliação reúne o posicionamento dos índices observados de H~0~ diante de
 sua referência e a sensibilidade dessa referência à alternativa especificada.
 Os cortes derivados dos quantis sob H~0~ correspondem à referência de ajuste
 exato; a condição alternativa permite examinar sua capacidade de detectar a
-omissão escolhida. Esse procedimento compartilha com as abordagens de
-calibração específica a adaptação às características do modelo, enquanto o
-DFI possui regras próprias de geração e avaliação da má especificação
-[@mcneishwolf2023cfa]. As conclusões são condicionadas aos parâmetros e às
+omissão escolhida. Esse procedimento utiliza uma alternativa estrutural específica,
+com as três cargas cruzadas, enquanto o 3DFI apresentado na
+@sec-theory-fit gera perturbações aleatórias na matriz de correlações,
+com magnitude estipulada por MAD [@mcneish2024]. As conclusões são condicionadas aos parâmetros e às
 condições simuladas. As estimativas utilizadas nos geradores permanecem
 fixas entre replicações; a simulação reproduz a variabilidade amostral sob
-essas estimativas. O diagnóstico local complementará a avaliação, examinando
+essas estimativas. Trata-se de uma avaliação condicional baseada na mesma
+amostra utilizada para estimar os parâmetros. O diagnóstico local complementará a avaliação, examinando
 discrepâncias que o contraste escolhido pode não representar.
 
 Foram consideradas 1.000 replicações de 1.243 participantes em cada condição.
@@ -730,8 +755,7 @@ bibliográficos.
 
 O diagnóstico local identifica relações que contribuem para as discrepâncias
 globais. A leitura combina os parâmetros fatoriais apresentados na
-@tbl-estimation-parameters, os índices de modificação (MI), as mudanças esperadas
-nos parâmetros (EPC) e os resíduos de correlação, conforme a @sec-theory-fit
+@tbl-estimation-parameters, os MI, os EPC e os resíduos de correlação, conforme a @sec-theory-fit
 [@nye2022; @crede2019]. A avaliação local concentra-se em H~0~, o modelo de
 análise que orientará os encaminhamentos.
 
@@ -779,7 +803,7 @@ mi_table_h0
 
 **Finalidade**
 
-Organizar as vinte maiores relações candidatas à liberação em H~0~, com seus índices de modificação e mudanças esperadas dos parâmetros.
+Organizar as vinte maiores relações candidatas à liberação em H~0~, com seus MI e EPC.
 
 **Preparação**
 
@@ -934,7 +958,7 @@ residual_heatmap
 
 Inicialmente, o diagnóstico local de H~0~ pode envolver os três itens cujas cargas cruzadas foram
 previamente consideradas em H~1~. Para Q15, a carga adicional no domínio
-Ambiente aparece diretamente entre os maiores índices de modificação
+Ambiente aparece diretamente entre os maiores MI
 (MI = `r formatC(mi_all$mi[mi_all$lhs == "environment" & mi_all$op == "=~" & mi_all$rhs == "Q15"], format = "f", digits = 3, decimal.mark = ",")`;
 EPC padronizado = `r formatC(mi_all$sepc.all[mi_all$lhs == "environment" & mi_all$op == "=~" & mi_all$rhs == "Q15"], format = "f", digits = 3, decimal.mark = ",")`).
 O item também apresenta resíduos de correlação positivos com Q3 e Q4, de

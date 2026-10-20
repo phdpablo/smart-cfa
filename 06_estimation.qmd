@@ -282,7 +282,7 @@ estimation_checks <- purrr::imap_dfr(
       Modelo = model_name,
       `N observado` = as.integer(lavaan::lavInspect(fit, "nobs")),
       `Parâmetros livres` = sum(free_parameters$free > 0),
-      Convergência = converged,
+      Convergência = if (converged) "Sim" else "Não",
       `Variâncias negativas` = negative_variances,
       `Cargas padronizadas > 1` = heywood_loadings
     )
@@ -364,7 +364,7 @@ estimation_checks <- purrr::imap_dfr(
       Modelo = model_name,
       `N observado` = as.integer(lavaan::lavInspect(fit, "nobs")),
       `Parâmetros livres` = sum(free_parameters$free > 0),
-      Convergência = converged,
+      Convergência = if (converged) "Sim" else "Não",
       `Variâncias negativas` = negative_variances,
       `Cargas padronizadas > 1` = heywood_loadings
     )

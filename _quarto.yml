@@ -28,8 +28,9 @@ execute: # https://quarto.org/docs/computations/execution-options.html
 book: # https://quarto.org/docs/books/index.html
   google-analytics: "G-2MWSHLX73Q" # replace with your Google Analytics tracking ID or remove this line
   favicon: cover.jpg # edit or exclude this image/line
-  title: "Escolhas inteligentes para modelos de medida" # edit your title
-  subtitle: "Tutorial em manuscrito executável para análise fatorial confirmatória no ambiente R" # edit your subtitle
+  title: "Planejamento e avaliação de modelos de análise fatorial confirmatória" # edit your title
+  subtitle: "Um tutorial reprodutível com R e Quarto" # edit your subtitle
+  output-file: "cfa-tutorial"
   author: "Pablo Rogers and Sérgio Murilo Georgeto" # edit your name
   date: today # https://quarto.org/docs/reference/dates.html
   date-format: long # Format for displaying the date (e.g., "August 8, 2024").

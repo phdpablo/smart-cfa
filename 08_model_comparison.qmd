@@ -406,8 +406,9 @@ RMSEA robusto de
 `r formatC(fit_measures_adjusted["rmsea.robust"], format = "f", digits = 3, decimal.mark = ",")`
 e SRMR de
 `r formatC(fit_measures_adjusted["srmr"], format = "f", digits = 3, decimal.mark = ",")`.
-O conjunto de modificações mostra melhora substancial do ajuste em relação às especificações
-originais. Para o ajuste próximo,
+Os índices do modelo modificado são descritivamente mais favoráveis que os das
+especificações originais. Essa diferença deve ser interpretada considerando
+também a redução de 24 para 21 indicadores. Para o ajuste próximo,
 o teste da hipótese RMSEA robusto ≤ 0,05 apresenta p =
 `r formatC(fit_measures_adjusted["rmsea.pvalue.robust"], format = "f", digits = 3, decimal.mark = ",")`,
 superior a 0,05. Assim, a hipótese de ajuste próximo não é rejeitada,
@@ -517,26 +518,34 @@ enquanto o social permaneceu praticamente estável. A melhora do
 ajuste global foi acompanhada de redução da cobertura dos domínios e de pequenas
 reduções na confiabilidade desses três escores.
 
-## Avaliação por DDDFI {#sec-adjusted-dddfi}
+## Avaliação por 3DFI {#sec-adjusted-dddfi}
 
-Esta seção tem finalidade didática: uma calibração adicional demonstra o DFI
-por discrepância direta (DDDFI), com referências de ajuste aproximado,
-enquanto a simulação da @sec-model-fit examinou a referência de ajuste exato
-dos modelos empíricos [@mcneishwolf2023dddf].
-
-### 3DFI
+A avaliação da especificação modificada utiliza o 3DFI fundamentado na
+@sec-theory-fit. A calibração caracteriza o ajuste aproximado por magnitudes
+de discrepância nas correlações, sem escolher novos caminhos omitidos para
+definir a má especificação. A simulação da @sec-model-fit examinou a
+referência de ajuste exato e a sensibilidade a uma alternativa estrutural
+específica; aqui, o objetivo é qualificar a magnitude do desajuste remanescente
+[@mcneish2024]. A aplicação do 3DFI concentra-se nessas condições para
+demonstrar a avaliação graduada de uma solução após as modificações. As duas
+calibrações respondem a perguntas distintas: o afastamento da referência
+exata nos modelos originais e o grau de ajuste aproximado do modelo
+modificado. Seus resultados devem ser interpretados segundo essas perguntas,
+considerando também a mudança de 24 para 21 indicadores.
 
 A calibração considera os 21 indicadores, a não normalidade e a estimação
 robusta. São utilizadas 1.000 replicações e três magnitudes médias absolutas de
 discrepância: 0,038, 0,050 e 0,060, correspondentes às referências de ajuste
-próximo, razoável e medíocre. A @tbl-adjusted-dfi-cutoffs apresenta os limites
+próximo, razoável e medíocre. Esses valores seguem as referências heurísticas
+de @mcneish2024; o MAD define a magnitude de entrada, e os pontos de
+corte dos índices são obtidos para esta especificação. A @tbl-adjusted-dfi-cutoffs apresenta os limites
 de CFI, RMSEA e limite superior do intervalo de confiança de 90% do RMSEA.
 A avaliação deve comparar cada índice observado com sua referência correspondente
-[@mcneishwolf2023dddf].
+[@mcneish2024].
 
 ```{r}
 #| label: tbl-adjusted-dfi-cutoffs
-#| tbl-cap: "Limites DDDFI calibrados para o modelo modificado."
+#| tbl-cap: "Limites 3DFI calibrados para o modelo modificado."
 #| echo: false
 
 # Select the retained indicators, preserving missing responses.
@@ -602,7 +611,7 @@ Utilize `analysis_data`, `fit_adjustedzemodel`, `SEED` e o mecanismo de resultad
 
 **Procedimento**
 
-O bloco seleciona os indicadores retidos conforme o ajuste e preserva suas respostas ausentes. A chamada de `dynamic::DDDFI()` solicita não normalidade, MLR, 1.000 replicações e discrepâncias médias absolutas de 0,038, 0,050 e 0,060. A semente é fixada antes da simulação.
+O bloco seleciona os indicadores retidos conforme o ajuste e preserva suas respostas ausentes. A função `dynamic::DDDFI()` implementa o 3DFI. Na versão 1.1.0 utilizada, as funções internas `true_fit()` e `miss_fit()` selecionam índices robustos para MLR, mas suas chamadas a `lavaan::cfa()` não recebem o argumento `missing`, embora o definam internamente. As réplicas são, assim, ajustadas com a exclusão padrão de casos incompletos. Preservar ausências na geração não implica repetir FIML na estimação. A chamada solicita não normalidade, MLR, 1.000 replicações e discrepâncias médias absolutas de 0,038, 0,050 e 0,060. A semente é fixada antes da simulação.
 
 `cache_or_run()` reutiliza o resultado disponível ou executa a calibração; antes de salvar um novo resultado, remove os dados simulados para reduzir seu tamanho. O arquivo compacto é então lido do disco. As orientações operacionais de reprodução e recálculo pertencem ao [README](README.md).
 
@@ -932,14 +941,14 @@ RMSEA de até
 e limite superior do intervalo do RMSEA de até
 `r formatC(as.numeric(dfi_adjusted$cutoffs["Fair", "90% CI"]), format = "f", digits = 3, decimal.mark = ",")`.
 A referência próxima (*close*) é mais exigente e não foi alcançada.
-A classificação DDDFI caracteriza, portanto, o ajuste como razoável sob
+A classificação 3DFI caracteriza, portanto, o ajuste como razoável sob
 as condições de calibração utilizadas.
 
 ## Diagnóstico local
 
 O diagnóstico local caracteriza as dificuldades que permanecem no modelo
 modificado. A @tbl-adjusted-modification-indices-top20 apresenta os vinte
-maiores índices de modificação, com EPC bruto e padronizado. Esses resultados
+maiores MI, com EPC bruto e padronizado. Esses resultados
 são aproximações da liberação individual de parâmetros e devem ser interpretados
 junto das cargas e dos resíduos, preservando a especificação delimitada na
 fundamentação [@nye2022; @crede2019].
@@ -1122,7 +1131,7 @@ O maior resíduo absoluto é
 `r nrow(residual_correlations_adjusted)` pares apresentam magnitude de pelo
 menos 0,10. A leitura conjunta desse mapa, das cargas e dos MI/EPC documenta
 as limitações locais da especificação selecionada, em conjunto com a avaliação
-por DDDFI apresentada anteriormente. Q23–Q25 e Q8–Q9 destacam-se tanto
+por 3DFI apresentada anteriormente. Q23–Q25 e Q8–Q9 destacam-se tanto
 nos resíduos quanto nos MI. A redução das discrepâncias em relação a H~0~
 considera também a retirada dos pares que envolviam os indicadores excluídos.
 As dificuldades remanescentes são registradas como limites da solução,
@@ -1130,7 +1139,7 @@ encerrando as modificações nesta especificação.
 
 A revisão resultou em um modelo de quatro fatores com 21 indicadores,
 preservando os três itens sociais e incorporando as covariâncias residuais Q17–Q18. A solução apresentou ajuste compatível com a referência
-razoável do DDDFI e confiabilidade dos quatro escores acima de 0,70.
+razoável do 3DFI e confiabilidade dos quatro escores acima de 0,70.
 A hipótese de ajuste próximo pelo RMSEA não foi rejeitada. Permaneceram cargas modestas
 e discrepâncias locais, que delimitam sua interpretação. Retemos essa
 especificação como solução exploratória para a amostra analisada, com os

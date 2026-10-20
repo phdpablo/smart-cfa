@@ -8,10 +8,10 @@
 source(here::here("Scripts", "DataAppendixScripts", "helpers.R"))
 ```
 
-O pré-processamento em questionários de autorelato tem como finalidade proteger as análises vindouras de vieses introduzidos por respostas descuidadas ou com esforço insuficiente (*Careless or Insufficient Effort Responding* — C/IER), registros incompletos ou com respostas inconsistentes, e a inspeção preliminar das variáveis para prospecção de problemas. Nas seções anteriores não precisamos dos dados coletados, mas a partir de agora, temos que fazer exercícios com dados brutos, e por isso, vamos utilizar a mesma base de dados empregada por @rogers2024c e @rogers2022. 
+O pré-processamento em questionários de autorelato tem como finalidade proteger as análises vindouras de vieses introduzidos por C/IER, registros incompletos ou com respostas inconsistentes, e a inspeção preliminar das variáveis para prospecção de problemas. Nas seções anteriores não precisamos dos dados coletados, mas a partir de agora, temos que fazer exercícios com dados brutos, e por isso, vamos utilizar a mesma base de dados empregada por @rogers2024c e @rogers2022.
 
 Nesse tutorial, entretanto, o processamento parte dos 1.546 registros brutos e explicita tanto os critérios procedurais (*ex-ante*) quanto os indicadores estatísticos (*ex-post*) de triagem C/IER. Como os trabalhos anteriores [@rogers2024c; @rogers2022] partiram de uma base pré-processada de 1.047 participantes, eventuais diferenças entre seus resultados e os deste tutorial não devem ser atribuídas exclusivamente ao tratamento ordinal ou contínuo dos itens. Após a verificação da integridade do banco e a remoção de registros sem identificação
-ou com mais de cinco respostas ausentes na WHOQOL-Bref (como veremos adiante, o objetivo é simular estimação com dados *missings*), a amostra elegível foi submetida a um protocolo sequencial de triagem C/IER.
+ou com mais de cinco respostas ausentes na WHOQOL-Bref, a amostra elegível foi submetida a um protocolo sequencial de triagem C/IER. As respostas ausentes nos registros retidos foram preservadas para tratamento por FIML na estimação.
 
 :::: {.content-visible unless-format="pdf"}
 
@@ -111,8 +111,9 @@ itens de atenção inseridos no questionário e a duração total de preenchimen
 [@curran2016; @ward2023]. A falha em pelo menos dois dos três itens de atenção incluídos foi interpretada
 como evidência de C/IER [@desimone2015; @chauliac2023]. Também foram
 excluídos os questionários de indivíduos com velocidade inferior a quatro segundos por item,
-limiar considerado incompatível com o processamento semântico reflexivo
-requerido pelo instrumento [@huang2012; @curran2016; @jones2023].
+limiar adotado para sinalizar preenchimentos excessivamente rápidos nesta
+aplicação, dentro das referências de dois a quatro segundos por item discutidas
+na @sec-theory-preprocessing [@curran2016; @jones2023].
 
 :::: {.content-visible unless-format="pdf"}
 
@@ -165,11 +166,13 @@ Como critérios *ex-post* empregamos a medida de *Longstring*, o IRV e a Distân
 marcação uniforme; o segundo detecta tanto variabilidade anormalmente baixas quanto dispersão alta; e o terceiro identifica padrões multivariados
 distantes do comportamento normativo da amostra, condizentes com aleatoriedade excesiva [@curran2016; @hong2020;
 @meade2012; @desimone2015]. Considerou-se problemática uma sequência contínua (*Longstring*)
-superior à metade dos itens da WHOQOL-BREF; para o IRV, utilizaram-se os percentis
-1% e 99%; e, para a Distância de Mahalanobis, o percentil 99%. Esses limiares
-foram definidos *a priori* com base na extensão da escala e nas caudas extremas
-das distribuições amostrais, buscando equilibrar sensibilidade à desatenção e
-preservação de respondentes sinceros [@goldammer2020; @steedle2018;
+superior a 13 respostas consecutivas, correspondente à metade dos 26 itens
+da WHOQOL-Bref considerados na triagem; para o IRV, utilizaram-se os percentis
+1% e 99%; e, para a Distância de Mahalanobis, o percentil 99%. As regras de
+triagem foram definidas com base na extensão da escala e nas caudas extremas
+das distribuições; os valores numéricos dos percentis foram calculados na
+amostra submetida aos critérios estatísticos, buscando equilibrar sensibilidade
+à desatenção e preservação de respondentes sinceros [@goldammer2020; @steedle2018;
 @arthur2021].
 
 :::: {.content-visible unless-format="pdf"}
@@ -186,7 +189,7 @@ Utilize `procedural_data` e `scale_items`. Os indicadores são calculados antes 
 
 **Procedimento**
 
-O bloco acrescenta Longstring, variabilidade intraindividual (IRV) e distância de Mahalanobis. Para a distância, utiliza médias por item e covariâncias calculadas com os pares observados. Em seguida, obtém os percentis amostrais e cria três flags: Longstring maior que 13, IRV nas caudas de 1% ou 99% e distância a partir do percentil 99.
+O bloco acrescenta Longstring, IRV e distância de Mahalanobis. Para a distância, utiliza médias por item e covariâncias calculadas com os pares observados. Em seguida, obtém os percentis amostrais e cria três flags: Longstring maior que 13, IRV nas caudas de 1% ou 99% e distância a partir do percentil 99.
 
 `screened_data` reúne os indicadores e as flags procedurais e estatísticas. A exportação preserva os indicadores e suas flags para auditoria; a tabela seguinte resume os limites utilizados.
 
@@ -771,9 +774,7 @@ moderados da normalidade [@li2016cfa; @li2016sem].
 A presença de respostas ausentes em alguns itens também deve ser considerada no
 processo de estimação. Como os participantes não foram excluídos apenas por
 apresentarem um ou poucos valores ausentes em itens específicos, a análise deve
-preservar as informações observadas e utilizar o procedimento de máxima
-verossimilhança com informação completa (*Full Information Maximum Likelihood* —
-FIML) [@lai2021missing; @lei2020]. Dessa forma, os valores disponíveis de cada
+preservar as informações observadas e utilizar o procedimento FIML [@lai2021missing; @lei2020]. Dessa forma, os valores disponíveis de cada
 respondente podem contribuir para a estimação sem recorrer à exclusão *listwise*
 de todos os casos que apresentem qualquer ausência.
 
