@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.9.37">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>7&nbsp; Ajuste do modelo – Escolhas inteligentes para modelos de medida</title>
+<title>7&nbsp; Ajuste do modelo – Planejamento e avaliação de modelos de análise fatorial confirmatória</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -132,11 +132,36 @@ window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
+</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
 </script>
-<meta property="og:title" content="7&nbsp; Ajuste do modelo – Escolhas inteligentes para modelos de medida">
+<meta property="og:title" content="7&nbsp; Ajuste do modelo – Planejamento e avaliação de modelos de análise fatorial confirmatória">
 <meta property="og:description" content="">
 <meta property="og:image" content="https://phdpablo.github.io/smart-cfa/07_model_fit_files/figure-html/fig-empirical-fit-distributions-1.png">
-<meta property="og:site_name" content="Escolhas inteligentes para modelos de medida">
+<meta property="og:site_name" content="Planejamento e avaliação de modelos de análise fatorial confirmatória">
 <meta property="og:image:height" content="960">
 <meta property="og:image:width" content="1536">
 </head>
@@ -320,10 +345,10 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Escolhas inteligentes para modelos de medida</a> 
+      <a href="./">Planejamento e avaliação de modelos de análise fatorial confirmatória</a> 
         <div class="sidebar-tools-main tools-wide">
     <a href="https://github.com/phdpablo/smart-cfa" title="Código fonte" class="quarto-navigation-tool px-1" aria-label="Código fonte"><i class="bi bi-github"></i></a>
-    <a href="./Escolhas-inteligentes-para-modelos-de-medida.pdf" title="Baixar PDF" class="quarto-navigation-tool px-1" aria-label="Baixar PDF"><i class="bi bi-file-pdf"></i></a>
+    <a href="./cfa-tutorial.pdf" title="Baixar PDF" class="quarto-navigation-tool px-1" aria-label="Baixar PDF"><i class="bi bi-file-pdf"></i></a>
     <div class="dropdown">
       <a href="" title="Compartilhar" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Compartilhar"><i class="bi bi-share"></i></a>
       <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
@@ -378,7 +403,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./02_background.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Escolhas inteligentes</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Fundamentação das decisões analíticas</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -485,7 +510,7 @@ Tabela&nbsp;7.1: Ajuste global dos modelos originais H<sub>0</sub> e H<sub>1</su
 <td style="text-align: right;">242</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">p</td>
+<td style="text-align: left;">p-valor</td>
 <td style="text-align: right;">&lt; 0.001</td>
 <td style="text-align: right;">&lt; 0.001</td>
 </tr>
@@ -543,9 +568,15 @@ Tabela&nbsp;7.1: Ajuste global dos modelos originais H<sub>0</sub> e H<sub>1</su
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>O bloco lê a base analítica com <code><a href="https://readr.tidyverse.org/reference/read_delim.html">readr::read_csv2()</a></code> e estima os dois modelos com <code><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">lavaan::cfa()</a></code>, mantendo as condições da <a href="06_estimation.html" class="quarto-xref"><span>Seção 6</span></a>. A função <code>table_fit()</code>, definida em <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a> e detalhada no racional da <a href="08_model_comparison.html#tbl-adjusted-model-fit-global" class="quarto-xref">Tabela&nbsp;<span>8.3</span></a>, prepara uma síntese padronizada para cada ajuste.</p>
-<p><code><a href="https://rdrr.io/r/base/attr.html">attr()</a></code> recupera os dados de apresentação de cada tabela, e <code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">dplyr::full_join()</a></code> os reúne pela medida, mantendo uma coluna para H<sub>0</sub> e outra para H<sub>1</sub>. A verificação anterior à união impede a exportação de dados ausentes ou vazios. As medidas numéricas completas também são recuperadas e organizadas em vetores nomeados por <code><a href="https://rdrr.io/r/stats/setNames.html">stats::setNames()</a></code> para alimentar os valores inseridos no texto.</p>
-<p><code><a href="https://readr.tidyverse.org/reference/write_delim.html">readr::write_excel_csv2()</a></code> exporta o conteúdo combinado para um CSV compatível com o Excel, preservando os mesmos rótulos, a ordem e os valores de exibição. <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> apresenta esse conteúdo lado a lado no HTML e no PDF. Com os scripts carregados, o bloco pode ser reproduzido com:</p>
+<p><strong>Finalidade</strong></p>
+<p>Reunir as medidas de ajuste global de H<sub>0</sub> e H<sub>1</sub> para apresentação lado a lado.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize a base <code>Data/AnalysisData/whoqol_analysis.csv</code>, as especificações <code>analyzemodel</code> e <code>h1modelfree</code> e a preparação geral da <a href="03_model_selection.html" class="quarto-xref"><span>Seção 3</span></a>.</p>
+<p><strong>Procedimento</strong></p>
+<p>O bloco lê a base e estima os dois modelos nas condições da <a href="06_estimation.html" class="quarto-xref"><span>Seção 6</span></a>. A função própria <code>table_fit()</code>, definida em <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a>, recebe cada ajuste e prepara suas medidas de ajuste. Sua auxiliar <code>tidy_fit()</code> organiza os índices compatíveis com o teste utilizado, preservando os valores numéricos completos.</p>
+<p>O atributo <code>fit_data</code> fornece as medidas completas para os valores inseridos no texto, e <code>table_data</code> fornece a apresentação. Após verificar se ambas as tabelas estão disponíveis, o bloco as reúne pela medida, com uma coluna para cada modelo. A exportação conserva o mesmo conteúdo exibido.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para criar os ajustes, apresentar <code>fit_global</code> e salvar <code>tbl-model-fit-global.csv</code> em <code>Output/Results/Tables</code>. Os ajustes serão reutilizados nas saídas seguintes.</p>
 <div class="cell">
 <details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Read the analytical dataset produced during preprocessing.</span></span>
 <span><span class="va">analysis_data</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv2</a></span><span class="op">(</span></span>
@@ -600,7 +631,17 @@ Tabela&nbsp;7.1: Ajuste global dos modelos originais H<sub>0</sub> e H<sub>1</su
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Present both model summaries side by side.</span></span>
-<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">fit_global</span>, align <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"l"</span>, <span class="st">"r"</span>, <span class="st">"r"</span><span class="op">)</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="va">fit_global_display</span> <span class="op">&lt;-</span> <span class="va">fit_global</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/output_type.html">is_latex_output</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">fit_global_display</span><span class="op">$</span><span class="va">Medida</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span></span>
+<span>    <span class="st">"χ²"</span>, <span class="st">"$\\chi^2$"</span>, <span class="va">fit_global_display</span><span class="op">$</span><span class="va">Medida</span>, fixed <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span></span>
+<span>  <span class="va">fit_global_display</span><span class="op">$</span><span class="va">Medida</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span></span>
+<span>    <span class="st">"≤"</span>, <span class="st">"$\\leq$"</span>, <span class="va">fit_global_display</span><span class="op">$</span><span class="va">Medida</span>, fixed <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">fit_global_display</span>, format <span class="op">=</span> <span class="st">"pipe"</span>, align <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"l"</span>, <span class="st">"r"</span>, <span class="st">"r"</span><span class="op">)</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </div>
@@ -613,7 +654,7 @@ Tabela&nbsp;7.1: Ajuste global dos modelos originais H<sub>0</sub> e H<sub>1</su
 </section><section id="confiabilidade-dos-escores" class="level2" data-number="7.2"><h2 data-number="7.2" class="anchored" data-anchor-id="confiabilidade-dos-escores">
 <span class="header-section-number">7.2</span> Confiabilidade dos escores</h2>
 <p>A confiabilidade expressa a precisão de um escore sob determinadas condições de mensuração. O ômega é a medida principal, calculada a partir dos parâmetros fatoriais e da variância observada do escore. Essa avaliação complementa o ajuste global e depende da adequação da especificação utilizada <span class="citation" data-cites="flora2020 cho2022">(<a href="references.html#ref-cho2022" role="doc-biblioref">Cho, 2022</a>; <a href="references.html#ref-flora2020" role="doc-biblioref">Flora, 2020</a>)</span>.</p>
-<p>A <a href="#tbl-domain-reliability" class="quarto-xref">Tabela&nbsp;<span>7.2</span></a> apresenta o ômega e o maior limite inferior de confiabilidade (GLB) para os quatro domínios em H<sub>0</sub> e H<sub>1</sub>. Em H<sub>1</sub>, o escore psicológico inclui também Q8 e Q9, e o ambiental inclui Q15, passando a oito e nove itens, respectivamente. Os demais escores mantêm sua composição. O GLB é calculado separadamente a partir da matriz observada recuperada de cada ajuste, permitindo verificar a correspondência dos resultados. Sua formulação algébrica pressupõe erros não correlacionados e pode apresentar viés amostral para cima; portanto, sua interpretação difere da confiabilidade baseada no modelo que inclui a covariância residual Q3–Q4 <span class="citation" data-cites="trizano-hermosilla2016">(<a href="references.html#ref-trizano-hermosilla2016" role="doc-biblioref">Trizano-Hermosilla &amp; Alvarado, 2016</a>)</span>.</p>
+<p>A <a href="#tbl-domain-reliability" class="quarto-xref">Tabela&nbsp;<span>7.2</span></a> apresenta o ômega e o GLB para os quatro domínios em H<sub>0</sub> e H<sub>1</sub>. Em H<sub>1</sub>, o escore psicológico inclui também Q8 e Q9, e o ambiental inclui Q15, passando a oito e nove itens, respectivamente. Os demais escores mantêm sua composição. O GLB é calculado separadamente a partir da matriz observada recuperada de cada ajuste, permitindo verificar a correspondência dos resultados. Sua formulação algébrica pressupõe erros não correlacionados e pode apresentar viés amostral para cima; portanto, sua interpretação difere da confiabilidade baseada no modelo que inclui a covariância residual Q3–Q4 <span class="citation" data-cites="trizano-hermosilla2016">(<a href="references.html#ref-trizano-hermosilla2016" role="doc-biblioref">Trizano-Hermosilla &amp; Alvarado, 2016</a>)</span>.</p>
 <div class="cell">
 <div id="tbl-domain-reliability" class="cell quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-domain-reliability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -703,9 +744,15 @@ Tabela&nbsp;7.2: Confiabilidade dos escores de domínio conforme a composição 
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>A função <code>table_reliability()</code>, definida em <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a> e apresentada no racional da <a href="08_model_comparison.html#tbl-adjusted-domain-reliability" class="quarto-xref">Tabela&nbsp;<span>8.4</span></a>, prepara uma tabela para cada ajuste. A composição dos escores é obtida diretamente de cada modelo, incluindo as cargas cruzadas de H<sub>1</sub>. Assim, ômega, GLB e contagem de itens correspondem aos conjuntos utilizados em cada escore.</p>
-<p><code><a href="https://rdrr.io/r/base/attr.html">attr()</a></code> recupera os dados de apresentação, e uma verificação impede a exportação de tabelas ausentes ou vazias. <code><a href="https://dplyr.tidyverse.org/reference/bind_rows.html">dplyr::bind_rows()</a></code> empilha os quatro escores de H<sub>0</sub> e, depois, os quatro de H<sub>1</sub>, acrescentando a coluna <code>Modelo</code> para identificar os dois blocos.</p>
-<p><code><a href="https://readr.tidyverse.org/reference/write_delim.html">readr::write_excel_csv2()</a></code> exporta o mesmo conteúdo apresentado, preservando rótulos, ordem e valores de exibição em um CSV compatível com o Excel. <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> apresenta os resultados em uma única tabela no HTML e no PDF. O bloco utiliza os ajustes já estimados; não repete a estimação nem executa simulações.</p>
+<p><strong>Finalidade</strong></p>
+<p>Estimar a confiabilidade dos escores de cada domínio, respeitando sua composição em H<sub>0</sub> e H<sub>1</sub>.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize <code>fit_analyzemodel</code> e <code>fit_h1modelfree</code>, estimados no bloco da <a href="#tbl-model-fit-global" class="quarto-xref">Tabela&nbsp;<span>7.1</span></a>.</p>
+<p><strong>Procedimento</strong></p>
+<p>A função própria <code>table_reliability()</code>, de <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a>, recebe cada ajuste e prepara a tabela de confiabilidade. Sua auxiliar <code>tidy_reliability()</code> identifica os itens de cada fator e calcula ômega e GLB para os respectivos escores com pesos iguais. O ômega provém de <code><a href="https://rdrr.io/pkg/semTools/man/compRelSEM.html">semTools::compRelSEM()</a></code>; o GLB utiliza a matriz observada dos mesmos itens com <code><a href="https://rdrr.io/pkg/psych/man/glb.algebraic.html">psych::glb.algebraic()</a></code>.</p>
+<p>A composição acompanha as cargas dos modelos, incluindo as cargas cruzadas de H<sub>1</sub>. As duas tabelas são verificadas e empilhadas, com a coluna <code>Modelo</code> identificando sua origem. A exportação utiliza o mesmo conteúdo apresentado.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para apresentar os quatro escores de cada modelo e salvar <code>tbl-domain-reliability.csv</code> em <code>Output/Results/Tables</code>. O cálculo utiliza os ajustes disponíveis, sem nova estimação.</p>
 <div class="cell">
 <details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Prepare each model's formatted score reliability table.</span></span>
 <span><span class="va">reliability_table_h0</span> <span class="op">&lt;-</span> <span class="fu">table_reliability</span><span class="op">(</span><span class="va">fit_analyzemodel</span>, lang <span class="op">=</span> <span class="st">"pt"</span><span class="op">)</span></span>
@@ -745,9 +792,9 @@ Tabela&nbsp;7.2: Confiabilidade dos escores de domínio conforme a composição 
 <p>Os quatro escores de domínio apresentaram ômega e GLB acima da referência convencional de 0,70 no modelo de interesse H<sub>0</sub>, embora alguns coeficientes tenham ficado próximos desse limite. Na comparação entre H<sub>0</sub> e H<sub>1</sub>, a interpretação dos coeficientes deve considerar também a ampliação dos escores psicológico e ambiental, além da mudança na especificação fatorial. Esses resultados sustentam a consistência dos escores sob a especificação avaliada, mas não resolvem as limitações de ajuste global identificadas anteriormente.</p>
 </section><section id="distribuições-dos-índices-sob-os-modelos-empíricos" class="level2" data-number="7.3"><h2 data-number="7.3" class="anchored" data-anchor-id="distribuições-dos-índices-sob-os-modelos-empíricos">
 <span class="header-section-number">7.3</span> Distribuições dos índices sob os modelos empíricos</h2>
-<p>A análise de poder utilizou parâmetros populacionais definidos a partir da literatura e de pressupostos de planejamento. Após a estimação, as cargas e as correlações observadas diferiram dessas condições. A avaliação por simulação foi, portanto, parametrizada pelos ajustes empíricos, preservando a estrutura dos modelos e incorporando o tamanho amostral e as características distributivas consideradas na análise atual <span class="citation" data-cites="leite2023 moshagen2024">(<a href="references.html#ref-leite2023" role="doc-biblioref">Leite et al., 2023</a>; <a href="references.html#ref-moshagen2024" role="doc-biblioref">Moshagen &amp; Bader, 2024</a>)</span>.</p>
+<p>A AP utilizou parâmetros populacionais definidos a partir da literatura e de pressupostos de planejamento. Após a estimação, as cargas e as correlações observadas diferiram dessas condições. A avaliação por simulação foi, portanto, parametrizada pelos ajustes empíricos, preservando a estrutura dos modelos e incorporando o tamanho amostral e as características distributivas consideradas na análise atual <span class="citation" data-cites="leite2023 moshagen2024">(<a href="references.html#ref-leite2023" role="doc-biblioref">Leite et al., 2023</a>; <a href="references.html#ref-moshagen2024" role="doc-biblioref">Moshagen &amp; Bader, 2024</a>)</span>. Os limites do planejamento em <span class="math inline">\(N=200\)</span> são, portanto, recalculados para os 1.243 participantes, com parâmetros estimados, distribuições marginais e padrão de ausências da amostra analítica. Essa mudança desloca a pergunta do tamanho amostral necessário para o comportamento esperado dos índices nas condições empíricas.</p>
 <p>Os parâmetros estimados definem populações geradoras hipotéticas. Sob a primeira condição, os dados são gerados e analisados segundo H<sub>0</sub>, fornecendo a distribuição de referência dos índices quando suas restrições são satisfeitas. Sob a segunda, os dados são gerados segundo H<sub>1</sub> e analisados por H<sub>0</sub>, permitindo avaliar a sensibilidade dos índices à omissão das três cargas cruzadas previamente consideradas. A forma desse contraste mantém continuidade com o planejamento, enquanto suas magnitudes são atualizadas pelas estimativas empíricas.</p>
-<p>A avaliação reúne o posicionamento dos índices observados de H<sub>0</sub> diante de sua referência e a sensibilidade dessa referência à alternativa especificada. Os cortes derivados dos quantis sob H<sub>0</sub> correspondem à referência de ajuste exato; a condição alternativa permite examinar sua capacidade de detectar a omissão escolhida. Esse procedimento compartilha com as abordagens de calibração específica a adaptação às características do modelo, enquanto o DFI possui regras próprias de geração e avaliação da má especificação <span class="citation" data-cites="mcneishwolf2023cfa">(<a href="references.html#ref-mcneishwolf2023cfa" role="doc-biblioref">McNeish &amp; Wolf, 2023</a>)</span>. As conclusões são condicionadas aos parâmetros e às condições simuladas. As estimativas utilizadas nos geradores permanecem fixas entre replicações; a simulação reproduz a variabilidade amostral sob essas estimativas. O diagnóstico local complementará a avaliação, examinando discrepâncias que o contraste escolhido pode não representar.</p>
+<p>A avaliação reúne o posicionamento dos índices observados de H<sub>0</sub> diante de sua referência e a sensibilidade dessa referência à alternativa especificada. Os cortes derivados dos quantis sob H<sub>0</sub> correspondem à referência de ajuste exato; a condição alternativa permite examinar sua capacidade de detectar a omissão escolhida. Esse procedimento utiliza uma alternativa estrutural específica, com as três cargas cruzadas, enquanto o 3DFI apresentado na <a href="02_background.html#sec-theory-fit" class="quarto-xref"><span>Seção 2.5</span></a> gera perturbações aleatórias na matriz de correlações, com magnitude estipulada por MAD <span class="citation" data-cites="mcneish2024">(<a href="references.html#ref-mcneish2024" role="doc-biblioref">McNeish &amp; Wolf, 2024</a>)</span>. As conclusões são condicionadas aos parâmetros e às condições simuladas. As estimativas utilizadas nos geradores permanecem fixas entre replicações; a simulação reproduz a variabilidade amostral sob essas estimativas. Trata-se de uma avaliação condicional baseada na mesma amostra utilizada para estimar os parâmetros. O diagnóstico local complementará a avaliação, examinando discrepâncias que o contraste escolhido pode não representar.</p>
 <p>Foram consideradas 1.000 replicações de 1.243 participantes em cada condição. A geração incorpora as assimetrias e curtoses marginais observadas e repete o padrão de células ausentes da base analítica. A estimação mantém MLR/FIML. A <a href="#fig-empirical-fit-distributions" class="quarto-xref">Figura&nbsp;<span>7.1</span></a> apresenta as distribuições de RMSEA, CFI e TLI robustos, acompanhados do SRMR, preservando as medidas utilizadas na <a href="#tbl-model-fit-global" class="quarto-xref">Tabela&nbsp;<span>7.1</span></a>. A concentração de CFI e TLI próximos de 1 é esperada sob a condição em que o modelo ajustado corresponde à estrutura geradora; essa referência permite avaliar o afastamento dos valores observados.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -773,19 +820,24 @@ Figura&nbsp;7.1: Distribuições de RMSEA, CFI e TLI robustos e SRMR em 1.000 re
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>A preparação seleciona os 24 indicadores em <code>analysis_data</code>, usando <code>lavaan::lavNames(..., "ov")</code> para respeitar a ordem das variáveis observadas de cada ajuste. <code>indicators_h0</code> e <code>indicators_h1</code> contêm as mesmas respostas, ordenadas conforme os respectivos modelos. <code><a href="https://rdrr.io/pkg/psych/man/skew.html">psych::skew()</a></code> e <code><a href="https://rdrr.io/pkg/psych/man/skew.html">psych::kurtosi()</a></code> calculam a assimetria e a curtose excedente de cada item, com <code>na.rm = TRUE</code> para desconsiderar suas respostas ausentes. A conversão <code><a href="https://rdrr.io/r/base/matrix.html">as.matrix()</a></code> fornece a essas funções uma matriz numérica. <code><a href="https://rdrr.io/pkg/simsem/man/bindDist.html">simsem::bindDist()</a></code> reúne os momentos em <code>dist_h0</code> e <code>dist_h1</code>.</p>
-<p>Em <code><a href="https://rdrr.io/pkg/simsem/man/sim.html">simsem::sim()</a></code>, <code>generate</code> recebe o ajuste empírico usado como população geradora, enquanto <code>model</code> recebe a especificação estimada nas novas amostras. Na primeira chamada, o gerador e o modelo de análise correspondem a H<sub>0</sub>. Na segunda, <code>generate = fit_h1modelfree</code> mantém as cargas cruzadas na população geradora, enquanto <code>model = analyzemodel</code> ajusta H<sub>0</sub> e omite essas relações. <code>nRep = SIM</code> e <code>seed = SEED</code> recuperam as 1.000 replicações e a semente 123321, definidas em <code>helpers.R</code>. <code>n = nrow(analysis_data)</code> utiliza o número de participantes da base analítica lida nesta seção. <code>indDist</code> recebe a distribuição marginal preparada para cada condição. <code>simsem::miss(logical = is.na(...))</code> reaplica as posições das células ausentes. <code>lavaanfun = "cfa"</code>, <code>estimator = "MLR"</code>, <code>missing = "fiml"</code> e <code>std.lv = TRUE</code> mantêm o procedimento de estimação e a identificação dos ajustes originais. <code>multicore = TRUE</code> solicita processamento paralelo.</p>
-<p><code>cache_or_run()</code> disponibiliza <code>sim_h0_empirical</code> e <code>sim_h1_empirical</code>. Se o objeto já estiver no ambiente, ele é reaproveitado; caso contrário, a função procura <code>sim_h0_empirical.rds</code> ou <code>sim_h1_empirical.rds</code> em <code>Data/IntermediateData</code>. Com os arquivos existentes, a expressão de simulação não é executada. Se um arquivo não existir, a chamada executa a simulação e grava o resultado ao término.</p>
-<p><code>cutoff_fixed</code> reúne os cortes obtidos por duas chamadas a <code><a href="https://rdrr.io/pkg/simsem/man/getCutoff.html">simsem::getCutoff()</a></code>, ambas aplicadas a <code>sim_h0_empirical</code> e com <code>alpha = ALPHA</code>, a referência de 5%. Para <code>rmsea.robust</code> e <code>srmr</code>, a função obtém o percentil 95. Para <code>cfi.robust</code> e <code>tli.robust</code>, <code>revDirec = TRUE</code> solicita o percentil 5. Essa indicação explícita é necessária porque os nomes robustos de CFI/TLI não integram a lista de inversão automática do pacote. <code><a href="https://rdrr.io/r/base/cbind.html">cbind()</a></code> reúne os quatro limites em uma linha, na ordem RMSEA, SRMR, CFI e TLI.</p>
-<p><code>power_fixed</code> reúne as proporções de rejeição na condição alternativa, calculadas por <code><a href="https://rdrr.io/pkg/simsem/man/getPowerFit.html">simsem::getPowerFit()</a></code>. Cada chamada recebe os limites de <code>cutoff_fixed</code> pelo argumento <code>cutoff</code>, convertido em vetor nomeado com <code><a href="https://rdrr.io/r/base/unlist.html">unlist()</a></code>. RMSEA/SRMR indicam rejeição acima do limite; para CFI/TLI robustos, <code>revDirec = TRUE</code> indica rejeição abaixo dele. Fornecer os cortes explicitamente assegura que o poder e a figura utilizem os mesmos limites.</p>
-<p><code>power_cutoff_fixed</code> mantém as linhas <code>Poder</code> e <code>Ponto de corte</code> e as quatro colunas de índices. <code><a href="https://rdrr.io/r/base/cbind.html">rbind()</a></code> reúne os valores, e <code>toupper(names(power_fixed))</code> define os cabeçalhos. <code><a href="https://rdrr.io/r/utils/write.table.html">write.csv2()</a></code> exporta a matriz sem arredondamento prévio para <code>Output/Results/Tables/tbl-empirical-power-cutoffs.csv</code>, preservando os nomes das linhas. Essa tabela auxiliar permanece oculta na apresentação; os objetos ficam disponíveis para consulta e interpretação.</p>
-<p><code><a href="https://rdrr.io/pkg/simsem/man/plotPowerFit.html">simsem::plotPowerFit()</a></code> recebe <code>sim_h1_empirical</code> como condição alternativa e <code>nullObject = sim_h0_empirical</code> como referência sob especificação correta. <code>cutoff = unlist(cutoff_fixed[1, ])</code> fornece os quatro limites nomeados, substituindo sua obtenção automática. Assim, as linhas vermelhas correspondem às caudas definidas na calibração. <code>usedFit = FITS_ROB</code> seleciona <code>rmsea.robust</code>, <code>srmr</code>, <code>cfi.robust</code> e <code>tli.robust</code>. A chamada mantém os quatro painéis em uma figura, sem repetir simulações ou alterar os objetos originais.</p>
+<p><strong>Finalidade</strong></p>
+<p>Calibrar os limites dos índices com base nos modelos empíricos e comparar suas distribuições sob especificação correta e omissão das cargas cruzadas.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize <code>analysis_data</code>, <code>fit_analyzemodel</code> e <code>fit_h1modelfree</code>, obtidos nesta seção, além de <code>analyzemodel</code>, <code>SIM</code>, <code>SEED</code>, <code>ALPHA</code> e <code>FITS_ROB</code> da preparação geral. Os resultados salvos são <code>sim_h0_empirical.rds</code> e <code>sim_h1_empirical.rds</code>, em <code>Data/IntermediateData</code>.</p>
+<p><strong>Procedimento</strong></p>
+<p>O bloco ordena os 24 indicadores conforme cada ajuste e obtém sua assimetria e curtose excedente para construir as distribuições marginais de geração. A condição de referência gera dados a partir do ajuste H<sub>0</sub>; a alternativa gera a partir de H<sub>1</sub>. Nas duas condições, o modelo estimado é <code>analyzemodel</code>, que omite as três cargas cruzadas.</p>
+<p>As chamadas solicitam 1.000 replicações, o tamanho da amostra analítica, semente 123321, MLR e identificação por variâncias unitárias. O padrão de células ausentes é fornecido em <code>miss</code>, e <code>missing = "fiml"</code> é passado à chamada. <code>cache_or_run()</code> reaproveita os objetos ou arquivos existentes e só simula na ausência de resultados disponíveis. As instruções operacionais de recálculo ficam no <a href="README.md">README</a>.</p>
+<p>A calibração utiliza a distribuição sob H<sub>0</sub>: percentil 95 para RMSEA robusto e SRMR, e percentil 5 para CFI e TLI robustos. <code>revDirec = TRUE</code> explicita a inversão para os nomes robustos, que não integram a lista automática do pacote. Os mesmos limites são fornecidos ao cálculo de poder na condição alternativa e ao gráfico, evitando que cada saída obtenha critérios distintos.</p>
+<p>O bloco salva a tabela auxiliar de poder e limites com precisão completa, mantendo-a oculta na apresentação. A figura reúne os quatro índices e suas referências de rejeição.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco completo para disponibilizar as duas simulações, apresentar a figura e salvar <code>tbl-empirical-power-cutoffs.csv</code> em <code>Output/Results/Tables</code>. A reutilização dos arquivos evita repetir as simulações.</p>
 <div class="cell">
 <details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Keep the same 24 indicators in the order used by each fitted model.</span></span>
 <span><span class="va">indicators_h0</span> <span class="op">&lt;-</span> <span class="va">analysis_data</span><span class="op">[</span></span>
 <span>  <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/lavNames.html">lavNames</a></span><span class="op">(</span><span class="va">fit_analyzemodel</span>, <span class="st">"ov"</span><span class="op">)</span></span>
 <span><span class="op">]</span></span>
 <span></span>
+<span><span class="co"># Order the same indicators according to the H1 specification.</span></span>
 <span><span class="va">indicators_h1</span> <span class="op">&lt;-</span> <span class="va">analysis_data</span><span class="op">[</span></span>
 <span>  <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/lavNames.html">lavNames</a></span><span class="op">(</span><span class="va">fit_h1modelfree</span>, <span class="st">"ov"</span><span class="op">)</span></span>
 <span><span class="op">]</span></span>
@@ -796,13 +848,13 @@ Figura&nbsp;7.1: Distribuições de RMSEA, CFI e TLI robustos e SRMR em 1.000 re
 <span>  kurtosis <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/skew.html">kurtosi</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">indicators_h0</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Define marginal moments for the H1 generating condition.</span></span>
 <span><span class="va">dist_h1</span> <span class="op">&lt;-</span> <span class="fu">simsem</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/simsem/man/bindDist.html">bindDist</a></span><span class="op">(</span></span>
 <span>  skewness <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/skew.html">skew</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">indicators_h1</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>  kurtosis <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/skew.html">kurtosi</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">indicators_h1</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Generate from fitted H0 and estimate the H0 specification.</span></span>
-<span><span class="co"># cache_or_run() saves or reads sim_h0_empirical.rds.</span></span>
+<span><span class="co"># Reuse or simulate samples from H0 and fit the H0 specification.</span></span>
 <span><span class="va">sim_h0_empirical</span> <span class="op">&lt;-</span> <span class="fu">cache_or_run</span><span class="op">(</span><span class="st">"sim_h0_empirical"</span>, <span class="op">{</span></span>
 <span>  <span class="fu">simsem</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/simsem/man/sim.html">sim</a></span><span class="op">(</span></span>
 <span>    nRep <span class="op">=</span> <span class="va">SIM</span>,</span>
@@ -820,8 +872,7 @@ Figura&nbsp;7.1: Distribuições de RMSEA, CFI e TLI robustos e SRMR em 1.000 re
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Generate from fitted H1 and estimate H0, omitting the cross-loadings.</span></span>
-<span><span class="co"># cache_or_run() saves or reads sim_h1_empirical.rds.</span></span>
+<span><span class="co"># Reuse or simulate samples from H1 and fit H0 without cross-loadings.</span></span>
 <span><span class="va">sim_h1_empirical</span> <span class="op">&lt;-</span> <span class="fu">cache_or_run</span><span class="op">(</span><span class="st">"sim_h1_empirical"</span>, <span class="op">{</span></span>
 <span>  <span class="fu">simsem</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/simsem/man/sim.html">sim</a></span><span class="op">(</span></span>
 <span>    nRep <span class="op">=</span> <span class="va">SIM</span>,</span>
@@ -906,7 +957,7 @@ Figura&nbsp;7.1: Distribuições de RMSEA, CFI e TLI robustos e SRMR em 1.000 re
 <p>Nos dados observados, H<sub>0</sub> apresentou RMSEA de 0,066 e SRMR de 0,051, ambos acima dos respectivos cortes, enquanto CFI e TLI foram 0,885 e 0,871, abaixo dos limites inferiores. Os quatro indicadores situam o ajuste observado na região de rejeição da referência de ajuste exato. A capacidade de detectar a alternativa simulada não identifica a origem do desajuste observado nem demonstra que ele decorra especificamente das três cargas cruzadas. Esses resultados fundamentam a investigação local das discrepâncias e sua interpretação à luz da teoria, da magnitude dos problemas e dos precedentes bibliográficos.</p>
 </section><section id="diagnóstico-local" class="level2" data-number="7.4"><h2 data-number="7.4" class="anchored" data-anchor-id="diagnóstico-local">
 <span class="header-section-number">7.4</span> Diagnóstico local</h2>
-<p>O diagnóstico local identifica relações que contribuem para as discrepâncias globais. A leitura combina os parâmetros fatoriais apresentados na <a href="06_estimation.html#tbl-estimation-parameters" class="quarto-xref">Tabela&nbsp;<span>6.1</span></a>, os índices de modificação (MI), as mudanças esperadas nos parâmetros (EPC) e os resíduos de correlação, conforme a <a href="02_background.html#sec-theory-fit" class="quarto-xref"><span>Seção 2.5</span></a>. A avaliação local concentra-se em H<sub>0</sub>, o modelo de análise que orientará os encaminhamentos.</p>
+<p>O diagnóstico local identifica relações que contribuem para as discrepâncias globais. A leitura combina os parâmetros fatoriais apresentados na <a href="06_estimation.html#tbl-estimation-parameters" class="quarto-xref">Tabela&nbsp;<span>6.1</span></a>, os MI, os EPC e os resíduos de correlação, conforme a <a href="02_background.html#sec-theory-fit" class="quarto-xref"><span>Seção 2.5</span></a>. A avaliação local concentra-se em H<sub>0</sub>, o modelo de análise que orientará os encaminhamentos.</p>
 <section id="índices-de-modificação-e-mudanças-esperadas" class="level3" data-number="7.4.1"><h3 data-number="7.4.1" class="anchored" data-anchor-id="índices-de-modificação-e-mudanças-esperadas">
 <span class="header-section-number">7.4.1</span> Índices de modificação e mudanças esperadas</h3>
 <p>O MI estima a redução da estatística de ajuste ao liberar individualmente um parâmetro fixado. O EPC expressa a mudança esperada nesse parâmetro, e sua versão padronizada auxilia a avaliação da magnitude. Essas aproximações devem ser consideradas junto das cargas, dos resíduos e do significado substantivo da relação <span class="citation" data-cites="nye2022">(<a href="references.html#ref-nye2022" role="doc-biblioref">Nye, 2022</a>)</span>. A <a href="#tbl-modification-indices-top20" class="quarto-xref">Tabela&nbsp;<span>7.3</span></a> reúne os vinte maiores MI de H<sub>0</sub> e seus EPC correspondentes.</p>
@@ -1063,9 +1114,15 @@ Tabela&nbsp;7.3: Vinte maiores índices de modificação de H<sub>0</sub>, com E
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>A função <code>table_mi()</code>, definida em <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a> e apresentada no racional da <a href="08_model_comparison.html#tbl-adjusted-modification-indices-top20" class="quarto-xref">Tabela&nbsp;<span>8.6</span></a>, recebe o ajuste de H<sub>0</sub> e apresenta suas vinte maiores relações candidatas, com MI e EPC bruto e padronizado. A ordenação segue o MI; os EPC acompanham cada relação.</p>
-<p><code><a href="https://rdrr.io/r/base/attr.html">attr()</a></code> recupera todas as relações elegíveis e seus valores completos em <code>mi_all</code>, utilizado nos valores inseridos no texto, e o conteúdo de apresentação para exportação. Uma verificação impede a gravação de dados ausentes ou vazios. <code><a href="https://readr.tidyverse.org/reference/write_delim.html">readr::write_excel_csv2()</a></code> salva as mesmas vinte relações apresentadas no HTML e no PDF, preservando os rótulos e valores de exibição.</p>
-<p>A expressão final apresenta a tabela formatada internamente por <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code>, com os operadores lavaan preservados no documento. O bloco utiliza o ajuste existente e não estima um modelo modificado.</p>
+<p><strong>Finalidade</strong></p>
+<p>Organizar as vinte maiores relações candidatas à liberação em H<sub>0</sub>, com seus MI e EPC.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize <code>fit_analyzemodel</code>, estimado no início desta seção.</p>
+<p><strong>Procedimento</strong></p>
+<p>A função própria <code>table_mi()</code>, de <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a>, recebe o ajuste e prepara as relações em ordem decrescente de MI. Sua auxiliar <code>tidy_mi()</code> seleciona cargas e covariâncias entre variáveis distintas, excluindo relações já livres. A tabela mantém os operadores lavaan e apresenta MI, EPC bruto e EPC padronizado.</p>
+<p>O atributo <code>mi_data</code> preserva todas as relações elegíveis com precisão completa, recuperadas em <code>mi_all</code> para uso no texto. <code>table_data</code> contém as vinte relações apresentadas. Após a verificação, esse conteúdo é exportado com os mesmos rótulos e valores de exibição.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para apresentar a tabela e salvar <code>tbl-modification-indices-top20.csv</code> em <code>Output/Results/Tables</code>. O procedimento diagnostica o ajuste existente, sem estimar um modelo modificado.</p>
 <div class="cell">
 <details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Prepare the twenty largest modification indices for H0 in Portuguese.</span></span>
 <span><span class="va">mi_table_h0</span> <span class="op">&lt;-</span> <span class="fu">table_mi</span><span class="op">(</span><span class="va">fit_analyzemodel</span>, lang <span class="op">=</span> <span class="st">"pt"</span><span class="op">)</span></span>
@@ -1097,7 +1154,7 @@ Tabela&nbsp;7.3: Vinte maiores índices de modificação de H<sub>0</sub>, com E
 <p>A <a href="#fig-residual-correlations" class="quarto-xref">Figura&nbsp;<span>7.2</span></a> apresenta os resíduos de H<sub>0</sub>, com os itens na ordem do modelo de análise. A intensidade da cor representa o valor absoluto do resíduo; os números preservam o sinal. Cada par aparece uma única vez. A referência de magnitude absoluta de 0,10 discutida na <a href="02_background.html#sec-theory-fit" class="quarto-xref"><span>Seção 2.5</span></a> orienta a inspeção conjunta com MI, EPC e conteúdo dos itens.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-residual-correlations" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Mapa triangular de H₀ com diferenças entre correlações observadas e reproduzidas para os 24 indicadores.">
+<div id="fig-residual-correlations" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Mapa triangular de H₀ com diferenças entre correlações observadas e reproduzidas para os 24 indicadores." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-residual-correlations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="07_model_fit_files/figure-html/fig-residual-correlations-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Mapa triangular de H₀ com diferenças entre correlações observadas e reproduzidas para os 24 indicadores." width="768">
 </div>
@@ -1119,9 +1176,15 @@ Figura&nbsp;7.2: Resíduos de correlação de H₀. As cores representam magnitu
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><code>plot_stdres()</code> recebe o modelo ajustado e cria o mapa dos resíduos de correlação. Internamente, <code>tidy_stdres()</code> organiza as diferenças entre as correlações observadas e reproduzidas, obtidas por <code><a href="https://rdrr.io/pkg/lavaan/man/lavResiduals.html">lavaan::lavResiduals()</a></code>. Os valores usam as estatísticas observadas do ajuste com FIML, sem nova exclusão de casos incompletos e sem conversão em estatísticas z.</p>
-<p>A função mantém a ordem dos indicadores e apresenta cada par uma única vez, sem diagonal. A cor representa a magnitude absoluta; os rótulos preservam o sinal e mostram duas casas decimais. O retorno é um objeto <code>ggplot</code>, que pode ser apresentado, personalizado ou salvo.</p>
-<p><code><a href="https://rdrr.io/r/base/attr.html">attr()</a></code> recupera a matriz completa e os pares com precisão original para exportação e valores no texto. <code><a href="https://rdrr.io/r/utils/write.table.html">write.csv2()</a></code> salva a matriz em <code>Output/Results/Tables/residual-correlations-h0.csv</code>; <code>ggsave()</code> exporta o mesmo gráfico apresentado em <code>Output/Results/Figures/fig-residual-correlations.png</code>.</p>
+<p><strong>Finalidade</strong></p>
+<p>Localizar diferenças entre as correlações observadas e reproduzidas por H<sub>0</sub> em um mapa de resíduos.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize <code>fit_analyzemodel</code>, estimado no início desta seção, e a função <code>plot_stdres()</code> de <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a>.</p>
+<p><strong>Procedimento</strong></p>
+<p><code>plot_stdres()</code> recebe o ajuste e retorna um gráfico <code>ggplot</code>. Sua auxiliar <code>tidy_stdres()</code> organiza os resíduos obtidos por <code><a href="https://rdrr.io/pkg/lavaan/man/lavResiduals.html">lavaan::lavResiduals()</a></code>, utilizando as estatísticas observadas do ajuste com FIML. Os resíduos são diferenças de correlação, sem conversão em estatísticas z.</p>
+<p>O mapa mantém a ordem dos indicadores, apresenta cada par uma vez e omite a diagonal. A cor representa a magnitude absoluta, enquanto os rótulos preservam o sinal e exibem duas casas decimais. Os atributos <code>residual_matrix</code> e <code>residual_data</code> conservam, respectivamente, a matriz completa e os pares com precisão original para exportação e valores no texto.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para apresentar o mapa e salvar <code>residual-correlations-h0.csv</code> em <code>Output/Results/Tables</code> e <code>fig-residual-correlations.png</code> em <code>Output/Results/Figures</code>.</p>
 <div class="cell">
 <details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Create the correlation residual heatmap.</span></span>
 <span><span class="va">residual_heatmap</span> <span class="op">&lt;-</span> <span class="fu">plot_stdres</span><span class="op">(</span><span class="va">fit_analyzemodel</span><span class="op">)</span></span>
@@ -1150,7 +1213,7 @@ Figura&nbsp;7.2: Resíduos de correlação de H₀. As cores representam magnitu
 </div>
 </div>
 </div>
-<p>Inicialmente, o diagnóstico local de H<sub>0</sub> pode envolver os três itens cujas cargas cruzadas foram previamente consideradas em H<sub>1</sub>. Para Q15, a carga adicional no domínio Ambiente aparece diretamente entre os maiores índices de modificação (MI = 74,630; EPC padronizado = 0,330). O item também apresenta resíduos de correlação positivos com Q3 e Q4, de aproximadamente 0,21 e 0,15, respectivamente, indicando associações subestimadas pela especificação atual. Para Q8 e Q9, destaca-se a covariância residual entre os itens (MI = 45,560; EPC padronizado = 0,211), acompanhada de um resíduo de correlação de aproximadamente 0,13. Esses resultados retomam dificuldades de representação envolvendo os itens contemplados na formulação de H<sub>1</sub>, embora a dependência residual entre Q8 e Q9 não constitua, isoladamente, evidência de suas cargas adicionais no domínio Psicológico.</p>
+<p>Inicialmente, o diagnóstico local de H<sub>0</sub> pode envolver os três itens cujas cargas cruzadas foram previamente consideradas em H<sub>1</sub>. Para Q15, a carga adicional no domínio Ambiente aparece diretamente entre os maiores MI (MI = 74,630; EPC padronizado = 0,330). O item também apresenta resíduos de correlação positivos com Q3 e Q4, de aproximadamente 0,21 e 0,15, respectivamente, indicando associações subestimadas pela especificação atual. Para Q8 e Q9, destaca-se a covariância residual entre os itens (MI = 45,560; EPC padronizado = 0,211), acompanhada de um resíduo de correlação de aproximadamente 0,13. Esses resultados retomam dificuldades de representação envolvendo os itens contemplados na formulação de H<sub>1</sub>, embora a dependência residual entre Q8 e Q9 não constitua, isoladamente, evidência de suas cargas adicionais no domínio Psicológico.</p>
 <p>O diagnóstico também evidencia dificuldades além das relações previstas em H<sub>1</sub>. Q5 participa de indicações de cargas adicionais nos domínios físico e ambiental e de dependências com Q6 e Q14. O resíduo de correlação Q5–Q14, de 0,239, constitui a maior discrepância absoluta da matriz. Q24 combina carga padronizada baixa, indicação de carga adicional no domínio psicológico e dependência com Q25, cujo resíduo de correlação é 0,181. Em conjunto com os problemas de Q15, esses resultados destacam Q5, Q15 e Q24 como candidatos à investigação de uma especificação modificada. Q8 permanece como candidato adicional, considerando sua carga baixa e a relação residual com Q9. As cargas reduzidas de Q3/Q4 e a dependência indicada entre Q17/Q18 também integram o diagnóstico, embora representem dificuldades distintas de mensuração.</p>
 <p>A avaliação global apontou limitações nas especificações originais, e a simulação situou o ajuste observado de H<sub>0</sub> além dos limites de sua referência de ajuste exato. A leitura conjunta das cargas, dos resíduos e dos MI/EPC localizou relações que merecem investigação substantiva. Esses achados motivam examinar modificações, cuja seleção exige avaliar o conteúdo dos itens e a cobertura dos domínios. Na <a href="08_model_comparison.html" class="quarto-xref"><span>Seção 8</span></a>, os candidatos serão confrontados com os precedentes bibliográficos para fundamentar a nova especificação e suas condições de uso. As alterações selecionadas a partir destes dados serão apresentadas como exploração posterior; sua contribuição para o ajuste será verificada pela reestimação.</p>
 
@@ -1171,8 +1234,8 @@ Leite, W. L., Bandalos, D. L., &amp; Shen, Z. (2023). Simulation <span>Methods</
 <div id="ref-mai2021" class="csl-entry" role="listitem">
 Mai, R., Niemand, T., &amp; Kraus, S. (2021). A Tailored-Fit Model Evaluation Strategy for Better Decisions about Structural Equation Models. <em>Technological Forecasting and Social Change</em>, <em>173</em>, 121142. <a href="https://doi.org/10.1016/j.techfore.2021.121142">https://doi.org/10.1016/j.techfore.2021.121142</a>
 </div>
-<div id="ref-mcneishwolf2023cfa" class="csl-entry" role="listitem">
-McNeish, D., &amp; Wolf, M. G. (2023). Dynamic Fit Index Cutoffs for Confirmatory Factor Analysis Models. <em>Psychological Methods</em>, <em>28</em>(1), 61–88. <a href="https://doi.org/10.1037/met0000425">https://doi.org/10.1037/met0000425</a>
+<div id="ref-mcneish2024" class="csl-entry" role="listitem">
+McNeish, D., &amp; Wolf, M. G. (2024). Direct <span>Discrepancy Dynamic Fit Index Cutoffs</span> for <span>Arbitrary Covariance Structure Models</span>. <em>Structural Equation Modeling: A Multidisciplinary Journal</em>, <em>31</em>(5), 835–862. <a href="https://doi.org/10.1080/10705511.2024.2308005">https://doi.org/10.1080/10705511.2024.2308005</a>
 </div>
 <div id="ref-moshagen2024" class="csl-entry" role="listitem">
 Moshagen, M., &amp; Bader, M. (2024). <span>semPower</span>: <span>General</span> Power Analysis for Structural Equation Models. <em>Behav. Res. Methods</em>, <em>56</em>(4), 2901–2922. <a href="https://doi.org/10.3758/s13428-023-02254-7">https://doi.org/10.3758/s13428-023-02254-7</a>

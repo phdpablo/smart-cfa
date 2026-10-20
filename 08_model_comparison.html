@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.9.37">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>8&nbsp; Comparações e modificações dos modelos – Escolhas inteligentes para modelos de medida</title>
+<title>8&nbsp; Comparações e modificações dos modelos – Planejamento e avaliação de modelos de análise fatorial confirmatória</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -133,10 +133,10 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 </script>
-<meta property="og:title" content="8&nbsp; Comparações e modificações dos modelos – Escolhas inteligentes para modelos de medida">
+<meta property="og:title" content="8&nbsp; Comparações e modificações dos modelos – Planejamento e avaliação de modelos de análise fatorial confirmatória">
 <meta property="og:description" content="">
 <meta property="og:image" content="https://phdpablo.github.io/smart-cfa/08_model_comparison_files/figure-html/fig-adjusted-model-1.png">
-<meta property="og:site_name" content="Escolhas inteligentes para modelos de medida">
+<meta property="og:site_name" content="Planejamento e avaliação de modelos de análise fatorial confirmatória">
 <meta property="og:image:alt" content="Diagrama de quatro fatores correlacionados com 21 indicadores, sem Q5, Q15 e Q24, e covariâncias residuais Q3–Q4 e Q17–Q18.">
 <meta property="og:image:height" content="1536">
 <meta property="og:image:width" content="1920">
@@ -321,10 +321,10 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Escolhas inteligentes para modelos de medida</a> 
+      <a href="./">Planejamento e avaliação de modelos de análise fatorial confirmatória</a> 
         <div class="sidebar-tools-main tools-wide">
     <a href="https://github.com/phdpablo/smart-cfa" title="Código fonte" class="quarto-navigation-tool px-1" aria-label="Código fonte"><i class="bi bi-github"></i></a>
-    <a href="./Escolhas-inteligentes-para-modelos-de-medida.pdf" title="Baixar PDF" class="quarto-navigation-tool px-1" aria-label="Baixar PDF"><i class="bi bi-file-pdf"></i></a>
+    <a href="./cfa-tutorial.pdf" title="Baixar PDF" class="quarto-navigation-tool px-1" aria-label="Baixar PDF"><i class="bi bi-file-pdf"></i></a>
     <div class="dropdown">
       <a href="" title="Compartilhar" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Compartilhar"><i class="bi bi-share"></i></a>
       <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
@@ -379,7 +379,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./02_background.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Escolhas inteligentes</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Fundamentação das decisões analíticas</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -442,12 +442,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
   <li><a href="#sec-adjusted-model-parameters" id="toc-sec-adjusted-model-parameters" class="nav-link" data-scroll-target="#sec-adjusted-model-parameters"><span class="header-section-number">8.2</span> Parâmetros estimados</a></li>
   <li><a href="#ajuste-global-do-modelo-modificado" id="toc-ajuste-global-do-modelo-modificado" class="nav-link" data-scroll-target="#ajuste-global-do-modelo-modificado"><span class="header-section-number">8.3</span> Ajuste global do modelo modificado</a></li>
   <li><a href="#confiabilidade-dos-escores" id="toc-confiabilidade-dos-escores" class="nav-link" data-scroll-target="#confiabilidade-dos-escores"><span class="header-section-number">8.4</span> Confiabilidade dos escores</a></li>
-  <li>
-<a href="#sec-adjusted-dddfi" id="toc-sec-adjusted-dddfi" class="nav-link" data-scroll-target="#sec-adjusted-dddfi"><span class="header-section-number">8.5</span> Avaliação por DDDFI</a>
-  <ul class="collapse">
-<li><a href="#dfi" id="toc-dfi" class="nav-link" data-scroll-target="#dfi"><span class="header-section-number">8.5.1</span> 3DFI</a></li>
-  </ul>
-</li>
+  <li><a href="#sec-adjusted-dddfi" id="toc-sec-adjusted-dddfi" class="nav-link" data-scroll-target="#sec-adjusted-dddfi"><span class="header-section-number">8.5</span> Avaliação por 3DFI</a></li>
   <li><a href="#diagn%C3%B3stico-local" id="toc-diagnóstico-local" class="nav-link" data-scroll-target="#diagn%C3%B3stico-local"><span class="header-section-number">8.6</span> Diagnóstico local</a></li>
   </ul></nav>
     </div>
@@ -566,7 +561,14 @@ Tabela&nbsp;8.1: Síntese das evidências na literatura sobre a representação 
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Primeiro, <code><a href="https://readr.tidyverse.org/reference/read_delim.html">readr::read_csv2()</a></code> lê o levantamento bibliográfico curado em <code>Data/InputData/Metadata/whoqol_modification_evidence.csv</code> e cria o objeto <code>modification_evidence</code>. Cada linha sintetiza um item ou relação, com sua prioridade de atenção. Em seguida, <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> apresenta a tabela em Markdown, preservando os cabeçalhos e a ordem das prioridades do arquivo. As fontes e a nota de classificação aparecem diretamente abaixo da tabela. O bloco a seguir reproduz a leitura e a apresentação.</p>
+<p><strong>Finalidade</strong></p>
+<p>Apresentar a síntese bibliográfica que informa a avaliação das possíveis modificações do modelo.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize o levantamento curado <code>Data/InputData/Metadata/whoqol_modification_evidence.csv</code>, preparado e revisado antes desta análise.</p>
+<p><strong>Procedimento</strong></p>
+<p>O bloco lê o arquivo em <code>modification_evidence</code> e apresenta uma linha por item ou relação, preservando os cabeçalhos e a ordem das prioridades. O levantamento é um insumo da análise: as fontes e a nota de classificação são informadas diretamente abaixo da tabela.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para ler o levantamento e apresentar a tabela, sem gerar ou alterar a síntese bibliográfica.</p>
 <div class="cell">
 <details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Read the author-reviewed literature synthesis prepared before.</span></span>
 <span><span class="va">modification_evidence</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv2</a></span><span class="op">(</span></span>
@@ -594,7 +596,7 @@ Tabela&nbsp;8.1: Síntese das evidências na literatura sobre a representação 
 <p>O modelo mantém quatro fatores e os três indicadores sociais, com 21 itens: 5 psicológicos, 6 físicos, 3 sociais e 7 ambientais. As exclusões reduzem a cobertura explícita de prazer de viver, mobilidade e acesso aos serviços de saúde, devendo acompanhar a interpretação dos escores modificados. A seleção foi informada pelo diagnóstico dessa amostra e constitui uma revisão exploratória. A reestimação avaliará essa especificação delimitada, incluindo as dificuldades remanescentes, e a confiabilidade será recalculada para os conjuntos de itens retidos. A <a href="#fig-adjusted-model" class="quarto-xref">Figura&nbsp;<span>8.1</span></a> apresenta a especificação resultante, com as duas covariâncias residuais e os indicadores preservados.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-adjusted-model" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Diagrama de quatro fatores correlacionados com 21 indicadores, sem Q5, Q15 e Q24, e covariâncias residuais Q3–Q4 e Q17–Q18.">
+<div id="fig-adjusted-model" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagrama de quatro fatores correlacionados com 21 indicadores, sem Q5, Q15 e Q24, e covariâncias residuais Q3–Q4 e Q17–Q18." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-adjusted-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="08_model_comparison_files/figure-html/fig-adjusted-model-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Diagrama de quatro fatores correlacionados com 21 indicadores, sem Q5, Q15 e Q24, e covariâncias residuais Q3–Q4 e Q17–Q18." width="960">
 </div>
@@ -616,7 +618,14 @@ Figura&nbsp;8.1: Modelo modificado de quatro fatores correlacionados e 21 indica
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>A função <code>plot_color()</code>, definida em <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a>, utiliza a especificação <code>adjustedzemodel</code>, de <a href="Scripts/DataAppendixScripts/models.R">models.R</a>, para desenhar o modelo com as mesmas cores e abreviações da <a href="03_model_selection.html" class="quarto-xref"><span>Seção 3</span></a>.</p>
+<p><strong>Finalidade</strong></p>
+<p>Representar a estrutura do modelo modificado antes de sua estimação.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize <code>adjustedzemodel</code>, definido em <a href="Scripts/DataAppendixScripts/models.R">models.R</a>, e a preparação geral da <a href="03_model_selection.html" class="quarto-xref"><span>Seção 3</span></a>.</p>
+<p><strong>Procedimento</strong></p>
+<p>A chamada reutiliza <code>plot_color()</code> e as abreviações de <code>LABELS</code>, apresentados na <a href="03_model_selection.html" class="quarto-xref"><span>Seção 3</span></a>. O argumento <code>what_labels = "no"</code> omite os valores nas relações, destacando a estrutura especificada.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para apresentar o diagrama do modelo modificado.</p>
 <div class="cell">
 <details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Draw the adjusted model without numerical edge labels.</span></span>
 <span><span class="fu">plot_color</span><span class="op">(</span><span class="va">adjustedzemodel</span>, node_labels <span class="op">=</span> <span class="va">LABELS</span>, what_labels <span class="op">=</span> <span class="st">"no"</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
@@ -809,11 +818,17 @@ Tabela&nbsp;8.2: Parâmetros fatoriais estimados no modelo modificado.
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>O bloco lê a base analítica com <code><a href="https://readr.tidyverse.org/reference/read_delim.html">readr::read_csv2()</a></code> e estima o modelo modificado com <code><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">lavaan::cfa()</a></code>, mantendo as condições da <a href="06_estimation.html" class="quarto-xref"><span>Seção 6</span></a>. A função <code>table_par()</code>, definida em <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a>, prepara a tabela de cargas fatoriais. Internamente, <code>tidy_par()</code> organiza os parâmetros do lavaan e preserva seus valores numéricos completos. A coluna de relação mantém a sintaxe do modelo, identificando o fator e o item de cada carga; a apresentação é formatada por <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code>.</p>
-<p>A função também permite selecionar covariâncias, variâncias, interceptos, médias, limiares e regressões, isoladamente ou em conjunto. Nessa tabela, a seleção padrão apresenta somente as cargas livres, com estimativas brutas, erros-padrão, estatísticas z e cargas padronizadas.</p>
-<p><code><a href="https://rdrr.io/r/base/attr.html">attr()</a></code> recupera os parâmetros completos para os valores inseridos no texto e o conteúdo de apresentação para exportação. Uma verificação impede a gravação de dados ausentes ou vazios. <code><a href="https://readr.tidyverse.org/reference/write_delim.html">readr::write_excel_csv2()</a></code> salva o mesmo conteúdo exibido no HTML e no PDF, preservando rótulos, ordem e valores de exibição em um CSV compatível com o Excel. A expressão final apresenta a tabela preparada. Com os scripts carregados, o bloco pode ser reproduzido com:</p>
+<p><strong>Finalidade</strong></p>
+<p>Estimar o modelo modificado e apresentar suas cargas fatoriais.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize a base <code>Data/AnalysisData/whoqol_analysis.csv</code> e <code>adjustedzemodel</code>, disponível na preparação desta seção conforme a orientação geral da <a href="03_model_selection.html" class="quarto-xref"><span>Seção 3</span></a>.</p>
+<p><strong>Procedimento</strong></p>
+<p>O bloco lê a base e estima o modelo nas mesmas condições da <a href="06_estimation.html" class="quarto-xref"><span>Seção 6</span></a>. A função <code>table_par()</code>, apresentada no racional da <a href="06_estimation.html#tbl-estimation-parameters" class="quarto-xref">Tabela&nbsp;<span>6.1</span></a>, mantém a seleção padrão de cargas livres e os rótulos em português.</p>
+<p>O atributo <code>par_data</code> disponibiliza os parâmetros completos para os valores inseridos no texto; <code>table_data</code> fornece a tabela de apresentação. Após verificar seu conteúdo, o bloco exporta as mesmas células exibidas, preservando rótulos, ordem e valores. Para aplicar o procedimento a outra pesquisa, a especificação e os indicadores devem ser revistos, assim como a adequação das condições de estimação.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para criar <code>fit_adjustedzemodel</code>, apresentar as cargas e salvar <code>tbl-adjusted-parameters.csv</code> em <code>Output/Results/Tables</code>. O ajuste alimenta os diagnósticos seguintes.</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Read the preprocessed analysis data</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Read the preprocessed analysis data.</span></span>
 <span><span class="va">analysis_data</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv2</a></span><span class="op">(</span></span>
 <span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Data"</span>, <span class="st">"AnalysisData"</span>, <span class="st">"whoqol_analysis.csv"</span><span class="op">)</span>,</span>
 <span>  na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">""</span>, <span class="st">"NA"</span><span class="op">)</span>, show_col_types <span class="op">=</span> <span class="cn">FALSE</span></span>
@@ -880,7 +895,7 @@ Tabela&nbsp;8.3: Ajuste global do modelo modificado, estimado por MLR/FIML.
 <td style="text-align: right;">181</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">p</td>
+<td style="text-align: left;">p-valor</td>
 <td style="text-align: right;">&lt; 0.001</td>
 </tr>
 <tr class="odd">
@@ -930,9 +945,14 @@ Tabela&nbsp;8.3: Ajuste global do modelo modificado, estimado por MLR/FIML.
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>A função <code>table_fit()</code>, definida em <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a>, recebe o modelo ajustado e prepara a tabela de ajuste global. Internamente, <code>tidy_fit()</code> organiza as medidas do lavaan, seleciona as versões compatíveis com o teste utilizado na estimação e preserva os valores numéricos completos. A apresentação é formatada por <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code>.</p>
-<p>O resultado reúne a tabela e seus dados de origem. <code><a href="https://rdrr.io/r/base/attr.html">attr()</a></code> recupera as medidas completas para os valores inseridos no texto e o conteúdo formatado para exportação. <code><a href="https://rdrr.io/r/stats/setNames.html">stats::setNames()</a></code> organiza as medidas em um vetor nomeado, facilitando sua consulta. Antes de gravar o arquivo, uma verificação impede a exportação de dados ausentes ou vazios.</p>
-<p><code><a href="https://readr.tidyverse.org/reference/write_delim.html">readr::write_excel_csv2()</a></code> salva o mesmo conteúdo apresentado no HTML e no PDF, preservando rótulos, ordem e valores de exibição em um CSV compatível com o Excel. A expressão final apresenta a tabela. A estimação do modelo permanece na etapa anterior; este bloco organiza, exporta e apresenta seus resultados.</p>
+<p><strong>Finalidade</strong></p>
+<p>Organizar as medidas de ajuste global do modelo modificado.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize <code>fit_adjustedzemodel</code>, estimado no bloco da <a href="#tbl-adjusted-parameters" class="quarto-xref">Tabela&nbsp;<span>8.2</span></a>.</p>
+<p><strong>Procedimento</strong></p>
+<p>O procedimento aplica <code>table_fit()</code>, apresentada no racional da <a href="07_model_fit.html#tbl-model-fit-global" class="quarto-xref">Tabela&nbsp;<span>7.1</span></a>, ao ajuste modificado. As medidas completas são recuperadas em <code>fit_data_adjusted</code> e organizadas em um vetor nomeado para consulta e uso no texto. A tabela de apresentação é verificada e exportada com os mesmos rótulos, ordem e valores exibidos.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para apresentar a síntese e salvar <code>tbl-adjusted-model-fit-global.csv</code> em <code>Output/Results/Tables</code>, sem repetir a estimação.</p>
 <div class="cell">
 <details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Prepare the formatted global fit table in Portuguese.</span></span>
 <span><span class="va">fit_table_adjusted</span> <span class="op">&lt;-</span> <span class="fu">table_fit</span><span class="op">(</span><span class="va">fit_adjustedzemodel</span>, lang <span class="op">=</span> <span class="st">"pt"</span><span class="op">)</span></span>
@@ -962,7 +982,7 @@ Tabela&nbsp;8.3: Ajuste global do modelo modificado, estimado por MLR/FIML.
 </div>
 </div>
 </div>
-<p>O modelo apresentou CFI robusto de 0,945, TLI robusto de 0,936, RMSEA robusto de 0,049 e SRMR de 0,035. O conjunto de modificações mostra melhora substancial do ajuste em relação às especificações originais. Para o ajuste próximo, o teste da hipótese RMSEA robusto ≤ 0,05 apresenta p = 0,639, superior a 0,05. Assim, a hipótese de ajuste próximo não é rejeitada, diferentemente das especificações originais.</p>
+<p>O modelo apresentou CFI robusto de 0,945, TLI robusto de 0,936, RMSEA robusto de 0,049 e SRMR de 0,035. Os índices do modelo modificado são descritivamente mais favoráveis que os das especificações originais. Essa diferença deve ser interpretada considerando também a redução de 24 para 21 indicadores. Para o ajuste próximo, o teste da hipótese RMSEA robusto ≤ 0,05 apresenta p = 0,639, superior a 0,05. Assim, a hipótese de ajuste próximo não é rejeitada, diferentemente das especificações originais.</p>
 </section><section id="confiabilidade-dos-escores" class="level2" data-number="8.4"><h2 data-number="8.4" class="anchored" data-anchor-id="confiabilidade-dos-escores">
 <span class="header-section-number">8.4</span> Confiabilidade dos escores</h2>
 <p>A <a href="#tbl-adjusted-domain-reliability" class="quarto-xref">Tabela&nbsp;<span>8.4</span></a> apresenta o ômega e o GLB dos quatro escores, recalculados com os itens retidos. O ômega incorpora a especificação modificada, incluindo suas covariâncias residuais; o GLB mantém o pressuposto de erros não correlacionados e requer a mesma cautela de interpretação já discutida <span class="citation" data-cites="flora2020 cho2022 trizano-hermosilla2016">(<a href="references.html#ref-cho2022" role="doc-biblioref">Cho, 2022</a>; <a href="references.html#ref-flora2020" role="doc-biblioref">Flora, 2020</a>; <a href="references.html#ref-trizano-hermosilla2016" role="doc-biblioref">Trizano-Hermosilla &amp; Alvarado, 2016</a>)</span>.</p>
@@ -1023,9 +1043,15 @@ Tabela&nbsp;8.4: Confiabilidade dos escores no modelo modificado.
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>A função <code>table_reliability()</code>, definida em <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a>, recebe o modelo ajustado e prepara a tabela de confiabilidade. Sua auxiliar <code>tidy_reliability()</code> identifica os itens de cada fator no modelo e calcula os coeficientes para os escores com pesos iguais. <code><a href="https://rdrr.io/pkg/semTools/man/compRelSEM.html">semTools::compRelSEM()</a></code> fornece o ômega, enquanto <code><a href="https://rdrr.io/pkg/psych/man/glb.algebraic.html">psych::glb.algebraic()</a></code> calcula o GLB a partir da matriz observada dos mesmos itens. Os nomes dos fatores são preservados.</p>
-<p><code><a href="https://rdrr.io/r/base/attr.html">attr()</a></code> recupera os coeficientes completos para os valores inseridos no texto e o conteúdo de apresentação para exportação. Os dados completos também preservam a composição dos escores e os resultados nativos dos cálculos, permitindo consultar os diagnósticos. Uma verificação impede a gravação de uma tabela ausente ou vazia.</p>
-<p><code><a href="https://readr.tidyverse.org/reference/write_delim.html">readr::write_excel_csv2()</a></code> salva o mesmo conteúdo apresentado no HTML e no PDF, preservando rótulos, ordem e valores de exibição em um CSV compatível com o Excel. A expressão final apresenta a tabela, formatada internamente por <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code>. O bloco utiliza o ajuste já estimado; não realiza uma nova estimação nem executa simulações.</p>
+<p><strong>Finalidade</strong></p>
+<p>Recalcular a confiabilidade dos escores correspondentes aos itens retidos no modelo modificado.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize <code>fit_adjustedzemodel</code>, estimado no bloco da <a href="#tbl-adjusted-parameters" class="quarto-xref">Tabela&nbsp;<span>8.2</span></a>.</p>
+<p><strong>Procedimento</strong></p>
+<p>A chamada utiliza <code>table_reliability()</code>, apresentada no racional da <a href="07_model_fit.html#tbl-domain-reliability" class="quarto-xref">Tabela&nbsp;<span>7.2</span></a>. A composição de cada escore é obtida do ajuste modificado; ômega e GLB correspondem ao mesmo conjunto de itens em cada domínio.</p>
+<p>O atributo <code>reliability_data</code> preserva coeficientes completos, composição dos escores e resultados nativos para consulta. O conteúdo de <code>table_data</code> é verificado e exportado com os mesmos rótulos e valores apresentados.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para apresentar a confiabilidade e salvar <code>tbl-adjusted-domain-reliability.csv</code> em <code>Output/Results/Tables</code>, utilizando o ajuste existente.</p>
 <div class="cell">
 <details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Prepare the formatted score reliability table in Portuguese.</span></span>
 <span><span class="va">reliability_table_adjusted</span> <span class="op">&lt;-</span> <span class="fu">table_reliability</span><span class="op">(</span><span class="va">fit_adjustedzemodel</span>, lang <span class="op">=</span> <span class="st">"pt"</span><span class="op">)</span></span>
@@ -1055,15 +1081,13 @@ Tabela&nbsp;8.4: Confiabilidade dos escores no modelo modificado.
 <p>As exclusões alteram a composição dos escores psicológico, físico e ambiental; o escore social preserva seus três indicadores. O ômega e o GLB permanecem acima de 0,70 em todos os domínios, indicando confiabilidade adequada para a interpretação dos escores modificados <span class="citation" data-cites="cho2022 trizano-hermosilla2016">(<a href="references.html#ref-cho2022" role="doc-biblioref">Cho, 2022</a>; <a href="references.html#ref-trizano-hermosilla2016" role="doc-biblioref">Trizano-Hermosilla &amp; Alvarado, 2016</a>)</span>.</p>
 <p>Os ômegas variam de 0,712 a 0,792; os GLB, de 0,706 a 0,864. Em relação a H<sub>0</sub>, os ômegas psicológico, físico e ambiental diminuíram, enquanto o social permaneceu praticamente estável. A melhora do ajuste global foi acompanhada de redução da cobertura dos domínios e de pequenas reduções na confiabilidade desses três escores.</p>
 </section><section id="sec-adjusted-dddfi" class="level2" data-number="8.5"><h2 data-number="8.5" class="anchored" data-anchor-id="sec-adjusted-dddfi">
-<span class="header-section-number">8.5</span> Avaliação por DDDFI</h2>
-<p>Esta seção tem finalidade didática: uma calibração adicional demonstra o DFI por discrepância direta (DDDFI), com referências de ajuste aproximado, enquanto a simulação da <a href="07_model_fit.html" class="quarto-xref"><span>Seção 7</span></a> examinou a referência de ajuste exato dos modelos empíricos <span class="citation" data-cites="mcneishwolf2023dddf">(<a href="references.html#ref-mcneishwolf2023dddf" role="doc-biblioref">McNeish &amp; Wolf, 2023</a>)</span>.</p>
-<section id="dfi" class="level3" data-number="8.5.1"><h3 data-number="8.5.1" class="anchored" data-anchor-id="dfi">
-<span class="header-section-number">8.5.1</span> 3DFI</h3>
-<p>A calibração considera os 21 indicadores, a não normalidade e a estimação robusta. São utilizadas 1.000 replicações e três magnitudes médias absolutas de discrepância: 0,038, 0,050 e 0,060, correspondentes às referências de ajuste próximo, razoável e medíocre. A <a href="#tbl-adjusted-dfi-cutoffs" class="quarto-xref">Tabela&nbsp;<span>8.5</span></a> apresenta os limites de CFI, RMSEA e limite superior do intervalo de confiança de 90% do RMSEA. A avaliação deve comparar cada índice observado com sua referência correspondente <span class="citation" data-cites="mcneishwolf2023dddf">(<a href="references.html#ref-mcneishwolf2023dddf" role="doc-biblioref">McNeish &amp; Wolf, 2023</a>)</span>.</p>
+<span class="header-section-number">8.5</span> Avaliação por 3DFI</h2>
+<p>A avaliação da especificação modificada utiliza o 3DFI fundamentado na <a href="02_background.html#sec-theory-fit" class="quarto-xref"><span>Seção 2.5</span></a>. A calibração caracteriza o ajuste aproximado por magnitudes de discrepância nas correlações, sem escolher novos caminhos omitidos para definir a má especificação. A simulação da <a href="07_model_fit.html" class="quarto-xref"><span>Seção 7</span></a> examinou a referência de ajuste exato e a sensibilidade a uma alternativa estrutural específica; aqui, o objetivo é qualificar a magnitude do desajuste remanescente <span class="citation" data-cites="mcneish2024">(<a href="references.html#ref-mcneish2024" role="doc-biblioref">McNeish &amp; Wolf, 2024</a>)</span>. A aplicação do 3DFI concentra-se nessas condições para demonstrar a avaliação graduada de uma solução após as modificações. As duas calibrações respondem a perguntas distintas: o afastamento da referência exata nos modelos originais e o grau de ajuste aproximado do modelo modificado. Seus resultados devem ser interpretados segundo essas perguntas, considerando também a mudança de 24 para 21 indicadores.</p>
+<p>A calibração considera os 21 indicadores, a não normalidade e a estimação robusta. São utilizadas 1.000 replicações e três magnitudes médias absolutas de discrepância: 0,038, 0,050 e 0,060, correspondentes às referências de ajuste próximo, razoável e medíocre. Esses valores seguem as referências heurísticas de <span class="citation" data-cites="mcneish2024">McNeish &amp; Wolf (<a href="references.html#ref-mcneish2024" role="doc-biblioref">2024</a>)</span>; o MAD define a magnitude de entrada, e os pontos de corte dos índices são obtidos para esta especificação. A <a href="#tbl-adjusted-dfi-cutoffs" class="quarto-xref">Tabela&nbsp;<span>8.5</span></a> apresenta os limites de CFI, RMSEA e limite superior do intervalo de confiança de 90% do RMSEA. A avaliação deve comparar cada índice observado com sua referência correspondente <span class="citation" data-cites="mcneish2024">(<a href="references.html#ref-mcneish2024" role="doc-biblioref">McNeish &amp; Wolf, 2024</a>)</span>.</p>
 <div class="cell">
 <div id="tbl-adjusted-dfi-cutoffs" class="cell quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-adjusted-dfi-cutoffs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;8.5: Limites DDDFI calibrados para o modelo modificado.
+Tabela&nbsp;8.5: Limites 3DFI calibrados para o modelo modificado.
 </figcaption><div aria-describedby="tbl-adjusted-dfi-cutoffs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
@@ -1119,16 +1143,23 @@ Tabela&nbsp;8.5: Limites DDDFI calibrados para o modelo modificado.
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><code><a href="https://rdrr.io/pkg/lavaan/man/lavNames.html">lavaan::lavNames()</a></code> seleciona os indicadores do modelo modificado e <code><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame()</a></code> organiza os dados, preservando as respostas ausentes. <code><a href="https://rdrr.io/pkg/dynamic/man/DDDFI.html">dynamic::DDDFI()</a></code> calibra os limites a partir do modelo e desses dados; <code><a href="https://rdrr.io/r/base/Random.html">set.seed()</a></code> fixa a semente. <code>cache_or_run()</code> reutiliza ou salva a calibração, e a remoção dos dados simulados reduz o tamanho do arquivo.</p>
-<p><code><a href="https://rdrr.io/r/base/readRDS.html">readRDS()</a></code> recupera o resultado salvo. <code>table_3dfi()</code> recebe essa calibração e chama <code>tidy_3dfi()</code> para organizar as referências próximo, razoável e medíocre. A tabela apresenta MAD solicitado e simulado, CFI, RMSEA e o limite superior do IC de 90% do RMSEA, com três casas decimais e rótulos em português. A função apenas organiza o resultado existente.</p>
-<p><code><a href="https://rdrr.io/r/base/attr.html">attr()</a></code> recupera o conteúdo apresentado; <code>write_excel_csv2()</code> exporta as mesmas células para <code>Output/Results/Tables/tbl-adjusted-dfi-cutoffs.csv</code>, com codificação compatível com Excel. O objeto da tabela é apresentado ao final. O exemplo abaixo reproduz a sequência completa.</p>
+<p><strong>Finalidade</strong></p>
+<p>Calibrar e apresentar limites de ajuste aproximado para o modelo modificado por discrepância direta.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize <code>analysis_data</code>, <code>fit_adjustedzemodel</code>, <code>SEED</code> e o mecanismo de resultados salvos da preparação geral. A calibração é armazenada em <code>Data/IntermediateData/dfi_adjusted.rds</code>.</p>
+<p><strong>Procedimento</strong></p>
+<p>O bloco seleciona os indicadores retidos conforme o ajuste e preserva suas respostas ausentes. A função <code><a href="https://rdrr.io/pkg/dynamic/man/DDDFI.html">dynamic::DDDFI()</a></code> implementa o 3DFI. Na versão 1.1.0 utilizada, as funções internas <code>true_fit()</code> e <code>miss_fit()</code> selecionam índices robustos para MLR, mas suas chamadas a <code><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">lavaan::cfa()</a></code> não recebem o argumento <code>missing</code>, embora o definam internamente. As réplicas são, assim, ajustadas com a exclusão padrão de casos incompletos. Preservar ausências na geração não implica repetir FIML na estimação. A chamada solicita não normalidade, MLR, 1.000 replicações e discrepâncias médias absolutas de 0,038, 0,050 e 0,060. A semente é fixada antes da simulação.</p>
+<p><code>cache_or_run()</code> reutiliza o resultado disponível ou executa a calibração; antes de salvar um novo resultado, remove os dados simulados para reduzir seu tamanho. O arquivo compacto é então lido do disco. As orientações operacionais de reprodução e recálculo pertencem ao <a href="README.md">README</a>.</p>
+<p>A função própria <code>table_3dfi()</code> recebe essa calibração e retorna a tabela; sua auxiliar <code>tidy_3dfi()</code> organiza as referências próximo, razoável e medíocre. A apresentação reúne MAD solicitado e simulado, CFI, RMSEA e limite superior do IC de 90% do RMSEA, com três casas decimais e rótulos em português. A exportação utiliza <code>table_data</code>, preservando as células apresentadas.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para obter ou reutilizar <code>dfi_adjusted</code>, apresentar os limites e salvar <code>tbl-adjusted-dfi-cutoffs.csv</code> em <code>Output/Results/Tables</code>. A calibração permanece disponível para a figura seguinte.</p>
 <div class="cell">
 <details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Select the retained indicators, preserving missing responses.</span></span>
 <span><span class="va">dfi_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span></span>
 <span>  <span class="va">analysis_data</span><span class="op">[</span><span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/lavNames.html">lavNames</a></span><span class="op">(</span><span class="va">fit_adjustedzemodel</span>, <span class="st">"ov"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Run and save the DDDFI calibration manually, or reuse its cache.</span></span>
+<span><span class="co"># Reuse the saved DDDFI calibration or compute it when unavailable.</span></span>
 <span><span class="va">dfi_adjusted</span> <span class="op">&lt;-</span> <span class="fu">cache_or_run</span><span class="op">(</span><span class="st">"dfi_adjusted"</span>, <span class="op">{</span></span>
 <span></span>
 <span>  <span class="co"># Set the random seed for the simulation.</span></span>
@@ -1200,8 +1231,15 @@ Figura&nbsp;8.2: Distribuições simuladas de CFI e RMSEA e limites dinâmicos d
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>A figura reutiliza <code>dfi_adjusted</code>, lido na tabela anterior. <code>$indices</code> contém os valores simulados: <code>CFI_L0</code>/<code>RMSEA_L0</code> identificam a condição de referência e <code>CFI_L2</code>/<code>RMSEA_L2</code>, a discrepância razoável. <code><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">tidyr::pivot_longer()</a></code> organiza os índices para os painéis. <code>dfi_plot_cutoffs</code> reúne os limites da linha <code>Fair</code> e os valores convencionais CFI = 0,95 e RMSEA = 0,06. As colunas <code>SRMR_L*</code> do objeto não são utilizadas, pois nessa implementação armazenam limites superiores do intervalo do RMSEA.</p>
-<p><code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot2::ggplot()</a></code> sobrepõe os histogramas; <code>geom_vline()</code> acrescenta os limites e <code>facet_wrap()</code> separa os índices. <code>ggsave()</code> exporta o gráfico para <code>Output/Results/Figures/fig-dfi-adjusted-fair.png</code>. A reconstrução utiliza somente os índices persistidos e não repete a simulação.</p>
+<p><strong>Finalidade</strong></p>
+<p>Comparar as distribuições simuladas de CFI e RMSEA sob referência e discrepância razoável, com limites calibrados e convencionais.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize <code>dfi_adjusted</code>, obtido no bloco da <a href="#tbl-adjusted-dfi-cutoffs" class="quarto-xref">Tabela&nbsp;<span>8.5</span></a>. A reconstrução requer os índices persistidos em <code>$indices</code>.</p>
+<p><strong>Procedimento</strong></p>
+<p>O bloco reúne as colunas <code>CFI_L0</code> e <code>RMSEA_L0</code> para a referência e <code>CFI_L2</code> e <code>RMSEA_L2</code> para a discrepância razoável. Os dados são reorganizados em formato longo e os painéis recebem a mesma ordem de índices. As colunas <code>SRMR_L*</code> não são utilizadas: nesta implementação armazenam limites superiores do intervalo do RMSEA.</p>
+<p><code>dfi_plot_cutoffs</code> reúne os limites da linha <code>Fair</code> e os valores convencionais CFI = 0,95 e RMSEA = 0,06. A figura sobrepõe histogramas e acrescenta linhas para essas referências, separando os índices em painéis.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para apresentar <code>dfi_plot_fair</code> e salvar <code>fig-dfi-adjusted-fair.png</code> em <code>Output/Results/Figures</code>. O desenho utiliza a calibração salva, sem repetir a simulação.</p>
 <div class="cell">
 <details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Combine the reference and fair-discrepancy simulated indices.</span></span>
 <span><span class="va">dfi_plot_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span></span>
@@ -1312,10 +1350,10 @@ Figura&nbsp;8.2: Distribuições simuladas de CFI e RMSEA e limites dinâmicos d
 </div>
 </div>
 </div>
-<p>Os índices observados atendem aos limites da referência razoável (<em>fair</em>): CFI de pelo menos 0,904, RMSEA de até 0,065 e limite superior do intervalo do RMSEA de até 0,069. A referência próxima (<em>close</em>) é mais exigente e não foi alcançada. A classificação DDDFI caracteriza, portanto, o ajuste como razoável sob as condições de calibração utilizadas.</p>
-</section></section><section id="diagnóstico-local" class="level2" data-number="8.6"><h2 data-number="8.6" class="anchored" data-anchor-id="diagnóstico-local">
+<p>Os índices observados atendem aos limites da referência razoável (<em>fair</em>): CFI de pelo menos 0,904, RMSEA de até 0,065 e limite superior do intervalo do RMSEA de até 0,069. A referência próxima (<em>close</em>) é mais exigente e não foi alcançada. A classificação 3DFI caracteriza, portanto, o ajuste como razoável sob as condições de calibração utilizadas.</p>
+</section><section id="diagnóstico-local" class="level2" data-number="8.6"><h2 data-number="8.6" class="anchored" data-anchor-id="diagnóstico-local">
 <span class="header-section-number">8.6</span> Diagnóstico local</h2>
-<p>O diagnóstico local caracteriza as dificuldades que permanecem no modelo modificado. A <a href="#tbl-adjusted-modification-indices-top20" class="quarto-xref">Tabela&nbsp;<span>8.6</span></a> apresenta os vinte maiores índices de modificação, com EPC bruto e padronizado. Esses resultados são aproximações da liberação individual de parâmetros e devem ser interpretados junto das cargas e dos resíduos, preservando a especificação delimitada na fundamentação <span class="citation" data-cites="nye2022 crede2019">(<a href="references.html#ref-crede2019" role="doc-biblioref">Crede &amp; Harms, 2019</a>; <a href="references.html#ref-nye2022" role="doc-biblioref">Nye, 2022</a>)</span>.</p>
+<p>O diagnóstico local caracteriza as dificuldades que permanecem no modelo modificado. A <a href="#tbl-adjusted-modification-indices-top20" class="quarto-xref">Tabela&nbsp;<span>8.6</span></a> apresenta os vinte maiores MI, com EPC bruto e padronizado. Esses resultados são aproximações da liberação individual de parâmetros e devem ser interpretados junto das cargas e dos resíduos, preservando a especificação delimitada na fundamentação <span class="citation" data-cites="nye2022 crede2019">(<a href="references.html#ref-crede2019" role="doc-biblioref">Crede &amp; Harms, 2019</a>; <a href="references.html#ref-nye2022" role="doc-biblioref">Nye, 2022</a>)</span>.</p>
 <div class="cell">
 <div id="tbl-adjusted-modification-indices-top20" class="cell quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-adjusted-modification-indices-top20-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1469,9 +1507,15 @@ Tabela&nbsp;8.6: Vinte maiores índices de modificação do modelo modificado, c
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>A função <code>table_mi()</code>, definida em <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a>, recebe o modelo ajustado e apresenta as maiores relações candidatas, em ordem decrescente de MI. Sua auxiliar <code>tidy_mi()</code> organiza o retorno de <code><a href="https://rdrr.io/pkg/lavaan/man/modificationIndices.html">lavaan::modificationIndices()</a></code>, selecionando cargas e covariâncias entre variáveis distintas e preservando os valores completos. A tabela reúne a relação, o MI e os EPC bruto e padronizado. Relações já livres no modelo não entram na seleção.</p>
-<p><code><a href="https://rdrr.io/r/base/attr.html">attr()</a></code> recupera o conteúdo de apresentação, e uma verificação impede a exportação de dados ausentes ou vazios. <code><a href="https://readr.tidyverse.org/reference/write_delim.html">readr::write_excel_csv2()</a></code> salva as mesmas vinte relações apresentadas no HTML e no PDF, com rótulos e valores de exibição preservados. Todas as relações elegíveis e seus valores completos permanecem disponíveis no atributo <code>mi_data</code> do resultado.</p>
-<p>A expressão final apresenta a tabela formatada internamente por <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code>. A proteção dos tis ocorre apenas na representação Markdown, para preservar os operadores lavaan no documento; o CSV contém os operadores como texto comum. O bloco utiliza o ajuste existente e não estima um modelo modificado.</p>
+<p><strong>Finalidade</strong></p>
+<p>Examinar as vinte maiores relações candidatas à liberação após as modificações do modelo.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize <code>fit_adjustedzemodel</code>, estimado no bloco da <a href="#tbl-adjusted-parameters" class="quarto-xref">Tabela&nbsp;<span>8.2</span></a>.</p>
+<p><strong>Procedimento</strong></p>
+<p>O bloco aplica <code>table_mi()</code>, apresentada no racional da <a href="07_model_fit.html#tbl-modification-indices-top20" class="quarto-xref">Tabela&nbsp;<span>7.3</span></a>, ao ajuste modificado. A ordenação segue o MI e mantém EPC bruto e padronizado para cada relação elegível; relações já livres são excluídas da seleção.</p>
+<p>O atributo <code>mi_data</code> preserva todas as relações elegíveis com precisão completa. Após a verificação de <code>table_data</code>, as mesmas vinte relações exibidas são exportadas. Os operadores lavaan são preservados no documento e como texto comum no CSV.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para apresentar a tabela e salvar <code>tbl-adjusted-modification-indices-top20.csv</code> em <code>Output/Results/Tables</code>. A inspeção utiliza o ajuste existente e não libera novos parâmetros.</p>
 <div class="cell">
 <details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Prepare the twenty largest modification indices in Portuguese.</span></span>
 <span><span class="va">mi_table_adjusted</span> <span class="op">&lt;-</span> <span class="fu">table_mi</span><span class="op">(</span><span class="va">fit_adjustedzemodel</span>, lang <span class="op">=</span> <span class="st">"pt"</span><span class="op">)</span></span>
@@ -1500,7 +1544,7 @@ Tabela&nbsp;8.6: Vinte maiores índices de modificação do modelo modificado, c
 <p>A <a href="#fig-residual-correlations-adjusted" class="quarto-xref">Figura&nbsp;<span>8.3</span></a> apresenta as diferenças entre as correlações observadas e reproduzidas pelo modelo. Cada par aparece uma única vez, com cor proporcional à magnitude absoluta e rótulo que preserva o sinal. A referência de magnitude absoluta de 0,10 orienta a localização das discrepâncias remanescentes, em conjunto com os parâmetros e MI/EPC.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-residual-correlations-adjusted" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Mapa triangular das diferenças entre correlações observadas e reproduzidas para os 21 indicadores do modelo modificado.">
+<div id="fig-residual-correlations-adjusted" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Mapa triangular das diferenças entre correlações observadas e reproduzidas para os 21 indicadores do modelo modificado." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-residual-correlations-adjusted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="08_model_comparison_files/figure-html/fig-residual-correlations-adjusted-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Mapa triangular das diferenças entre correlações observadas e reproduzidas para os 21 indicadores do modelo modificado." width="768">
 </div>
@@ -1522,8 +1566,14 @@ Figura&nbsp;8.3: Resíduos de correlação do modelo modificado. As cores repres
 </div>
 <div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><code>plot_stdres()</code> aplica ao modelo modificado o procedimento explicado no racional da <a href="07_model_fit.html#fig-residual-correlations" class="quarto-xref">Figura&nbsp;<span>7.2</span></a>. O mapa mantém a ordem dos indicadores, a cor pela magnitude absoluta e os rótulos com sinal.</p>
-<p><code><a href="https://rdrr.io/r/base/attr.html">attr()</a></code> recupera os resíduos com precisão original para os valores no texto e para a exportação da matriz completa por <code><a href="https://rdrr.io/r/utils/write.table.html">write.csv2()</a></code> em <code>Output/Results/Tables/residual-correlations-adjusted.csv</code>. <code>ggsave()</code> salva o mesmo gráfico apresentado em <code>Output/Results/Figures/fig-residual-correlations-adjusted.png</code>.</p>
+<p><strong>Finalidade</strong></p>
+<p>Examinar as diferenças entre correlações observadas e reproduzidas pelo modelo modificado.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize <code>fit_adjustedzemodel</code>, estimado no bloco da <a href="#tbl-adjusted-parameters" class="quarto-xref">Tabela&nbsp;<span>8.2</span></a>.</p>
+<p><strong>Procedimento</strong></p>
+<p>A chamada aplica <code>plot_stdres()</code>, apresentada no racional da <a href="07_model_fit.html#fig-residual-correlations" class="quarto-xref">Figura&nbsp;<span>7.2</span></a>, ao ajuste modificado. O mapa mantém a ordem dos indicadores, a cor pela magnitude absoluta e os rótulos com sinal. Os atributos preservam a matriz e os pares com precisão original para exportação e valores no texto.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para apresentar o mapa e salvar <code>residual-correlations-adjusted.csv</code> em <code>Output/Results/Tables</code> e <code>fig-residual-correlations-adjusted.png</code> em <code>Output/Results/Figures</code>.</p>
 <div class="cell">
 <details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Create the correlation residual heatmap.</span></span>
 <span><span class="va">residual_heatmap_adjusted</span> <span class="op">&lt;-</span> <span class="fu">plot_stdres</span><span class="op">(</span><span class="va">fit_adjustedzemodel</span><span class="op">)</span></span>
@@ -1552,8 +1602,8 @@ Figura&nbsp;8.3: Resíduos de correlação do modelo modificado. As cores repres
 </div>
 </div>
 </div>
-<p>O maior resíduo absoluto é 0,128; 4 dos 210 pares apresentam magnitude de pelo menos 0,10. A leitura conjunta desse mapa, das cargas e dos MI/EPC documenta as limitações locais da especificação selecionada, em conjunto com a avaliação por DDDFI apresentada anteriormente. Q23–Q25 e Q8–Q9 destacam-se tanto nos resíduos quanto nos MI. A redução das discrepâncias em relação a H<sub>0</sub> considera também a retirada dos pares que envolviam os indicadores excluídos. As dificuldades remanescentes são registradas como limites da solução, encerrando as modificações nesta especificação.</p>
-<p>A revisão resultou em um modelo de quatro fatores com 21 indicadores, preservando os três itens sociais e incorporando as covariâncias residuais Q17–Q18. A solução apresentou ajuste compatível com a referência razoável do DDDFI e confiabilidade dos quatro escores acima de 0,70. A hipótese de ajuste próximo pelo RMSEA não foi rejeitada. Permaneceram cargas modestas e discrepâncias locais, que delimitam sua interpretação. Retemos essa especificação como solução exploratória para a amostra analisada, com os mesmos critérios de pré-processamento e estimação das seções anteriores. Sua aplicação posterior deve considerar a cobertura reduzida dos domínios e requer avaliação em outra amostra.</p>
+<p>O maior resíduo absoluto é 0,128; 4 dos 210 pares apresentam magnitude de pelo menos 0,10. A leitura conjunta desse mapa, das cargas e dos MI/EPC documenta as limitações locais da especificação selecionada, em conjunto com a avaliação por 3DFI apresentada anteriormente. Q23–Q25 e Q8–Q9 destacam-se tanto nos resíduos quanto nos MI. A redução das discrepâncias em relação a H<sub>0</sub> considera também a retirada dos pares que envolviam os indicadores excluídos. As dificuldades remanescentes são registradas como limites da solução, encerrando as modificações nesta especificação.</p>
+<p>A revisão resultou em um modelo de quatro fatores com 21 indicadores, preservando os três itens sociais e incorporando as covariâncias residuais Q17–Q18. A solução apresentou ajuste compatível com a referência razoável do 3DFI e confiabilidade dos quatro escores acima de 0,70. A hipótese de ajuste próximo pelo RMSEA não foi rejeitada. Permaneceram cargas modestas e discrepâncias locais, que delimitam sua interpretação. Retemos essa especificação como solução exploratória para a amostra analisada, com os mesmos critérios de pré-processamento e estimação das seções anteriores. Sua aplicação posterior deve considerar a cobertura reduzida dos domínios e requer avaliação em outra amostra.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
@@ -1572,8 +1622,8 @@ Flora, D. B. (2020). Your <span>Coefficient Alpha Is Probably Wrong</span>, but 
 <div id="ref-lin2022" class="csl-entry" role="listitem">
 Lin, L.-C., &amp; Yao, G. (2022). Validation of the Factor Structure of the <span>WHOQOL-BREF</span> Using Meta-Analysis of Exploratory Factor Analysis and Social Network Analysis. <em>Psychological Assessment</em>, <em>34</em>(7), 660–670. <a href="https://doi.org/10.1037/pas0001122">https://doi.org/10.1037/pas0001122</a>
 </div>
-<div id="ref-mcneishwolf2023dddf" class="csl-entry" role="listitem">
-McNeish, D., &amp; Wolf, M. G. (2023). <em>Direct <span>Discrepancy Dynamic Fit Index Cutoffs</span> for <span>Arbitrary Covariance Structure Models</span></em> [Preprint]. PsyArXiv. <a href="https://doi.org/10.31234/osf.io/4r9fq">https://doi.org/10.31234/osf.io/4r9fq</a>
+<div id="ref-mcneish2024" class="csl-entry" role="listitem">
+McNeish, D., &amp; Wolf, M. G. (2024). Direct <span>Discrepancy Dynamic Fit Index Cutoffs</span> for <span>Arbitrary Covariance Structure Models</span>. <em>Structural Equation Modeling: A Multidisciplinary Journal</em>, <em>31</em>(5), 835–862. <a href="https://doi.org/10.1080/10705511.2024.2308005">https://doi.org/10.1080/10705511.2024.2308005</a>
 </div>
 <div id="ref-mosqueirataipe2026" class="csl-entry" role="listitem">
 <span class="nocase">Mosqueira Taipe, C. M., Amador Campos, J. A., Krieger, V., Miasso, A. I., Molina, N. P. F. M., &amp; dos Santos, P. L.</span> (2026). Systematic Review of the Factor Structure of <span>WHOQOL-bref</span> in Adult Population. <em>Quality of Life Research</em>, <em>35</em>(17), 1–18. <a href="https://doi.org/10.1007/s11136-025-04115-6">https://doi.org/10.1007/s11136-025-04115-6</a>

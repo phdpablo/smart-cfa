@@ -2,39 +2,39 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://phdpablo.github.io/smart-cfa/index.html</loc>
-    <lastmod>2026-09-15T17:48:34.964Z</lastmod>
+    <lastmod>2026-10-20T13:27:56.103Z</lastmod>
   </url>
   <url>
     <loc>https://phdpablo.github.io/smart-cfa/01_intro.html</loc>
-    <lastmod>2026-10-19T11:30:16.772Z</lastmod>
+    <lastmod>2026-10-20T23:24:53.519Z</lastmod>
   </url>
   <url>
     <loc>https://phdpablo.github.io/smart-cfa/02_background.html</loc>
-    <lastmod>2026-10-13T15:17:31.471Z</lastmod>
+    <lastmod>2026-10-20T23:24:53.528Z</lastmod>
   </url>
   <url>
     <loc>https://phdpablo.github.io/smart-cfa/03_model_selection.html</loc>
-    <lastmod>2026-10-19T14:24:59.558Z</lastmod>
+    <lastmod>2026-10-20T12:52:20.109Z</lastmod>
   </url>
   <url>
     <loc>https://phdpablo.github.io/smart-cfa/04_pa.html</loc>
-    <lastmod>2026-10-19T17:40:18.221Z</lastmod>
+    <lastmod>2026-10-20T22:32:10.373Z</lastmod>
   </url>
   <url>
     <loc>https://phdpablo.github.io/smart-cfa/05_preprocessing.html</loc>
-    <lastmod>2026-10-19T11:30:16.775Z</lastmod>
+    <lastmod>2026-10-20T22:46:44.500Z</lastmod>
   </url>
   <url>
     <loc>https://phdpablo.github.io/smart-cfa/06_estimation.html</loc>
-    <lastmod>2026-10-19T20:10:35.008Z</lastmod>
+    <lastmod>2026-10-20T17:47:18.806Z</lastmod>
   </url>
   <url>
     <loc>https://phdpablo.github.io/smart-cfa/07_model_fit.html</loc>
-    <lastmod>2026-10-19T23:40:22.709Z</lastmod>
+    <lastmod>2026-10-20T22:21:17.040Z</lastmod>
   </url>
   <url>
     <loc>https://phdpablo.github.io/smart-cfa/08_model_comparison.html</loc>
-    <lastmod>2026-10-19T23:52:25.319Z</lastmod>
+    <lastmod>2026-10-20T22:37:23.753Z</lastmod>
   </url>
   <url>
     <loc>https://phdpablo.github.io/smart-cfa/09_conclusion.html</loc>
@@ -45,7 +45,7 @@
     <lastmod>2026-09-15T17:39:09.565Z</lastmod>
   </url>
   <url>
-    <loc>https://phdpablo.github.io/smart-cfa/Escolhas-inteligentes-para-modelos-de-medida.pdf</loc>
-    <lastmod>2026-10-20T00:46:22.940Z</lastmod>
+    <loc>https://phdpablo.github.io/smart-cfa/cfa-tutorial.pdf</loc>
+    <lastmod>2026-10-20T23:55:50.615Z</lastmod>
   </url>
 </urlset>

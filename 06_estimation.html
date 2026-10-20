@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.9.37">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>6&nbsp; Processo de estimação – Escolhas inteligentes para modelos de medida</title>
+<title>6&nbsp; Processo de estimação – Planejamento e avaliação de modelos de análise fatorial confirmatória</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -133,9 +133,9 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 </script>
-<meta property="og:title" content="6&nbsp; Processo de estimação – Escolhas inteligentes para modelos de medida">
+<meta property="og:title" content="6&nbsp; Processo de estimação – Planejamento e avaliação de modelos de análise fatorial confirmatória">
 <meta property="og:description" content="">
-<meta property="og:site_name" content="Escolhas inteligentes para modelos de medida">
+<meta property="og:site_name" content="Planejamento e avaliação de modelos de análise fatorial confirmatória">
 </head>
 <body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
@@ -317,10 +317,10 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Escolhas inteligentes para modelos de medida</a> 
+      <a href="./">Planejamento e avaliação de modelos de análise fatorial confirmatória</a> 
         <div class="sidebar-tools-main tools-wide">
     <a href="https://github.com/phdpablo/smart-cfa" title="Código fonte" class="quarto-navigation-tool px-1" aria-label="Código fonte"><i class="bi bi-github"></i></a>
-    <a href="./Escolhas-inteligentes-para-modelos-de-medida.pdf" title="Baixar PDF" class="quarto-navigation-tool px-1" aria-label="Baixar PDF"><i class="bi bi-file-pdf"></i></a>
+    <a href="./cfa-tutorial.pdf" title="Baixar PDF" class="quarto-navigation-tool px-1" aria-label="Baixar PDF"><i class="bi bi-file-pdf"></i></a>
     <div class="dropdown">
       <a href="" title="Compartilhar" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Compartilhar"><i class="bi bi-share"></i></a>
       <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
@@ -375,7 +375,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./02_background.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Escolhas inteligentes</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Fundamentação das decisões analíticas</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -897,9 +897,15 @@ Tabela&nbsp;6.1: Parâmetros fatoriais estimados nos modelos H<sub>0</sub> e H<s
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>O bloco lê a base analítica com <code><a href="https://readr.tidyverse.org/reference/read_delim.html">readr::read_csv2()</a></code> e estima os dois modelos com <code><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">lavaan::cfa()</a></code>, mantendo as mesmas condições de estimação. A função <code>table_par()</code>, definida em <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a>, prepara uma tabela de cargas para cada ajuste, com as relações na sintaxe lavaan, estimativas brutas, erros-padrão, estatísticas z e cargas padronizadas. Sua auxiliar <code>tidy_par()</code> organiza os parâmetros e preserva os valores numéricos completos; a seleção padrão apresenta somente as cargas livres.</p>
-<p><code><a href="https://rdrr.io/r/base/attr.html">attr()</a></code> recupera os dados de apresentação, e uma verificação impede a exportação de tabelas ausentes ou vazias. <code><a href="https://dplyr.tidyverse.org/reference/bind_rows.html">dplyr::bind_rows()</a></code> empilha as cargas de H<sub>0</sub> e, depois, as de H<sub>1</sub>, acrescentando a coluna <code>Modelo</code> para identificar cada bloco. As cargas cruzadas permanecem nas linhas de H<sub>1</sub>.</p>
-<p><code><a href="https://readr.tidyverse.org/reference/write_delim.html">readr::write_excel_csv2()</a></code> exporta o mesmo conteúdo apresentado, preservando rótulos, ordem e valores de exibição em um CSV compatível com o Excel. <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> apresenta os dois blocos em uma única tabela no HTML e no PDF. Com os scripts carregados, o bloco pode ser reproduzido com:</p>
+<p><strong>Finalidade</strong></p>
+<p>Estimar os dois modelos na base analítica e reunir suas cargas fatoriais em uma tabela, com estimativas não padronizadas, erros-padrão, estatísticas z e cargas padronizadas.</p>
+<p><strong>Preparação</strong></p>
+<p>O procedimento utiliza as especificações <code>analyzemodel</code> e <code>h1modelfree</code>, definidas em <a href="Scripts/DataAppendixScripts/models.R">models.R</a>, e as funções de <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a>, conforme a organização apresentada no início da <a href="03_model_selection.html" class="quarto-xref"><span>Seção 3</span></a>. A base <code>Data/AnalysisData/whoqol_analysis.csv</code> é produzida no pré-processamento (<a href="05_preprocessing.html#sec-cier-decision" class="quarto-xref"><span>Seção 5.2.1</span></a>) e lida diretamente pelo código abaixo. A exportação utiliza a pasta <code>Output/Results/Tables</code>, disponível no projeto.</p>
+<p><strong>Procedimento</strong></p>
+<p>O bloco importa a base analítica e estima H<sub>0</sub> e H<sub>1</sub> sob as mesmas condições. Em seguida, organiza as cargas de cada ajuste e reúne os dois conjuntos em uma tabela, identificando o modelo de origem de cada linha.</p>
+<p>A função <code>table_par()</code> recebe cada ajuste e prepara sua tabela de parâmetros. Com <code>lang = "pt"</code>, utiliza rótulos em português e mantém a seleção padrão de cargas livres. Sua auxiliar <code>tidy_par()</code> preserva os parâmetros numéricos completos. O atributo <code>table_data</code> reúne os dados de apresentação usados na tabela e no CSV; <code>par_data</code> conserva os parâmetros numéricos completos. Antes de reunir as tabelas, o código verifica se os dados de apresentação estão disponíveis e não estão vazios. A exportação utiliza o mesmo conteúdo apresentado no artigo, com os mesmos rótulos, ordem e valores de exibição, em um CSV compatível com o Excel.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Após a preparação indicada, execute o bloco completo. Ele produz a tabela apresentada acima, mantém os ajustes <code>fit_analyzemodel</code> e <code>fit_h1modelfree</code> na sessão e salva <code>tbl-estimation-parameters.csv</code> em <code>Output/Results/Tables</code>.</p>
 <div class="cell">
 <details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Read the preprocessed analysis data.</span></span>
 <span><span class="va">analysis_data</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv2</a></span><span class="op">(</span></span>
@@ -908,7 +914,7 @@ Tabela&nbsp;6.1: Parâmetros fatoriais estimados nos modelos H<sub>0</sub> e H<s
 <span>  show_col_types <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Estimate H0 and H1 using MLR/FIML and unit latent variances.</span></span>
+<span><span class="co"># Estimate H0 using MLR/FIML and unit latent variances.</span></span>
 <span><span class="va">fit_analyzemodel</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">cfa</a></span><span class="op">(</span></span>
 <span>  model <span class="op">=</span> <span class="va">analyzemodel</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">analysis_data</span>,</span>
@@ -917,6 +923,7 @@ Tabela&nbsp;6.1: Parâmetros fatoriais estimados nos modelos H<sub>0</sub> e H<s
 <span>  std.lv <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Estimate H1 under the same analytical conditions.</span></span>
 <span><span class="va">fit_h1modelfree</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">cfa</a></span><span class="op">(</span></span>
 <span>  model <span class="op">=</span> <span class="va">h1modelfree</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">analysis_data</span>,</span>
@@ -992,7 +999,7 @@ Tabela&nbsp;6.2: Verificações de convergência e admissibilidade das soluçõe
 <td style="text-align: left;">H0</td>
 <td style="text-align: right;">1243</td>
 <td style="text-align: right;">79</td>
-<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">Sim</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -1000,7 +1007,7 @@ Tabela&nbsp;6.2: Verificações de convergência e admissibilidade das soluçõe
 <td style="text-align: left;">H1</td>
 <td style="text-align: right;">1243</td>
 <td style="text-align: right;">82</td>
-<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">Sim</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -1023,10 +1030,15 @@ Tabela&nbsp;6.2: Verificações de convergência e admissibilidade das soluçõe
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><code>lavInspect(fit, "converged")</code> identifica se o algoritmo terminou com uma solução convergida. A tabela de parâmetros é inspecionada para localizar variâncias negativas e cargas padronizadas maiores que 1, que podem caracterizar soluções Heywood. O número de parâmetros livres é recuperado para documentar a complexidade estimada de cada especificação.</p>
-<p>O objeto <code>diagnostic_fits</code> apenas reúne os dois ajustes já estimados para que a mesma sequência de inspeções seja aplicada a H<sub>0</sub> e H<sub>1</sub>; ele não realiza uma nova estimação. <code><a href="https://rdrr.io/pkg/lavaan/man/parTable.html">lavaan::parTable()</a></code> fornece a coluna <code>free</code>, que permite contar os parâmetros efetivamente estimados, enquanto <code>lavaan::lavInspect(..., "nobs")</code> recupera o tamanho amostral utilizado pelo ajuste e <code>lavaan::lavInspect(..., "converged")</code> informa se o algoritmo convergiu.</p>
-<p>As variâncias são obtidas com <code><a href="https://rdrr.io/pkg/lavaan/man/parameterEstimates.html">lavaan::parameterEstimates()</a></code> filtrando as relações de variância (<code>op == "~~"</code> e <code>lhs == rhs</code>). As cargas padronizadas são recuperadas com <code><a href="https://rdrr.io/pkg/lavaan/man/standardizedSolution.html">lavaan::standardizedSolution()</a></code> e filtradas para as relações de carga (<code>op == "=~"</code>). A contagem de valores negativos e de cargas maiores que 1 resume os dois diagnósticos de admissibilidade apresentados na tabela.</p>
-<p>Depois dessas operações, <code><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble::tibble()</a></code> organiza uma linha para cada modelo e somente as seis colunas relevantes para esta etapa. <code><a href="https://rdrr.io/r/utils/write.table.html">write.csv2()</a></code> salva essa tabela diagnóstica em <code>Output/Results/Tables/tbl-estimation-checks.csv</code>, preservando uma cópia tabular para auditoria. A chamada final a <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> apresenta o mesmo objeto no HTML e no PDF; portanto, a tabela exibida e o CSV derivam da mesma estrutura, sem uma reconstrução posterior do resultado.</p>
+<p><strong>Finalidade</strong></p>
+<p>Verificar convergência e admissibilidade dos dois ajustes e registrar seu tamanho amostral e número de parâmetros livres.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize <code>fit_analyzemodel</code> e <code>fit_h1modelfree</code>, estimados no bloco da <a href="#tbl-estimation-parameters" class="quarto-xref">Tabela&nbsp;<span>6.1</span></a>.</p>
+<p><strong>Procedimento</strong></p>
+<p>A lista <code>diagnostic_fits</code> permite aplicar a mesma inspeção aos dois modelos. Para cada ajuste, o código recupera convergência e número de observações, conta os parâmetros livres e examina variâncias e cargas padronizadas. As contagens registram variâncias negativas e cargas padronizadas maiores que 1.</p>
+<p><code>estimation_checks</code> reúne uma linha por modelo. A tabela apresentada e o CSV derivam do mesmo objeto, mantendo uma cópia dos diagnósticos para auditoria.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para apresentar e salvar <code>tbl-estimation-checks.csv</code> em <code>Output/Results/Tables</code>, utilizando os ajustes existentes.</p>
 <div class="cell">
 <details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Collect the fitted models for diagnostic checks.</span></span>
 <span><span class="va">diagnostic_fits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
@@ -1064,7 +1076,7 @@ Tabela&nbsp;6.2: Verificações de convergência e admissibilidade das soluçõe
 <span>      Modelo <span class="op">=</span> <span class="va">model_name</span>,</span>
 <span>      `N observado` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span><span class="op">(</span><span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/lavInspect.html">lavInspect</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"nobs"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>      `Parâmetros livres` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">free_parameters</span><span class="op">$</span><span class="va">free</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span>,</span>
-<span>      Convergência <span class="op">=</span> <span class="va">converged</span>,</span>
+<span>      Convergência <span class="op">=</span> <span class="kw">if</span> <span class="op">(</span><span class="va">converged</span><span class="op">)</span> <span class="st">"Sim"</span> <span class="kw">else</span> <span class="st">"Não"</span>,</span>
 <span>      `Variâncias negativas` <span class="op">=</span> <span class="va">negative_variances</span>,</span>
 <span>      `Cargas padronizadas &gt; 1` <span class="op">=</span> <span class="va">heywood_loadings</span></span>
 <span>    <span class="op">)</span></span>

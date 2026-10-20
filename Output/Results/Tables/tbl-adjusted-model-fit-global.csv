@@ -2,7 +2,7 @@
 "N";"1243"
 "χ² ajust.";"630.857"
 "df";"181"
-"p";"< 0.001"
+"p-valor";"< 0.001"
 "CFI (robusto)";"0.945"
 "TLI (robusto)";"0.936"
 "RMSEA (robusto)";"0.049"

@@ -558,7 +558,7 @@ table_fit <- function(object, lang = "en") {
   chi_label <- if (test_version == "standard") "χ²" else
     if (lang == "pt") "χ² ajust." else "χ² scaled"
   labels <- c(
-    "N", chi_label, "df", "p",
+    "N", chi_label, "df", if (lang == "pt") "p-valor" else "p",
     paste0(c("CFI", "TLI", "RMSEA"), index_tag),
     if (lang == "pt") c("RMSEA IC90% inf.", "RMSEA IC90% sup.") else
       c("RMSEA CI90% low", "RMSEA CI90% up"),
@@ -584,7 +584,13 @@ table_fit <- function(object, lang = "en") {
     c("Measure", "Value")
 
   # Render the table and retain access to its complete numerical source.
-  result <- knitr::kable(output, align = c("l", "r"), row.names = FALSE)
+  rendered <- output
+  if (knitr::is_latex_output()) {
+    rendered[[1]] <- gsub("χ²", "$\\chi^2$", rendered[[1]], fixed = TRUE)
+    rendered[[1]] <- gsub("≤", "$\\leq$", rendered[[1]], fixed = TRUE)
+  }
+  result <- knitr::kable(rendered, format = "pipe", align = c("l", "r"),
+    row.names = FALSE)
   attr(result, "fit_data") <- fit_data
   attr(result, "table_data") <- output
   result
