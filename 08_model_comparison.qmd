@@ -58,13 +58,21 @@ considerados relevantes.
 
 ::: {.callout-note title="Racional da @tbl-whoqol-modification-evidence" collapse="true"}
 
-Primeiro, `readr::read_csv2()` lê o levantamento bibliográfico curado em
-`Data/InputData/Metadata/whoqol_modification_evidence.csv` e cria o objeto
-`modification_evidence`. Cada linha sintetiza um item ou relação, com sua
-prioridade de atenção. Em seguida, `knitr::kable()` apresenta a tabela em
-Markdown, preservando os cabeçalhos e a ordem das prioridades do arquivo.
-As fontes e a nota de classificação aparecem diretamente abaixo da tabela.
-O bloco a seguir reproduz a leitura e a apresentação.
+**Finalidade**
+
+Apresentar a síntese bibliográfica que informa a avaliação das possíveis modificações do modelo.
+
+**Preparação**
+
+Utilize o levantamento curado `Data/InputData/Metadata/whoqol_modification_evidence.csv`, preparado e revisado antes desta análise.
+
+**Procedimento**
+
+O bloco lê o arquivo em `modification_evidence` e apresenta uma linha por item ou relação, preservando os cabeçalhos e a ordem das prioridades. O levantamento é um insumo da análise: as fontes e a nota de classificação são informadas diretamente abaixo da tabela.
+
+**Execução e resultado**
+
+Execute o bloco para ler o levantamento e apresentar a tabela, sem gerar ou alterar a síntese bibliográfica.
 
 ```{r}
 #| eval: false
@@ -149,11 +157,21 @@ plot_color(adjustedzemodel, node_labels = LABELS, what_labels = "no")
 
 ::: {.callout-note title="Racional da @fig-adjusted-model" collapse="true"}
 
-A função `plot_color()`, definida em
-[helpers.R](Scripts/DataAppendixScripts/helpers.R), utiliza a especificação
-`adjustedzemodel`, de [models.R](Scripts/DataAppendixScripts/models.R),
-para desenhar o modelo com as mesmas cores e abreviações da
-@sec-model-selection.
+**Finalidade**
+
+Representar a estrutura do modelo modificado antes de sua estimação.
+
+**Preparação**
+
+Utilize `adjustedzemodel`, definido em [models.R](Scripts/DataAppendixScripts/models.R), e a preparação geral da @sec-model-selection.
+
+**Procedimento**
+
+A chamada reutiliza `plot_color()` e as abreviações de `LABELS`, apresentados na @sec-model-selection. O argumento `what_labels = "no"` omite os valores nas relações, destacando a estrutura especificada.
+
+**Execução e resultado**
+
+Execute o bloco para apresentar o diagrama do modelo modificado.
 
 ```{r}
 #| eval: false
@@ -180,7 +198,7 @@ modificado.
 #| tbl-cap: "Parâmetros fatoriais estimados no modelo modificado."
 #| echo: false
 
-# Read the preprocessed analysis data
+# Read the preprocessed analysis data.
 analysis_data <- readr::read_csv2(
   here::here("Data", "AnalysisData", "whoqol_analysis.csv"),
   na = c("", "NA"), show_col_types = FALSE
@@ -218,32 +236,29 @@ parameter_table_adjusted
 
 ::: {.callout-note title="Racional da @tbl-adjusted-parameters" collapse="true"}
 
-O bloco lê a base analítica com `readr::read_csv2()` e estima o modelo
-modificado com `lavaan::cfa()`, mantendo as condições da @sec-estimation.
-A função `table_par()`, definida em
-[helpers.R](Scripts/DataAppendixScripts/helpers.R), prepara a tabela de
-cargas fatoriais. Internamente, `tidy_par()` organiza os parâmetros do lavaan
-e preserva seus valores numéricos completos. A coluna de relação mantém a
-sintaxe do modelo, identificando o fator e o item de cada carga; a apresentação
-é formatada por `knitr::kable()`.
+**Finalidade**
 
-A função também permite selecionar covariâncias, variâncias, interceptos,
-médias, limiares e regressões, isoladamente ou em conjunto. Nessa tabela,
-a seleção padrão apresenta somente as cargas livres, com estimativas brutas,
-erros-padrão, estatísticas z e cargas padronizadas.
+Estimar o modelo modificado e apresentar suas cargas fatoriais.
 
-`attr()` recupera os parâmetros completos para os valores inseridos no texto
-e o conteúdo de apresentação para exportação. Uma verificação impede a
-gravação de dados ausentes ou vazios. `readr::write_excel_csv2()` salva o mesmo
-conteúdo exibido no HTML e no PDF, preservando rótulos, ordem e valores de
-exibição em um CSV compatível com o Excel. A expressão final apresenta a
-tabela preparada. Com os scripts carregados, o bloco pode ser reproduzido com:
+**Preparação**
+
+Utilize a base `Data/AnalysisData/whoqol_analysis.csv` e `adjustedzemodel`, disponível na preparação desta seção conforme a orientação geral da @sec-model-selection.
+
+**Procedimento**
+
+O bloco lê a base e estima o modelo nas mesmas condições da @sec-estimation. A função `table_par()`, apresentada no racional da @tbl-estimation-parameters, mantém a seleção padrão de cargas livres e os rótulos em português.
+
+O atributo `par_data` disponibiliza os parâmetros completos para os valores inseridos no texto; `table_data` fornece a tabela de apresentação. Após verificar seu conteúdo, o bloco exporta as mesmas células exibidas, preservando rótulos, ordem e valores. Para aplicar o procedimento a outra pesquisa, a especificação e os indicadores devem ser revistos, assim como a adequação das condições de estimação.
+
+**Execução e resultado**
+
+Execute o bloco para criar `fit_adjustedzemodel`, apresentar as cargas e salvar `tbl-adjusted-parameters.csv` em `Output/Results/Tables`. O ajuste alimenta os diagnósticos seguintes.
 
 ```{r}
 #| eval: false
 #| code-fold: true
 
-# Read the preprocessed analysis data
+# Read the preprocessed analysis data.
 analysis_data <- readr::read_csv2(
   here::here("Data", "AnalysisData", "whoqol_analysis.csv"),
   na = c("", "NA"), show_col_types = FALSE
@@ -334,24 +349,21 @@ fit_table_adjusted
 
 ::: {.callout-note title="Racional da @tbl-adjusted-model-fit-global" collapse="true"}
 
-A função `table_fit()`, definida em
-[helpers.R](Scripts/DataAppendixScripts/helpers.R), recebe o modelo ajustado
-e prepara a tabela de ajuste global. Internamente, `tidy_fit()` organiza
-as medidas do lavaan, seleciona as versões compatíveis com o teste utilizado
-na estimação e preserva os valores numéricos completos. A apresentação é
-formatada por `knitr::kable()`.
+**Finalidade**
 
-O resultado reúne a tabela e seus dados de origem. `attr()` recupera as
-medidas completas para os valores inseridos no texto e o conteúdo formatado
-para exportação. `stats::setNames()` organiza as medidas em um vetor nomeado,
-facilitando sua consulta. Antes de gravar o arquivo, uma verificação impede
-a exportação de dados ausentes ou vazios.
+Organizar as medidas de ajuste global do modelo modificado.
 
-`readr::write_excel_csv2()` salva o mesmo conteúdo apresentado no HTML e no
-PDF, preservando rótulos, ordem e valores de exibição em um CSV compatível
-com o Excel. A expressão final apresenta a tabela. A estimação do modelo
-permanece na etapa anterior; este bloco organiza, exporta e apresenta seus
-resultados.
+**Preparação**
+
+Utilize `fit_adjustedzemodel`, estimado no bloco da @tbl-adjusted-parameters.
+
+**Procedimento**
+
+O procedimento aplica `table_fit()`, apresentada no racional da @tbl-model-fit-global, ao ajuste modificado. As medidas completas são recuperadas em `fit_data_adjusted` e organizadas em um vetor nomeado para consulta e uso no texto. A tabela de apresentação é verificada e exportada com os mesmos rótulos, ordem e valores exibidos.
+
+**Execução e resultado**
+
+Execute o bloco para apresentar a síntese e salvar `tbl-adjusted-model-fit-global.csv` em `Output/Results/Tables`, sem repetir a estimação.
 
 ```{r}
 #| eval: false
@@ -440,25 +452,23 @@ reliability_table_adjusted
 
 ::: {.callout-note title="Racional da @tbl-adjusted-domain-reliability" collapse="true"}
 
-A função `table_reliability()`, definida em
-[helpers.R](Scripts/DataAppendixScripts/helpers.R), recebe o modelo ajustado
-e prepara a tabela de confiabilidade. Sua auxiliar `tidy_reliability()`
-identifica os itens de cada fator no modelo e calcula os coeficientes para
-os escores com pesos iguais. `semTools::compRelSEM()` fornece o ômega,
-enquanto `psych::glb.algebraic()` calcula o GLB a partir da matriz observada
-dos mesmos itens. Os nomes dos fatores são preservados.
+**Finalidade**
 
-`attr()` recupera os coeficientes completos para os valores inseridos no
-texto e o conteúdo de apresentação para exportação. Os dados completos
-também preservam a composição dos escores e os resultados nativos dos
-cálculos, permitindo consultar os diagnósticos. Uma verificação impede a
-gravação de uma tabela ausente ou vazia.
+Recalcular a confiabilidade dos escores correspondentes aos itens retidos no modelo modificado.
 
-`readr::write_excel_csv2()` salva o mesmo conteúdo apresentado no HTML e no
-PDF, preservando rótulos, ordem e valores de exibição em um CSV compatível
-com o Excel. A expressão final apresenta a tabela, formatada internamente
-por `knitr::kable()`. O bloco utiliza o ajuste já estimado;
-não realiza uma nova estimação nem executa simulações.
+**Preparação**
+
+Utilize `fit_adjustedzemodel`, estimado no bloco da @tbl-adjusted-parameters.
+
+**Procedimento**
+
+A chamada utiliza `table_reliability()`, apresentada no racional da @tbl-domain-reliability. A composição de cada escore é obtida do ajuste modificado; ômega e GLB correspondem ao mesmo conjunto de itens em cada domínio.
+
+O atributo `reliability_data` preserva coeficientes completos, composição dos escores e resultados nativos para consulta. O conteúdo de `table_data` é verificado e exportado com os mesmos rótulos e valores apresentados.
+
+**Execução e resultado**
+
+Execute o bloco para apresentar a confiabilidade e salvar `tbl-adjusted-domain-reliability.csv` em `Output/Results/Tables`, utilizando o ajuste existente.
 
 ```{r}
 #| eval: false
@@ -534,7 +544,7 @@ dfi_data <- as.data.frame(
   analysis_data[lavaan::lavNames(fit_adjustedzemodel, "ov")]
 )
 
-# Run and save the DDDFI calibration manually, or reuse its cache.
+# Reuse the saved DDDFI calibration or compute it when unavailable.
 dfi_adjusted <- cache_or_run("dfi_adjusted", {
 
   # Set the random seed for the simulation.
@@ -582,22 +592,25 @@ dfi_table_adjusted
 
 ::: {.callout-note title="Racional da @tbl-adjusted-dfi-cutoffs" collapse="true"}
 
-`lavaan::lavNames()` seleciona os indicadores do modelo modificado e
-`as.data.frame()` organiza os dados, preservando as respostas ausentes.
-`dynamic::DDDFI()` calibra os limites a partir do modelo e desses dados;
-`set.seed()` fixa a semente. `cache_or_run()` reutiliza ou salva a calibração,
-e a remoção dos dados simulados reduz o tamanho do arquivo.
+**Finalidade**
 
-`readRDS()` recupera o resultado salvo. `table_3dfi()` recebe essa calibração
-e chama `tidy_3dfi()` para organizar as referências próximo, razoável e
-medíocre. A tabela apresenta MAD solicitado e simulado, CFI, RMSEA e o
-limite superior do IC de 90% do RMSEA, com três casas decimais e rótulos em
-português. A função apenas organiza o resultado existente.
+Calibrar e apresentar limites de ajuste aproximado para o modelo modificado por discrepância direta.
 
-`attr()` recupera o conteúdo apresentado; `write_excel_csv2()` exporta as
-mesmas células para `Output/Results/Tables/tbl-adjusted-dfi-cutoffs.csv`,
-com codificação compatível com Excel. O objeto da tabela é apresentado ao
-final. O exemplo abaixo reproduz a sequência completa.
+**Preparação**
+
+Utilize `analysis_data`, `fit_adjustedzemodel`, `SEED` e o mecanismo de resultados salvos da preparação geral. A calibração é armazenada em `Data/IntermediateData/dfi_adjusted.rds`.
+
+**Procedimento**
+
+O bloco seleciona os indicadores retidos conforme o ajuste e preserva suas respostas ausentes. A chamada de `dynamic::DDDFI()` solicita não normalidade, MLR, 1.000 replicações e discrepâncias médias absolutas de 0,038, 0,050 e 0,060. A semente é fixada antes da simulação.
+
+`cache_or_run()` reutiliza o resultado disponível ou executa a calibração; antes de salvar um novo resultado, remove os dados simulados para reduzir seu tamanho. O arquivo compacto é então lido do disco. As orientações operacionais de reprodução e recálculo pertencem ao [README](README.md).
+
+A função própria `table_3dfi()` recebe essa calibração e retorna a tabela; sua auxiliar `tidy_3dfi()` organiza as referências próximo, razoável e medíocre. A apresentação reúne MAD solicitado e simulado, CFI, RMSEA e limite superior do IC de 90% do RMSEA, com três casas decimais e rótulos em português. A exportação utiliza `table_data`, preservando as células apresentadas.
+
+**Execução e resultado**
+
+Execute o bloco para obter ou reutilizar `dfi_adjusted`, apresentar os limites e salvar `tbl-adjusted-dfi-cutoffs.csv` em `Output/Results/Tables`. A calibração permanece disponível para a figura seguinte.
 
 ```{r}
 #| eval: false
@@ -608,7 +621,7 @@ dfi_data <- as.data.frame(
   analysis_data[lavaan::lavNames(fit_adjustedzemodel, "ov")]
 )
 
-# Run and save the DDDFI calibration manually, or reuse its cache.
+# Reuse the saved DDDFI calibration or compute it when unavailable.
 dfi_adjusted <- cache_or_run("dfi_adjusted", {
 
   # Set the random seed for the simulation.
@@ -779,18 +792,23 @@ ggplot2::ggsave(
 
 ::: {.callout-note title="Racional da @fig-dfi-adjusted-fair" collapse="true"}
 
-A figura reutiliza `dfi_adjusted`, lido na tabela anterior.
-`$indices` contém os valores simulados: `CFI_L0`/`RMSEA_L0` identificam a
-condição de referência e `CFI_L2`/`RMSEA_L2`, a discrepância razoável.
-`tidyr::pivot_longer()` organiza os índices para os painéis.
-`dfi_plot_cutoffs` reúne os limites da linha `Fair` e os valores convencionais
-CFI = 0,95 e RMSEA = 0,06. As colunas `SRMR_L*` do objeto não são utilizadas,
-pois nessa implementação armazenam limites superiores do intervalo do RMSEA.
+**Finalidade**
 
-`ggplot2::ggplot()` sobrepõe os histogramas; `geom_vline()` acrescenta os
-limites e `facet_wrap()` separa os índices. `ggsave()` exporta o gráfico para
-`Output/Results/Figures/fig-dfi-adjusted-fair.png`. A reconstrução utiliza
-somente os índices persistidos e não repete a simulação.
+Comparar as distribuições simuladas de CFI e RMSEA sob referência e discrepância razoável, com limites calibrados e convencionais.
+
+**Preparação**
+
+Utilize `dfi_adjusted`, obtido no bloco da @tbl-adjusted-dfi-cutoffs. A reconstrução requer os índices persistidos em `$indices`.
+
+**Procedimento**
+
+O bloco reúne as colunas `CFI_L0` e `RMSEA_L0` para a referência e `CFI_L2` e `RMSEA_L2` para a discrepância razoável. Os dados são reorganizados em formato longo e os painéis recebem a mesma ordem de índices. As colunas `SRMR_L*` não são utilizadas: nesta implementação armazenam limites superiores do intervalo do RMSEA.
+
+`dfi_plot_cutoffs` reúne os limites da linha `Fair` e os valores convencionais CFI = 0,95 e RMSEA = 0,06. A figura sobrepõe histogramas e acrescenta linhas para essas referências, separando os índices em painéis.
+
+**Execução e resultado**
+
+Execute o bloco para apresentar `dfi_plot_fair` e salvar `fig-dfi-adjusted-fair.png` em `Output/Results/Figures`. O desenho utiliza a calibração salva, sem repetir a simulação.
 
 ```{r}
 #| eval: false
@@ -956,25 +974,23 @@ mi_table_adjusted
 
 ::: {.callout-note title="Racional da @tbl-adjusted-modification-indices-top20" collapse="true"}
 
-A função `table_mi()`, definida em
-[helpers.R](Scripts/DataAppendixScripts/helpers.R), recebe o modelo ajustado
-e apresenta as maiores relações candidatas, em ordem decrescente de MI.
-Sua auxiliar `tidy_mi()` organiza o retorno de `lavaan::modificationIndices()`,
-selecionando cargas e covariâncias entre variáveis distintas e preservando
-os valores completos. A tabela reúne a relação, o MI e os EPC bruto e
-padronizado. Relações já livres no modelo não entram na seleção.
+**Finalidade**
 
-`attr()` recupera o conteúdo de apresentação, e uma verificação impede a
-exportação de dados ausentes ou vazios. `readr::write_excel_csv2()` salva as
-mesmas vinte relações apresentadas no HTML e no PDF, com rótulos e valores
-de exibição preservados. Todas as relações elegíveis e seus valores
-completos permanecem disponíveis no atributo `mi_data` do resultado.
+Examinar as vinte maiores relações candidatas à liberação após as modificações do modelo.
 
-A expressão final apresenta a tabela formatada internamente por
-`knitr::kable()`. A proteção dos tis ocorre apenas na representação
-Markdown, para preservar os operadores lavaan no documento; o CSV contém
-os operadores como texto comum. O bloco utiliza o ajuste existente e não
-estima um modelo modificado.
+**Preparação**
+
+Utilize `fit_adjustedzemodel`, estimado no bloco da @tbl-adjusted-parameters.
+
+**Procedimento**
+
+O bloco aplica `table_mi()`, apresentada no racional da @tbl-modification-indices-top20, ao ajuste modificado. A ordenação segue o MI e mantém EPC bruto e padronizado para cada relação elegível; relações já livres são excluídas da seleção.
+
+O atributo `mi_data` preserva todas as relações elegíveis com precisão completa. Após a verificação de `table_data`, as mesmas vinte relações exibidas são exportadas. Os operadores lavaan são preservados no documento e como texto comum no CSV.
+
+**Execução e resultado**
+
+Execute o bloco para apresentar a tabela e salvar `tbl-adjusted-modification-indices-top20.csv` em `Output/Results/Tables`. A inspeção utiliza o ajuste existente e não libera novos parâmetros.
 
 ```{r}
 #| eval: false
@@ -1052,15 +1068,21 @@ residual_heatmap_adjusted
 
 ::: {.callout-note title="Racional da @fig-residual-correlations-adjusted" collapse="true"}
 
-`plot_stdres()` aplica ao modelo modificado o procedimento explicado no
-racional da @fig-residual-correlations. O mapa mantém a ordem dos indicadores,
-a cor pela magnitude absoluta e os rótulos com sinal.
+**Finalidade**
 
-`attr()` recupera os resíduos com precisão original para os valores no texto
-e para a exportação da matriz completa por `write.csv2()` em
-`Output/Results/Tables/residual-correlations-adjusted.csv`. `ggsave()` salva
-o mesmo gráfico apresentado em
-`Output/Results/Figures/fig-residual-correlations-adjusted.png`.
+Examinar as diferenças entre correlações observadas e reproduzidas pelo modelo modificado.
+
+**Preparação**
+
+Utilize `fit_adjustedzemodel`, estimado no bloco da @tbl-adjusted-parameters.
+
+**Procedimento**
+
+A chamada aplica `plot_stdres()`, apresentada no racional da @fig-residual-correlations, ao ajuste modificado. O mapa mantém a ordem dos indicadores, a cor pela magnitude absoluta e os rótulos com sinal. Os atributos preservam a matriz e os pares com precisão original para exportação e valores no texto.
+
+**Execução e resultado**
+
+Execute o bloco para apresentar o mapa e salvar `residual-correlations-adjusted.csv` em `Output/Results/Tables` e `fig-residual-correlations-adjusted.png` em `Output/Results/Figures`.
 
 ```{r}
 #| eval: false

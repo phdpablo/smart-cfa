@@ -171,3 +171,215 @@ Em amostras relativamente pequenas, a penalidade por complexidade do AIC tem uma
 Considerando a literatura ainda incipiente sobre a seleção de modelos na SEM [@preacher2023] e as limitações das opções disponíveis, a recomendação principal é que a decisão seja baseada na experiência e conhecimento do pesquisador [@preacher2023]. Sem um julgamento teórico, a aplicação de qualquer critério de seleção de modelo se torna ineficaz. Antes de iniciar a análise, é essencial usar a teoria subjacente para estabelecer um conjunto limitado de modelos defensáveis, conforme sugerimos desde o início. Além da adequação do modelo, a teoria e o julgamento são necessários durante a seleção do modelo para decidir quais modelos devem ser descartados ou mantidos, levando em consideração a interpretabilidade. Por fim, a teoria é empregada para guiar a interpretação dos resultados com base no(s) modelo(s) escolhido(s). Os critérios de seleção de modelos servem como ferramentas de apoio à decisão, mas não são os decisores finais [@preacher2023].
 
 Mesmo com evidências acumuladas que validam o(s) modelo(s) de medida em estudo, se ainda existirem dúvidas significativas sobre a estrutura fatorial teórica e/ou nível de desajuste, o pesquisador tem a opção de prosseguir para a comparação de alternativas usando a SMC [@leite2023]. Caso o pesquisador já tenha navegado pela SMC na fase de Análise de Poder (etapa 2), avançar na comparação dos modelos não exigirá esforços adicionais. Esse argumento torna-se ainda mais plausível se o pesquisador utilizou a abordagem FCO na etapa anterior, que também pode ser utilizada para comparar modelos aninhados [@mai2021; @niemand2018].
+
+A @fig-cfa-decision-map antecipa os procedimentos desenvolvidos nas próximas seções e suas conexões. O mapa permite localizar as análises e acompanhar como as especificações, os dados e os diagnósticos sustentam as decisões sobre os modelos.
+
+```{=latex}
+\begingroup
+\let\cfaMapIncludegraphics\includegraphics
+\renewcommand{\includegraphics}[2][]{%
+  \cfaMapIncludegraphics[width=\linewidth,keepaspectratio]{#2}%
+}
+```
+
+```{dot}
+//| label: fig-cfa-decision-map
+//| fig-cap: >-
+//|   Mapa das decisões, procedimentos e evidências desenvolvidos na aplicação de AFC. As setas contínuas indicam o percurso de leitura; as tracejadas conectam as especificações planejadas à estimação, a calibração por simulação à avaliação empírica e as modificações à reestimação.
+//| fig-alt: >-
+//|   Seis painéis em duas colunas, com leitura em S das seções 3 a 8,
+//|   agrupados nas fases Planejamento e Aplicação empírica.
+//|   Cada painel apresenta os procedimentos da seção. A avaliação dos modelos
+//|   destaca a simulação de Monte Carlo. Conexões tracejadas relacionam
+//|   seleção e estimação, poder e avaliação e modificações e reestimação.
+//| fig-width: 7.80
+//| fig-height: 6.75
+//| fig-align: center
+//| echo: false
+
+digraph {
+  graph [rankdir=TB, newrank=true, bgcolor="transparent", nodesep=0.38, ranksep=0.48,
+    splines=true, pad=0.06];
+  node [shape=plain, fontname="Arial", fontsize=11];
+  edge [color="#374151", penwidth=1.2, arrowsize=0.7];
+  // Describe the decisions and evidence developed in each section.
+  A [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" WIDTH="215" COLOR="#64748B" BGCOLOR="white">
+      <TR><TD WIDTH="215" ALIGN="LEFT" BGCOLOR="#EDF1F4"><B>3 · Seleção do modelo</B></TD></TR>
+      <TR><TD WIDTH="215" ALIGN="LEFT" BALIGN="LEFT">WHOQOL-Bref: 4 fatores, 24 itens<BR ALIGN="LEFT"/>Modelos H₀ e H₁ planejados<BR ALIGN="LEFT"/>Covariância residual em H₀<BR ALIGN="LEFT"/>Três cargas cruzadas em H₁<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>
+  >];
+  B [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" WIDTH="215" COLOR="#64748B" BGCOLOR="white">
+      <TR><TD WIDTH="215" ALIGN="LEFT" BGCOLOR="#EDF1F4"><B>4 · Análise de poder</B></TD></TR>
+      <TR><TD WIDTH="215" ALIGN="LEFT" BALIGN="LEFT">Poder analítico e baseado em modelos<BR ALIGN="LEFT"/>Monte Carlo: N variável e fixo<BR ALIGN="LEFT"/>Não normalidade e ausências<BR ALIGN="LEFT"/>Limites calibrados e tradicionais<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>
+  >];
+  C [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" WIDTH="215" COLOR="#64748B" BGCOLOR="white">
+      <TR><TD WIDTH="215" ALIGN="LEFT" BGCOLOR="#EDF1F4"><B>5 · Pré-processamento</B></TD></TR>
+      <TR><TD WIDTH="215" ALIGN="LEFT" BALIGN="LEFT">Elegibilidade e registros incompletos<BR ALIGN="LEFT"/>Atenção, tempo e três índices C/IER<BR ALIGN="LEFT"/>Exclusões auditáveis e recodificação<BR ALIGN="LEFT"/>Distribuições e colinearidade<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>
+  >];
+  D [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" WIDTH="215" COLOR="#64748B" BGCOLOR="white">
+      <TR><TD WIDTH="215" ALIGN="LEFT" BGCOLOR="#EDF1F4"><B>6 · Estimação</B></TD></TR>
+      <TR><TD WIDTH="215" ALIGN="LEFT" BALIGN="LEFT">Estimação robusta por MLR<BR ALIGN="LEFT"/>Respostas ausentes por FIML<BR ALIGN="LEFT"/>Cargas e erros-padrão robustos<BR ALIGN="LEFT"/>Convergência e admissibilidade<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>
+  >];
+  E [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" WIDTH="215" COLOR="#64748B" BGCOLOR="white">
+      <TR><TD WIDTH="215" ALIGN="LEFT" BGCOLOR="#EDF1F4"><B>7 · Avaliação dos modelos</B></TD></TR>
+      <TR><TD WIDTH="215" ALIGN="LEFT" BALIGN="LEFT">Monte Carlo dos modelos empíricos<BR ALIGN="LEFT"/>Referências de ajuste calibradas<BR ALIGN="LEFT"/>Ajuste global robusto; ômega e GLB<BR ALIGN="LEFT"/>MI/EPC e resíduos de correlação<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>
+  >];
+  F [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" WIDTH="215" COLOR="#64748B" BGCOLOR="white">
+      <TR><TD WIDTH="215" ALIGN="LEFT" BGCOLOR="#EDF1F4"><B>8 · Comparações e modificações</B></TD></TR>
+      <TR><TD WIDTH="215" ALIGN="LEFT" BALIGN="LEFT">Literatura e conteúdo dos itens<BR ALIGN="LEFT"/>Exclusões, retenções e covariâncias<BR ALIGN="LEFT"/>Reavaliação do ajuste e dos escores<BR ALIGN="LEFT"/>Limites 3DFI e alcance exploratório<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>
+  >];
+  // Group the panels by phase and preserve the serpentine reading path.
+  subgraph cluster_planning {
+    label=<<B>PLANEJAMENTO</B>>;
+    labelloc=t; labeljust=l;
+    fontname="Arial"; fontsize=13; fontcolor="#263648";
+    style="rounded,filled"; color="#BCCBD6";
+    fillcolor="#DCE6EE:#FFFFFF"; gradientangle=270; margin=14;
+    { rank=same; A; B; }
+  }
+  subgraph cluster_empirical {
+    label=<<B>APLICAÇÃO EMPÍRICA</B>>;
+    labelloc=t; labeljust=l;
+    fontname="Arial"; fontsize=13; fontcolor="#263648";
+    style="rounded,filled"; color="#BCCBD6";
+    fillcolor="#DCE6EE:#FFFFFF"; gradientangle=270; margin=14;
+    { rank=same; D; C; }
+    { rank=same; E; F; }
+  }
+  A -> B [weight=100];
+  B -> C [weight=100];
+  D -> C [dir=back, weight=100];
+  D -> E [weight=100];
+  E -> F [weight=100];
+  A -> D [style=invis, weight=100];
+  C -> F [style=invis, weight=100];
+  // Connect shared specifications, simulation calibration, and re-estimation.
+  A:w -> D:w [style=dashed, color="#77818E", constraint=false];
+  B:e -> E:s [style=dashed, color="#77818E", constraint=false];
+  F:w -> D:s [style=dashed, color="#77818E", constraint=false];
+}
+```
+
+```{=latex}
+\endgroup
+```
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Racional da @fig-cfa-decision-map" collapse="true"}
+
+**Finalidade**
+
+Sintetizar os procedimentos desenvolvidos na aplicação e suas conexões, distinguindo as fases de planejamento e aplicação empírica.
+
+**Preparação**
+
+O diagrama utiliza os conteúdos e as relações definidos para as seções 3–8. Sua construção é independente das bases de dados e dos resultados estatísticos da aplicação.
+
+**Procedimento**
+
+A figura foi construída com Graphviz, utilizando a linguagem DOT em um bloco de código do Quarto. A construção por código mantém sua definição junto ao manuscrito, permitindo reproduzir e revisar o desenho no próprio projeto.
+
+O comando `digraph` define um diagrama com relações direcionadas. Dentro dele, `graph` estabelece a organização geral, `node` define a apresentação dos painéis e `edge` define a apresentação das conexões. Os seis painéis são identificados por letras de `A` a `F`, e seus conteúdos são informados em `label`, com títulos e descrições.
+
+Os agrupamentos `subgraph cluster_planning` e `subgraph cluster_empirical` reúnem os painéis nas fases de planejamento e aplicação empírica. As declarações `rank=same` posicionam os pares na mesma linha. As conexões escritas com `->`, combinadas com essa disposição, estabelecem o percurso de leitura em “S”. Algumas conexões invisíveis auxiliam o alinhamento, enquanto as tracejadas representam relações entre procedimentos de diferentes seções.
+
+Na renderização, o Quarto transforma essa definição no diagrama apresentado no artigo.
+
+**Execução e resultado**
+
+O bloco abaixo reproduz o mapa conceitual. Para adaptá-lo a outro tutorial, revise os textos dos painéis, os agrupamentos e as conexões entre as etapas.
+
+```{dot}
+//| eval: false
+//| echo: true
+//| code-fold: true
+
+digraph {
+  graph [rankdir=TB, newrank=true, bgcolor="transparent", nodesep=0.38, ranksep=0.48,
+    splines=true, pad=0.06];
+  node [shape=plain, fontname="Arial", fontsize=11];
+  edge [color="#374151", penwidth=1.2, arrowsize=0.7];
+  // Describe the decisions and evidence developed in each section.
+  A [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" WIDTH="215" COLOR="#64748B" BGCOLOR="white">
+      <TR><TD WIDTH="215" ALIGN="LEFT" BGCOLOR="#EDF1F4"><B>3 · Seleção do modelo</B></TD></TR>
+      <TR><TD WIDTH="215" ALIGN="LEFT" BALIGN="LEFT">WHOQOL-Bref: 4 fatores, 24 itens<BR ALIGN="LEFT"/>Modelos H₀ e H₁ planejados<BR ALIGN="LEFT"/>Covariância residual em H₀<BR ALIGN="LEFT"/>Três cargas cruzadas em H₁<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>
+  >];
+  B [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" WIDTH="215" COLOR="#64748B" BGCOLOR="white">
+      <TR><TD WIDTH="215" ALIGN="LEFT" BGCOLOR="#EDF1F4"><B>4 · Análise de poder</B></TD></TR>
+      <TR><TD WIDTH="215" ALIGN="LEFT" BALIGN="LEFT">Poder analítico e baseado em modelos<BR ALIGN="LEFT"/>Monte Carlo: N variável e fixo<BR ALIGN="LEFT"/>Não normalidade e ausências<BR ALIGN="LEFT"/>Limites calibrados e tradicionais<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>
+  >];
+  C [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" WIDTH="215" COLOR="#64748B" BGCOLOR="white">
+      <TR><TD WIDTH="215" ALIGN="LEFT" BGCOLOR="#EDF1F4"><B>5 · Pré-processamento</B></TD></TR>
+      <TR><TD WIDTH="215" ALIGN="LEFT" BALIGN="LEFT">Elegibilidade e registros incompletos<BR ALIGN="LEFT"/>Atenção, tempo e três índices C/IER<BR ALIGN="LEFT"/>Exclusões auditáveis e recodificação<BR ALIGN="LEFT"/>Distribuições e colinearidade<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>
+  >];
+  D [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" WIDTH="215" COLOR="#64748B" BGCOLOR="white">
+      <TR><TD WIDTH="215" ALIGN="LEFT" BGCOLOR="#EDF1F4"><B>6 · Estimação</B></TD></TR>
+      <TR><TD WIDTH="215" ALIGN="LEFT" BALIGN="LEFT">Estimação robusta por MLR<BR ALIGN="LEFT"/>Respostas ausentes por FIML<BR ALIGN="LEFT"/>Cargas e erros-padrão robustos<BR ALIGN="LEFT"/>Convergência e admissibilidade<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>
+  >];
+  E [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" WIDTH="215" COLOR="#64748B" BGCOLOR="white">
+      <TR><TD WIDTH="215" ALIGN="LEFT" BGCOLOR="#EDF1F4"><B>7 · Avaliação dos modelos</B></TD></TR>
+      <TR><TD WIDTH="215" ALIGN="LEFT" BALIGN="LEFT">Monte Carlo dos modelos empíricos<BR ALIGN="LEFT"/>Referências de ajuste calibradas<BR ALIGN="LEFT"/>Ajuste global robusto; ômega e GLB<BR ALIGN="LEFT"/>MI/EPC e resíduos de correlação<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>
+  >];
+  F [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" WIDTH="215" COLOR="#64748B" BGCOLOR="white">
+      <TR><TD WIDTH="215" ALIGN="LEFT" BGCOLOR="#EDF1F4"><B>8 · Comparações e modificações</B></TD></TR>
+      <TR><TD WIDTH="215" ALIGN="LEFT" BALIGN="LEFT">Literatura e conteúdo dos itens<BR ALIGN="LEFT"/>Exclusões, retenções e covariâncias<BR ALIGN="LEFT"/>Reavaliação do ajuste e dos escores<BR ALIGN="LEFT"/>Limites 3DFI e alcance exploratório<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>
+  >];
+  // Group the panels by phase and preserve the serpentine reading path.
+  subgraph cluster_planning {
+    label=<<B>PLANEJAMENTO</B>>;
+    labelloc=t; labeljust=l;
+    fontname="Arial"; fontsize=13; fontcolor="#263648";
+    style="rounded,filled"; color="#BCCBD6";
+    fillcolor="#DCE6EE:#FFFFFF"; gradientangle=270; margin=14;
+    { rank=same; A; B; }
+  }
+  subgraph cluster_empirical {
+    label=<<B>APLICAÇÃO EMPÍRICA</B>>;
+    labelloc=t; labeljust=l;
+    fontname="Arial"; fontsize=13; fontcolor="#263648";
+    style="rounded,filled"; color="#BCCBD6";
+    fillcolor="#DCE6EE:#FFFFFF"; gradientangle=270; margin=14;
+    { rank=same; D; C; }
+    { rank=same; E; F; }
+  }
+  A -> B [weight=100];
+  B -> C [weight=100];
+  D -> C [dir=back, weight=100];
+  D -> E [weight=100];
+  E -> F [weight=100];
+  A -> D [style=invis, weight=100];
+  C -> F [style=invis, weight=100];
+  // Connect shared specifications, simulation calibration, and re-estimation.
+  A:w -> D:w [style=dashed, color="#77818E", constraint=false];
+  B:e -> E:s [style=dashed, color="#77818E", constraint=false];
+  F:w -> D:s [style=dashed, color="#77818E", constraint=false];
+}
+```
+
+:::
+
+::::

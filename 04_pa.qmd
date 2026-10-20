@@ -83,17 +83,21 @@ kable(
 
 ::: {.callout-note title="Racional da @tbl-power-assumptions" collapse="true"}
 
-O objeto `power_assumptions` é uma tabela construída com a função
-`tribble()`, do pacote **tibble**. Cada linha traduz uma decisão metodológica
-da análise de poder em três campos: componente, especificação e fundamento. As
-variáveis `ALPHA` e `POWER`, definidas no script
-[helpers.R](Scripts/DataAppendixScripts/helpers.R), mantêm o nível de
-significância e o poder desejado sincronizados com as análises seguintes. A
-função `kable()`, do pacote **knitr**, apenas organiza esse objeto para
-apresentação em @tbl-power-assumptions.
+**Finalidade**
 
-Após a preparação comum descrita na @sec-model-selection, a tabela pode ser
-reproduzida com:
+Reunir as decisões que definem o cenário da análise de poder, relacionando cada especificação ao seu fundamento.
+
+**Preparação**
+
+Utilize as constantes `ALPHA` e `POWER` de [helpers.R](Scripts/DataAppendixScripts/helpers.R), conforme a preparação geral descrita na @sec-model-selection.
+
+**Procedimento**
+
+O bloco organiza as decisões em `power_assumptions`, com uma linha por componente e três campos: componente, especificação e fundamento. As constantes compartilhadas mantêm o nível de significância e o poder desejado sincronizados com as análises seguintes. A chamada final apresenta esse objeto como tabela.
+
+**Execução e resultado**
+
+Execute o bloco para construir `power_assumptions` e apresentar a síntese dos pressupostos.
 
 ```{r}
 #| eval: false
@@ -183,34 +187,23 @@ table_sempower(ap_h1model, lang = "pt")
 
 ::: {.callout-note title="Racional da @tbl-analytical-power" collapse="true"}
 
-O objeto `ap_h1model` é criado pela função `semPower.powerLav()`, do pacote
-**semPower**. O argumento `type = "a-priori"` solicita o tamanho amostral
-necessário para alcançar o poder definido na variável `POWER`, considerando o
-nível de significância armazenado em `ALPHA`. O objeto `h1model`, definido no
-script [models.R](Scripts/DataAppendixScripts/models.R), representa a estrutura
-populacional com as três cargas cruzadas. O objeto `analyzemodel` representa o
-modelo de análise que omite essas relações.
+**Finalidade**
 
-O argumento `lavOptions = list(std.lv = TRUE)` identifica os fatores por meio
-de variâncias unitárias, enquanto `p = P` informa o número de indicadores
-observados. A função `table_sempower()`, definida em
-[helpers.R](Scripts/DataAppendixScripts/helpers.R), apresenta os resultados em
-uma tabela independente. O argumento `lang = "pt"` seleciona os nomes das
-colunas e as descrições das medidas em português; o padrão `lang = "en"`
-apresenta esses textos em inglês, preservando os símbolos e os valores.
-A função chama automaticamente `tidy_sempower()` para extrair as medidas de
-`ap_h1model` e `format_metric_val()` para formatar os valores; não é necessário
-executar essas auxiliares antes de solicitar a tabela. Como a análise
-é a priori, o tamanho amostral, o parâmetro de não centralidade, o erro tipo II
-e o poder são recuperados de `requiredN`, `impliedNCP`, `impliedBeta` e
-`impliedPower`. As demais linhas apresentam a discrepância populacional, os
-índices de ajuste disponíveis, os graus de liberdade, o qui-quadrado crítico
-e o nível de significância. `knitr::kable()` organiza as colunas Medida,
-Símbolo e Valor; `align = c("l", "c", "r")` define seus alinhamentos.
-A formatação altera apenas a apresentação dos valores.
+Calcular o tamanho amostral necessário para detectar as relações omitidas pelo modelo de análise e apresentar a síntese do cálculo analítico.
 
-Após a preparação descrita na @sec-model-selection, a tabela pode ser
-reproduzida com:
+**Preparação**
+
+Utilize `h1model` e `analyzemodel`, definidos em [models.R](Scripts/DataAppendixScripts/models.R), e as constantes `ALPHA`, `POWER` e `P` de `helpers.R`.
+
+**Procedimento**
+
+A chamada de `semPower.powerLav()` compara a população com três cargas cruzadas ao modelo de análise que as omite. A opção `type = "a-priori"` solicita o tipo de poder desejado; `lavOptions = list(std.lv = TRUE)` mantém a identificação por variâncias latentes unitárias. O resultado é armazenado em `ap_h1model`.
+
+A função própria `table_sempower()` recebe esse resultado e produz uma tabela de medidas, símbolos e valores em português. Internamente, `tidy_sempower()` extrai as medidas e `format_metric_val()` formata sua apresentação. O tamanho amostral e o poder apresentados correspondem aos resultados implícitos do cálculo a priori, e a formatação não altera as estimativas.
+
+**Execução e resultado**
+
+Execute o bloco completo para criar `ap_h1model` e apresentar sua tabela. O mesmo objeto será utilizado no gráfico seguinte.
 
 ```{r}
 #| eval: false
@@ -264,17 +257,21 @@ plot_sempower(ap_h1model)
 
 ::: {.callout-note title="Racional da @fig-analytical-power" collapse="true"}
 
-A função `plot_sempower()`, definida em
-[helpers.R](Scripts/DataAppendixScripts/helpers.R), utiliza o mesmo objeto
-`ap_h1model` da @tbl-analytical-power. Ela chama `semPower::semPower.showPlot()`
-com o valor crítico `chiCrit`, os graus de liberdade `df` e o parâmetro de
-não centralidade `impliedNCP`. Esses valores definem as distribuições e as
-regiões de erro representadas na figura. O argumento `linewidth = 1.2`
-controla a espessura das curvas e `show_labels = TRUE` mantém os rótulos
-originais em inglês. A opção `lang` pertence à tabela e não se aplica a essa
-função de desenho.
-A chamada produz apenas o gráfico, sem o resumo textual de `summary()`.
-Com `ap_h1model` já estimado, a figura pode ser reproduzida com:
+**Finalidade**
+
+Visualizar as distribuições do teste e as regiões de erro que sustentam o cálculo analítico de poder.
+
+**Preparação**
+
+Utilize `ap_h1model`, calculado no bloco da @tbl-analytical-power.
+
+**Procedimento**
+
+A função própria `plot_sempower()` recebe o resultado de poder e utiliza seu valor crítico, graus de liberdade e parâmetro de não centralidade para desenhar as distribuições com `semPower::semPower.showPlot()`. A chamada mantém os rótulos originais em inglês e apresenta somente o gráfico, sem repetir o resumo textual ou o cálculo amostral.
+
+**Execução e resultado**
+
+Execute o bloco para apresentar o gráfico a partir de `ap_h1model`.
 
 ```{r}
 #| eval: false
@@ -383,26 +380,23 @@ plotPowerFit(
 
 ::: {.callout-note title="Racional da @fig-realistic-power" collapse="true"}
 
-Os objetos `popmodel_varying` e `h1model_varying` armazenam os resultados das
-duas simulações com tamanhos amostrais variáveis. A função `cache_or_run()`,
-definida em
-[cache_utils.R](Scripts/DataAppendixScripts/cache_utils.R), primeiro procura o
-objeto na sessão e o respectivo arquivo RDS em `Data/IntermediateData`. A função
-`sim()` somente é executada quando nenhum resultado previamente salvo está
-disponível.
+**Finalidade**
 
-Nas duas chamadas de `sim()`, o objeto `analyzemodel` especifica o modelo
-estimado. O argumento `generate` diferencia as condições: `popmodel` gera dados
-sem as cargas cruzadas e `h1model` gera dados com as três relações omitidas pelo
-modelo de análise. A variável `SEQ` fornece os tamanhos amostrais; `P_MCAR`
-define a proporção de dados ausentes; e `dist` contém os valores de assimetria e
-curtose. Os argumentos `estimator = "mlr"` e `missing = "fiml"` determinam,
-respectivamente, o estimador robusto e o tratamento dos dados ausentes.
+Comparar o poder ao longo dos tamanhos amostrais sob especificação correta e sob omissão das cargas cruzadas.
 
-A função `plotPowerFit()` compara os dois objetos simulados para os índices
-armazenados em `FITS`. Como o argumento `logistic` conserva seu valor padrão
-`TRUE`, as proporções empíricas de rejeição são representadas por curvas
-logísticas suavizadas. A simulação e a figura podem ser reproduzidas com:
+**Preparação**
+
+Utilize as especificações de `models.R`, os parâmetros compartilhados de `helpers.R` e o mecanismo de resultados salvos descrito na @sec-model-selection. As simulações são disponibilizadas como `popmodel_varying` e `h1model_varying`.
+
+**Procedimento**
+
+As duas chamadas de `sim()` estimam `analyzemodel`. O argumento `generate` muda a população geradora: `popmodel` corresponde à condição de referência, e `h1model` inclui as três cargas cruzadas omitidas na estimação. `SEQ` fornece os tamanhos amostrais, `P_MCAR` controla a proporção de ausências e `dist` define a assimetria e a curtose marginais; as chamadas solicitam MLR e FIML.
+
+`cache_or_run()` reutiliza os objetos da sessão ou os arquivos `popmodel_101to400.rds` e `h1model_101to400.rds`, em `Data/IntermediateData`; sem resultado disponível, executa e salva a simulação. A figura compara os índices de `FITS` e mantém a suavização logística padrão. Orientações operacionais de reprodução e recálculo pertencem ao [README](README.md).
+
+**Execução e resultado**
+
+Execute o bloco para obter ou reutilizar as duas simulações e apresentar as curvas suavizadas. Os objetos permanecem disponíveis para as saídas seguintes.
 
 ```{r}
 #| eval: false
@@ -484,15 +478,21 @@ plotPowerFit(
 
 ::: {.callout-note title="Racional da @fig-realistic-curve" collapse="true"}
 
-A @fig-realistic-curve reutiliza os objetos `h1model_varying` e
-`popmodel_varying` explicados no callout anterior. A diferença está no argumento
-`logistic = FALSE` da função `plotPowerFit()`. Com essa opção, a função não
-ajusta curvas logísticas: ela conecta os valores de poder observados nas
-replicações de cada tamanho amostral. Essa representação permite verificar a
-variabilidade que a suavização da @fig-realistic-power resume.
+**Finalidade**
 
-Após criar ou carregar os dois objetos simulados, a figura pode ser reproduzida
-com:
+Examinar os valores de poder por tamanho amostral sem a suavização das curvas anteriores.
+
+**Preparação**
+
+Utilize `popmodel_varying` e `h1model_varying`, obtidos no procedimento da @fig-realistic-power.
+
+**Procedimento**
+
+A chamada reutiliza as simulações e altera apenas `logistic = FALSE`. Assim, conecta os valores de poder observados em cada tamanho amostral, permitindo examinar a variabilidade resumida pelas curvas suavizadas. Os índices selecionados e as condições simuladas são mantidos.
+
+**Execução e resultado**
+
+Execute o bloco para apresentar as curvas sem suavização, sem repetir as simulações.
 
 ```{r}
 #| eval: false
@@ -560,19 +560,21 @@ kable(power_cutoff_varying, digits = 3, align = "c")
 
 ::: {.callout-note title="Racional da @tbl-power-cutoff-realistic" collapse="true"}
 
-A função `getPowerFit()` calcula o poder empírico em $N=150$. O objeto
-`h1model_varying` é informado como a condição alternativa, na qual as cargas
-cruzadas estão presentes na população, e o argumento nomeado `nullObject`
-recebe `popmodel_varying`, a condição em que o modelo está corretamente
-especificado. Os argumentos `alpha`, `nVal` e `usedFit` definem o nível de
-significância, o tamanho amostral examinado e os índices de ajuste avaliados.
+**Finalidade**
 
-A função `getCutoff()` usa a distribuição dos índices em `popmodel_varying`
-para obter os pontos de corte correspondentes ao mesmo nível de significância e
-tamanho amostral. Em seguida, `rbind()` reúne poder e pontos de corte no objeto
-`power_cutoff_varying`, e `kable()` apresenta esse objeto em
-@tbl-power-cutoff-realistic. Após carregar as simulações, a tabela pode ser
-reproduzida com:
+Reunir o poder e os pontos de corte calibrados pelo modelo para o tamanho amostral de 150 participantes.
+
+**Preparação**
+
+Utilize `popmodel_varying` e `h1model_varying`, obtidos na @fig-realistic-power, e as constantes `ALPHA` e `FITS`.
+
+**Procedimento**
+
+O poder é calculado na condição alternativa, usando a distribuição da condição de referência para definir os critérios de rejeição. As duas operações recebem `nVal = 150` e o mesmo nível de significância: `getPowerFit()` obtém o poder e `getCutoff()` recupera os limites correspondentes. O bloco reúne ambos em `power_cutoff_varying` e organiza as colunas pelos índices avaliados.
+
+**Execução e resultado**
+
+Execute o bloco para apresentar a tabela com as linhas Poder e Ponto de corte, mantendo as simulações já disponíveis.
 
 ```{r}
 #| eval: false
@@ -722,20 +724,23 @@ plotPowerFit(
 
 ::: {.callout-note title="Racional da @fig-power-fixed" collapse="true"}
 
-Os objetos `popmodel_fixed` e `h1model_fixed` armazenam as simulações com
-tamanho amostral fixo. A variável `SIM`, definida em
-[helpers.R](Scripts/DataAppendixScripts/helpers.R), determina 1.000 replicações,
-e `N_TARGET` fixa 200 participantes em cada uma delas. Os demais argumentos de
-`sim()` preservam o mesmo cenário realístico da etapa anterior: 10% de dados
-ausentes MCAR, não normalidade moderada, estimação MLR e tratamento FIML.
+**Finalidade**
 
-A função `cache_or_run()` associa os dois objetos aos arquivos
-`popmodel_200.rds` e `h1model_200.rds`. Assim, a renderização utiliza os
-resultados já salvos quando eles estão disponíveis e executa `sim()` somente
-quando é necessário reproduzir as simulações. A função `plotPowerFit()` compara
-as distribuições dos índices de ajuste nas duas condições populacionais: a de
-referência e a que contém as cargas cruzadas. A simulação e a figura podem ser
-reproduzidas com:
+Comparar as distribuições dos índices de ajuste nas duas condições populacionais com tamanho amostral fixo.
+
+**Preparação**
+
+Utilize as mesmas especificações e condições de geração da simulação anterior. Em `helpers.R`, `SIM` define 1.000 replicações e `N_TARGET` fixa 200 participantes por replicação.
+
+**Procedimento**
+
+As chamadas mantêm a condição de referência e a população com cargas cruzadas, estimando o mesmo modelo de análise. O cenário solicita não normalidade moderada, 10% de ausências MCAR, MLR e FIML. Os objetos `popmodel_fixed` e `h1model_fixed` são associados aos arquivos `popmodel_200.rds` e `h1model_200.rds`.
+
+O reaproveitamento segue o procedimento da @fig-realistic-power: com resultados disponíveis, as simulações não são repetidas. A chamada final compara as distribuições dos índices selecionados em `FITS`. Consulte o [README](README.md) para as orientações de execução e recálculo.
+
+**Execução e resultado**
+
+Execute o bloco para obter ou reutilizar as simulações com tamanho fixo e apresentar suas distribuições. Os dois objetos serão reutilizados nas comparações seguintes.
 
 ```{r}
 #| eval: false
@@ -836,21 +841,21 @@ kable(power_cutoff_fixed, digits = 3, align = "c")
 
 ::: {.callout-note title="Racional da @tbl-power-cutoff-fixed" collapse="true"}
 
-A função `getPowerFit()` calcula, a partir de `h1model_fixed`, o poder para
-rejeitar o modelo que omite as cargas cruzadas. O argumento `nullObject =
-popmodel_fixed` solicita que os critérios de decisão sejam derivados da
-distribuição dos índices quando o modelo está corretamente especificado. A
-seleção `[FITS]` conserva no objeto `power_fixed` somente RMSEA, SRMR, CFI e
-TLI, excluindo outras estatísticas retornadas pela função.
+**Finalidade**
 
-A função `getCutoff()` obtém os pontos de corte dos mesmos quatro índices em
-`popmodel_fixed`; `[, FITS, drop = FALSE]` seleciona e ordena suas colunas
-para corresponder ao vetor de poder. Como todas as replicações possuem
-200 participantes, não é
-necessário fornecer o argumento `nVal`. Os objetos `power_fixed` e
-`cutoff_fixed` são reunidos em `power_cutoff_fixed`, apresentado por `kable()`
-em @tbl-power-cutoff-fixed. Após carregar as simulações, a tabela pode ser
-reproduzida com:
+Apresentar o poder e os limites calibrados pelo modelo para a simulação com 200 participantes.
+
+**Preparação**
+
+Utilize `popmodel_fixed` e `h1model_fixed`, obtidos na @fig-power-fixed.
+
+**Procedimento**
+
+O bloco calcula o poder na condição alternativa e obtém os limites na condição de referência, seguindo a lógica da @tbl-power-cutoff-realistic. Como o tamanho amostral é fixo, não é necessário informar `nVal`. As seleções por `FITS` conservam e ordenam RMSEA, SRMR, CFI e TLI, assegurando que poder e limites ocupem as mesmas colunas.
+
+**Execução e resultado**
+
+Execute o bloco para criar `power_cutoff_fixed` e apresentar as duas linhas da tabela.
 
 ```{r}
 #| eval: false
@@ -930,17 +935,21 @@ plotPowerFit(
 
 ::: {.callout-note title="Racional da @fig-power-fixed-traditional" collapse="true"}
 
-A @fig-power-fixed-traditional reutiliza os objetos `h1model_fixed` e
-`popmodel_fixed`; portanto, nenhuma nova simulação é executada. A única mudança
-em relação a @fig-power-fixed é o argumento `cutoff = RULE_OF_THUMB` da função
-`plotPowerFit()`. O objeto `RULE_OF_THUMB`, definido em
-[helpers.R](Scripts/DataAppendixScripts/helpers.R), contém os limites
-tradicionais adotados para RMSEA, SRMR, CFI e TLI.
+**Finalidade**
 
-Como os dados simulados, os modelos, o tamanho amostral e o método de estimação
-permanecem constantes, as diferenças entre as duas figuras decorrem
-exclusivamente da substituição dos pontos de corte calibrados pelos limites
-tradicionais. Após carregar as simulações, a figura pode ser reproduzida com:
+Comparar o poder obtido com limites tradicionais ao resultado baseado em limites calibrados pelo modelo.
+
+**Preparação**
+
+Utilize `popmodel_fixed`, `h1model_fixed` e o vetor `RULE_OF_THUMB`, definido em `helpers.R`.
+
+**Procedimento**
+
+A figura reutiliza os dados simulados da @fig-power-fixed e fornece os limites tradicionais por `cutoff = RULE_OF_THUMB`. Os modelos, o tamanho amostral e as demais condições permanecem iguais; a mudança está nos critérios usados para avaliar os índices.
+
+**Execução e resultado**
+
+Execute o bloco para apresentar o gráfico com limites tradicionais, sem gerar novas amostras.
 
 ```{r}
 #| eval: false
@@ -990,17 +999,21 @@ kable(power_traditional_tbl, digits = 3, align = "c")
 
 ::: {.callout-note title="Racional da @tbl-power-traditional" collapse="true"}
 
-A função `getPowerFit()` calcula novamente o poder a partir do objeto
-`h1model_fixed`, mas agora o argumento nomeado `cutoff` recebe
-`RULE_OF_THUMB`. Diferentemente da análise em @tbl-power-cutoff-fixed, não é
-fornecido um objeto de referência em `nullObject`, porque os critérios de
-decisão são informados diretamente.
+**Finalidade**
 
-O vetor retornado é transformado em uma tabela de uma linha por
-`as.data.frame()` e `t()`. Em seguida, os nomes dos índices são convertidos para
-maiúsculas e `kable()` apresenta o objeto `power_traditional_tbl` em
-@tbl-power-traditional. Após carregar a simulação com tamanho amostral fixo, a
-tabela pode ser reproduzida com:
+Quantificar o poder sob os limites tradicionais para comparação com a tabela de limites calibrados.
+
+**Preparação**
+
+Utilize `h1model_fixed`, `RULE_OF_THUMB` e `FITS`, disponíveis após os procedimentos anteriores.
+
+**Procedimento**
+
+O cálculo fornece os limites diretamente em `cutoff`, em vez de derivá-los de um `nullObject`. O vetor de poder retornado é reorganizado em uma tabela de uma linha, e os cabeçalhos identificam os índices. A operação reutiliza a condição alternativa com tamanho amostral fixo.
+
+**Execução e resultado**
+
+Execute o bloco para criar `power_traditional_tbl` e apresentar o poder sob os critérios tradicionais.
 
 ```{r}
 #| eval: false

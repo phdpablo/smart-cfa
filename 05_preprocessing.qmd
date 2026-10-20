@@ -17,16 +17,23 @@ ou com mais de cinco respostas ausentes na WHOQOL-Bref (como veremos adiante, o 
 
 ::: {.callout-note title="Como a amostra elegível foi obtida" collapse="true"}
 
-O chunk `data-preparation` importa o arquivo bruto com `read_csv2()`, cria os vetores que
-identificam os itens da escala e de atenção, verifica a presença das colunas
-obrigatórias e interrompe a execução com `cli_abort()` se alguma estiver
-ausente. Em seguida, converte as respostas para formato numérico, transforma
-os timestamps com `as.POSIXct()`, calcula a duração em segundos com `difftime()`
-e cria a flag `dropout`. O objeto `eligible_data` mantém apenas os registros
-com identificação e no máximo cinco respostas ausentes nos 26 itens da escala.
-Por fim, `dir.create()`
-garante a existência do diretório e `write_csv2()` salva essa base intermediária
-no projeto.
+**Finalidade**
+
+Preparar os registros brutos e obter a amostra elegível para a triagem de respostas.
+
+**Preparação**
+
+Utilize `Data/InputData/data.csv` e a preparação geral da @sec-model-selection. O arquivo deve conter identificação, timestamps, três itens de atenção e os 26 itens da WHOQOL-Bref.
+
+**Procedimento**
+
+O chunk `data-preparation` importa o arquivo e define os vetores `scale_items` e `attention_items`. A verificação das colunas obrigatórias interrompe a execução se faltar algum campo. O processamento transforma os timestamps em datas, calcula a duração em segundos e converte as respostas em valores numéricos.
+
+A flag `dropout` identifica registros sem identificação ou com mais de cinco respostas ausentes nos 26 itens. `eligible_data` retém os demais registros. O diretório intermediário é preparado antes da gravação. Ao adaptar o processamento, confira os nomes das colunas e o formato dos timestamps; os critérios de elegibilidade devem corresponder ao protocolo da nova pesquisa.
+
+**Execução e resultado**
+
+O bloco abaixo executa a preparação e salva `whoqol_eligible.csv` em `Data/IntermediateData`. Os objetos criados alimentam os critérios de triagem seguintes.
 
 ```{r}
 #| label: data-preparation
@@ -111,12 +118,21 @@ requerido pelo instrumento [@huang2012; @curran2016; @jones2023].
 
 ::: {.callout-note title="Operacionalização dos itens de atenção e tempo" collapse="true"}
 
-O chunk `hurdle-procedural` seleciona o identificador, os itens de atenção, a duração e os
-itens da escala. `rowSums()` conta as respostas incorretas nos controles;
-`fail_attention` sinaliza pelo menos duas falhas, enquanto `fail_time` sinaliza
-`TIME < 416`, equivalente a quatro segundos por item no questionário completo
-de 104 itens. O objeto resultante é salvo com `write_csv2()` como base
-intermediária dos critérios procedurais.
+**Finalidade**
+
+Identificar falhas nos controles de atenção e no tempo de preenchimento.
+
+**Preparação**
+
+Utilize `eligible_data`, `attention_items` e `scale_items`, criados no bloco de obtenção da amostra elegível.
+
+**Procedimento**
+
+O processamento seleciona identificação, controles, duração e itens. Conta as respostas diferentes de 1 nos controles e cria `fail_attention` quando há pelo menos duas falhas. A flag `fail_time` identifica `TIME < 416`, correspondente ao critério de quatro segundos por item para o questionário completo de 104 itens. Esses critérios pertencem ao protocolo desta aplicação e precisam ser revistos antes de uma adaptação.
+
+**Execução e resultado**
+
+Execute o bloco para criar `procedural_data` e salvar `whoqol_procedural.csv` em `Data/IntermediateData`.
 
 ```{r}
 #| label: hurdle-procedural
@@ -160,13 +176,23 @@ preservação de respondentes sinceros [@goldammer2020; @steedle2018;
 
 ::: {.callout-note title="Cálculo dos índices estatísticos" collapse="true"}
 
-O chunk `indicator-calculation` calcula, antes da recodificação dos itens invertidos,
-`Longstring` com `careless::longstring()`, IRV com `careless::irv()` e a
-distância multivariada com `modi::MDmiss()`. `quantile()` obtém os limites
-amostrais do IRV e da distância de Mahalanobis; em seguida, `mutate()` cria as
-três flags estatísticas. A seleção final reúne os indicadores e suas flags, e
-`write_csv2()` salva essa base para auditoria. O chunk seguinte resume esses
-valores na tabela de estatísticas e pontos de corte.
+**Finalidade**
+
+Calcular os indicadores estatísticos de triagem e sinalizar os registros que atingem os critérios de exclusão.
+
+**Preparação**
+
+Utilize `procedural_data` e `scale_items`. Os indicadores são calculados antes da recodificação dos itens invertidos.
+
+**Procedimento**
+
+O bloco acrescenta Longstring, variabilidade intraindividual (IRV) e distância de Mahalanobis. Para a distância, utiliza médias por item e covariâncias calculadas com os pares observados. Em seguida, obtém os percentis amostrais e cria três flags: Longstring maior que 13, IRV nas caudas de 1% ou 99% e distância a partir do percentil 99.
+
+`screened_data` reúne os indicadores e as flags procedurais e estatísticas. A exportação preserva os indicadores e suas flags para auditoria; a tabela seguinte resume os limites utilizados.
+
+**Execução e resultado**
+
+Execute o bloco para criar `indicator_data`, os limites amostrais e `screened_data`, e salvar `whoqol_indicators.csv` em `Data/IntermediateData`.
 
 ```{r}
 #| label: indicator-calculation
@@ -265,15 +291,21 @@ indicator_cutoffs |> mutate(across(where(is.numeric), ~ round(.x, 3))) |>
 
 ::: {.callout-note title="Racional da @tbl-indicator-cutoffs" collapse="true"}
 
-O chunk constrói a tabela `indicator_cutoffs` a partir dos indicadores
-calculados no chunk anterior. Para cada índice, `mean()`, `sd()` e `median()`
-resumem a tendência central e a dispersão; `quantile()` obtém os percentis
-inferior e superior observados na amostra elegível. A coluna `Regra de
-exclusão` registra o critério que será usado na triagem, sem transformar essa
-tabela descritiva em uma nova etapa de decisão. Em seguida, `dir.create()`
-garante a existência da pasta de resultados, `write_csv2()` exporta a tabela
-completa para o projeto e `mutate(across(...))` arredonda apenas a cópia exibida
-no HTML antes de `knitr::kable()` renderizar o output.
+**Finalidade**
+
+Sintetizar as distribuições dos três indicadores estatísticos e registrar as regras de exclusão utilizadas na triagem.
+
+**Preparação**
+
+Utilize os indicadores de `indicator_data` e os limites `irv_cutoffs` e `mahalanobis_cutoff`, calculados no bloco anterior.
+
+**Procedimento**
+
+O bloco organiza tendência central, dispersão e percentis em `indicator_cutoffs`, ao lado da regra de exclusão de cada indicador. A tabela documenta os critérios já definidos. Os valores completos são salvos antes do arredondamento da cópia de apresentação para três casas decimais.
+
+**Execução e resultado**
+
+Execute o bloco para apresentar a síntese e salvar `tbl-indicator-cutoffs.csv` em `Output/Results/Tables`.
 
 ```{r}
 #| eval: false
@@ -304,6 +336,7 @@ indicator_cutoffs <- tibble(
 )
 
 
+# Create the results directory if it is missing.
 dir.create(here::here("Output", "Results", "Tables"),
            recursive = TRUE, showWarnings = FALSE)
 
@@ -402,21 +435,23 @@ write_csv2(
 
 ::: {.callout-note title="Racional da @tbl-hurdle-summary" collapse="true"}
 
-O chunk começa com `screened_data`, que contém os indicadores e as flags dos
-cinco obstáculos. `rowSums(across(starts_with("fail_")))` conta quantas barreiras
-foram falhadas por participante; como a regra é de múltiplos obstáculos,
-`exclude = hurdles_failed > 0` exclui qualquer participante que falhe em pelo
-menos uma barreira. A função `pmap_chr()` percorre as cinco flags na mesma linha,
-seleciona os nomes dos critérios sinalizados e os concatena em `evidence`,
-produzindo um registro auditável da decisão individual.
+**Finalidade**
 
-Em seguida, `intermediate_data` preserva a base com os indicadores, flags,
-contagem de falhas e evidências. `criterion_summary` agrega as flags por
-critério, calcula o número de participantes sinalizados e o percentual em
-relação à amostra elegível. `dir.create()` prepara os diretórios; os dois
-primeiros `write_csv2()` salvam a base intermediária e o log de exclusões; por
-fim, `mutate()` arredonda apenas a cópia apresentada, `knitr::kable()` gera a
-tabela e o último `write_csv2()` preserva a tabela completa no projeto.
+Aplicar a decisão conjunta de triagem e resumir as falhas em cada um dos cinco critérios.
+
+**Preparação**
+
+Utilize `screened_data`, que reúne os indicadores e as flags dos controles procedurais e estatísticos.
+
+**Procedimento**
+
+O bloco conta as flags de falha por participante e define `exclude = hurdles_failed > 0`: qualquer obstáculo falhado determina a exclusão. A operação por linha com `pmap_chr()` reúne os critérios sinalizados em `evidence`, preservando a justificativa individual.
+
+`intermediate_data` guarda os registros com indicadores e decisões, enquanto `criterion_summary` resume as frequências e os percentuais sobre a amostra elegível. Um participante pode aparecer em mais de um critério; essas frequências não constituem grupos exclusivos. O arredondamento afeta somente a cópia de apresentação.
+
+**Execução e resultado**
+
+Execute o bloco para apresentar o resumo e salvar `whoqol_preprocessed.csv` em `Data/IntermediateData`, `exclusion_log.csv` em `Output/DataAppendixOutput/Tables` e `tbl-hurdle-summary.csv` em `Output/Results/Tables`.
 
 ```{r}
 #| eval: false
@@ -539,19 +574,21 @@ write_csv2(
 
 ::: {.callout-note title="Racional da @tbl-analysis-sample-summary" collapse="true"}
 
-O chunk parte de `screened_data`, que já contém a decisão criada no chunk
-anterior. `filter(!exclude)` retém somente os participantes que superaram todas
-as barreiras; `select()` mantém o identificador e os itens da escala; e
-`mutate(across(...))` recodifica os itens invertidos para a direção analítica
-final. O objeto `sample_summary` registra a trajetória desde o banco bruto até
-a amostra final usando `nrow()` e `sum()` sobre as flags de exclusão.
+**Finalidade**
 
-`dir.create()` garante a existência do diretório da base analítica, e
-`write_csv2()` salva `final_analysis_data` para reutilização nas seções de
-mensuração. `stopifnot()` verifica a correspondência entre o número de linhas
-da base final e a regra de exclusão, além de confirmar a presença de um
-identificador em cada registro. Por fim, `knitr::kable()` apresenta a tabela e
-outro `write_csv2()` salva a trajetória amostral em formato tabular.
+Obter a base analítica final e documentar a trajetória de seleção da amostra.
+
+**Preparação**
+
+Utilize `screened_data` com a decisão `exclude` criada no bloco anterior, os itens identificados em `scale_items` e os objetos que registram as etapas precedentes.
+
+**Procedimento**
+
+O processamento retém quem superou todos os obstáculos, seleciona identificação e itens e recodifica os itens invertidos. `sample_summary` reúne as contagens desde os registros brutos até a amostra final. As verificações conferem a correspondência entre a regra de exclusão e o número de linhas, além da presença de identificação. Ao adaptar o bloco, confira a direção e a amplitude de resposta dos itens antes de reutilizar a recodificação.
+
+**Execução e resultado**
+
+Execute o bloco para criar `final_analysis_data`, salvar `Data/AnalysisData/whoqol_analysis.csv` e apresentar e exportar a trajetória em `Output/Results/Tables/tbl-analysis-sample-summary.csv`.
 
 ```{r}
 #| eval: false
@@ -658,26 +695,23 @@ item_description |> mutate(across(where(is.numeric), ~ round(.x, 3))) |>
 
 ::: {.callout-note title="Racional da @tbl-item-description" collapse="true"}
 
-O chunk começa definindo `analysis_items` como o conjunto de indicadores que
-será utilizado na AFC e cria `item_data` a partir da base analítica final,
-portanto depois da aplicação dos obstáculos e da recodificação dos itens
-invertidos. Para o diagnóstico de colinearidade, `lm()` ajusta uma única
-regressão auxiliar em que `ID` atua apenas como variável resposta e todos os
-itens entram como preditores. Como o VIF depende da relação entre os
-preditores, e não do conteúdo da variável resposta, `car::vif()` retorna o VIF
-de cada item em uma única chamada. `names()` recupera os nomes dos preditores e
-`as.numeric()` transforma os valores retornados em uma coluna para a tabela.
+**Finalidade**
 
-Em paralelo, `psych::describe()` resume cada item com o número de respostas
-válidas, média, desvio-padrão, assimetria e curtose. `as.data.frame()`,
-`rownames_to_column()` e `as_tibble()` reorganizam o resultado para que o nome
-do item passe a ser uma coluna; `transmute()` seleciona e renomeia somente as
-estatísticas que serão apresentadas. `left_join()` combina essa descrição com
-os VIFs usando `Item` como chave.
+Descrever os indicadores da AFC e reunir o diagnóstico de colinearidade na mesma tabela.
 
-Por fim, `write_csv2()` salva a tabela completa sem arredondamento. A expressão
-`mutate(across(where(is.numeric), ...))` arredonda apenas a cópia encaminhada
-ao HTML, e `knitr::kable()` produz a tabela exibida no documento.
+**Preparação**
+
+Utilize `final_analysis_data`, já submetida à triagem e à recodificação. Os indicadores da análise são Q3 a Q26.
+
+**Procedimento**
+
+O bloco cria `item_data` e calcula contagem de respostas válidas, média, desvio-padrão, assimetria e curtose. Uma regressão auxiliar usa os itens como preditores e `ID` como resposta apenas para obter seus VIFs: esse diagnóstico depende das relações entre os preditores, sem interpretação substantiva do identificador como resposta.
+
+As estatísticas e os VIFs são unidos pelo nome do item em `item_description`. A exportação preserva os valores completos; a cópia exibida utiliza três casas decimais.
+
+**Execução e resultado**
+
+Execute o bloco para criar `item_data`, apresentar a tabela e salvar `tbl-item-description.csv` em `Output/Results/Tables`. `item_data` também será utilizada no gráfico seguinte.
 
 ```{r}
 #| eval: false
@@ -789,19 +823,21 @@ social_plot
 
 ::: {.callout-note title="Racional da @fig-likert-social" collapse="true"}
 
-O exemplo reproduzível utiliza o construto Relações sociais, formado pelos
-itens `Q20`, `Q21` e `Q22`. As colunas são convertidas em fatores ordenados com
-cinco níveis possíveis. Essa declaração é necessária porque algumas categorias
-podem não ter sido observadas na amostra; `nlevels = 5` informa ao `likert` que
-a escala continua tendo cinco categorias, mesmo quando uma delas apresenta
-frequência zero.
+**Finalidade**
 
-`as.data.frame()` fornece à função o tipo de objeto esperado pelo pacote.
-Em seguida, `likert()` calcula as frequências relativas e a chamada `plot()`
-com `centered = TRUE` produz as barras divergentes em torno do ponto central.
-As cores padrão do pacote são mantidas nesta etapa. O resultado recebe apenas
-os rótulos básicos com `ggtitle()` e `labs()` e é exportado como figura PNG por
-`ggsave()` para `Output/Results/Figures`.
+Visualizar as frequências das categorias de resposta nos três itens de Relações sociais.
+
+**Preparação**
+
+Utilize `item_data`, criada na descrição dos indicadores. O exemplo seleciona Q20, Q21 e Q22.
+
+**Procedimento**
+
+As respostas são convertidas em fatores ordenados com cinco níveis possíveis, preservando também categorias sem observações. O argumento `nlevels = 5` mantém essa estrutura na preparação com `likert()`. O desenho com `centered = TRUE` organiza barras divergentes em torno do ponto central. A apresentação mantém as cores padrão e acrescenta título e rótulos básicos.
+
+**Execução e resultado**
+
+Execute o bloco para criar e apresentar `social_plot` e salvar `fig-likert-social.png` em `Output/Results/Figures`.
 
 ```{r}
 #| eval: false

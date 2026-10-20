@@ -92,23 +92,23 @@ knitr::kable(fit_global, align = c("l", "r", "r"), row.names = FALSE)
 
 ::: {.callout-note title="Racional da @tbl-model-fit-global" collapse="true"}
 
-O bloco lê a base analítica com `readr::read_csv2()` e estima os dois modelos
-com `lavaan::cfa()`, mantendo as condições da @sec-estimation. A função
-`table_fit()`, definida em [helpers.R](Scripts/DataAppendixScripts/helpers.R)
-e detalhada no racional da @tbl-adjusted-model-fit-global, prepara uma
-síntese padronizada para cada ajuste.
+**Finalidade**
 
-`attr()` recupera os dados de apresentação de cada tabela, e
-`dplyr::full_join()` os reúne pela medida, mantendo uma coluna para H~0~ e
-outra para H~1~. A verificação anterior à união impede a exportação de dados
-ausentes ou vazios. As medidas numéricas completas também são recuperadas e
-organizadas em vetores nomeados por `stats::setNames()` para alimentar os
-valores inseridos no texto.
+Reunir as medidas de ajuste global de H~0~ e H~1~ para apresentação lado a lado.
 
-`readr::write_excel_csv2()` exporta o conteúdo combinado para um CSV
-compatível com o Excel, preservando os mesmos rótulos, a ordem e os valores
-de exibição. `knitr::kable()` apresenta esse conteúdo lado a lado no HTML e
-no PDF. Com os scripts carregados, o bloco pode ser reproduzido com:
+**Preparação**
+
+Utilize a base `Data/AnalysisData/whoqol_analysis.csv`, as especificações `analyzemodel` e `h1modelfree` e a preparação geral da @sec-model-selection.
+
+**Procedimento**
+
+O bloco lê a base e estima os dois modelos nas condições da @sec-estimation. A função própria `table_fit()`, definida em [helpers.R](Scripts/DataAppendixScripts/helpers.R), recebe cada ajuste e prepara suas medidas de ajuste. Sua auxiliar `tidy_fit()` organiza os índices compatíveis com o teste utilizado, preservando os valores numéricos completos.
+
+O atributo `fit_data` fornece as medidas completas para os valores inseridos no texto, e `table_data` fornece a apresentação. Após verificar se ambas as tabelas estão disponíveis, o bloco as reúne pela medida, com uma coluna para cada modelo. A exportação conserva o mesmo conteúdo exibido.
+
+**Execução e resultado**
+
+Execute o bloco para criar os ajustes, apresentar `fit_global` e salvar `tbl-model-fit-global.csv` em `Output/Results/Tables`. Os ajustes serão reutilizados nas saídas seguintes.
 
 ```{r}
 #| eval: false
@@ -280,23 +280,23 @@ knitr::kable(reliability_domains, align = c("l", "l", "r", "r", "r"),
 
 ::: {.callout-note title="Racional da @tbl-domain-reliability" collapse="true"}
 
-A função `table_reliability()`, definida em
-[helpers.R](Scripts/DataAppendixScripts/helpers.R) e apresentada no racional
-da @tbl-adjusted-domain-reliability, prepara uma tabela para cada ajuste.
-A composição dos escores é obtida diretamente de cada modelo, incluindo
-as cargas cruzadas de H~1~. Assim, ômega, GLB e contagem de itens correspondem
-aos conjuntos utilizados em cada escore.
+**Finalidade**
 
-`attr()` recupera os dados de apresentação, e uma verificação impede a
-exportação de tabelas ausentes ou vazias. `dplyr::bind_rows()` empilha os
-quatro escores de H~0~ e, depois, os quatro de H~1~, acrescentando a coluna
-`Modelo` para identificar os dois blocos.
+Estimar a confiabilidade dos escores de cada domínio, respeitando sua composição em H~0~ e H~1~.
 
-`readr::write_excel_csv2()` exporta o mesmo conteúdo apresentado, preservando
-rótulos, ordem e valores de exibição em um CSV compatível com o Excel.
-`knitr::kable()` apresenta os resultados em uma única tabela no HTML e no
-PDF. O bloco utiliza os ajustes já estimados; não repete a estimação nem
-executa simulações.
+**Preparação**
+
+Utilize `fit_analyzemodel` e `fit_h1modelfree`, estimados no bloco da @tbl-model-fit-global.
+
+**Procedimento**
+
+A função própria `table_reliability()`, de [helpers.R](Scripts/DataAppendixScripts/helpers.R), recebe cada ajuste e prepara a tabela de confiabilidade. Sua auxiliar `tidy_reliability()` identifica os itens de cada fator e calcula ômega e GLB para os respectivos escores com pesos iguais. O ômega provém de `semTools::compRelSEM()`; o GLB utiliza a matriz observada dos mesmos itens com `psych::glb.algebraic()`.
+
+A composição acompanha as cargas dos modelos, incluindo as cargas cruzadas de H~1~. As duas tabelas são verificadas e empilhadas, com a coluna `Modelo` identificando sua origem. A exportação utiliza o mesmo conteúdo apresentado.
+
+**Execução e resultado**
+
+Execute o bloco para apresentar os quatro escores de cada modelo e salvar `tbl-domain-reliability.csv` em `Output/Results/Tables`. O cálculo utiliza os ajustes disponíveis, sem nova estimação.
 
 ```{r}
 #| eval: false
@@ -395,6 +395,7 @@ indicators_h0 <- analysis_data[
   lavaan::lavNames(fit_analyzemodel, "ov")
 ]
 
+# Order the same indicators according to the H1 specification.
 indicators_h1 <- analysis_data[
   lavaan::lavNames(fit_h1modelfree, "ov")
 ]
@@ -405,6 +406,7 @@ dist_h0 <- simsem::bindDist(
   kurtosis = psych::kurtosi(as.matrix(indicators_h0), na.rm = TRUE)
 )
 
+# Define marginal moments for the H1 generating condition.
 dist_h1 <- simsem::bindDist(
   skewness = psych::skew(as.matrix(indicators_h1), na.rm = TRUE),
   kurtosis = psych::kurtosi(as.matrix(indicators_h1), na.rm = TRUE)
@@ -416,8 +418,7 @@ dist_h1 <- simsem::bindDist(
 #| label: sim-h0-empirical
 #| include: false
 
-# Generate from fitted H0 and estimate the H0 specification.
-# cache_or_run() saves or reads sim_h0_empirical.rds.
+# Reuse or simulate samples from H0 and fit the H0 specification.
 sim_h0_empirical <- cache_or_run("sim_h0_empirical", {
   simsem::sim(
     nRep = SIM,
@@ -441,8 +442,7 @@ sim_h0_empirical <- cache_or_run("sim_h0_empirical", {
 #| label: sim-h1-empirical
 #| include: false
 
-# Generate from fitted H1 and estimate H0, omitting the cross-loadings.
-# cache_or_run() saves or reads sim_h1_empirical.rds.
+# Reuse or simulate samples from H1 and fit H0 without cross-loadings.
 sim_h1_empirical <- cache_or_run("sim_h1_empirical", {
   simsem::sim(
     nRep = SIM,
@@ -530,8 +530,7 @@ write.csv2(
 #| fig-height: 5
 #| fig-align: center
 
-# Overlay H0 fit indices under the null and alternative generating conditions.
-# FITS_ROB selects robust RMSEA, CFI and TLI, together with SRMR.
+# Compare robust fit indices and SRMR across the two generating conditions.
 simsem::plotPowerFit(
   sim_h1_empirical,
   nullObject = sim_h0_empirical,
@@ -544,65 +543,27 @@ simsem::plotPowerFit(
 
 ::: {.callout-note title="Racional da @fig-empirical-fit-distributions" collapse="true"}
 
-A preparação seleciona os 24 indicadores em `analysis_data`, usando
-`lavaan::lavNames(..., "ov")` para respeitar a ordem das variáveis observadas
-de cada ajuste. `indicators_h0` e `indicators_h1` contêm as mesmas respostas,
-ordenadas conforme os respectivos modelos. `psych::skew()` e
-`psych::kurtosi()` calculam a assimetria e a curtose excedente de cada item,
-com `na.rm = TRUE` para desconsiderar suas respostas ausentes. A conversão
-`as.matrix()` fornece a essas funções uma matriz numérica. `simsem::bindDist()`
-reúne os momentos em `dist_h0` e `dist_h1`.
+**Finalidade**
 
-Em `simsem::sim()`, `generate` recebe o ajuste empírico usado como população
-geradora, enquanto `model` recebe a especificação estimada nas novas amostras.
-Na primeira chamada, o gerador e o modelo de análise correspondem a H~0~.
-Na segunda, `generate = fit_h1modelfree` mantém as cargas cruzadas na população
-geradora, enquanto `model = analyzemodel` ajusta H~0~ e omite essas relações.
-`nRep = SIM` e `seed = SEED` recuperam as 1.000 replicações e a semente
-123321, definidas em `helpers.R`. `n = nrow(analysis_data)` utiliza o número
-de participantes da base analítica lida nesta seção. `indDist` recebe a distribuição marginal preparada para cada
-condição. `simsem::miss(logical = is.na(...))` reaplica as posições das células
-ausentes.
-`lavaanfun = "cfa"`, `estimator = "MLR"`, `missing = "fiml"` e
-`std.lv = TRUE` mantêm o procedimento de estimação e a identificação dos
-ajustes originais. `multicore = TRUE` solicita processamento paralelo.
+Calibrar os limites dos índices com base nos modelos empíricos e comparar suas distribuições sob especificação correta e omissão das cargas cruzadas.
 
-`cache_or_run()` disponibiliza `sim_h0_empirical` e `sim_h1_empirical`.
-Se o objeto já estiver no ambiente, ele é reaproveitado; caso contrário,
-a função procura `sim_h0_empirical.rds` ou `sim_h1_empirical.rds` em
-`Data/IntermediateData`. Com os arquivos existentes, a expressão de simulação
-não é executada. Se um arquivo não existir, a chamada executa a simulação e
-grava o resultado ao término.
+**Preparação**
 
-`cutoff_fixed` reúne os cortes obtidos por duas chamadas a
-`simsem::getCutoff()`, ambas aplicadas a `sim_h0_empirical` e com
-`alpha = ALPHA`, a referência de 5%. Para `rmsea.robust` e `srmr`, a função
-obtém o percentil 95. Para `cfi.robust` e `tli.robust`, `revDirec = TRUE`
-solicita o percentil 5. Essa indicação explícita é necessária porque os nomes
-robustos de CFI/TLI não integram a lista de inversão automática do pacote.
-`cbind()` reúne os quatro limites em uma linha, na ordem RMSEA, SRMR, CFI e TLI.
+Utilize `analysis_data`, `fit_analyzemodel` e `fit_h1modelfree`, obtidos nesta seção, além de `analyzemodel`, `SIM`, `SEED`, `ALPHA` e `FITS_ROB` da preparação geral. Os resultados salvos são `sim_h0_empirical.rds` e `sim_h1_empirical.rds`, em `Data/IntermediateData`.
 
-`power_fixed` reúne as proporções de rejeição na condição alternativa,
-calculadas por `simsem::getPowerFit()`. Cada chamada recebe os limites de
-`cutoff_fixed` pelo argumento `cutoff`, convertido em vetor nomeado com
-`unlist()`. RMSEA/SRMR indicam rejeição acima do limite; para CFI/TLI robustos,
-`revDirec = TRUE` indica rejeição abaixo dele. Fornecer os cortes explicitamente
-assegura que o poder e a figura utilizem os mesmos limites.
+**Procedimento**
 
-`power_cutoff_fixed` mantém as linhas `Poder` e `Ponto de corte` e as quatro
-colunas de índices. `rbind()` reúne os valores, e `toupper(names(power_fixed))`
-define os cabeçalhos. `write.csv2()` exporta a matriz sem arredondamento prévio
-para `Output/Results/Tables/tbl-empirical-power-cutoffs.csv`, preservando os
-nomes das linhas. Essa tabela auxiliar permanece oculta na apresentação;
-os objetos ficam disponíveis para consulta e interpretação.
+O bloco ordena os 24 indicadores conforme cada ajuste e obtém sua assimetria e curtose excedente para construir as distribuições marginais de geração. A condição de referência gera dados a partir do ajuste H~0~; a alternativa gera a partir de H~1~. Nas duas condições, o modelo estimado é `analyzemodel`, que omite as três cargas cruzadas.
 
-`simsem::plotPowerFit()` recebe `sim_h1_empirical` como condição alternativa e
-`nullObject = sim_h0_empirical` como referência sob especificação correta.
-`cutoff = unlist(cutoff_fixed[1, ])` fornece os quatro limites nomeados,
-substituindo sua obtenção automática. Assim, as linhas vermelhas correspondem
-às caudas definidas na calibração. `usedFit = FITS_ROB` seleciona
-`rmsea.robust`, `srmr`, `cfi.robust` e `tli.robust`. A chamada mantém os quatro
-painéis em uma figura, sem repetir simulações ou alterar os objetos originais.
+As chamadas solicitam 1.000 replicações, o tamanho da amostra analítica, semente 123321, MLR e identificação por variâncias unitárias. O padrão de células ausentes é fornecido em `miss`, e `missing = "fiml"` é passado à chamada. `cache_or_run()` reaproveita os objetos ou arquivos existentes e só simula na ausência de resultados disponíveis. As instruções operacionais de recálculo ficam no [README](README.md).
+
+A calibração utiliza a distribuição sob H~0~: percentil 95 para RMSEA robusto e SRMR, e percentil 5 para CFI e TLI robustos. `revDirec = TRUE` explicita a inversão para os nomes robustos, que não integram a lista automática do pacote. Os mesmos limites são fornecidos ao cálculo de poder na condição alternativa e ao gráfico, evitando que cada saída obtenha critérios distintos.
+
+O bloco salva a tabela auxiliar de poder e limites com precisão completa, mantendo-a oculta na apresentação. A figura reúne os quatro índices e suas referências de rejeição.
+
+**Execução e resultado**
+
+Execute o bloco completo para disponibilizar as duas simulações, apresentar a figura e salvar `tbl-empirical-power-cutoffs.csv` em `Output/Results/Tables`. A reutilização dos arquivos evita repetir as simulações.
 
 ```{r}
 #| eval: false
@@ -613,6 +574,7 @@ indicators_h0 <- analysis_data[
   lavaan::lavNames(fit_analyzemodel, "ov")
 ]
 
+# Order the same indicators according to the H1 specification.
 indicators_h1 <- analysis_data[
   lavaan::lavNames(fit_h1modelfree, "ov")
 ]
@@ -623,13 +585,13 @@ dist_h0 <- simsem::bindDist(
   kurtosis = psych::kurtosi(as.matrix(indicators_h0), na.rm = TRUE)
 )
 
+# Define marginal moments for the H1 generating condition.
 dist_h1 <- simsem::bindDist(
   skewness = psych::skew(as.matrix(indicators_h1), na.rm = TRUE),
   kurtosis = psych::kurtosi(as.matrix(indicators_h1), na.rm = TRUE)
 )
 
-# Generate from fitted H0 and estimate the H0 specification.
-# cache_or_run() saves or reads sim_h0_empirical.rds.
+# Reuse or simulate samples from H0 and fit the H0 specification.
 sim_h0_empirical <- cache_or_run("sim_h0_empirical", {
   simsem::sim(
     nRep = SIM,
@@ -647,8 +609,7 @@ sim_h0_empirical <- cache_or_run("sim_h0_empirical", {
   )
 })
 
-# Generate from fitted H1 and estimate H0, omitting the cross-loadings.
-# cache_or_run() saves or reads sim_h1_empirical.rds.
+# Reuse or simulate samples from H1 and fit H0 without cross-loadings.
 sim_h1_empirical <- cache_or_run("sim_h1_empirical", {
   simsem::sim(
     nRep = SIM,
@@ -816,21 +777,23 @@ mi_table_h0
 
 ::: {.callout-note title="Racional da @tbl-modification-indices-top20" collapse="true"}
 
-A função `table_mi()`, definida em
-[helpers.R](Scripts/DataAppendixScripts/helpers.R) e apresentada no racional
-da @tbl-adjusted-modification-indices-top20, recebe o ajuste de H~0~ e
-apresenta suas vinte maiores relações candidatas, com MI e EPC bruto e
-padronizado. A ordenação segue o MI; os EPC acompanham cada relação.
+**Finalidade**
 
-`attr()` recupera todas as relações elegíveis e seus valores completos em
-`mi_all`, utilizado nos valores inseridos no texto, e o conteúdo de
-apresentação para exportação. Uma verificação impede a gravação de dados
-ausentes ou vazios. `readr::write_excel_csv2()` salva as mesmas vinte relações
-apresentadas no HTML e no PDF, preservando os rótulos e valores de exibição.
+Organizar as vinte maiores relações candidatas à liberação em H~0~, com seus índices de modificação e mudanças esperadas dos parâmetros.
 
-A expressão final apresenta a tabela formatada internamente por
-`knitr::kable()`, com os operadores lavaan preservados no documento.
-O bloco utiliza o ajuste existente e não estima um modelo modificado.
+**Preparação**
+
+Utilize `fit_analyzemodel`, estimado no início desta seção.
+
+**Procedimento**
+
+A função própria `table_mi()`, de [helpers.R](Scripts/DataAppendixScripts/helpers.R), recebe o ajuste e prepara as relações em ordem decrescente de MI. Sua auxiliar `tidy_mi()` seleciona cargas e covariâncias entre variáveis distintas, excluindo relações já livres. A tabela mantém os operadores lavaan e apresenta MI, EPC bruto e EPC padronizado.
+
+O atributo `mi_data` preserva todas as relações elegíveis com precisão completa, recuperadas em `mi_all` para uso no texto. `table_data` contém as vinte relações apresentadas. Após a verificação, esse conteúdo é exportado com os mesmos rótulos e valores de exibição.
+
+**Execução e resultado**
+
+Execute o bloco para apresentar a tabela e salvar `tbl-modification-indices-top20.csv` em `Output/Results/Tables`. O procedimento diagnostica o ajuste existente, sem estimar um modelo modificado.
 
 ```{r}
 #| eval: false
@@ -919,21 +882,23 @@ residual_heatmap
 
 ::: {.callout-note title="Racional da @fig-residual-correlations" collapse="true"}
 
-`plot_stdres()` recebe o modelo ajustado e cria o mapa dos resíduos de
-correlação. Internamente, `tidy_stdres()` organiza as diferenças entre as
-correlações observadas e reproduzidas, obtidas por `lavaan::lavResiduals()`.
-Os valores usam as estatísticas observadas do ajuste com FIML, sem nova
-exclusão de casos incompletos e sem conversão em estatísticas z.
+**Finalidade**
 
-A função mantém a ordem dos indicadores e apresenta cada par uma única vez,
-sem diagonal. A cor representa a magnitude absoluta; os rótulos preservam
-o sinal e mostram duas casas decimais. O retorno é um objeto `ggplot`, que
-pode ser apresentado, personalizado ou salvo.
+Localizar diferenças entre as correlações observadas e reproduzidas por H~0~ em um mapa de resíduos.
 
-`attr()` recupera a matriz completa e os pares com precisão original para
-exportação e valores no texto. `write.csv2()` salva a matriz em
-`Output/Results/Tables/residual-correlations-h0.csv`; `ggsave()` exporta
-o mesmo gráfico apresentado em `Output/Results/Figures/fig-residual-correlations.png`.
+**Preparação**
+
+Utilize `fit_analyzemodel`, estimado no início desta seção, e a função `plot_stdres()` de [helpers.R](Scripts/DataAppendixScripts/helpers.R).
+
+**Procedimento**
+
+`plot_stdres()` recebe o ajuste e retorna um gráfico `ggplot`. Sua auxiliar `tidy_stdres()` organiza os resíduos obtidos por `lavaan::lavResiduals()`, utilizando as estatísticas observadas do ajuste com FIML. Os resíduos são diferenças de correlação, sem conversão em estatísticas z.
+
+O mapa mantém a ordem dos indicadores, apresenta cada par uma vez e omite a diagonal. A cor representa a magnitude absoluta, enquanto os rótulos preservam o sinal e exibem duas casas decimais. Os atributos `residual_matrix` e `residual_data` conservam, respectivamente, a matriz completa e os pares com precisão original para exportação e valores no texto.
+
+**Execução e resultado**
+
+Execute o bloco para apresentar o mapa e salvar `residual-correlations-h0.csv` em `Output/Results/Tables` e `fig-residual-correlations.png` em `Output/Results/Figures`.
 
 ```{r}
 #| eval: false

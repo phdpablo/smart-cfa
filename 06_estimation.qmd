@@ -71,7 +71,7 @@ analysis_data <- readr::read_csv2(
   show_col_types = FALSE
 )
 
-# Estimate H0 and H1 using MLR/FIML and unit latent variances.
+# Estimate H0 using MLR/FIML and unit latent variances.
 fit_analyzemodel <- lavaan::cfa(
   model = analyzemodel,
   data = analysis_data,
@@ -80,6 +80,7 @@ fit_analyzemodel <- lavaan::cfa(
   std.lv = TRUE
 )
 
+# Estimate H1 under the same analytical conditions.
 fit_h1modelfree <- lavaan::cfa(
   model = h1modelfree,
   data = analysis_data,
@@ -124,23 +125,43 @@ knitr::kable(parameter_estimates, align = c("l", "l", "r", "r", "r", "r"),
 
 ::: {.callout-note title="Racional da @tbl-estimation-parameters" collapse="true"}
 
-O bloco lê a base analítica com `readr::read_csv2()` e estima os dois modelos
-com `lavaan::cfa()`, mantendo as mesmas condições de estimação. A função
-`table_par()`, definida em [helpers.R](Scripts/DataAppendixScripts/helpers.R),
-prepara uma tabela de cargas para cada ajuste, com as relações na sintaxe
-lavaan, estimativas brutas, erros-padrão, estatísticas z e cargas padronizadas.
-Sua auxiliar `tidy_par()` organiza os parâmetros e preserva os valores
-numéricos completos; a seleção padrão apresenta somente as cargas livres.
+**Finalidade**
 
-`attr()` recupera os dados de apresentação, e uma verificação impede a
-exportação de tabelas ausentes ou vazias. `dplyr::bind_rows()` empilha as
-cargas de H~0~ e, depois, as de H~1~, acrescentando a coluna `Modelo` para
-identificar cada bloco. As cargas cruzadas permanecem nas linhas de H~1~.
+Estimar os dois modelos na base analítica e reunir suas cargas fatoriais em
+uma tabela, com estimativas não padronizadas, erros-padrão, estatísticas z e
+cargas padronizadas.
 
-`readr::write_excel_csv2()` exporta o mesmo conteúdo apresentado, preservando
-rótulos, ordem e valores de exibição em um CSV compatível com o Excel.
-`knitr::kable()` apresenta os dois blocos em uma única tabela no HTML e no
-PDF. Com os scripts carregados, o bloco pode ser reproduzido com:
+**Preparação**
+
+O procedimento utiliza as especificações `analyzemodel` e `h1modelfree`,
+definidas em [models.R](Scripts/DataAppendixScripts/models.R), e as funções de
+[helpers.R](Scripts/DataAppendixScripts/helpers.R), conforme a organização
+apresentada no início da @sec-model-selection. A base
+`Data/AnalysisData/whoqol_analysis.csv` é produzida no pré-processamento
+(@sec-cier-decision) e lida diretamente pelo código abaixo. A exportação
+utiliza a pasta `Output/Results/Tables`, disponível no projeto.
+
+**Procedimento**
+
+O bloco importa a base analítica e estima H~0~ e H~1~ sob as mesmas condições.
+Em seguida, organiza as cargas de cada ajuste e reúne os dois conjuntos em
+uma tabela, identificando o modelo de origem de cada linha.
+
+A função `table_par()` recebe cada ajuste e prepara sua tabela de parâmetros.
+Com `lang = "pt"`, utiliza rótulos em português e mantém a seleção padrão de
+cargas livres. Sua auxiliar `tidy_par()` preserva os parâmetros numéricos
+completos. O atributo `table_data` reúne os dados de apresentação usados na
+tabela e no CSV; `par_data` conserva os parâmetros numéricos completos.
+Antes de reunir as tabelas, o código verifica se os dados de
+apresentação estão disponíveis e não estão vazios. A exportação utiliza o
+mesmo conteúdo apresentado no artigo, com os mesmos rótulos, ordem e valores
+de exibição, em um CSV compatível com o Excel.
+
+**Execução e resultado**
+
+Após a preparação indicada, execute o bloco completo. Ele produz a tabela
+apresentada acima, mantém os ajustes `fit_analyzemodel` e `fit_h1modelfree` na
+sessão e salva `tbl-estimation-parameters.csv` em `Output/Results/Tables`.
 
 ```{r}
 #| eval: false
@@ -153,7 +174,7 @@ analysis_data <- readr::read_csv2(
   show_col_types = FALSE
 )
 
-# Estimate H0 and H1 using MLR/FIML and unit latent variances.
+# Estimate H0 using MLR/FIML and unit latent variances.
 fit_analyzemodel <- lavaan::cfa(
   model = analyzemodel,
   data = analysis_data,
@@ -162,6 +183,7 @@ fit_analyzemodel <- lavaan::cfa(
   std.lv = TRUE
 )
 
+# Estimate H1 under the same analytical conditions.
 fit_h1modelfree <- lavaan::cfa(
   model = h1modelfree,
   data = analysis_data,
@@ -284,32 +306,23 @@ estimation_checks |>
 
 ::: {.callout-note title="Racional da @tbl-estimation-checks" collapse="true"}
 
-`lavInspect(fit, "converged")` identifica se o algoritmo terminou com uma
-solução convergida. A tabela de parâmetros é inspecionada para localizar
-variâncias negativas e cargas padronizadas maiores que 1, que podem
-caracterizar soluções Heywood. O número de parâmetros livres é recuperado para
-documentar a complexidade estimada de cada especificação.
+**Finalidade**
 
-O objeto `diagnostic_fits` apenas reúne os dois ajustes já estimados para que a
-mesma sequência de inspeções seja aplicada a H~0~ e H~1~; ele não realiza uma nova
-estimação. `lavaan::parTable()` fornece a coluna `free`, que permite contar os
-parâmetros efetivamente estimados, enquanto `lavaan::lavInspect(..., "nobs")`
-recupera o tamanho amostral utilizado pelo ajuste e
-`lavaan::lavInspect(..., "converged")` informa se o algoritmo convergiu.
+Verificar convergência e admissibilidade dos dois ajustes e registrar seu tamanho amostral e número de parâmetros livres.
 
-As variâncias são obtidas com `lavaan::parameterEstimates()` filtrando as
-relações de variância (`op == "~~"` e `lhs == rhs`). As cargas padronizadas são
-recuperadas com `lavaan::standardizedSolution()` e filtradas para as relações de
-carga (`op == "=~"`). A contagem de valores negativos e de cargas maiores que 1
-resume os dois diagnósticos de admissibilidade apresentados na tabela.
+**Preparação**
 
-Depois dessas operações, `tibble::tibble()` organiza uma linha para cada modelo
-e somente as seis colunas relevantes para esta etapa. `write.csv2()` salva essa
-tabela diagnóstica em `Output/Results/Tables/tbl-estimation-checks.csv`,
-preservando uma cópia tabular para auditoria. A chamada final a
-`knitr::kable()` apresenta o mesmo objeto no HTML e no PDF; portanto, a tabela
-exibida e o CSV derivam da mesma estrutura, sem uma reconstrução posterior do
-resultado.
+Utilize `fit_analyzemodel` e `fit_h1modelfree`, estimados no bloco da @tbl-estimation-parameters.
+
+**Procedimento**
+
+A lista `diagnostic_fits` permite aplicar a mesma inspeção aos dois modelos. Para cada ajuste, o código recupera convergência e número de observações, conta os parâmetros livres e examina variâncias e cargas padronizadas. As contagens registram variâncias negativas e cargas padronizadas maiores que 1.
+
+`estimation_checks` reúne uma linha por modelo. A tabela apresentada e o CSV derivam do mesmo objeto, mantendo uma cópia dos diagnósticos para auditoria.
+
+**Execução e resultado**
+
+Execute o bloco para apresentar e salvar `tbl-estimation-checks.csv` em `Output/Results/Tables`, utilizando os ajustes existentes.
 
 ```{r}
 #| eval: false
