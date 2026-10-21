@@ -27,7 +27,7 @@ execute: # https://quarto.org/docs/computations/execution-options.html
   warning: false # Prevent R code chunk warnings from appearing in the output.
 book: # https://quarto.org/docs/books/index.html
   google-analytics: "G-2MWSHLX73Q" # replace with your Google Analytics tracking ID or remove this line
-  favicon: cover.jpg # edit or exclude this image/line
+  favicon: cover.png # edit or exclude this image/line
   title: "Planejamento e avaliação de modelos de análise fatorial confirmatória" # edit your title
   subtitle: "Um tutorial reprodutível com R e Quarto" # edit your subtitle
   output-file: "cfa-tutorial"
