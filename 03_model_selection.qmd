@@ -56,7 +56,7 @@ Nesse sentido, a partir da leitura de @lin2022, formulamos nosso modelo de anál
 #| echo: false
 
 # Draw the reference population model.
-plot_color(popmodel, node_labels = LABELS)
+plot_cfa(popmodel, color = "BW", node_labels = LABELS)
 ```
 
 :::: {.content-visible unless-format="pdf"}
@@ -75,14 +75,19 @@ Utilize a preparação apresentada em “Como as análises estão organizadas”
 início dessa seção. O script
 [models.R](Scripts/DataAppendixScripts/models.R) define o modelo `popmodel`, e
 [helpers.R](Scripts/DataAppendixScripts/helpers.R) disponibiliza a função
-`plot_color()` e o vetor de rótulos `LABELS`.
+`plot_cfa()` e o vetor de rótulos `LABELS`.
 
 **Procedimento**
 
-A função `plot_color()` recebe a especificação no argumento `model` e produz
+A função `plot_cfa()` recebe a especificação no argumento `model` e produz
 seu diagrama. Internamente, utiliza `semPlot::semPlotModel()` para representar
 o modelo e `semPlot::semPaths()` para desenhar suas relações. Ela também
 aceita um modelo já ajustado.
+
+O argumento `color = "color"` utiliza as cores automáticas dos grupos de
+fatores. Para produzir o mesmo diagrama em preto e branco, utilize
+`color = "BW"`: os nós ficam brancos, e as linhas, bordas e rótulos ficam
+pretos. Essa escolha preserva a estrutura e a disposição do diagrama.
 
 O argumento opcional `node_labels = LABELS` utiliza o vetor nomeado definido
 em `helpers.R` para substituir `psycho`, `physical`, `social` e `environment`
@@ -104,7 +109,7 @@ apresentado acima.
 #| code-fold: true
 
 # Draw the reference population model.
-plot_color(popmodel, node_labels = LABELS)
+plot_cfa(popmodel, color = "BW", node_labels = LABELS)
 ```
 
 :::
@@ -130,7 +135,7 @@ Preservamos as cargas de Q8 e Q9 no domínio ambiental e a de Q15 no domínio f�
 #| echo: false
 
 # Draw the alternative population model.
-plot_color(h1model, node_labels = LABELS)
+plot_cfa(h1model, color = "BW", node_labels = LABELS)
 ```
 
 :::: {.content-visible unless-format="pdf"}
@@ -158,7 +163,7 @@ Execute o bloco abaixo para produzir o diagrama da especificação alternativa.
 #| code-fold: true
 
 # Draw the alternative population model.
-plot_color(h1model, node_labels = LABELS)
+plot_cfa(h1model, color = "BW", node_labels = LABELS)
 ```
 
 :::

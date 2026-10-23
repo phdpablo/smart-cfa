@@ -1,0 +1,78 @@
+---
+format: html
+---
+
+```{dot}
+digraph {
+  graph [rankdir=TB, newrank=true, bgcolor="transparent", nodesep=0.38, ranksep=0.48,
+    splines=true, pad=0.06];
+  node [shape=plain, fontname="Arial", fontsize=11];
+  edge [color="#374151", penwidth=1.2, arrowsize=0.7];
+  // Describe the decisions and evidence developed in each section.
+  A [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" WIDTH="215" COLOR="#64748B" BGCOLOR="white">
+      <TR><TD WIDTH="215" ALIGN="LEFT" BGCOLOR="#EDF1F4"><B>3 · Seleção do modelo</B></TD></TR>
+      <TR><TD WIDTH="215" ALIGN="LEFT" BALIGN="LEFT">WHOQOL-Bref: 4 fatores, 24 itens<BR ALIGN="LEFT"/>Modelos H₀ e H₁ planejados<BR ALIGN="LEFT"/>Covariância residual em H₀<BR ALIGN="LEFT"/>Três cargas cruzadas em H₁<BR ALIGN="LEFT"/>Fundamentação teórica e empírica<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>
+  >];
+  B [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" WIDTH="215" COLOR="#64748B" BGCOLOR="white">
+      <TR><TD WIDTH="215" ALIGN="LEFT" BGCOLOR="#EDF1F4"><B>4 · Análise de poder</B></TD></TR>
+      <TR><TD WIDTH="215" ALIGN="LEFT" BALIGN="LEFT">Poder analítico e baseado em modelos<BR ALIGN="LEFT"/>Monte Carlo: N variável e fixo<BR ALIGN="LEFT"/>Não normalidade e ausências<BR ALIGN="LEFT"/>Limites calibrados e tradicionais<BR ALIGN="LEFT"/>Detecção de má especificação<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>
+  >];
+  C [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" WIDTH="215" COLOR="#64748B" BGCOLOR="white">
+      <TR><TD WIDTH="215" ALIGN="LEFT" BGCOLOR="#EDF1F4"><B>5 · Pré-processamento</B></TD></TR>
+      <TR><TD WIDTH="215" ALIGN="LEFT" BALIGN="LEFT">Elegibilidade e registros incompletos<BR ALIGN="LEFT"/>Atenção, tempo e três índices C/IER<BR ALIGN="LEFT"/>Exclusões auditáveis e recodificação<BR ALIGN="LEFT"/>Distribuições dos indicadores<BR ALIGN="LEFT"/>Diagnóstico de colinearidade<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>
+  >];
+  D [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" WIDTH="215" COLOR="#64748B" BGCOLOR="white">
+      <TR><TD WIDTH="215" ALIGN="LEFT" BGCOLOR="#EDF1F4"><B>6 · Estimação</B></TD></TR>
+      <TR><TD WIDTH="215" ALIGN="LEFT" BALIGN="LEFT">Estimação robusta por MLR<BR ALIGN="LEFT"/>Respostas ausentes por FIML<BR ALIGN="LEFT"/>Cargas e erros-padrão robustos<BR ALIGN="LEFT"/>Convergência e admissibilidade<BR ALIGN="LEFT"/>Divisão: calibração e validação<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>
+  >];
+  E [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" WIDTH="215" COLOR="#64748B" BGCOLOR="white">
+      <TR><TD WIDTH="215" ALIGN="LEFT" BGCOLOR="#EDF1F4"><B>7 · Avaliação dos modelos</B></TD></TR>
+      <TR><TD WIDTH="215" ALIGN="LEFT" BALIGN="LEFT">Monte Carlo dos modelos empíricos<BR ALIGN="LEFT"/>Referências de ajuste calibradas<BR ALIGN="LEFT"/>Ajuste global robusto na calibração<BR ALIGN="LEFT"/>Confiabilidade: ômega e GLB<BR ALIGN="LEFT"/>MI/EPC e resíduos de correlação<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>
+  >];
+  F [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" WIDTH="215" COLOR="#64748B" BGCOLOR="white">
+      <TR><TD WIDTH="215" ALIGN="LEFT" BGCOLOR="#EDF1F4"><B>8 · Comparações e modificações</B></TD></TR>
+      <TR><TD WIDTH="215" ALIGN="LEFT" BALIGN="LEFT">Literatura e conteúdo dos itens<BR ALIGN="LEFT"/>Exclusões, retenções e covariâncias<BR ALIGN="LEFT"/>Reavaliação do ajuste e dos escores<BR ALIGN="LEFT"/>Limites 3DFI e alcance exploratório<BR ALIGN="LEFT"/>Validação cruzada e invariância<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>
+  >];
+  // Group the panels by phase and preserve the serpentine reading path.
+  subgraph cluster_planning {
+    label=<<B>PLANEJAMENTO</B>>;
+    labelloc=t; labeljust=l;
+    fontname="Arial"; fontsize=13; fontcolor="#263648";
+    style="rounded,filled"; color="#BCCBD6";
+    fillcolor="#DCE6EE:#FFFFFF"; gradientangle=270; margin=14;
+    { rank=same; A; B; }
+  }
+  subgraph cluster_empirical {
+    label=<<B>APLICAÇÃO EMPÍRICA</B>>;
+    labelloc=t; labeljust=l;
+    fontname="Arial"; fontsize=13; fontcolor="#263648";
+    style="rounded,filled"; color="#BCCBD6";
+    fillcolor="#DCE6EE:#FFFFFF"; gradientangle=270; margin=14;
+    { rank=same; D; C; }
+    { rank=same; E; F; }
+  }
+  A -> B [weight=100];
+  B -> C [weight=100];
+  D -> C [dir=back, weight=100];
+  D -> E [weight=100];
+  E -> F [weight=100];
+  A -> D [style=invis, weight=100];
+  C -> F [style=invis, weight=100];
+  // Connect shared specifications, simulation calibration, and re-estimation.
+  A:w -> D:w [style=dashed, color="#77818E", constraint=false];
+  B:e -> E:s [style=dashed, color="#77818E", constraint=false];
+  F:w -> D:s [style=dashed, color="#77818E", constraint=false];
+}
+```

@@ -10,10 +10,17 @@ source(here::here("Scripts", "DataAppendixScripts", "helpers.R"))
 ```
 
 Depois da seleção dos modelos e do pré-processamento, essa seção estima as duas
-especificações da AFC na amostra de análise final. A estimação converte as
+especificações da AFC na amostra de calibração. A estimação converte as
 relações previstas nos modelos em parâmetros amostrais e aplica as condições
 definidas nas etapas anteriores: tratamento contínuo dos itens, MLR, FIML e
 identificação pela variância dos fatores [@jackson2009; @nye2022].
+
+Os 1.243 participantes da amostra analítica foram divididos aleatoriamente em
+duas parcelas: 621 para calibração e 622 para validação. A divisão foi
+estratificada pela presença de respostas ausentes nos 24 indicadores,
+distribuindo os 60 participantes com alguma ausência igualmente entre as
+parcelas. A calibração é utilizada para estimar os modelos e examinar seus
+diagnósticos; a validação é reservada à avaliação da especificação selecionada.
 
 ## Fundamentação da estimação
 
@@ -23,7 +30,7 @@ desempenho adequado em condições com cinco ou
 mais categorias, especialmente com limiares aproximadamente simétricos.
 @robitzsch2020a e @robitzsch2022a mostram que as abordagens contínua e ordinal
 definem alvos paramétricos distintos. Com cinco categorias e uma estrutura
-fatorial previamente definida, este estudo adota a formulação contínua como
+fatorial previamente definida, esse estudo adota a formulação contínua como
 aproximação de mensuração.
 
 O método MLR foi mantido porque combina a máxima verossimilhança com
@@ -33,16 +40,130 @@ da literatura para situações de não normalidade multivariada [@brown2015;
 @kline2023; @rogers2024c].
 
 As poucas respostas ausentes foram incorporadas por FIML. O procedimento utiliza
-a informação observada de cada participante e mantém os 1.243 casos da amostra
-analítica. A escolha segue a recomendação de tratar ausências na etapa de
+a informação observada de cada participante e mantém os 621 casos da amostra
+de calibração. A escolha segue a recomendação de tratar ausências na etapa de
 estimação quando se trabalha com ML ou suas variantes robustas [@brown2023;
 @kline2023].
 
 A escala dos fatores foi definida pela fixação de suas variâncias em 1. Essa
 identificação permite estimar livremente as cargas fatoriais e estabelece a
 mesma métrica latente nos dois modelos. As duas especificações foram estimadas
-na mesma amostra e sob as mesmas condições. A comparação concentra-se, assim,
-nas três relações adicionais do modelo H~1~ [@jackson2009; @nye2022].
+na mesma parcela de calibração e sob as mesmas condições. A comparação
+concentra-se, assim, nas três relações adicionais do modelo H~1~
+[@jackson2009; @nye2022].
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Como as amostras de calibração e validação foram obtidas" collapse="true"}
+
+**Finalidade**
+
+Separar a base analítica em duas parcelas, preservando participantes com
+respostas incompletas em ambas. A calibração alimenta a estimação e o diagnóstico
+dos modelos originais; a validação fica disponível para avaliar a especificação
+selecionada.
+
+**Preparação**
+
+Utilize `Data/AnalysisData/whoqol_analysis.csv`, produzido no pré-processamento, definido na preparação geral da @sec-model-selection. A divisão
+considera os 24 indicadores Q3–Q26, antes de qualquer exclusão de itens.
+
+**Procedimento**
+
+O chunk abaixo lê a base, preserva os identificadores como texto
+e ordena os registros por `ID`. A variável `missing_flag` vale 0 para quem
+respondeu aos 24 indicadores e 1 para quem apresenta alguma ausência nesse
+conjunto. Esses dois estratos orientam o sorteio.
+
+Em cada estrato, a semente fixa a seleção aleatória de metade dos registros
+para a calibração. Quando o estrato tem tamanho ímpar, o registro excedente fica
+na validação. `sample_group` identifica a parcela: 0 para calibração e 1 para
+validação. Essa variável também poderá identificar os grupos na análise de invariança;
+ela tem função diferente de `missing_flag`, que identifica o estrato
+de ausências.
+
+`cv_data` conserva todos os participantes e as duas flags. A partição é salva
+em `Data/AnalysisData/whoqol_cv.csv`; nas execuções seguintes, o bloco lê esse
+arquivo e confere sua correspondência com os dados de entrada. Assim, as
+seções seguintes recuperam a mesma seleção, sem depender de objetos deixados
+por outra sessão.
+
+**Execução e resultado**
+
+Execute o bloco abaixo antes da @tbl-estimation-parameters. Ele mantém a base
+completa em `cv_data` e seleciona `calibration_data` para a estimação desta
+seção. A parcela de validação permanece identificada por `sample_group == 1`
+no arquivo salvo e será recuperada quando utilizada. A base analítica
+original é preservada.
+
+```{r}
+#| label: prepare-cv-partition
+#| code-fold: true
+
+# Read and order the complete analysis sample before splitting it.
+cv_data <- readr::read_csv2(
+  here::here("Data", "AnalysisData", "whoqol_analysis.csv"),
+  na = c("", "NA"),
+  col_types = readr::cols(ID = readr::col_character()),
+  show_col_types = FALSE
+)
+cv_data <- cv_data[order(cv_data$ID), ]
+
+# Identify incomplete responses using all 24 planned indicators.
+cv_data$missing_flag <- as.integer(
+  rowSums(is.na(cv_data[paste0("Q", 3:26)])) > 0L
+)
+stopifnot(!anyNA(cv_data$ID), !anyDuplicated(cv_data$ID))
+
+# Reuse the saved partition when its input data remain unchanged.
+cv_file <- here::here(
+  "Data", "AnalysisData", "whoqol_cv.csv"
+)
+if (file.exists(cv_file)) {
+  saved_cv <- readr::read_csv2(
+    cv_file, na = c("", "NA"),
+    col_types = readr::cols(
+      ID = readr::col_character(),
+      missing_flag = readr::col_integer(),
+      sample_group = readr::col_integer()
+    ),
+    show_col_types = FALSE
+  )
+  stopifnot(
+    identical(
+      as.data.frame(saved_cv[names(cv_data)]), as.data.frame(cv_data)
+    ),
+    all(saved_cv$sample_group %in% c(0, 1))
+  )
+  cv_data$sample_group <- as.integer(saved_cv$sample_group)
+} else {
+  # Assign calibration (0) and validation (1) within each missingness stratum.
+  set.seed(SEED)
+  cv_data$sample_group <- 1L
+  for (stratum in 0:1) {
+    stratum_rows <- which(cv_data$missing_flag == stratum)
+    calibration_rows <- stratum_rows[sample.int(
+      length(stratum_rows), size = floor(length(stratum_rows) / 2)
+    )]
+    cv_data$sample_group[calibration_rows] <- 0L
+  }
+
+  # Preserve the original data and save the partition for later sections.
+  dir.create(dirname(cv_file), recursive = TRUE, showWarnings = FALSE)
+  readr::write_excel_csv2(cv_data, cv_file, na = "NA")
+}
+
+# Check stratum allocation and select the calibration sample.
+stopifnot(
+  all(table(cv_data$missing_flag, cv_data$sample_group)[, "0"] ==
+    floor(table(cv_data$missing_flag) / 2))
+)
+calibration_data <- cv_data[cv_data$sample_group == 0L, ]
+```
+
+:::
+
+::::
 
 ## Parâmetros estimados
 
@@ -64,17 +185,10 @@ estimados com os índices de ajuste e os critérios de comparação dos modelos.
 #| tbl-cap: "Parâmetros fatoriais estimados nos modelos H~0~ e H~1~."
 #| echo: false
 
-# Read the preprocessed analysis data.
-analysis_data <- readr::read_csv2(
-  here::here("Data", "AnalysisData", "whoqol_analysis.csv"),
-  na = c("", "NA"),
-  show_col_types = FALSE
-)
-
 # Estimate H0 using MLR/FIML and unit latent variances.
 fit_analyzemodel <- lavaan::cfa(
   model = analyzemodel,
-  data = analysis_data,
+  data = calibration_data,
   estimator = "MLR",
   missing = "fiml",
   std.lv = TRUE
@@ -83,7 +197,7 @@ fit_analyzemodel <- lavaan::cfa(
 # Estimate H1 under the same analytical conditions.
 fit_h1modelfree <- lavaan::cfa(
   model = h1modelfree,
-  data = analysis_data,
+  data = calibration_data,
   estimator = "MLR",
   missing = "fiml",
   std.lv = TRUE
@@ -127,7 +241,7 @@ knitr::kable(parameter_estimates, align = c("l", "l", "r", "r", "r", "r"),
 
 **Finalidade**
 
-Estimar os dois modelos na base analítica e reunir suas cargas fatoriais em
+Estimar os dois modelos na amostra de calibração e reunir suas cargas fatoriais em
 uma tabela, com estimativas não padronizadas, erros-padrão, estatísticas z e
 cargas padronizadas.
 
@@ -136,14 +250,16 @@ cargas padronizadas.
 O procedimento utiliza as especificações `analyzemodel` e `h1modelfree`,
 definidas em [models.R](Scripts/DataAppendixScripts/models.R), e as funções de
 [helpers.R](Scripts/DataAppendixScripts/helpers.R), conforme a organização
-apresentada no início da @sec-model-selection. A base
-`Data/AnalysisData/whoqol_analysis.csv` é produzida no pré-processamento
-(@sec-cier-decision) e lida diretamente pelo código abaixo. A exportação
+apresentada no início da @sec-model-selection. O chunk anterior,
+`prepare-cv-partition`, explicado no callout de obtenção das amostras,
+lê a base produzida no pré-processamento
+(@sec-cier-decision) e disponibiliza a parcela de calibração em
+`calibration_data`. Os dois ajustes utilizam esse objeto diretamente. A exportação
 utiliza a pasta `Output/Results/Tables`, disponível no projeto.
 
 **Procedimento**
 
-O bloco importa a base analítica e estima H~0~ e H~1~ sob as mesmas condições.
+O bloco estima H~0~ e H~1~ na amostra de calibração sob as mesmas condições.
 Em seguida, organiza as cargas de cada ajuste e reúne os dois conjuntos em
 uma tabela, identificando o modelo de origem de cada linha.
 
@@ -167,17 +283,10 @@ sessão e salva `tbl-estimation-parameters.csv` em `Output/Results/Tables`.
 #| eval: false
 #| code-fold: true
 
-# Read the preprocessed analysis data.
-analysis_data <- readr::read_csv2(
-  here::here("Data", "AnalysisData", "whoqol_analysis.csv"),
-  na = c("", "NA"),
-  show_col_types = FALSE
-)
-
 # Estimate H0 using MLR/FIML and unit latent variances.
 fit_analyzemodel <- lavaan::cfa(
   model = analyzemodel,
-  data = analysis_data,
+  data = calibration_data,
   estimator = "MLR",
   missing = "fiml",
   std.lv = TRUE
@@ -186,7 +295,7 @@ fit_analyzemodel <- lavaan::cfa(
 # Estimate H1 under the same analytical conditions.
 fit_h1modelfree <- lavaan::cfa(
   model = h1modelfree,
-  data = analysis_data,
+  data = calibration_data,
   estimator = "MLR",
   missing = "fiml",
   std.lv = TRUE
@@ -237,9 +346,9 @@ padronizadas superiores a 1, diagnósticos associados a soluções Heywood
 [@brown2015; @nye2022]. A @tbl-estimation-checks reúne essas verificações para
 H~0~ e H~1~ e registra o tamanho amostral e o número de parâmetros livres.
 
-Os dois modelos convergiram, não apresentaram variâncias negativas e não
-produziram cargas padronizadas superiores a 1. As soluções estão prontas para
-a avaliação do ajuste global e local.
+Na amostra de calibração, os dois modelos convergiram, não apresentaram
+variâncias negativas e não produziram cargas padronizadas superiores a 1.
+As soluções estão prontas para a avaliação do ajuste global e local.
 
 ```{r}
 #| label: tbl-estimation-checks

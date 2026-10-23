@@ -14,9 +14,10 @@ source(here::here("Scripts", "DataAppendixScripts", "cache_loader.R"))
 
 ## Fundamentação das modificações {#sec-modification-rationale}
 
-O diagnóstico da @sec-model-fit destacou dificuldades de representação que
-orientam potenciais modificações em nosso modelo H~0~. A seleção das alterações considera a
-tamanho das cargas, cargas cruzadas, correlações residuais e conteúdo dos indicadores,
+O diagnóstico da @sec-model-fit, realizado na amostra de calibração, destacou
+dificuldades de representação que orientam modificações em H~0~. A seleção
+das alterações considera a magnitude das cargas, as cargas cruzadas, as
+correlações residuais e o conteúdo dos indicadores,
 em diálogo com os precedentes bibliográficos. A @tbl-whoqol-modification-evidence
 sintetiza variações de representação fatorial descritas por @lin2022 e por
 @mosqueirataipe2026. O levantamento abrange também indicadores
@@ -103,7 +104,7 @@ A especificação modificada para as análises adiante exclui Q5, Q15 e Q24. Em 
 correlações com Q6 e Q14 e as indicações de cargas cruzadas apontam
 dificuldades de delimitação entre conteúdos. A literatura registra essas
 dependências e alterações de alocação, ao mesmo tempo que a síntese de @lin2022 mostra forte representação psicológica. Sua exclusão responde às
-dificuldades locais observadas nesta amostra. Para Q15, a carga reduzida e a
+dificuldades locais observadas na calibração. Para Q15, a carga reduzida e a
 indicação de relação com o domínio ambiental convergem com precedentes de
 exclusão em amostras de língua portuguesa e de alocação alternativa. Q24
 combina carga reduzida e dependência com Q25, relação também documentada na
@@ -130,10 +131,10 @@ O modelo mantém quatro fatores e os três indicadores sociais, com 21 itens:
 5 psicológicos, 6 físicos, 3 sociais e 7 ambientais. As exclusões reduzem a
 cobertura explícita de prazer de viver, mobilidade e acesso aos serviços de
 saúde, devendo acompanhar a interpretação dos escores modificados. A seleção
-foi informada pelo diagnóstico dessa amostra e constitui uma revisão
-exploratória. A reestimação avaliará essa especificação delimitada, incluindo
-as dificuldades remanescentes, e a confiabilidade será recalculada para os
-conjuntos de itens retidos. A @fig-adjusted-model apresenta a especificação
+foi informada pelo diagnóstico da calibração e constitui uma revisão
+exploratória. A especificação delimitada é avaliada na amostra de validação,
+incluindo as dificuldades remanescentes, e a confiabilidade é calculada para
+os conjuntos de itens retidos. A @fig-adjusted-model apresenta a especificação
 resultante, com as duas covariâncias residuais e os indicadores preservados.
 
 ```{r}
@@ -150,7 +151,7 @@ resultante, com as duas covariâncias residuais e os indicadores preservados.
 #| echo: false
 
 # Draw the adjusted model without numerical edge labels.
-plot_color(adjustedzemodel, node_labels = LABELS, what_labels = "no")
+plot_cfa(adjustedzemodel, color = "BW", node_labels = LABELS, what_labels = "no")
 ```
 
 :::: {.content-visible unless-format="pdf"}
@@ -167,7 +168,7 @@ Utilize `adjustedzemodel`, definido em [models.R](Scripts/DataAppendixScripts/mo
 
 **Procedimento**
 
-A chamada reutiliza `plot_color()` e as abreviações de `LABELS`, apresentados na @sec-model-selection. O argumento `what_labels = "no"` omite os valores nas relações, destacando a estrutura especificada.
+A chamada reutiliza `plot_cfa()` e as abreviações de `LABELS`, apresentados na @sec-model-selection. O argumento `color = "color"` mantém as cores dos grupos; `color = "BW"` produz a versão em preto e branco. O argumento `what_labels = "no"` omite os valores nas relações, destacando a estrutura especificada.
 
 **Execução e resultado**
 
@@ -178,7 +179,7 @@ Execute o bloco para apresentar o diagrama do modelo modificado.
 #| code-fold: true
 
 # Draw the adjusted model without numerical edge labels.
-plot_color(adjustedzemodel, node_labels = LABELS, what_labels = "no")
+plot_cfa(adjustedzemodel, color = "BW", node_labels = LABELS, what_labels = "no")
 ```
 
 :::
@@ -187,26 +188,39 @@ plot_color(adjustedzemodel, node_labels = LABELS, what_labels = "no")
 
 ## Parâmetros estimados {#sec-adjusted-model-parameters}
 
-O modelo modificado é estimado com a mantução das condições de estimação da @sec-estimation.
-A avaliação apresenta os
-parâmetros, verifica a solução e examina o ajuste global e as discrepâncias
-locais da especificação selecionada. A @tbl-adjusted-parameters apresenta os parâmetros do modelo
-modificado.
+O modelo modificado é estimado nos 622 participantes da amostra de validação,
+mantendo as condições de estimação da @sec-estimation. A avaliação apresenta
+os parâmetros, verifica a solução e examina o ajuste global e as
+discrepâncias locais da especificação selecionada na calibração.
+A @tbl-adjusted-parameters apresenta os parâmetros do modelo modificado.
 
 ```{r}
 #| label: tbl-adjusted-parameters
 #| tbl-cap: "Parâmetros fatoriais estimados no modelo modificado."
 #| echo: false
 
-# Read the preprocessed analysis data.
-analysis_data <- readr::read_csv2(
-  here::here("Data", "AnalysisData", "whoqol_analysis.csv"),
-  na = c("", "NA"), show_col_types = FALSE
+# Read the saved partition created in Section 6.
+cv_data <- readr::read_csv2(
+  here::here("Data", "AnalysisData", "whoqol_cv.csv"),
+  na = c("", "NA"),
+  col_types = readr::cols(
+    ID = readr::col_character(),
+    missing_flag = readr::col_integer(),
+    sample_group = readr::col_integer()
+  ),
+  show_col_types = FALSE
 )
+
+# Select the validation sample to evaluate the modified specification.
+validation_data <- cv_data[cv_data$sample_group == 1L, ]
+
+# Check that the adjusted model receives only the validation partition.
+stopifnot(nrow(validation_data) > 0L,
+  all(validation_data$sample_group == 1L))
 
 # Fit the adjusted model using MLR/FIML and unit latent variances.
 fit_adjustedzemodel <- lavaan::cfa(
-  model = adjustedzemodel, data = analysis_data, estimator = "MLR",
+  model = adjustedzemodel, data = validation_data, estimator = "MLR",
   missing = "fiml", std.lv = TRUE
 )
 
@@ -242,13 +256,18 @@ Estimar o modelo modificado e apresentar suas cargas fatoriais.
 
 **Preparação**
 
-Utilize a base `Data/AnalysisData/whoqol_analysis.csv` e `adjustedzemodel`, disponível na preparação desta seção conforme a orientação geral da @sec-model-selection.
+Utilize a base `Data/AnalysisData/whoqol_cv.csv`, salva na @sec-estimation,
+e `adjustedzemodel`, disponível na preparação desta seção conforme a
+orientação geral da @sec-model-selection. O código seleciona
+`sample_group == 1` em `validation_data`, recuperando a amostra de validação
+sem repetir a divisão ou depender de uma sessão anterior.
 
 **Procedimento**
 
-O bloco lê a base e estima o modelo nas mesmas condições da @sec-estimation. A função `table_par()`, apresentada no racional da @tbl-estimation-parameters, mantém a seleção padrão de cargas livres e os rótulos em português.
+O bloco lê a partição salva e estima o modelo na amostra de validação,
+mantendo as condições de estimação da @sec-estimation. A função `table_par()`, apresentada no racional da @tbl-estimation-parameters, mantém a seleção padrão de cargas livres e os rótulos em português.
 
-O atributo `par_data` disponibiliza os parâmetros completos para os valores inseridos no texto; `table_data` fornece a tabela de apresentação. Após verificar seu conteúdo, o bloco exporta as mesmas células exibidas, preservando rótulos, ordem e valores. Para aplicar o procedimento a outra pesquisa, a especificação e os indicadores devem ser revistos, assim como a adequação das condições de estimação.
+O atributo `par_data` disponibiliza os parâmetros completos para os valores inseridos no texto; `table_data` fornece a tabela de apresentação. Após verificar seu conteúdo, o bloco exporta as mesmas células exibidas, preservando rótulos, ordem e valores.
 
 **Execução e resultado**
 
@@ -258,15 +277,28 @@ Execute o bloco para criar `fit_adjustedzemodel`, apresentar as cargas e salvar 
 #| eval: false
 #| code-fold: true
 
-# Read the preprocessed analysis data.
-analysis_data <- readr::read_csv2(
-  here::here("Data", "AnalysisData", "whoqol_analysis.csv"),
-  na = c("", "NA"), show_col_types = FALSE
+# Read the saved partition created in Section 6.
+cv_data <- readr::read_csv2(
+  here::here("Data", "AnalysisData", "whoqol_cv.csv"),
+  na = c("", "NA"),
+  col_types = readr::cols(
+    ID = readr::col_character(),
+    missing_flag = readr::col_integer(),
+    sample_group = readr::col_integer()
+  ),
+  show_col_types = FALSE
 )
+
+# Select the validation sample to evaluate the modified specification.
+validation_data <- cv_data[cv_data$sample_group == 1L, ]
+
+# Check that the adjusted model receives only the validation partition.
+stopifnot(nrow(validation_data) > 0L,
+  all(validation_data$sample_group == 1L))
 
 # Fit the adjusted model using MLR/FIML and unit latent variances.
 fit_adjustedzemodel <- lavaan::cfa(
-  model = adjustedzemodel, data = analysis_data, estimator = "MLR",
+  model = adjustedzemodel, data = validation_data, estimator = "MLR",
   missing = "fiml", std.lv = TRUE
 )
 
@@ -300,9 +332,12 @@ As cargas de Q3, Q4 e Q8 permanecem modestas:
 `r formatC(parameter_estimates_adjusted$std.all[parameter_estimates_adjusted$op == "=~" & parameter_estimates_adjusted$rhs == "Q3"], format = "f", digits = 3, decimal.mark = ",")`,
 `r formatC(parameter_estimates_adjusted$std.all[parameter_estimates_adjusted$op == "=~" & parameter_estimates_adjusted$rhs == "Q4"], format = "f", digits = 3, decimal.mark = ",")` e
 `r formatC(parameter_estimates_adjusted$std.all[parameter_estimates_adjusted$op == "=~" & parameter_estimates_adjusted$rhs == "Q8"], format = "f", digits = 3, decimal.mark = ",")`,
-respectivamente. A retenção desses indicadores preserva os conteúdos de dor,
-necessidade de tratamento e segurança, reconhecendo a representação parcial
-desses aspectos pelos fatores. Embora as cargas modestas permitam cogitar a exclusão de Q3, Q4 e Q8, optamos por preservar esses indicadores e a covariância Q3–Q4, limitando a exploração posterior. Modificações sucessivas poderiam favorecer um ajuste excessivo às particularidades dessa amostra, com menor possibilidade de generalização.
+respectivamente. A retenção desses indicadores, definida na fundamentação
+das modificações, preserva os conteúdos de dor, necessidade de tratamento
+e segurança. As cargas observadas na validação mostram que esses aspectos
+continuam parcialmente representados pelos fatores. A avaliação mantém a
+especificação selecionada na calibração, incluindo a covariância Q3–Q4,
+e caracteriza suas limitações remanescentes.
 
 O modelo convergiu e não apresentou variâncias negativas nem cargas
 padronizadas com magnitude superior a 1. Essas verificações sustentam a
@@ -355,7 +390,9 @@ Organizar as medidas de ajuste global do modelo modificado.
 
 **Preparação**
 
-Utilize `fit_adjustedzemodel`, estimado no bloco da @tbl-adjusted-parameters.
+Utilize `fit_adjustedzemodel`, estimado na parcela de validação no bloco da
+@tbl-adjusted-parameters. Este procedimento reutiliza esse ajuste, sem ler
+ou selecionar outra amostra.
 
 **Procedimento**
 
@@ -406,13 +443,16 @@ RMSEA robusto de
 `r formatC(fit_measures_adjusted["rmsea.robust"], format = "f", digits = 3, decimal.mark = ",")`
 e SRMR de
 `r formatC(fit_measures_adjusted["srmr"], format = "f", digits = 3, decimal.mark = ",")`.
-Os índices do modelo modificado são descritivamente mais favoráveis que os das
-especificações originais. Essa diferença deve ser interpretada considerando
-também a redução de 24 para 21 indicadores. Para o ajuste próximo,
+Os índices são descritivamente mais favoráveis que os das especificações
+originais apresentadas na @sec-model-fit. Esse contraste envolve conjuntos
+de indicadores e parcelas amostrais diferentes; portanto, não constitui um
+teste de superioridade do modelo reduzido. A avaliação concentra-se na
+adequação da especificação selecionada aos dados de validação. Para o ajuste
+próximo,
 o teste da hipótese RMSEA robusto ≤ 0,05 apresenta p =
 `r formatC(fit_measures_adjusted["rmsea.pvalue.robust"], format = "f", digits = 3, decimal.mark = ",")`,
-superior a 0,05. Assim, a hipótese de ajuste próximo não é rejeitada,
-diferentemente das especificações originais.
+superior a 0,05. Assim, a hipótese de ajuste próximo não é rejeitada na
+amostra de validação.
 
 ## Confiabilidade dos escores
 
@@ -459,7 +499,9 @@ Recalcular a confiabilidade dos escores correspondentes aos itens retidos no mod
 
 **Preparação**
 
-Utilize `fit_adjustedzemodel`, estimado no bloco da @tbl-adjusted-parameters.
+Utilize `fit_adjustedzemodel`, estimado na amostra de validação no bloco da
+@tbl-adjusted-parameters. Este procedimento reutiliza esse ajuste, sem ler
+ou selecionar outra amostra.
 
 **Procedimento**
 
@@ -502,8 +544,12 @@ reliability_table_adjusted
 ::::
 
 As exclusões alteram a composição dos escores psicológico, físico e ambiental;
-o escore social preserva seus três indicadores. O ômega e o GLB permanecem acima de 0,70 em todos os domínios, indicando confiabilidade adequada para a interpretação dos escores modificados
-[@cho2022; @trizano-hermosilla2016].
+o escore social preserva seus três indicadores. Na validação, o ômega dos
+escores psicológico, social e ambiental supera a referência convencional
+de 0,70. No físico, o coeficiente é
+`r formatC(reliability_adjusted$omega[reliability_adjusted$factor == "physical"], format = "f", digits = 3, decimal.mark = ",")`,
+ligeiramente abaixo dessa referência. Os GLB superam 0,70 nos quatro domínios,
+sob os pressupostos já discutidos [@cho2022; @trizano-hermosilla2016].
 
 Os ômegas variam de
 `r formatC(min(reliability_adjusted$omega), format = "f", digits = 3, decimal.mark = ",")`
@@ -513,15 +559,17 @@ os GLB, de
 `r formatC(min(reliability_adjusted$glb), format = "f", digits = 3, decimal.mark = ",")`
 a
 `r formatC(max(reliability_adjusted$glb), format = "f", digits = 3, decimal.mark = ",")`.
-Em relação a H~0~, os ômegas psicológico, físico e ambiental diminuíram,
-enquanto o social permaneceu praticamente estável. A melhora do
-ajuste global foi acompanhada de redução da cobertura dos domínios e de pequenas
-reduções na confiabilidade desses três escores.
+A interpretação conjunta com H~0~ considera tanto a composição dos escores
+quanto as amostras em que foram estimados. A redução da cobertura dos
+domínios e o ômega físico próximo de 0,70 integram a avaliação dos usos
+possíveis da versão modificada. As diferenças entre coeficientes não podem
+ser atribuídas exclusivamente às exclusões de itens.
 
 ## Avaliação por 3DFI {#sec-adjusted-dddfi}
 
-A avaliação da especificação modificada utiliza o 3DFI fundamentado na
-@sec-theory-fit. A calibração caracteriza o ajuste aproximado por magnitudes
+A avaliação da especificação modificada na amostra de validação utiliza o
+3DFI fundamentado na @sec-theory-fit. A calibração dos limites caracteriza
+o ajuste aproximado por magnitudes
 de discrepância nas correlações, sem escolher novos caminhos omitidos para
 definir a má especificação. A simulação da @sec-model-fit examinou a
 referência de ajuste exato e a sensibilidade a uma alternativa estrutural
@@ -531,7 +579,8 @@ demonstrar a avaliação graduada de uma solução após as modificações. As d
 calibrações respondem a perguntas distintas: o afastamento da referência
 exata nos modelos originais e o grau de ajuste aproximado do modelo
 modificado. Seus resultados devem ser interpretados segundo essas perguntas,
-considerando também a mudança de 24 para 21 indicadores.
+considerando também a mudança de 24 para 21 indicadores e as amostras
+utilizadas.
 
 A calibração considera os 21 indicadores, a não normalidade e a estimação
 robusta. São utilizadas 1.000 replicações e três magnitudes médias absolutas de
@@ -548,11 +597,6 @@ A avaliação deve comparar cada índice observado com sua referência correspon
 #| tbl-cap: "Limites 3DFI calibrados para o modelo modificado."
 #| echo: false
 
-# Select the retained indicators, preserving missing responses.
-dfi_data <- as.data.frame(
-  analysis_data[lavaan::lavNames(fit_adjustedzemodel, "ov")]
-)
-
 # Reuse the saved DDDFI calibration or compute it when unavailable.
 dfi_adjusted <- cache_or_run("dfi_adjusted", {
 
@@ -562,7 +606,7 @@ dfi_adjusted <- cache_or_run("dfi_adjusted", {
   # Run the direct-discrepancy calibration for the adjusted model.
   result <- dynamic::DDDFI(
     model = fit_adjustedzemodel,
-    data = dfi_data,
+    data = validation_data,
     scale = "nonnormal",
     estimator = "MLR",
     reps = 1000,
@@ -581,6 +625,9 @@ dfi_adjusted <- cache_or_run("dfi_adjusted", {
 dfi_adjusted <- readRDS(
   here::here("Data", "IntermediateData", "dfi_adjusted.rds")
 )
+
+# Check that the saved calibration matches the current validation sample size.
+stopifnot(dfi_adjusted$n == nrow(validation_data))
 
 # Format the calibrated DDDFI reference table.
 dfi_table_adjusted <- table_3dfi(dfi_adjusted, lang = "pt")
@@ -607,13 +654,19 @@ Calibrar e apresentar limites de ajuste aproximado para o modelo modificado por 
 
 **Preparação**
 
-Utilize `analysis_data`, `fit_adjustedzemodel`, `SEED` e o mecanismo de resultados salvos da preparação geral. A calibração é armazenada em `Data/IntermediateData/dfi_adjusted.rds`.
+Utilize `validation_data` e `fit_adjustedzemodel`, obtidos na
+@tbl-adjusted-parameters para a validação (`sample_group == 1`), além de `SEED`
+e do mecanismo de resultados salvos da preparação geral. A calibração dos
+limites é armazenada em `Data/IntermediateData/dfi_adjusted.rds`. Aqui,
+calibrar limites é uma operação de simulação; não significa usar a amostra de
+calibração da divisão amostral.
 
 **Procedimento**
 
-O bloco seleciona os indicadores retidos conforme o ajuste e preserva suas respostas ausentes. A função `dynamic::DDDFI()` implementa o 3DFI. Na versão 1.1.0 utilizada, as funções internas `true_fit()` e `miss_fit()` selecionam índices robustos para MLR, mas suas chamadas a `lavaan::cfa()` não recebem o argumento `missing`, embora o definam internamente. As réplicas são, assim, ajustadas com a exclusão padrão de casos incompletos. Preservar ausências na geração não implica repetir FIML na estimação. A chamada solicita não normalidade, MLR, 1.000 replicações e discrepâncias médias absolutas de 0,038, 0,050 e 0,060. A semente é fixada antes da simulação.
+A função `dynamic::DDDFI()` implementa o 3DFI e recebe o modelo ajustado em `model` e a amostra de validação diretamente em `data`. O procedimento seleciona internamente os indicadores presentes no modelo. A chamada utiliza `scale = "nonnormal"`, `estimator = "MLR"`, 1.000 replicações e discrepâncias médias absolutas de 0,038, 0,050 e 0,060. A semente é fixada antes da simulação, e `plot.dfi = FALSE` desativa a produção dos gráficos internos.
 
-`cache_or_run()` reutiliza o resultado disponível ou executa a calibração; antes de salvar um novo resultado, remove os dados simulados para reduzir seu tamanho. O arquivo compacto é então lido do disco. As orientações operacionais de reprodução e recálculo pertencem ao [README](README.md).
+`cache_or_run()` reutiliza o resultado disponível ou executa a calibração; antes de salvar um novo resultado, remove os dados simulados para reduzir seu tamanho. O arquivo compacto é então lido do disco e seu tamanho amostral é conferido
+contra `validation_data`.
 
 A função própria `table_3dfi()` recebe essa calibração e retorna a tabela; sua auxiliar `tidy_3dfi()` organiza as referências próximo, razoável e medíocre. A apresentação reúne MAD solicitado e simulado, CFI, RMSEA e limite superior do IC de 90% do RMSEA, com três casas decimais e rótulos em português. A exportação utiliza `table_data`, preservando as células apresentadas.
 
@@ -625,11 +678,6 @@ Execute o bloco para obter ou reutilizar `dfi_adjusted`, apresentar os limites e
 #| eval: false
 #| code-fold: true
 
-# Select the retained indicators, preserving missing responses.
-dfi_data <- as.data.frame(
-  analysis_data[lavaan::lavNames(fit_adjustedzemodel, "ov")]
-)
-
 # Reuse the saved DDDFI calibration or compute it when unavailable.
 dfi_adjusted <- cache_or_run("dfi_adjusted", {
 
@@ -639,7 +687,7 @@ dfi_adjusted <- cache_or_run("dfi_adjusted", {
   # Run the direct-discrepancy calibration for the adjusted model.
   result <- dynamic::DDDFI(
     model = fit_adjustedzemodel,
-    data = dfi_data,
+    data = validation_data,
     scale = "nonnormal",
     estimator = "MLR",
     reps = 1000,
@@ -658,6 +706,9 @@ dfi_adjusted <- cache_or_run("dfi_adjusted", {
 dfi_adjusted <- readRDS(
   here::here("Data", "IntermediateData", "dfi_adjusted.rds")
 )
+
+# Check that the saved calibration matches the current validation sample size.
+stopifnot(dfi_adjusted$n == nrow(validation_data))
 
 # Format the calibrated DDDFI reference table.
 dfi_table_adjusted <- table_3dfi(dfi_adjusted, lang = "pt")
@@ -691,95 +742,8 @@ visualizar a diferença entre as duas referências de interpretação.
 #| fig-height: 5
 #| echo: false
 
-# Combine the reference and fair-discrepancy simulated indices.
-dfi_plot_data <- rbind(
-  data.frame(
-    Model = "Misspecified",
-    RMSEA = dfi_adjusted$indices$RMSEA_L2,
-    CFI = dfi_adjusted$indices$CFI_L2
-  ),
-  data.frame(
-    Model = "True",
-    RMSEA = dfi_adjusted$indices$RMSEA_L0,
-    CFI = dfi_adjusted$indices$CFI_L0
-  )
-)
-
-# Reshape the simulated indices into one row per index and replication.
-dfi_plot_data <- tidyr::pivot_longer(
-  dfi_plot_data,
-  cols = c(RMSEA, CFI),
-  names_to = "Index",
-  values_to = "Value"
-)
-
-# Set the display order of the fit indices.
-dfi_plot_data$Index <- factor(
-  dfi_plot_data$Index,
-  levels = c("RMSEA", "CFI")
-)
-
-# Recover dynamic cutoffs and add conventional reference values.
-dfi_plot_cutoffs <- data.frame(
-  Index = rep(c("RMSEA", "CFI"), 2),
-  Reference = rep(
-    c("Hu & Bentler Cutoff", "Dynamic Cutoff"),
-    each = 2
-  ),
-  Cutoff = c(
-    0.06, 0.95,
-    as.numeric(dfi_adjusted$cutoffs["Fair", c("RMSEA", "CFI")])
-  )
-)
-
-# Match the cutoff index order to the plotted distributions.
-dfi_plot_cutoffs$Index <- factor(
-  dfi_plot_cutoffs$Index,
-  levels = c("RMSEA", "CFI")
-)
-
-# Plot the distributions and both cutoff references.
-dfi_plot_fair <- ggplot2::ggplot(
-  dfi_plot_data,
-  ggplot2::aes(x = Value, fill = Model)
-) +
-  ggplot2::geom_histogram(
-    position = "identity", alpha = 0.5, bins = 30
-  ) +
-  ggplot2::geom_vline(
-    data = dfi_plot_cutoffs,
-    ggplot2::aes(xintercept = Cutoff, linetype = Reference),
-    linewidth = 0.6
-  ) +
-  ggplot2::scale_fill_manual(
-    values = c(
-      "Misspecified" = "#E9798C",
-      "True" = "#66C2F5"
-    )
-  ) +
-  ggplot2::scale_linetype_manual(
-    breaks = c("Hu & Bentler Cutoff", "Dynamic Cutoff"),
-    values = c(
-      "Hu & Bentler Cutoff" = "dotted",
-      "Dynamic Cutoff" = "longdash"
-    )
-  ) +
-  ggplot2::facet_wrap(
-    ~Index, scales = "free", nrow = 1,
-    strip.position = "bottom"
-  ) +
-  ggplot2::labs(
-    title = "Fair",
-    x = NULL, y = NULL, fill = NULL, linetype = NULL
-  ) +
-  ggplot2::theme_classic() +
-  ggplot2::theme(
-    axis.text.y = ggplot2::element_blank(),
-    axis.ticks.y = ggplot2::element_blank(),
-    strip.background = ggplot2::element_blank(),
-    strip.placement = "outside",
-    legend.position = "bottom"
-  )
+# Plot the saved distributions for the fair reference.
+dfi_plot_fair <- plot_3dfi(dfi_adjusted, reference = "Fair")
 
 # Display the simulated distributions and cutoff references.
 print(dfi_plot_fair)
@@ -811,9 +775,9 @@ Utilize `dfi_adjusted`, obtido no bloco da @tbl-adjusted-dfi-cutoffs. A reconstr
 
 **Procedimento**
 
-O bloco reúne as colunas `CFI_L0` e `RMSEA_L0` para a referência e `CFI_L2` e `RMSEA_L2` para a discrepância razoável. Os dados são reorganizados em formato longo e os painéis recebem a mesma ordem de índices. As colunas `SRMR_L*` não são utilizadas: nesta implementação armazenam limites superiores do intervalo do RMSEA.
+A função `plot_3dfi()`, de [helpers.R](Scripts/DataAppendixScripts/helpers.R), recebe a calibração salva e a referência desejada: `"Close"`, `"Fair"` ou `"Mediocre"`. Essas opções selecionam, respectivamente, as distribuições `CFI_L1`/`RMSEA_L1`, `CFI_L2`/`RMSEA_L2` ou `CFI_L3`/`RMSEA_L3`, sempre comparadas com `CFI_L0` e `RMSEA_L0`. Nesta figura, utilizamos `reference = "Fair"`. As colunas `SRMR_L*` não são utilizadas: nesta implementação armazenam limites superiores do intervalo do RMSEA.
 
-`dfi_plot_cutoffs` reúne os limites da linha `Fair` e os valores convencionais CFI = 0,95 e RMSEA = 0,06. A figura sobrepõe histogramas e acrescenta linhas para essas referências, separando os índices em painéis.
+A função recupera os limites dinâmicos da linha correspondente à referência escolhida e acrescenta os valores convencionais CFI = 0,95 e RMSEA = 0,06. A figura sobrepõe histogramas e apresenta as linhas de corte em painéis separados. Os atributos `plot_data` e `plot_cutoffs` preservam os dados utilizados. Para examinar outro nível, altere apenas `reference`; por exemplo, `plot_3dfi(dfi_adjusted, reference = "Mediocre")`.
 
 **Execução e resultado**
 
@@ -823,95 +787,8 @@ Execute o bloco para apresentar `dfi_plot_fair` e salvar `fig-dfi-adjusted-fair.
 #| eval: false
 #| code-fold: true
 
-# Combine the reference and fair-discrepancy simulated indices.
-dfi_plot_data <- rbind(
-  data.frame(
-    Model = "Misspecified",
-    RMSEA = dfi_adjusted$indices$RMSEA_L2,
-    CFI = dfi_adjusted$indices$CFI_L2
-  ),
-  data.frame(
-    Model = "True",
-    RMSEA = dfi_adjusted$indices$RMSEA_L0,
-    CFI = dfi_adjusted$indices$CFI_L0
-  )
-)
-
-# Reshape the simulated indices into one row per index and replication.
-dfi_plot_data <- tidyr::pivot_longer(
-  dfi_plot_data,
-  cols = c(RMSEA, CFI),
-  names_to = "Index",
-  values_to = "Value"
-)
-
-# Set the display order of the fit indices.
-dfi_plot_data$Index <- factor(
-  dfi_plot_data$Index,
-  levels = c("RMSEA", "CFI")
-)
-
-# Recover dynamic cutoffs and add conventional reference values.
-dfi_plot_cutoffs <- data.frame(
-  Index = rep(c("RMSEA", "CFI"), 2),
-  Reference = rep(
-    c("Hu & Bentler Cutoff", "Dynamic Cutoff"),
-    each = 2
-  ),
-  Cutoff = c(
-    0.06, 0.95,
-    as.numeric(dfi_adjusted$cutoffs["Fair", c("RMSEA", "CFI")])
-  )
-)
-
-# Match the cutoff index order to the plotted distributions.
-dfi_plot_cutoffs$Index <- factor(
-  dfi_plot_cutoffs$Index,
-  levels = c("RMSEA", "CFI")
-)
-
-# Plot the distributions and both cutoff references.
-dfi_plot_fair <- ggplot2::ggplot(
-  dfi_plot_data,
-  ggplot2::aes(x = Value, fill = Model)
-) +
-  ggplot2::geom_histogram(
-    position = "identity", alpha = 0.5, bins = 30
-  ) +
-  ggplot2::geom_vline(
-    data = dfi_plot_cutoffs,
-    ggplot2::aes(xintercept = Cutoff, linetype = Reference),
-    linewidth = 0.6
-  ) +
-  ggplot2::scale_fill_manual(
-    values = c(
-      "Misspecified" = "#E9798C",
-      "True" = "#66C2F5"
-    )
-  ) +
-  ggplot2::scale_linetype_manual(
-    breaks = c("Hu & Bentler Cutoff", "Dynamic Cutoff"),
-    values = c(
-      "Hu & Bentler Cutoff" = "dotted",
-      "Dynamic Cutoff" = "longdash"
-    )
-  ) +
-  ggplot2::facet_wrap(
-    ~Index, scales = "free", nrow = 1,
-    strip.position = "bottom"
-  ) +
-  ggplot2::labs(
-    title = "Fair",
-    x = NULL, y = NULL, fill = NULL, linetype = NULL
-  ) +
-  ggplot2::theme_classic() +
-  ggplot2::theme(
-    axis.text.y = ggplot2::element_blank(),
-    axis.ticks.y = ggplot2::element_blank(),
-    strip.background = ggplot2::element_blank(),
-    strip.placement = "outside",
-    legend.position = "bottom"
-  )
+# Plot the saved distributions for the fair reference.
+dfi_plot_fair <- plot_3dfi(dfi_adjusted, reference = "Fair")
 
 # Display the simulated distributions and cutoff references.
 print(dfi_plot_fair)
@@ -942,13 +819,13 @@ e limite superior do intervalo do RMSEA de até
 `r formatC(as.numeric(dfi_adjusted$cutoffs["Fair", "90% CI"]), format = "f", digits = 3, decimal.mark = ",")`.
 A referência próxima (*close*) é mais exigente e não foi alcançada.
 A classificação 3DFI caracteriza, portanto, o ajuste como razoável sob
-as condições de calibração utilizadas.
+as condições de simulação utilizadas.
 
 ## Diagnóstico local
 
 O diagnóstico local caracteriza as dificuldades que permanecem no modelo
-modificado. A @tbl-adjusted-modification-indices-top20 apresenta os vinte
-maiores MI, com EPC bruto e padronizado. Esses resultados
+modificado na validação. A @tbl-adjusted-modification-indices-top20 apresenta
+os vinte maiores MI, com EPC bruto e padronizado. Esses resultados
 são aproximações da liberação individual de parâmetros e devem ser interpretados
 junto das cargas e dos resíduos, preservando a especificação delimitada na
 fundamentação [@nye2022; @crede2019].
@@ -989,17 +866,20 @@ Examinar as vinte maiores relações candidatas à liberação após as modifica
 
 **Preparação**
 
-Utilize `fit_adjustedzemodel`, estimado no bloco da @tbl-adjusted-parameters.
+Utilize `fit_adjustedzemodel`, estimado na amostra de validação no bloco da
+@tbl-adjusted-parameters. Este procedimento reutiliza esse ajuste, sem ler
+ou selecionar outra amostra.
 
 **Procedimento**
 
-O bloco aplica `table_mi()`, apresentada no racional da @tbl-modification-indices-top20, ao ajuste modificado. A ordenação segue o MI e mantém EPC bruto e padronizado para cada relação elegível; relações já livres são excluídas da seleção.
+O bloco aplica `table_mi()`, apresentada no racional da @tbl-modification-indices-top20, ao ajuste modificado. O lavaan calcula e ordena os MI, com EPC bruto e padronizado, e exclui parâmetros já livres e MI indisponíveis. O helper apresenta as primeiras vinte relações e formata a tabela.
 
-O atributo `mi_data` preserva todas as relações elegíveis com precisão completa. Após a verificação de `table_data`, as mesmas vinte relações exibidas são exportadas. Os operadores lavaan são preservados no documento e como texto comum no CSV.
+O atributo `mi_data` preserva a saída completa do lavaan com precisão completa para uso no texto. Após a verificação de `table_data`, as mesmas vinte relações exibidas são exportadas. Os operadores lavaan são preservados no documento e como texto comum no CSV.
 
 **Execução e resultado**
 
-Execute o bloco para apresentar a tabela e salvar `tbl-adjusted-modification-indices-top20.csv` em `Output/Results/Tables`. A inspeção utiliza o ajuste existente e não libera novos parâmetros.
+Execute o bloco para apresentar a tabela e salvar `tbl-adjusted-modification-indices-top20.csv` em `Output/Results/Tables`. A inspeção utiliza o ajuste fechado na validação e não libera novos
+parâmetros; suas sugestões não são aplicadas como novo refinamento nessa amostra.
 
 ```{r}
 #| eval: false
@@ -1037,8 +917,13 @@ A referência de magnitude absoluta de 0,10 orienta a localização das
 discrepâncias remanescentes, em conjunto com os parâmetros e MI/EPC.
 
 ```{r}
-#| label: prepare-residual-correlations-adjusted
-#| include: false
+#| label: fig-residual-correlations-adjusted
+#| fig-cap: "Resíduos de correlação do modelo modificado. As cores representam magnitudes absolutas; os rótulos preservam o sinal."
+#| fig-alt: "Mapa triangular das diferenças entre correlações observadas e reproduzidas para os 21 indicadores do modelo modificado."
+#| fig-width: 8
+#| fig-height: 7
+#| fig-align: center
+#| echo: false
 
 # Create the correlation residual heatmap.
 residual_heatmap_adjusted <- plot_stdres(fit_adjustedzemodel)
@@ -1059,15 +944,6 @@ ggplot2::ggsave(
   here::here("Output", "Results", "Figures", "fig-residual-correlations-adjusted.png"),
   plot = residual_heatmap_adjusted, width = 8, height = 7, dpi = 300
 )
-```
-```{r}
-#| label: fig-residual-correlations-adjusted
-#| fig-cap: "Resíduos de correlação do modelo modificado. As cores representam magnitudes absolutas; os rótulos preservam o sinal."
-#| fig-alt: "Mapa triangular das diferenças entre correlações observadas e reproduzidas para os 21 indicadores do modelo modificado."
-#| fig-width: 8
-#| fig-height: 7
-#| fig-align: center
-#| echo: false
 
 # Display the residual correlation heatmap.
 residual_heatmap_adjusted
@@ -1083,7 +959,9 @@ Examinar as diferenças entre correlações observadas e reproduzidas pelo model
 
 **Preparação**
 
-Utilize `fit_adjustedzemodel`, estimado no bloco da @tbl-adjusted-parameters.
+Utilize `fit_adjustedzemodel`, estimado na amostra de validação no bloco da
+@tbl-adjusted-parameters. Este procedimento reutiliza esse ajuste, sem ler
+ou selecionar outra amostra.
 
 **Procedimento**
 
@@ -1131,18 +1009,453 @@ O maior resíduo absoluto é
 `r nrow(residual_correlations_adjusted)` pares apresentam magnitude de pelo
 menos 0,10. A leitura conjunta desse mapa, das cargas e dos MI/EPC documenta
 as limitações locais da especificação selecionada, em conjunto com a avaliação
-por 3DFI apresentada anteriormente. Q23–Q25 e Q8–Q9 destacam-se tanto
-nos resíduos quanto nos MI. A redução das discrepâncias em relação a H~0~
-considera também a retirada dos pares que envolviam os indicadores excluídos.
-As dificuldades remanescentes são registradas como limites da solução,
-encerrando as modificações nesta especificação.
+por 3DFI apresentada anteriormente. Q8–Q9 apresenta o maior MI e o maior
+resíduo absoluto; Q9–Q23 também se destaca nos dois diagnósticos.
+A indicação de carga cruzada de Q6 no fator físico apresenta EPC padronizado de
+`r formatC(with(attr(mi_table_adjusted, "mi_data"), sepc.all[lhs == "physical" & op == "=~" & rhs == "Q6"]), format = "f", digits = 3, decimal.mark = ",")`
+e integra as limitações locais registradas. Esses EPC são aproximações da
+liberação individual de parâmetros, não estimativas de um novo modelo ajustado.
+O contraste com H~0~ considera a retirada dos pares que envolviam os
+indicadores excluídos e o uso de outra parcela amostral.
 
 A revisão resultou em um modelo de quatro fatores com 21 indicadores,
-preservando os três itens sociais e incorporando as covariâncias residuais Q17–Q18. A solução apresentou ajuste compatível com a referência
-razoável do 3DFI e confiabilidade dos quatro escores acima de 0,70.
-A hipótese de ajuste próximo pelo RMSEA não foi rejeitada. Permaneceram cargas modestas
-e discrepâncias locais, que delimitam sua interpretação. Retemos essa
-especificação como solução exploratória para a amostra analisada, com os
-mesmos critérios de pré-processamento e estimação das seções anteriores.
-Sua aplicação posterior deve considerar a cobertura reduzida dos domínios
-e requer avaliação em outra amostra.
+preservando os três itens sociais, mantendo a covariância residual Q3–Q4
+e acrescentando Q17–Q18. Na validação, a solução apresentou ajuste
+compatível com a referência razoável do 3DFI, e a hipótese de ajuste próximo
+pelo RMSEA não foi rejeitada. A confiabilidade permaneceu próxima ou acima
+de 0,70, com ômega físico ligeiramente abaixo dessa referência. Cargas
+modestas e discrepâncias locais delimitam a interpretação da solução.
+Retemos essa especificação, desenvolvida na calibração e avaliada na
+validação, com os mesmos critérios de pré-processamento e estimação das
+seções anteriores. Seus usos devem considerar a cobertura reduzida dos
+domínios; a generalização para outros contextos requer novas avaliações.
+
+## Invariância de medida {#sec-measurement-invariance}
+
+A avaliação prossegue com a estabilidade do modelo de 21 indicadores entre calibração e validação. A AFC multigrupo mantém a identificação das duas amostras e permite examinar se a estrutura e os parâmetros de mensuração são compatíveis entre elas. O ajuste configural preserva o mesmo padrão de fatores e cargas livres nos grupos; a etapa métrica acrescenta igualdade das cargas não padronizadas [@fischer2019; @putnick2016]. Esse contraste atende ao objetivo central de avaliar a estabilidade das relações entre indicadores e fatores, conforme discutido na @sec-theory-comparison.
+
+Apesar de não necessário, para nossos fins, os níveis escalar e estrito ampliam a avaliação, acrescentando, sucessivamente, igualdade dos interceptos e das variâncias residuais [@putnick2016]. Todos os ajustes mantêm MLR/FIML e as covariâncias residuais Q3–Q4 e Q17–Q18, estimadas livremente em cada grupo.
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Como a invariância de medida foi configurada" collapse="true"}
+
+**Finalidade**
+
+Estimar os modelos configural, métrico, escalar e estrito para avaliar a invariância de medida entre calibração e validação.
+
+**Preparação**
+
+Utilize `adjustedzemodel`, definido em [models.R](Scripts/DataAppendixScripts/models.R), e a partição persistida em `Data/AnalysisData/whoqol_cv.csv`. A preparação geral da seção disponibiliza os pacotes e a especificação do modelo de 21 indicadores.
+
+**Procedimento**
+
+O bloco recupera a base completa sem repetir a divisão. A variável `sample_group` identifica calibração (`0`) e validação (`1`), nessa ordem, com a calibração como referência. O argumento `group` solicita o ajuste multigrupo, mantendo as duas amostras identificadas.
+
+As quatro chamadas utilizam MLR, `missing = "fiml"` e `std.lv = TRUE`. No configural, a mesma estrutura é estimada nos dois grupos sem restrições de igualdade entre eles. No métrico, `group.equal = "loadings"` iguala as cargas não padronizadas. O escalar acrescenta a igualdade dos interceptos, e o estrito acrescenta a igualdade das variâncias residuais. As covariâncias residuais Q3–Q4 e Q17–Q18 permanecem livres por grupo em todos os níveis.
+
+Com `std.lv = TRUE`, as variâncias fatoriais são fixadas em 1 nos dois grupos no configural. A partir do métrico, as variâncias do segundo grupo são estimadas livremente; a partir do escalar, suas médias fatoriais também são livres. Essas condições identificam os modelos sem acrescentar igualdade de variâncias ou médias fatoriais entre os grupos.
+
+**Execução e resultado**
+
+Execute o bloco para criar `fit_configural`, `fit_metric`, `fit_scalar` e `fit_strict`. A estimação não apresenta os parâmetros individuais; os quatro objetos alimentam o bloco de comparação seguinte. Os ajustes configural e métrico também serão utilizados na permutação.
+
+```{r}
+#| label: setup-measurement-invariance
+#| code-fold: true
+
+# Read the saved partition without repeating the sample split.
+cv_data <- readr::read_csv2(
+  here::here("Data", "AnalysisData", "whoqol_cv.csv"),
+  na = c("", "NA"),
+  col_types = readr::cols(
+    ID = readr::col_character(),
+    missing_flag = readr::col_integer(),
+    sample_group = readr::col_integer()
+  ),
+  show_col_types = FALSE
+)
+
+# Set calibration as the reference group.
+cv_data$sample_group <- factor(cv_data$sample_group, levels = c(0, 1))
+
+# Fit the same structure with parameters freely estimated in each group.
+fit_configural <- lavaan::cfa(
+  model = adjustedzemodel, data = cv_data, group = "sample_group",
+  estimator = "MLR", missing = "fiml", std.lv = TRUE
+)
+
+# Constrain loadings while allowing the second group's factor variances to vary.
+fit_metric <- lavaan::cfa(
+  model = adjustedzemodel, data = cv_data, group = "sample_group",
+  group.equal = "loadings",
+  estimator = "MLR", missing = "fiml", std.lv = TRUE
+)
+
+# Add equal intercepts while allowing latent means to vary in the second group.
+fit_scalar <- lavaan::cfa(
+  model = adjustedzemodel, data = cv_data, group = "sample_group",
+  group.equal = c("loadings", "intercepts"),
+  estimator = "MLR", missing = "fiml", std.lv = TRUE
+)
+
+# Add equal residual variances while keeping residual covariances free by group.
+fit_strict <- lavaan::cfa(
+  model = adjustedzemodel, data = cv_data, group = "sample_group",
+  group.equal = c("loadings", "intercepts", "residuals"),
+  estimator = "MLR", missing = "fiml", std.lv = TRUE
+)
+```
+
+:::
+
+::::
+
+A @tbl-invariance-tests apresenta os testes dos modelos e as diferenças robustas entre níveis hierárquicos. A avaliação considera o desajuste decorrente das restrições acrescentadas, distinguindo o teste de diferença da hipótese de ajuste exato de cada modelo. A correção robusta é aplicada ao teste de diferença [@brown2015].
+
+```{r}
+#| label: tbl-invariance-tests
+#| tbl-cap: "Testes dos modelos de invariância e diferenças robustas entre níveis hierárquicos."
+#| echo: false
+
+
+# Collect the nested models in increasing restriction order.
+invariance_fits <- list(
+  "Configural" = fit_configural, "Métrico" = fit_metric,
+  "Escalar" = fit_scalar, "Estrito" = fit_strict
+)
+
+# Prepare the model tests and robust consecutive difference tests.
+invariance_test_table <- table_lrt(invariance_fits, lang = "pt")
+
+# Export exactly the displayed labels and cells.
+readr::write_excel_csv2(
+  attr(invariance_test_table, "table_data"),
+  here::here("Output", "Results", "Tables", "tbl-invariance-tests.csv"),
+  na = "NA"
+)
+
+# Display the model-comparison tests.
+invariance_test_table
+```
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Racional da @tbl-invariance-tests" collapse="true"}
+
+**Finalidade**
+
+Apresentar o teste de cada modelo e os testes robustos das restrições acrescentadas entre níveis consecutivos de invariância.
+
+**Preparação**
+
+Utilize `fit_configural`, `fit_metric`, `fit_scalar` e `fit_strict`, obtidos no bloco de estimação anterior. A função `table_lrt()` está definida em [helpers.R](Scripts/DataAppendixScripts/helpers.R).
+
+**Procedimento**
+
+A lista `invariance_fits` reúne os ajustes na ordem configural, métrico, escalar e estrito. Seus nomes identificam as linhas. `table_lrt()` utiliza `tidy_lrt()` para extrair o qui-quadrado ajustado de cada modelo e obter de `lavaan::lavTestLRT()` os testes robustos de diferença, sem subtrair diretamente as estatísticas ajustadas. Cada linha compara o modelo com o anterior; a primeira não possui teste de diferença. O valor-p refere-se à diferença, não ao teste global de cada modelo.
+
+A apresentação inclui qui-quadrado, graus de liberdade, diferença de qui-quadrado, diferença de graus de liberdade e valor-p. AIC e BIC ficam omitidos por padrão; em outros usos, `information = TRUE` acrescenta essas colunas. As comparações pressupõem modelos aninhados sobre as mesmas variáveis e observações. O atributo `lrt_data` preserva os números completos e o resultado nativo do teste; `table_data` contém as células formatadas para exportação.
+
+**Execução e resultado**
+
+Execute o bloco para apresentar a tabela e salvar `tbl-invariance-tests.csv` em `Output/Results/Tables`. A lista `invariance_fits` será reutilizada na tabela seguinte.
+
+```{r}
+#| eval: false
+#| code-fold: true
+
+# Collect the nested models in increasing restriction order.
+invariance_fits <- list(
+  "Configural" = fit_configural, "Métrico" = fit_metric,
+  "Escalar" = fit_scalar, "Estrito" = fit_strict
+)
+
+# Prepare the model tests and robust consecutive difference tests.
+invariance_test_table <- table_lrt(invariance_fits, lang = "pt")
+
+# Export exactly the displayed labels and cells.
+readr::write_excel_csv2(
+  attr(invariance_test_table, "table_data"),
+  here::here("Output", "Results", "Tables", "tbl-invariance-tests.csv"),
+  na = "NA"
+)
+
+# Display the model-comparison tests.
+invariance_test_table
+```
+
+:::
+
+::::
+
+A igualdade das cargas não foi rejeitada: o contraste métrico/configural apresentou $\Delta\chi^2$ ajustado de `r formatC(attr(invariance_test_table, "lrt_data")$delta_chisq[2], format = "f", digits = 3, decimal.mark = ",")`, com `r formatC(attr(invariance_test_table, "lrt_data")$delta_df[2], format = "f", digits = 0, decimal.mark = ",")` graus de liberdade e $p$ = `r formatC(attr(invariance_test_table, "lrt_data")$p_difference[2], format = "f", digits = 3, decimal.mark = ",")`. As restrições adicionais também foram compatíveis com os dados: os testes escalar/métrico e estrito/escalar retornaram $p$ = `r formatC(attr(invariance_test_table, "lrt_data")$p_difference[3], format = "f", digits = 3, decimal.mark = ",")` e $p$ = `r formatC(attr(invariance_test_table, "lrt_data")$p_difference[4], format = "f", digits = 3, decimal.mark = ",")`, respectivamente. Esses resultados sustentam a manutenção das restrições avaliadas [@putnick2016] e indicam a estabilidade do modelo modificado da WHOQOL-Bref proposto.
+
+A @tbl-invariance-fit-changes reúne os índices dos quatro modelos e suas diferenças em relação ao nível anterior. As mudanças são calculadas como modelo mais restrito menos o anterior: queda do CFI e aumento do RMSEA ou do SRMR indicam piora. As referências de aproximadamente 0,010 para queda do CFI e 0,015 para aumento do RMSEA orientam a leitura conjunta, considerando as condições em que foram propostas por @cheung2002 e @chen2007.
+
+```{r}
+#| label: tbl-invariance-fit-changes
+#| tbl-cap: "Índices de ajuste e suas mudanças entre níveis hierárquicos de invariância: CFI e RMSEA robustos e SRMR."
+#| echo: false
+
+# Pair each fit index with its change relative to the preceding model.
+invariance_fit_table <- table_fit_changes(invariance_fits, lang = "pt")
+
+# Export exactly the displayed labels and cells.
+readr::write_excel_csv2(
+  attr(invariance_fit_table, "table_data"),
+  here::here("Output", "Results", "Tables", "tbl-invariance-fit-changes.csv"),
+  na = "NA"
+)
+
+# Display the indices and their signed changes.
+invariance_fit_table
+```
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Racional da @tbl-invariance-fit-changes" collapse="true"}
+
+**Finalidade**
+
+Apresentar CFI e RMSEA robustos e SRMR, intercalados com suas mudanças entre níveis hierárquicos de invariância.
+
+**Preparação**
+
+Utilize `invariance_fits`, organizado no bloco da @tbl-invariance-tests, e `table_fit_changes()`, definida em [helpers.R](Scripts/DataAppendixScripts/helpers.R).
+
+**Procedimento**
+
+`table_fit_changes()` utiliza `tidy_fit_changes()` para extrair os índices dos ajustes e calcular as diferenças antes do arredondamento. As colunas alternam CFI/ΔCFI, RMSEA/ΔRMSEA e SRMR/ΔSRMR. Cada diferença corresponde ao modelo da linha menos o anterior: valores negativos de ΔCFI indicam queda, enquanto valores positivos de ΔRMSEA e ΔSRMR indicam aumento.
+
+A família robusta de CFI/RMSEA acompanha a estimação MLR. O atributo `fit_data` preserva os valores completos e a família dos índices; `table_data` fornece as células exibidas.
+
+**Execução e resultado**
+
+Execute o bloco para apresentar a tabela e salvar `tbl-invariance-fit-changes.csv` em `Output/Results/Tables`. A função utiliza os ajustes existentes, sem reestimar modelos ou executar permutações.
+
+```{r}
+#| eval: false
+#| code-fold: true
+
+# Pair each fit index with its change relative to the preceding model.
+invariance_fit_table <- table_fit_changes(invariance_fits, lang = "pt")
+
+# Export exactly the displayed labels and cells.
+readr::write_excel_csv2(
+  attr(invariance_fit_table, "table_data"),
+  here::here("Output", "Results", "Tables", "tbl-invariance-fit-changes.csv"),
+  na = "NA"
+)
+
+# Display the indices and their signed changes.
+invariance_fit_table
+```
+
+:::
+
+::::
+
+O modelo configural apresentou CFI robusto de `r formatC(attr(invariance_fit_table, "fit_data")$cfi[1], format = "f", digits = 3, decimal.mark = ",")`, RMSEA robusto de `r formatC(attr(invariance_fit_table, "fit_data")$rmsea[1], format = "f", digits = 3, decimal.mark = ",")` e SRMR de `r formatC(attr(invariance_fit_table, "fit_data")$srmr[1], format = "f", digits = 3, decimal.mark = ",")`. Com a igualdade das cargas, o CFI aumentou `r formatC(attr(invariance_fit_table, "fit_data")$delta_cfi[2], format = "f", digits = 4, decimal.mark = ",")` e o RMSEA diminuiu `r formatC(abs(attr(invariance_fit_table, "fit_data")$delta_rmsea[2]), format = "f", digits = 4, decimal.mark = ",")`, enquanto o SRMR aumentou `r formatC(attr(invariance_fit_table, "fit_data")$delta_srmr[2], format = "f", digits = 4, decimal.mark = ",")`. A imposição de invariância métrica, portanto, não produziu desajuste relevante nesses índices.
+
+Nas etapas escalar e estrita, as quedas de CFI foram de `r formatC(abs(attr(invariance_fit_table, "fit_data")$delta_cfi[3]), format = "f", digits = 4, decimal.mark = ",")` e `r formatC(abs(attr(invariance_fit_table, "fit_data")$delta_cfi[4]), format = "f", digits = 4, decimal.mark = ",")`, acompanhadas de redução do RMSEA e de aumentos pequenos do SRMR. A concordância entre os testes robustos e a magnitude dessas mudanças favorece a estabilidade das cargas, dos interceptos e das variâncias residuais entre as amostras [@putnick2016].
+
+A invariância métrica também pode ser examinada por uma referência empírica das mudanças de CFI robusto, RMSEA robusto e SRMR [@jorgensen2018]. Assim, os rótulos de calibração e validação foram redistribuídos dentro dos estratos originais de participantes completos e incompletos, preservando a alocação de cada estrato entre as amostras, e reestimamos os modelos configural e métrico numa permutação que permitiu avaliar se a mudança observada poderia ser extrema na direção de pior ajuste.
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Como a permutação da invariância métrica foi realizada" collapse="true"}
+
+**Finalidade**
+
+Obter uma referência empírica para as mudanças de CFI robusto, RMSEA robusto e SRMR ao impor igualdade das cargas entre calibração e validação.
+
+**Preparação**
+
+Utilize `fit_metric`, `fit_configural` e `cv_data`, obtidos no bloco de estimação da invariância, além de `SIM`, `SEED` e `cache_or_run()` da preparação geral. O estrato original de ausência está registrado em `missing_flag` e foi definido pelos 24 indicadores antes da divisão amostral.
+
+**Procedimento**
+
+A função `permute_within_strata` alinha os grupos e os estratos à ordem dos participantes recuperada pelo ajuste, utilizando `lavInspect(..., "case.idx")`. Em cada repetição, os rótulos de calibração e validação são sorteados separadamente entre participantes completos e incompletos. Esse procedimento preserva as contagens originais de cada estrato por grupo, sem alterar respostas ou padrões de ausência. O argumento `datafun` substitui o embaralhamento irrestrito do pacote por essa redistribuição estratificada. `local()` mantém as informações necessárias junto da função.
+
+As três chamadas a `getFromNamespace()` disponibilizam funções internas já existentes no `semTools`. Elas contornam uma falha de exportação do processamento por sockets na versão 0.5-7, sem modificar o pacote ou acrescentar análises.
+
+`semTools::permuteMeasEq()` recebe o modelo métrico em `con` e o configural em `uncon`. A chamada solicita `SIM` permutações e compara as mudanças dos três índices. O processamento utiliza `parallelType = "snow"`, 28 processos em `ncpus` e `showProgress = FALSE`. Esse modo utiliza sockets do pacote `parallel`; o número de processos pode ser ajustado à máquina. `SEED` define a semente utilizada no procedimento.
+
+`cache_or_run("perm_metric", ...)` reutiliza primeiro o objeto disponível na sessão ou o arquivo `Data/IntermediateData/perm_metric.rds`. Na ausência de ambos, executa as permutações e salva o resultado. Alterar `SIM`, os modelos ou as condições da permutação não invalida automaticamente um resultado existente; a reutilização pressupõe correspondência com a análise atual.
+
+**Execução e resultado**
+
+Execute o bloco para obter `perm_metric`, que reúne as diferenças observadas, as distribuições de permutação, os valores-p empíricos e os registros de convergência. O resumo e os gráficos são apresentados no bloco seguinte. O código aparece uma única vez e é executável, com apresentação recolhível.
+
+```{r}
+#| label: permute-invariance-metric
+#| code-fold: true
+
+# Align the original missingness strata with the data extracted by semTools.
+permute_within_strata <- local({
+  case_order <- unlist(lavaan::lavInspect(fit_metric, "case.idx"))
+  original_group <- as.character(cv_data$sample_group[case_order])
+  strata_rows <- split(seq_along(case_order), cv_data$missing_flag[case_order])
+
+  # Replace unrestricted shuffling with random assignment within each stratum.
+  function(data) {
+    for (rows in strata_rows) {
+      data$sample_group[rows] <- sample(original_group[rows])
+    }
+    data
+  }
+})
+
+# Expose the internal functions exported by the semTools 0.5-7 socket backend.
+permuteOnce.mgcfa <- getFromNamespace("permuteOnce.mgcfa", "semTools")
+getAFIs <- getFromNamespace("getAFIs", "semTools")
+getMIs <- getFromNamespace("getMIs", "semTools")
+
+# Reuse the saved metric-invariance permutation or compute it when unavailable.
+set.seed(SEED)
+
+perm_metric <- cache_or_run("perm_metric", {
+  semTools::permuteMeasEq(
+    nPermute = SIM,
+    modelType = "mgcfa",
+    con = fit_metric,
+    uncon = fit_configural,
+    AFIs = c("cfi.robust", "rmsea.robust", "srmr"),
+    datafun = permute_within_strata,
+    # Disable the sequential progress loop and use socket workers.
+    showProgress = FALSE,
+    parallelType = "snow",
+    ncpus = 28,
+    iseed = SEED
+  )
+})
+```
+
+:::
+
+::::
+
+A @tbl-invariance-permutation apresenta as diferenças observadas e os valores-p empíricos. A referência foi construída com `r perm_metric@n.Permutations` permutações, das quais `r perm_metric@n.Converged` produziram ajustes convergentes.
+
+```{r}
+#| label: tbl-invariance-permutation
+#| tbl-cap: "Diferenças observadas e valores-p da permutação para a invariância métrica."
+#| echo: false
+
+# Format the observed differences and empirical permutation p values.
+permutation_table <- table_permutation(perm_metric, lang = "pt")
+
+# Export exactly the cells displayed in the table.
+readr::write_excel_csv2(
+  attr(permutation_table, "table_data"),
+  here::here("Output", "Results", "Tables", "tbl-invariance-permutation.csv"),
+  na = "NA"
+)
+
+# Display the omnibus permutation results.
+permutation_table
+```
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Racional da @tbl-invariance-permutation" collapse="true"}
+
+**Finalidade**
+
+Apresentar as diferenças observadas dos índices e os valores-p empíricos do teste de invariância métrica por permutação.
+
+**Preparação**
+
+Utilize `perm_metric`, obtido no bloco de permutação anterior, e `table_permutation()`, definida em [helpers.R](Scripts/DataAppendixScripts/helpers.R).
+
+**Procedimento**
+
+`table_permutation()` utiliza `tidy_permutation()` para extrair as diferenças observadas e os valores-p já calculados. As linhas apresentam CFI robusto, RMSEA robusto e SRMR. As diferenças correspondem ao modelo métrico menos o configural e são exibidas com quatro casas decimais e sinal; os valores-p são apresentados com três casas. A função não recalcula os testes nem executa novas permutações.
+
+O atributo `permutation_data` preserva os valores completos, os nomes originais dos índices e as contagens de permutações solicitadas e convergentes. O atributo `table_data` contém as células formatadas utilizadas na exportação. Os valores-p referem-se à cauda de deterioração de cada índice: queda do CFI e aumento do RMSEA ou do SRMR.
+
+**Execução e resultado**
+
+Execute o bloco para apresentar `permutation_table` e salvar `tbl-invariance-permutation.csv` em `Output/Results/Tables`, com o mesmo conteúdo exibido.
+
+```{r}
+#| eval: false
+#| code-fold: true
+# Format the observed differences and empirical permutation p values.
+permutation_table <- table_permutation(perm_metric, lang = "pt")
+
+# Export exactly the cells displayed in the table.
+readr::write_excel_csv2(
+  attr(permutation_table, "table_data"),
+  here::here("Output", "Results", "Tables", "tbl-invariance-permutation.csv"),
+  na = "NA"
+)
+
+# Display the omnibus permutation results.
+permutation_table
+```
+
+:::
+
+::::
+
+Os valores-p de permutação foram `r formatC(perm_metric@AFI.pval["cfi.robust"], format = "f", digits = 3, decimal.mark = ",")` para CFI robusto, `r formatC(perm_metric@AFI.pval["rmsea.robust"], format = "f", digits = 3, decimal.mark = ",")` para RMSEA robusto e `r formatC(perm_metric@AFI.pval["srmr"], format = "f", digits = 3, decimal.mark = ",")` para SRMR. As diferenças observadas não foram extremas nas respectivas caudas de deterioração, em concordância com o teste robusto de diferença. Essa convergência de evidências sustenta a compatibilidade das restrições métricas com os dados [@jorgensen2018].
+
+A @fig-invariance-permutation apresenta as distribuições empíricas de $\Delta$CFI e $\Delta$RMSEA. As linhas vermelhas localizam as diferenças observadas e as pretas indicam os limites críticos: na cauda inferior para o CFI e na superior para o RMSEA. Em ambos os painéis, as mudanças observadas permanecem fora da região de rejeição.
+
+```{r}
+#| label: fig-invariance-permutation
+#| fig-cap: "Distribuições de permutação das mudanças de CFI e RMSEA robustos na avaliação da invariância métrica."
+#| fig-subcap: ["CFI robusto", "RMSEA robusto"]
+#| fig-alt: "Histogramas das diferenças de CFI e RMSEA robustos, com os limites críticos, as diferenças observadas e os valores-p empíricos."
+#| layout-ncol: 2
+#| fig-width: 7
+#| fig-height: 5
+#| echo: false
+
+# Display the native permutation histograms side by side.
+hist(perm_metric, AFI = "cfi.robust")
+hist(perm_metric, AFI = "rmsea.robust")
+```
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Racional da @fig-invariance-permutation" collapse="true"}
+
+**Finalidade**
+
+Visualizar as distribuições de referência das mudanças de CFI e RMSEA robustos e localizar as diferenças observadas no teste de invariância métrica.
+
+**Preparação**
+
+Utilize `perm_metric`, obtido no bloco de permutação. Os histogramas acessam os resultados armazenados no objeto e não dependem da execução da tabela anterior.
+
+**Procedimento**
+
+As duas chamadas a `hist()` utilizam o método de `semTools` para o objeto de permutação. O argumento `AFI` seleciona `cfi.robust` ou `rmsea.robust`. Cada histograma mantém a apresentação nativa: frequências das diferenças permutadas, limite crítico empírico para α = 0,05, diferença observada e valor-p da permutação. Os valores nas legendas seguem o arredondamento padrão do método.
+
+A linha vermelha identifica a diferença observada e a preta o limite crítico. Para o CFI, a deterioração corresponde à cauda inferior; para o RMSEA, à superior. O eixo horizontal representa a diferença entre modelos, embora o título nativo possa apresentar somente o nome do índice.
+
+**Execução e resultado**
+
+Execute o bloco para gerar os dois histogramas a partir das distribuições salvas. Renderize a seção para visualizar a figura composta com os painéis de CFI e RMSEA. Não são executadas novas permutações.
+
+```{r}
+#| eval: false
+#| code-fold: true
+#| fig-subcap: ["CFI robusto", "RMSEA robusto"]
+#| layout-ncol: 2
+#| fig-width: 7
+#| fig-height: 5
+
+# Display the native permutation histograms side by side.
+hist(perm_metric, AFI = "cfi.robust")
+hist(perm_metric, AFI = "rmsea.robust")
+```
+
+:::
+
+::::
+
+A análise multigrupos procedida sob a amostra de calibração (grupo 1) e validação (grupo 2) sustenta a estabilidade métrica do modelo de 21 indicadores, acompanhada de resultados favoráveis às restrições escalares e estritas. Essa evidência complementa o ajuste global, a confiabilidade e o diagnóstico local da solução. Seu alcance é a estabilidade interna entre amostras da mesma população de origem [@fischer2019; @putnick2016].
