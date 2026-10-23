@@ -1335,3 +1335,286 @@ table_3dfi <- function(object, lang = "en") {
   attr(result, "dfi_data") <- dfi_data
   result
 }
+
+# --- Model comparison tables -------------------------------------------------
+
+# =============================================================================
+# Shared inputs for model comparison tables
+# =============================================================================
+# Input: A list of two or more fitted lavaan models in increasing restriction order.
+# Output: Named fits with matching observed data and strictly increasing df.
+# Model names are preserved as row labels. No model is estimated or changed.
+.comparison_models <- function(object) {
+  if (!is.list(object) || length(object) < 2L ||
+      !all(vapply(object, inherits, logical(1), what = "lavaan"))) {
+    stop("Supply a list of at least two fitted lavaan models.")
+  }
+  if (is.null(names(object))) names(object) <- paste("Model", seq_along(object))
+  if (anyNA(names(object)) || any(!nzchar(names(object))) ||
+      anyDuplicated(names(object))) {
+    stop("Model names must be nonempty and unique.")
+  }
+  if (!all(vapply(object, function(x) lavaan::lavInspect(x, "converged"),
+    logical(1)))) stop("All models must have converged.")
+
+  # Reject comparisons across different variables, observations, or groups.
+  reference <- object[[1L]]
+  for (fit in object[-1L]) {
+    same_data <- identical(lavaan::lavInspect(reference, "data"),
+      lavaan::lavInspect(fit, "data"))
+    same_groups <- identical(lavaan::lavInspect(reference, "group.label"),
+      lavaan::lavInspect(fit, "group.label"))
+    if (!same_data || !same_groups) {
+      stop("Models must use the same observed variables, cases, and groups.")
+    }
+  }
+  dfs <- vapply(object, function(x) lavaan::lavInspect(x, "test")[[1L]]$df,
+    numeric(1))
+  if (any(diff(dfs) <= 0)) {
+    stop("Supply nested models in strictly increasing degrees-of-freedom order.")
+  }
+  object
+}
+
+# =============================================================================
+# Organized likelihood-ratio comparison
+# =============================================================================
+# Purpose: Extract individual tests and consecutive native difference tests.
+# Input: object is a named list of nested lavaan fits, least restricted first.
+# Output: Full-precision model, chisq, df, delta_chisq, delta_df, p_difference,
+# aic, and bic. Native LRT output and test version are retained as attributes.
+# Individual corrected statistics come from each fit, not the LRT Chisq column.
+# The first row has no difference test. No fitting, simulation, or export occurs.
+tidy_lrt <- function(object) {
+  object <- .comparison_models(object)
+  tests <- lapply(object, function(x) lavaan::lavInspect(x, "test"))
+  corrected <- vapply(tests, function(x) length(x) > 1L, logical(1))
+  if (length(unique(corrected)) != 1L) {
+    stop("All models must use the same standard or corrected test family.")
+  }
+
+  # Read fitted test statistics directly, without recalculating fit indices.
+  selected <- lapply(tests, function(x) x[[length(x)]])
+  result <- data.frame(
+    model = names(object),
+    chisq = vapply(selected, function(x) x$stat, numeric(1)),
+    df = vapply(selected, function(x) x$df, numeric(1)),
+    delta_chisq = NA_real_, delta_df = NA_real_, p_difference = NA_real_,
+    aic = vapply(object, stats::AIC, numeric(1)),
+    bic = vapply(object, stats::BIC, numeric(1)),
+    stringsAsFactors = FALSE
+  )
+  native <- do.call(lavaan::lavTestLRT, unname(object))
+  result$delta_chisq <- native[["Chisq diff"]]
+  result$delta_df <- native[["Df diff"]]
+  result$p_difference <- native[["Pr(>Chisq)"]]
+  attr(result, "native_result") <- native
+  attr(result, "test_version") <- if (corrected[1L]) "scaled" else "standard"
+  result
+}
+
+# =============================================================================
+# Formatted likelihood-ratio comparison table
+# =============================================================================
+# Purpose: Present model tests and consecutive difference tests compactly.
+# Input: object is an ordered list of nested lavaan fits; lang is en or pt.
+# information = TRUE adds AIC/BIC; FALSE (default) keeps six compact columns.
+# Output: knitr_kable; table_data holds displayed cells and lrt_data retains
+# full-precision values, native LRT output, and standard/corrected test metadata.
+# The corrected individual chi-square is labeled scaled; the difference test
+# uses lavaan's correction. Missing cells use an em dash. No fitting or export.
+# Example: table_lrt(list(Configural = fit_configural, Metric = fit_metric))
+# Example: table_lrt(fits, lang = "pt", information = TRUE)
+table_lrt <- function(object, lang = "en", information = FALSE) {
+  lang <- match.arg(lang, c("en", "pt"))
+  if (!is.logical(information) || length(information) != 1L || is.na(information)) {
+    stop("information must be TRUE or FALSE.")
+  }
+  data <- tidy_lrt(object)
+  columns <- c("model", "chisq", "df", "delta_chisq", "delta_df", "p_difference")
+  if (information) columns <- c(columns, "aic", "bic")
+  output <- data[columns]
+
+  # Format a display copy while retaining numerical precision in lrt_data.
+  for (name in setdiff(columns, "model")) {
+    x <- output[[name]]
+    digits <- if (name %in% c("df", "delta_df")) 0L else 3L
+    display <- rep("—", length(x))
+    available <- is.finite(x)
+    display[available] <- formatC(x[available], format = "f", digits = digits)
+    if (name == "p_difference") display[available & x < 0.001] <- "< 0.001"
+    output[[name]] <- display
+  }
+  adjusted <- attr(data, "test_version") == "scaled"
+  chi <- if (adjusted) "χ² ajust." else "χ²"
+  delta <- if (adjusted) "Δχ² ajust." else "Δχ²"
+  if (lang == "en" && adjusted) {
+    chi <- "χ² scaled"
+    delta <- "Δχ² scaled"
+  }
+  names(output) <- c(if (lang == "pt") "Modelo" else "Model",
+    chi, "gl", delta, "Δgl", if (lang == "pt") "p da diferença" else "p difference",
+    if (information) c("AIC", "BIC"))
+  if (lang == "en") names(output)[c(3L, 5L)] <- c("df", "Δdf")
+
+  # Render Unicode labels as mathematical symbols in PDF tables.
+  rendered <- output
+  if (knitr::is_latex_output()) {
+    names(rendered) <- gsub("Δχ²", "$\\Delta\\chi^2$", names(rendered), fixed = TRUE)
+    names(rendered) <- gsub("χ²", "$\\chi^2$", names(rendered), fixed = TRUE)
+    names(rendered) <- gsub("Δ", "$\\Delta$", names(rendered), fixed = TRUE)
+    rendered[] <- lapply(rendered, function(x) gsub("—", "--", x, fixed = TRUE))
+  }
+  result <- knitr::kable(rendered, format = "pipe",
+    align = c("l", rep("r", ncol(rendered) - 1L)), row.names = FALSE)
+  attr(result, "table_data") <- output
+  attr(result, "lrt_data") <- data
+  result
+}
+
+# --- Fit index changes -------------------------------------------------------
+
+# =============================================================================
+# Organized fit indices and consecutive changes
+# =============================================================================
+# Purpose: Pair CFI, RMSEA, and SRMR with changes relative to the preceding fit.
+# Input: object is an ordered list of nested lavaan fits, least restricted first.
+# Output: Full-precision model, cfi, delta_cfi, rmsea, delta_rmsea, srmr,
+# delta_srmr. Changes are current minus previous, calculated before rounding.
+# index_version records the robust, scaled, or standard CFI/RMSEA family.
+# Missing robust indices remain NA, without silent substitution by other indices.
+tidy_fit_changes <- function(object) {
+  object <- .comparison_models(object)
+  summaries <- lapply(object, tidy_fit)
+  versions <- vapply(summaries, attr, character(1), which = "index_version")
+  if (length(unique(versions)) != 1L) {
+    stop("All models must use the same fit-index family.")
+  }
+  suffix <- if (versions[1L] == "standard") "" else paste0(".", versions[1L])
+  values <- lapply(summaries, function(x) stats::setNames(x$estimate, x$measure))
+  cfi <- vapply(values, function(x) unname(x[paste0("cfi", suffix)]), numeric(1))
+  rmsea <- vapply(values, function(x) unname(x[paste0("rmsea", suffix)]), numeric(1))
+  srmr <- vapply(values, function(x) unname(x["srmr"]), numeric(1))
+  result <- data.frame(model = names(object),
+    cfi = cfi, delta_cfi = c(NA_real_, diff(cfi)),
+    rmsea = rmsea, delta_rmsea = c(NA_real_, diff(rmsea)),
+    srmr = srmr, delta_srmr = c(NA_real_, diff(srmr)), stringsAsFactors = FALSE)
+  attr(result, "index_version") <- versions[1L]
+  result
+}
+
+# =============================================================================
+# Formatted fit-index changes table
+# =============================================================================
+# Purpose: Interleave each fit index and its signed consecutive change.
+# Input: object is an ordered list of nested lavaan fits; lang is en or pt.
+# Output: knitr_kable with three decimals for indices and four for changes.
+# table_data holds displayed cells; fit_data retains full-precision values and
+# the index family. Model labels come directly from the named input list.
+# No model fitting, simulation, file export, or cache handling occurs.
+# Example: table_fit_changes(fits, lang = "pt")
+table_fit_changes <- function(object, lang = "en") {
+  lang <- match.arg(lang, c("en", "pt"))
+  data <- tidy_fit_changes(object)
+  output <- data
+
+  # Distinguish unavailable indices from the absent first-row comparison.
+  for (name in names(data)[-1L]) {
+    x <- data[[name]]
+    change <- startsWith(name, "delta_")
+    display <- rep("NA", length(x))
+    available <- is.finite(x)
+    display[available] <- formatC(x[available], format = "f",
+      digits = if (change) 4L else 3L, flag = if (change) "+" else "")
+    if (change) display[1L] <- "—"
+    output[[name]] <- display
+  }
+  names(output) <- c(if (lang == "pt") "Modelo" else "Model",
+    "CFI", "ΔCFI", "RMSEA", "ΔRMSEA", "SRMR", "ΔSRMR")
+  rendered <- output
+  if (knitr::is_latex_output()) {
+    names(rendered) <- gsub("Δ", "$\\Delta$", names(rendered), fixed = TRUE)
+    rendered[] <- lapply(rendered, function(x) gsub("—", "--", x, fixed = TRUE))
+  }
+  result <- knitr::kable(rendered, format = "pipe",
+    align = c("l", rep("r", 6L)), row.names = FALSE)
+  attr(result, "table_data") <- output
+  attr(result, "fit_data") <- data
+  result
+}
+
+# --- Permutation comparison table --------------------------------------------
+
+# =============================================================================
+# Organized permutation differences and empirical p values
+# =============================================================================
+# Purpose: Extract the already-computed omnibus permutation results.
+# Input: One semTools permuteMeasEq object. No permutations are performed.
+# Output: Full-precision index, difference, and p_value columns; convergence
+# counts are retained in the permutations attribute. Native index names remain
+# available. Empirical p values are extracted unchanged, without recalculation.
+tidy_permutation <- function(object) {
+  if (!inherits(object, "permuteMeasEq")) {
+    stop("Supply a completed semTools permuteMeasEq object.")
+  }
+  observed <- object@AFI.obs
+  p_values <- object@AFI.pval
+  if (!length(observed) || !all(names(observed) %in% names(p_values))) {
+    stop("Observed differences and matching permutation p values are required.")
+  }
+  result <- data.frame(
+    index = names(observed), difference = as.numeric(observed),
+    p_value = as.numeric(p_values[names(observed)]), stringsAsFactors = FALSE
+  )
+  attr(result, "permutations") <- c(
+    requested = object@n.Permutations, converged = object@n.Converged
+  )
+  result
+}
+
+# =============================================================================
+# Formatted permutation comparison table
+# =============================================================================
+# Purpose: Display index differences and empirical permutation p values.
+# Input: object is a completed permuteMeasEq result; lang is en or pt.
+# Output: knitr_kable with four decimals for differences and three for p values.
+# table_data preserves displayed cells; permutation_data retains full precision,
+# original index names, and requested/converged counts. A zero empirical p value
+# is displayed as 0.000, without assigning precision below the permutation grid.
+# No fitting, permutation, plotting, cache management, or file export occurs.
+# Example: table_permutation(perm_metric, lang = "pt")
+table_permutation <- function(object, lang = "en") {
+  lang <- match.arg(lang, c("en", "pt"))
+  data <- tidy_permutation(object)
+  labels <- data$index
+  labels <- gsub(".robust", if (lang == "pt") " (robusto)" else " (robust)",
+    labels, fixed = TRUE)
+  labels <- gsub(".scaled", if (lang == "pt") " (ajust.)" else " (scaled)",
+    labels, fixed = TRUE)
+  labels <- sub("^cfi", "CFI", labels)
+  labels <- sub("^tli", "TLI", labels)
+  labels <- sub("^rmsea", "RMSEA", labels)
+  labels <- sub("^srmr", "SRMR", labels)
+
+  # Format display values without losing the numerical source.
+  difference <- rep("NA", nrow(data))
+  p_value <- rep("NA", nrow(data))
+  available <- is.finite(data$difference)
+  difference[available] <- formatC(data$difference[available], format = "f",
+    digits = 4, flag = "+")
+  available <- is.finite(data$p_value)
+  p_value[available] <- formatC(data$p_value[available], format = "f", digits = 3)
+  output <- data.frame(labels, difference, p_value, stringsAsFactors = FALSE)
+  names(output) <- if (lang == "pt") {
+    c("Índice", "Δ observado", "p da permutação")
+  } else c("Index", "Observed Δ", "Permutation p")
+  rendered <- output
+  if (knitr::is_latex_output()) {
+    names(rendered) <- gsub("Δ", "$\\Delta$", names(rendered), fixed = TRUE)
+  }
+  result <- knitr::kable(rendered, format = "pipe", align = c("l", "r", "r"),
+    row.names = FALSE)
+  attr(result, "table_data") <- output
+  attr(result, "permutation_data") <- data
+  result
+}

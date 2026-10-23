@@ -238,11 +238,10 @@ adjustedzemodel <- '
   social =~ Q20 + Q21 + Q22
   environment =~ Q8 + Q9 + Q12 + Q13 + Q14 + Q23 + Q25
 
-  # Unit-variance identification and freely estimated factor covariances
-  psycho ~~ 1*psycho + physical + social + environment
-  physical ~~ 1*physical + social + environment
-  social ~~ 1*social + environment
-  environment ~~ 1*environment
+  # Freely estimated factor covariances; identify variances with std.lv = TRUE.
+  psycho ~~ physical + social + environment
+  physical ~~ social + environment
+  social ~~ environment
 
   # Retain the original residual covariance between pain and treatment needs.
   Q4 ~~ Q3

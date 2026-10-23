@@ -86,7 +86,7 @@ div.csl-indent {
 <meta name="quarto:offset" content="./">
 <link href="./07_model_fit.html" rel="next">
 <link href="./05_preprocessing.html" rel="prev">
-<link href="./cover.png" rel="icon" type="image/png">
+<link href="./cover.jpg" rel="icon" type="image/jpeg">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -442,13 +442,101 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7"><span id="sec-estimation" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Processo de estimação</span></span></h1></header><header id="title-block-header">
 
-</header><p>Depois da seleção dos modelos e do pré-processamento, essa seção estima as duas especificações da AFC na amostra de análise final. A estimação converte as relações previstas nos modelos em parâmetros amostrais e aplica as condições definidas nas etapas anteriores: tratamento contínuo dos itens, MLR, FIML e identificação pela variância dos fatores <span class="citation" data-cites="jackson2009 nye2022">(<a href="references.html#ref-jackson2009" role="doc-biblioref">Jackson et al., 2009</a>; <a href="references.html#ref-nye2022" role="doc-biblioref">Nye, 2022</a>)</span>.</p>
+</header><p>Depois da seleção dos modelos e do pré-processamento, essa seção estima as duas especificações da AFC na amostra de calibração. A estimação converte as relações previstas nos modelos em parâmetros amostrais e aplica as condições definidas nas etapas anteriores: tratamento contínuo dos itens, MLR, FIML e identificação pela variância dos fatores <span class="citation" data-cites="jackson2009 nye2022">(<a href="references.html#ref-jackson2009" role="doc-biblioref">Jackson et al., 2009</a>; <a href="references.html#ref-nye2022" role="doc-biblioref">Nye, 2022</a>)</span>.</p>
+<p>Os 1.243 participantes da amostra analítica foram divididos aleatoriamente em duas parcelas: 621 para calibração e 622 para validação. A divisão foi estratificada pela presença de respostas ausentes nos 24 indicadores, distribuindo os 60 participantes com alguma ausência igualmente entre as parcelas. A calibração é utilizada para estimar os modelos e examinar seus diagnósticos; a validação é reservada à avaliação da especificação selecionada.</p>
 <section id="fundamentação-da-estimação" class="level2" data-number="6.1"><h2 data-number="6.1" class="anchored" data-anchor-id="fundamentação-da-estimação">
 <span class="header-section-number">6.1</span> Fundamentação da estimação</h2>
-<p>Os itens foram tratados como variáveis contínuas, conforme a justificativa desenvolvida na <a href="02_background.html#sec-theory-estimation" class="quarto-xref"><span>Seção 2.4</span></a>. Segundo <span class="citation" data-cites="rhemtulla2012">Rhemtulla et al. (<a href="references.html#ref-rhemtulla2012" role="doc-biblioref">2012</a>)</span>, a MLR apresenta desempenho adequado em condições com cinco ou mais categorias, especialmente com limiares aproximadamente simétricos. <span class="citation" data-cites="robitzsch2020a">Robitzsch (<a href="references.html#ref-robitzsch2020a" role="doc-biblioref">2020</a>)</span> e <span class="citation" data-cites="robitzsch2022a">Robitzsch (<a href="references.html#ref-robitzsch2022a" role="doc-biblioref">2022</a>)</span> mostram que as abordagens contínua e ordinal definem alvos paramétricos distintos. Com cinco categorias e uma estrutura fatorial previamente definida, este estudo adota a formulação contínua como aproximação de mensuração.</p>
+<p>Os itens foram tratados como variáveis contínuas, conforme a justificativa desenvolvida na <a href="02_background.html#sec-theory-estimation" class="quarto-xref"><span>Seção 2.4</span></a>. Segundo <span class="citation" data-cites="rhemtulla2012">Rhemtulla et al. (<a href="references.html#ref-rhemtulla2012" role="doc-biblioref">2012</a>)</span>, a MLR apresenta desempenho adequado em condições com cinco ou mais categorias, especialmente com limiares aproximadamente simétricos. <span class="citation" data-cites="robitzsch2020a">Robitzsch (<a href="references.html#ref-robitzsch2020a" role="doc-biblioref">2020</a>)</span> e <span class="citation" data-cites="robitzsch2022a">Robitzsch (<a href="references.html#ref-robitzsch2022a" role="doc-biblioref">2022</a>)</span> mostram que as abordagens contínua e ordinal definem alvos paramétricos distintos. Com cinco categorias e uma estrutura fatorial previamente definida, esse estudo adota a formulação contínua como aproximação de mensuração.</p>
 <p>O método MLR foi mantido porque combina a máxima verossimilhança com erros-padrão robustos e estatística de teste escalada. Essa combinação é adequada às distribuições observadas na etapa de pré-processamento e segue a recomendação da literatura para situações de não normalidade multivariada <span class="citation" data-cites="brown2015 kline2023 rogers2024c">(<a href="references.html#ref-brown2015" role="doc-biblioref">Brown, 2015</a>; <a href="references.html#ref-kline2023" role="doc-biblioref">Kline, 2023</a>; <a href="references.html#ref-rogers2024c" role="doc-biblioref">Rogers, 2024</a>)</span>.</p>
-<p>As poucas respostas ausentes foram incorporadas por FIML. O procedimento utiliza a informação observada de cada participante e mantém os 1.243 casos da amostra analítica. A escolha segue a recomendação de tratar ausências na etapa de estimação quando se trabalha com ML ou suas variantes robustas <span class="citation" data-cites="brown2023 kline2023">(<a href="references.html#ref-brown2023" role="doc-biblioref">Brown, 2023</a>; <a href="references.html#ref-kline2023" role="doc-biblioref">Kline, 2023</a>)</span>.</p>
-<p>A escala dos fatores foi definida pela fixação de suas variâncias em 1. Essa identificação permite estimar livremente as cargas fatoriais e estabelece a mesma métrica latente nos dois modelos. As duas especificações foram estimadas na mesma amostra e sob as mesmas condições. A comparação concentra-se, assim, nas três relações adicionais do modelo H<sub>1</sub><span class="citation" data-cites="jackson2009 nye2022">(<a href="references.html#ref-jackson2009" role="doc-biblioref">Jackson et al., 2009</a>; <a href="references.html#ref-nye2022" role="doc-biblioref">Nye, 2022</a>)</span>.</p>
+<p>As poucas respostas ausentes foram incorporadas por FIML. O procedimento utiliza a informação observada de cada participante e mantém os 621 casos da amostra de calibração. A escolha segue a recomendação de tratar ausências na etapa de estimação quando se trabalha com ML ou suas variantes robustas <span class="citation" data-cites="brown2023 kline2023">(<a href="references.html#ref-brown2023" role="doc-biblioref">Brown, 2023</a>; <a href="references.html#ref-kline2023" role="doc-biblioref">Kline, 2023</a>)</span>.</p>
+<p>A escala dos fatores foi definida pela fixação de suas variâncias em 1. Essa identificação permite estimar livremente as cargas fatoriais e estabelece a mesma métrica latente nos dois modelos. As duas especificações foram estimadas na mesma parcela de calibração e sob as mesmas condições. A comparação concentra-se, assim, nas três relações adicionais do modelo H<sub>1</sub><span class="citation" data-cites="jackson2009 nye2022">(<a href="references.html#ref-jackson2009" role="doc-biblioref">Jackson et al., 2009</a>; <a href="references.html#ref-nye2022" role="doc-biblioref">Nye, 2022</a>)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Como as amostras de calibração e validação foram obtidas">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Como as amostras de calibração e validação foram obtidas
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Separar a base analítica em duas parcelas, preservando participantes com respostas incompletas em ambas. A calibração alimenta a estimação e o diagnóstico dos modelos originais; a validação fica disponível para avaliar a especificação selecionada.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize <code>Data/AnalysisData/whoqol_analysis.csv</code>, produzido no pré-processamento, definido na preparação geral da <a href="03_model_selection.html" class="quarto-xref"><span>Seção 3</span></a>. A divisão considera os 24 indicadores Q3–Q26, antes de qualquer exclusão de itens.</p>
+<p><strong>Procedimento</strong></p>
+<p>O chunk abaixo lê a base, preserva os identificadores como texto e ordena os registros por <code>ID</code>. A variável <code>missing_flag</code> vale 0 para quem respondeu aos 24 indicadores e 1 para quem apresenta alguma ausência nesse conjunto. Esses dois estratos orientam o sorteio.</p>
+<p>Em cada estrato, a semente fixa a seleção aleatória de metade dos registros para a calibração. Quando o estrato tem tamanho ímpar, o registro excedente fica na validação. <code>sample_group</code> identifica a parcela: 0 para calibração e 1 para validação. Essa variável também poderá identificar os grupos na análise de invariança; ela tem função diferente de <code>missing_flag</code>, que identifica o estrato de ausências.</p>
+<p><code>cv_data</code> conserva todos os participantes e as duas flags. A partição é salva em <code>Data/AnalysisData/whoqol_cv.csv</code>; nas execuções seguintes, o bloco lê esse arquivo e confere sua correspondência com os dados de entrada. Assim, as seções seguintes recuperam a mesma seleção, sem depender de objetos deixados por outra sessão.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco abaixo antes da <a href="#tbl-estimation-parameters" class="quarto-xref">Tabela&nbsp;<span>6.1</span></a>. Ele mantém a base completa em <code>cv_data</code> e seleciona <code>calibration_data</code> para a estimação desta seção. A parcela de validação permanece identificada por <code>sample_group == 1</code> no arquivo salvo e será recuperada quando utilizada. A base analítica original é preservada.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Read and order the complete analysis sample before splitting it.</span></span>
+<span><span class="va">cv_data</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv2</a></span><span class="op">(</span></span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Data"</span>, <span class="st">"AnalysisData"</span>, <span class="st">"whoqol_analysis.csv"</span><span class="op">)</span>,</span>
+<span>  na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">""</span>, <span class="st">"NA"</span><span class="op">)</span>,</span>
+<span>  col_types <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span><span class="op">(</span>ID <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html">col_character</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  show_col_types <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">cv_data</span> <span class="op">&lt;-</span> <span class="va">cv_data</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="va">cv_data</span><span class="op">$</span><span class="va">ID</span><span class="op">)</span>, <span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Identify incomplete responses using all 24 planned indicators.</span></span>
+<span><span class="va">cv_data</span><span class="op">$</span><span class="va">missing_flag</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">cv_data</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Q"</span>, <span class="fl">3</span><span class="op">:</span><span class="fl">26</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0L</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html">stopifnot</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">anyNA</a></span><span class="op">(</span><span class="va">cv_data</span><span class="op">$</span><span class="va">ID</span><span class="op">)</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">anyDuplicated</a></span><span class="op">(</span><span class="va">cv_data</span><span class="op">$</span><span class="va">ID</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Reuse the saved partition when its input data remain unchanged.</span></span>
+<span><span class="va">cv_file</span> <span class="op">&lt;-</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span></span>
+<span>  <span class="st">"Data"</span>, <span class="st">"AnalysisData"</span>, <span class="st">"whoqol_cv.csv"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html">file.exists</a></span><span class="op">(</span><span class="va">cv_file</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">saved_cv</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv2</a></span><span class="op">(</span></span>
+<span>    <span class="va">cv_file</span>, na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">""</span>, <span class="st">"NA"</span><span class="op">)</span>,</span>
+<span>    col_types <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span><span class="op">(</span></span>
+<span>      ID <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html">col_character</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>      missing_flag <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html">col_integer</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>      sample_group <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html">col_integer</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    show_col_types <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html">stopifnot</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">saved_cv</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">cv_data</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">cv_data</span><span class="op">)</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="va">saved_cv</span><span class="op">$</span><span class="va">sample_group</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span>  <span class="va">cv_data</span><span class="op">$</span><span class="va">sample_group</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span><span class="op">(</span><span class="va">saved_cv</span><span class="op">$</span><span class="va">sample_group</span><span class="op">)</span></span>
+<span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>  <span class="co"># Assign calibration (0) and validation (1) within each missingness stratum.</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="va">SEED</span><span class="op">)</span></span>
+<span>  <span class="va">cv_data</span><span class="op">$</span><span class="va">sample_group</span> <span class="op">&lt;-</span> <span class="fl">1L</span></span>
+<span>  <span class="kw">for</span> <span class="op">(</span><span class="va">stratum</span> <span class="kw">in</span> <span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">stratum_rows</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">cv_data</span><span class="op">$</span><span class="va">missing_flag</span> <span class="op">==</span> <span class="va">stratum</span><span class="op">)</span></span>
+<span>    <span class="va">calibration_rows</span> <span class="op">&lt;-</span> <span class="va">stratum_rows</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample.int</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">stratum_rows</span><span class="op">)</span>, size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">floor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">stratum_rows</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span></span>
+<span>    <span class="op">)</span><span class="op">]</span></span>
+<span>    <span class="va">cv_data</span><span class="op">$</span><span class="va">sample_group</span><span class="op">[</span><span class="va">calibration_rows</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0L</span></span>
+<span>  <span class="op">}</span></span>
+<span></span>
+<span>  <span class="co"># Preserve the original data and save the partition for later sections.</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/basename.html">dirname</a></span><span class="op">(</span><span class="va">cv_file</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>  <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_excel_csv2</a></span><span class="op">(</span><span class="va">cv_data</span>, <span class="va">cv_file</span>, na <span class="op">=</span> <span class="st">"NA"</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Check stratum allocation and select the calibration sample.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html">stopifnot</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">cv_data</span><span class="op">$</span><span class="va">missing_flag</span>, <span class="va">cv_data</span><span class="op">$</span><span class="va">sample_group</span><span class="op">)</span><span class="op">[</span>, <span class="st">"0"</span><span class="op">]</span> <span class="op">==</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/Round.html">floor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">cv_data</span><span class="op">$</span><span class="va">missing_flag</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">calibration_data</span> <span class="op">&lt;-</span> <span class="va">cv_data</span><span class="op">[</span><span class="va">cv_data</span><span class="op">$</span><span class="va">sample_group</span> <span class="op">==</span> <span class="fl">0L</span>, <span class="op">]</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
 </section><section id="parâmetros-estimados" class="level2" data-number="6.2"><h2 data-number="6.2" class="anchored" data-anchor-id="parâmetros-estimados">
 <span class="header-section-number">6.2</span> Parâmetros estimados</h2>
 <p>Antes da avaliação do ajuste, a <a href="#tbl-estimation-parameters" class="quarto-xref">Tabela&nbsp;<span>6.1</span></a> apresenta os parâmetros fatoriais estimados. Para cada relação entre fator e item, a tabela reúne a carga não padronizada, o erro-padrão robusto, a estatística de teste e a carga padronizada, conforme recomendado por <span class="citation" data-cites="jackson2009">Jackson et al. (<a href="references.html#ref-jackson2009" role="doc-biblioref">2009</a>)</span> e <span class="citation" data-cites="nye2022">Nye (<a href="references.html#ref-nye2022" role="doc-biblioref">2022</a>)</span>.</p>
@@ -473,410 +561,410 @@ Tabela&nbsp;6.1: Parâmetros fatoriais estimados nos modelos H<sub>0</sub> e H<s
 <tr class="odd">
 <td style="text-align: left;">H0</td>
 <td style="text-align: left;">psycho =~ Q5</td>
-<td style="text-align: right;">0.542</td>
-<td style="text-align: right;">0.023</td>
-<td style="text-align: right;">23.989</td>
-<td style="text-align: right;">0.663</td>
+<td style="text-align: right;">0.523</td>
+<td style="text-align: right;">0.033</td>
+<td style="text-align: right;">15.774</td>
+<td style="text-align: right;">0.639</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">H0</td>
 <td style="text-align: left;">psycho =~ Q6</td>
-<td style="text-align: right;">0.620</td>
-<td style="text-align: right;">0.028</td>
-<td style="text-align: right;">22.061</td>
-<td style="text-align: right;">0.636</td>
+<td style="text-align: right;">0.591</td>
+<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">13.918</td>
+<td style="text-align: right;">0.597</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">H0</td>
 <td style="text-align: left;">psycho =~ Q7</td>
-<td style="text-align: right;">0.556</td>
-<td style="text-align: right;">0.023</td>
-<td style="text-align: right;">24.291</td>
-<td style="text-align: right;">0.648</td>
+<td style="text-align: right;">0.561</td>
+<td style="text-align: right;">0.031</td>
+<td style="text-align: right;">18.139</td>
+<td style="text-align: right;">0.653</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">H0</td>
 <td style="text-align: left;">psycho =~ Q11</td>
-<td style="text-align: right;">0.609</td>
-<td style="text-align: right;">0.028</td>
-<td style="text-align: right;">21.676</td>
-<td style="text-align: right;">0.612</td>
+<td style="text-align: right;">0.639</td>
+<td style="text-align: right;">0.040</td>
+<td style="text-align: right;">16.047</td>
+<td style="text-align: right;">0.637</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">H0</td>
 <td style="text-align: left;">psycho =~ Q19</td>
-<td style="text-align: right;">0.772</td>
-<td style="text-align: right;">0.022</td>
-<td style="text-align: right;">35.762</td>
-<td style="text-align: right;">0.820</td>
+<td style="text-align: right;">0.764</td>
+<td style="text-align: right;">0.033</td>
+<td style="text-align: right;">23.296</td>
+<td style="text-align: right;">0.798</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">H0</td>
 <td style="text-align: left;">psycho =~ Q26</td>
-<td style="text-align: right;">0.541</td>
-<td style="text-align: right;">0.028</td>
-<td style="text-align: right;">19.157</td>
-<td style="text-align: right;">0.581</td>
+<td style="text-align: right;">0.559</td>
+<td style="text-align: right;">0.041</td>
+<td style="text-align: right;">13.789</td>
+<td style="text-align: right;">0.585</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">H0</td>
 <td style="text-align: left;">physical =~ Q3</td>
-<td style="text-align: right;">0.395</td>
-<td style="text-align: right;">0.030</td>
-<td style="text-align: right;">13.150</td>
-<td style="text-align: right;">0.420</td>
+<td style="text-align: right;">0.435</td>
+<td style="text-align: right;">0.043</td>
+<td style="text-align: right;">10.079</td>
+<td style="text-align: right;">0.459</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">H0</td>
 <td style="text-align: left;">physical =~ Q4</td>
-<td style="text-align: right;">0.387</td>
-<td style="text-align: right;">0.032</td>
-<td style="text-align: right;">12.025</td>
-<td style="text-align: right;">0.384</td>
+<td style="text-align: right;">0.435</td>
+<td style="text-align: right;">0.046</td>
+<td style="text-align: right;">9.528</td>
+<td style="text-align: right;">0.429</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">H0</td>
 <td style="text-align: left;">physical =~ Q10</td>
-<td style="text-align: right;">0.650</td>
-<td style="text-align: right;">0.023</td>
-<td style="text-align: right;">28.113</td>
-<td style="text-align: right;">0.720</td>
+<td style="text-align: right;">0.681</td>
+<td style="text-align: right;">0.033</td>
+<td style="text-align: right;">20.662</td>
+<td style="text-align: right;">0.729</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">H0</td>
 <td style="text-align: left;">physical =~ Q15</td>
-<td style="text-align: right;">0.380</td>
-<td style="text-align: right;">0.028</td>
-<td style="text-align: right;">13.513</td>
-<td style="text-align: right;">0.471</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">H0</td>
-<td style="text-align: left;">physical =~ Q16</td>
-<td style="text-align: right;">0.559</td>
-<td style="text-align: right;">0.028</td>
-<td style="text-align: right;">19.973</td>
-<td style="text-align: right;">0.541</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">H0</td>
-<td style="text-align: left;">physical =~ Q17</td>
-<td style="text-align: right;">0.819</td>
-<td style="text-align: right;">0.020</td>
-<td style="text-align: right;">40.897</td>
-<td style="text-align: right;">0.890</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">H0</td>
-<td style="text-align: left;">physical =~ Q18</td>
-<td style="text-align: right;">0.802</td>
-<td style="text-align: right;">0.023</td>
-<td style="text-align: right;">35.540</td>
-<td style="text-align: right;">0.840</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">H0</td>
-<td style="text-align: left;">social =~ Q20</td>
-<td style="text-align: right;">0.708</td>
-<td style="text-align: right;">0.023</td>
-<td style="text-align: right;">30.520</td>
-<td style="text-align: right;">0.795</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">H0</td>
-<td style="text-align: left;">social =~ Q21</td>
-<td style="text-align: right;">0.513</td>
-<td style="text-align: right;">0.030</td>
-<td style="text-align: right;">17.008</td>
-<td style="text-align: right;">0.509</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">H0</td>
-<td style="text-align: left;">social =~ Q22</td>
-<td style="text-align: right;">0.637</td>
-<td style="text-align: right;">0.025</td>
-<td style="text-align: right;">25.597</td>
-<td style="text-align: right;">0.721</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">H0</td>
-<td style="text-align: left;">environment =~ Q8</td>
-<td style="text-align: right;">0.466</td>
-<td style="text-align: right;">0.029</td>
-<td style="text-align: right;">15.915</td>
-<td style="text-align: right;">0.477</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">H0</td>
-<td style="text-align: left;">environment =~ Q9</td>
-<td style="text-align: right;">0.504</td>
-<td style="text-align: right;">0.027</td>
-<td style="text-align: right;">18.719</td>
-<td style="text-align: right;">0.570</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">H0</td>
-<td style="text-align: left;">environment =~ Q12</td>
-<td style="text-align: right;">0.758</td>
-<td style="text-align: right;">0.029</td>
-<td style="text-align: right;">26.024</td>
-<td style="text-align: right;">0.690</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">H0</td>
-<td style="text-align: left;">environment =~ Q13</td>
-<td style="text-align: right;">0.507</td>
-<td style="text-align: right;">0.027</td>
-<td style="text-align: right;">18.649</td>
-<td style="text-align: right;">0.613</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">H0</td>
-<td style="text-align: left;">environment =~ Q14</td>
-<td style="text-align: right;">0.648</td>
-<td style="text-align: right;">0.027</td>
-<td style="text-align: right;">23.623</td>
-<td style="text-align: right;">0.678</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">H0</td>
-<td style="text-align: left;">environment =~ Q23</td>
-<td style="text-align: right;">0.485</td>
-<td style="text-align: right;">0.029</td>
-<td style="text-align: right;">16.894</td>
+<td style="text-align: right;">0.437</td>
+<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">10.497</td>
 <td style="text-align: right;">0.511</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">H0</td>
+<td style="text-align: left;">physical =~ Q16</td>
+<td style="text-align: right;">0.585</td>
+<td style="text-align: right;">0.037</td>
+<td style="text-align: right;">15.689</td>
+<td style="text-align: right;">0.568</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">physical =~ Q17</td>
+<td style="text-align: right;">0.838</td>
+<td style="text-align: right;">0.027</td>
+<td style="text-align: right;">30.776</td>
+<td style="text-align: right;">0.907</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">physical =~ Q18</td>
+<td style="text-align: right;">0.830</td>
+<td style="text-align: right;">0.029</td>
+<td style="text-align: right;">28.401</td>
+<td style="text-align: right;">0.851</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">social =~ Q20</td>
+<td style="text-align: right;">0.711</td>
+<td style="text-align: right;">0.033</td>
+<td style="text-align: right;">21.654</td>
+<td style="text-align: right;">0.806</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">social =~ Q21</td>
+<td style="text-align: right;">0.485</td>
+<td style="text-align: right;">0.044</td>
+<td style="text-align: right;">10.996</td>
+<td style="text-align: right;">0.481</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">social =~ Q22</td>
+<td style="text-align: right;">0.637</td>
+<td style="text-align: right;">0.035</td>
+<td style="text-align: right;">18.180</td>
+<td style="text-align: right;">0.727</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">environment =~ Q8</td>
+<td style="text-align: right;">0.448</td>
+<td style="text-align: right;">0.041</td>
+<td style="text-align: right;">10.919</td>
+<td style="text-align: right;">0.455</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">environment =~ Q9</td>
+<td style="text-align: right;">0.453</td>
+<td style="text-align: right;">0.037</td>
+<td style="text-align: right;">12.206</td>
+<td style="text-align: right;">0.529</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">environment =~ Q12</td>
+<td style="text-align: right;">0.751</td>
+<td style="text-align: right;">0.041</td>
+<td style="text-align: right;">18.249</td>
+<td style="text-align: right;">0.688</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">environment =~ Q13</td>
+<td style="text-align: right;">0.508</td>
+<td style="text-align: right;">0.038</td>
+<td style="text-align: right;">13.259</td>
+<td style="text-align: right;">0.624</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">environment =~ Q14</td>
+<td style="text-align: right;">0.631</td>
+<td style="text-align: right;">0.039</td>
+<td style="text-align: right;">16.006</td>
+<td style="text-align: right;">0.667</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">environment =~ Q23</td>
+<td style="text-align: right;">0.525</td>
+<td style="text-align: right;">0.041</td>
+<td style="text-align: right;">12.939</td>
+<td style="text-align: right;">0.535</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">H0</td>
 <td style="text-align: left;">environment =~ Q24</td>
-<td style="text-align: right;">0.465</td>
-<td style="text-align: right;">0.031</td>
-<td style="text-align: right;">15.090</td>
-<td style="text-align: right;">0.483</td>
+<td style="text-align: right;">0.455</td>
+<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">10.814</td>
+<td style="text-align: right;">0.478</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">H0</td>
 <td style="text-align: left;">environment =~ Q25</td>
-<td style="text-align: right;">0.492</td>
-<td style="text-align: right;">0.031</td>
-<td style="text-align: right;">16.075</td>
-<td style="text-align: right;">0.503</td>
+<td style="text-align: right;">0.491</td>
+<td style="text-align: right;">0.043</td>
+<td style="text-align: right;">11.407</td>
+<td style="text-align: right;">0.504</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">psycho =~ Q5</td>
-<td style="text-align: right;">0.541</td>
-<td style="text-align: right;">0.023</td>
-<td style="text-align: right;">23.884</td>
-<td style="text-align: right;">0.662</td>
+<td style="text-align: right;">0.523</td>
+<td style="text-align: right;">0.033</td>
+<td style="text-align: right;">15.708</td>
+<td style="text-align: right;">0.639</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">psycho =~ Q6</td>
-<td style="text-align: right;">0.621</td>
-<td style="text-align: right;">0.028</td>
-<td style="text-align: right;">22.037</td>
-<td style="text-align: right;">0.638</td>
+<td style="text-align: right;">0.593</td>
+<td style="text-align: right;">0.043</td>
+<td style="text-align: right;">13.923</td>
+<td style="text-align: right;">0.600</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">psycho =~ Q7</td>
-<td style="text-align: right;">0.558</td>
-<td style="text-align: right;">0.023</td>
-<td style="text-align: right;">24.251</td>
-<td style="text-align: right;">0.650</td>
+<td style="text-align: right;">0.564</td>
+<td style="text-align: right;">0.031</td>
+<td style="text-align: right;">18.087</td>
+<td style="text-align: right;">0.656</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">psycho =~ Q11</td>
-<td style="text-align: right;">0.609</td>
-<td style="text-align: right;">0.028</td>
-<td style="text-align: right;">21.691</td>
-<td style="text-align: right;">0.612</td>
+<td style="text-align: right;">0.640</td>
+<td style="text-align: right;">0.040</td>
+<td style="text-align: right;">16.068</td>
+<td style="text-align: right;">0.639</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">psycho =~ Q19</td>
-<td style="text-align: right;">0.773</td>
-<td style="text-align: right;">0.022</td>
-<td style="text-align: right;">35.835</td>
-<td style="text-align: right;">0.822</td>
+<td style="text-align: right;">0.764</td>
+<td style="text-align: right;">0.033</td>
+<td style="text-align: right;">23.193</td>
+<td style="text-align: right;">0.798</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">psycho =~ Q26</td>
-<td style="text-align: right;">0.541</td>
-<td style="text-align: right;">0.028</td>
-<td style="text-align: right;">19.167</td>
-<td style="text-align: right;">0.582</td>
+<td style="text-align: right;">0.559</td>
+<td style="text-align: right;">0.041</td>
+<td style="text-align: right;">13.779</td>
+<td style="text-align: right;">0.585</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">psycho =~ Q8</td>
-<td style="text-align: right;">0.160</td>
-<td style="text-align: right;">0.049</td>
-<td style="text-align: right;">3.263</td>
-<td style="text-align: right;">0.163</td>
+<td style="text-align: right;">0.190</td>
+<td style="text-align: right;">0.071</td>
+<td style="text-align: right;">2.693</td>
+<td style="text-align: right;">0.193</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">psycho =~ Q9</td>
-<td style="text-align: right;">0.108</td>
-<td style="text-align: right;">0.043</td>
-<td style="text-align: right;">2.512</td>
-<td style="text-align: right;">0.122</td>
+<td style="text-align: right;">0.126</td>
+<td style="text-align: right;">0.056</td>
+<td style="text-align: right;">2.235</td>
+<td style="text-align: right;">0.147</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">physical =~ Q3</td>
-<td style="text-align: right;">0.388</td>
-<td style="text-align: right;">0.030</td>
-<td style="text-align: right;">12.960</td>
-<td style="text-align: right;">0.413</td>
+<td style="text-align: right;">0.427</td>
+<td style="text-align: right;">0.043</td>
+<td style="text-align: right;">9.991</td>
+<td style="text-align: right;">0.451</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">physical =~ Q4</td>
-<td style="text-align: right;">0.382</td>
-<td style="text-align: right;">0.032</td>
-<td style="text-align: right;">11.849</td>
-<td style="text-align: right;">0.378</td>
+<td style="text-align: right;">0.430</td>
+<td style="text-align: right;">0.046</td>
+<td style="text-align: right;">9.432</td>
+<td style="text-align: right;">0.424</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">physical =~ Q10</td>
-<td style="text-align: right;">0.644</td>
-<td style="text-align: right;">0.023</td>
-<td style="text-align: right;">27.504</td>
-<td style="text-align: right;">0.713</td>
+<td style="text-align: right;">0.676</td>
+<td style="text-align: right;">0.033</td>
+<td style="text-align: right;">20.293</td>
+<td style="text-align: right;">0.722</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">physical =~ Q15</td>
-<td style="text-align: right;">0.221</td>
-<td style="text-align: right;">0.032</td>
-<td style="text-align: right;">6.839</td>
-<td style="text-align: right;">0.274</td>
+<td style="text-align: right;">0.253</td>
+<td style="text-align: right;">0.049</td>
+<td style="text-align: right;">5.206</td>
+<td style="text-align: right;">0.296</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">physical =~ Q16</td>
-<td style="text-align: right;">0.558</td>
-<td style="text-align: right;">0.028</td>
-<td style="text-align: right;">19.818</td>
-<td style="text-align: right;">0.540</td>
+<td style="text-align: right;">0.584</td>
+<td style="text-align: right;">0.037</td>
+<td style="text-align: right;">15.638</td>
+<td style="text-align: right;">0.568</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">physical =~ Q17</td>
-<td style="text-align: right;">0.826</td>
-<td style="text-align: right;">0.020</td>
-<td style="text-align: right;">42.158</td>
-<td style="text-align: right;">0.897</td>
+<td style="text-align: right;">0.846</td>
+<td style="text-align: right;">0.027</td>
+<td style="text-align: right;">31.669</td>
+<td style="text-align: right;">0.915</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">physical =~ Q18</td>
-<td style="text-align: right;">0.807</td>
-<td style="text-align: right;">0.022</td>
-<td style="text-align: right;">36.559</td>
-<td style="text-align: right;">0.845</td>
+<td style="text-align: right;">0.834</td>
+<td style="text-align: right;">0.029</td>
+<td style="text-align: right;">29.055</td>
+<td style="text-align: right;">0.855</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">social =~ Q20</td>
-<td style="text-align: right;">0.709</td>
-<td style="text-align: right;">0.023</td>
-<td style="text-align: right;">30.508</td>
-<td style="text-align: right;">0.796</td>
+<td style="text-align: right;">0.712</td>
+<td style="text-align: right;">0.033</td>
+<td style="text-align: right;">21.677</td>
+<td style="text-align: right;">0.806</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">social =~ Q21</td>
-<td style="text-align: right;">0.513</td>
-<td style="text-align: right;">0.030</td>
-<td style="text-align: right;">17.005</td>
-<td style="text-align: right;">0.509</td>
+<td style="text-align: right;">0.485</td>
+<td style="text-align: right;">0.044</td>
+<td style="text-align: right;">10.998</td>
+<td style="text-align: right;">0.480</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">social =~ Q22</td>
-<td style="text-align: right;">0.637</td>
-<td style="text-align: right;">0.025</td>
-<td style="text-align: right;">25.560</td>
-<td style="text-align: right;">0.721</td>
+<td style="text-align: right;">0.636</td>
+<td style="text-align: right;">0.035</td>
+<td style="text-align: right;">18.134</td>
+<td style="text-align: right;">0.726</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">environment =~ Q8</td>
-<td style="text-align: right;">0.329</td>
-<td style="text-align: right;">0.050</td>
-<td style="text-align: right;">6.559</td>
-<td style="text-align: right;">0.336</td>
+<td style="text-align: right;">0.282</td>
+<td style="text-align: right;">0.070</td>
+<td style="text-align: right;">4.027</td>
+<td style="text-align: right;">0.286</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">environment =~ Q9</td>
-<td style="text-align: right;">0.410</td>
-<td style="text-align: right;">0.045</td>
-<td style="text-align: right;">9.187</td>
-<td style="text-align: right;">0.464</td>
+<td style="text-align: right;">0.346</td>
+<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">5.810</td>
+<td style="text-align: right;">0.404</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">environment =~ Q12</td>
-<td style="text-align: right;">0.769</td>
-<td style="text-align: right;">0.029</td>
-<td style="text-align: right;">26.536</td>
-<td style="text-align: right;">0.700</td>
+<td style="text-align: right;">0.762</td>
+<td style="text-align: right;">0.040</td>
+<td style="text-align: right;">18.882</td>
+<td style="text-align: right;">0.698</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">environment =~ Q13</td>
-<td style="text-align: right;">0.516</td>
-<td style="text-align: right;">0.027</td>
-<td style="text-align: right;">18.977</td>
-<td style="text-align: right;">0.624</td>
+<td style="text-align: right;">0.518</td>
+<td style="text-align: right;">0.038</td>
+<td style="text-align: right;">13.527</td>
+<td style="text-align: right;">0.637</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">environment =~ Q14</td>
-<td style="text-align: right;">0.656</td>
-<td style="text-align: right;">0.028</td>
-<td style="text-align: right;">23.846</td>
-<td style="text-align: right;">0.687</td>
+<td style="text-align: right;">0.639</td>
+<td style="text-align: right;">0.039</td>
+<td style="text-align: right;">16.324</td>
+<td style="text-align: right;">0.676</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">environment =~ Q23</td>
-<td style="text-align: right;">0.482</td>
-<td style="text-align: right;">0.029</td>
-<td style="text-align: right;">16.694</td>
-<td style="text-align: right;">0.509</td>
+<td style="text-align: right;">0.522</td>
+<td style="text-align: right;">0.041</td>
+<td style="text-align: right;">12.807</td>
+<td style="text-align: right;">0.532</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">environment =~ Q24</td>
-<td style="text-align: right;">0.470</td>
-<td style="text-align: right;">0.031</td>
-<td style="text-align: right;">15.098</td>
-<td style="text-align: right;">0.488</td>
+<td style="text-align: right;">0.457</td>
+<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">10.795</td>
+<td style="text-align: right;">0.481</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">environment =~ Q25</td>
-<td style="text-align: right;">0.497</td>
-<td style="text-align: right;">0.031</td>
-<td style="text-align: right;">15.953</td>
+<td style="text-align: right;">0.494</td>
+<td style="text-align: right;">0.044</td>
+<td style="text-align: right;">11.329</td>
 <td style="text-align: right;">0.508</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">H1</td>
 <td style="text-align: left;">environment =~ Q15</td>
-<td style="text-align: right;">0.257</td>
-<td style="text-align: right;">0.033</td>
-<td style="text-align: right;">7.851</td>
-<td style="text-align: right;">0.319</td>
+<td style="text-align: right;">0.301</td>
+<td style="text-align: right;">0.051</td>
+<td style="text-align: right;">5.865</td>
+<td style="text-align: right;">0.352</td>
 </tr>
 </tbody>
 </table>
@@ -886,7 +974,7 @@ Tabela&nbsp;6.1: Parâmetros fatoriais estimados nos modelos H<sub>0</sub> e H<s
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-estimation-parameters">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -895,29 +983,22 @@ Tabela&nbsp;6.1: Parâmetros fatoriais estimados nos modelos H<sub>0</sub> e H<s
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>Finalidade</strong></p>
-<p>Estimar os dois modelos na base analítica e reunir suas cargas fatoriais em uma tabela, com estimativas não padronizadas, erros-padrão, estatísticas z e cargas padronizadas.</p>
+<p>Estimar os dois modelos na amostra de calibração e reunir suas cargas fatoriais em uma tabela, com estimativas não padronizadas, erros-padrão, estatísticas z e cargas padronizadas.</p>
 <p><strong>Preparação</strong></p>
-<p>O procedimento utiliza as especificações <code>analyzemodel</code> e <code>h1modelfree</code>, definidas em <a href="Scripts/DataAppendixScripts/models.R">models.R</a>, e as funções de <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a>, conforme a organização apresentada no início da <a href="03_model_selection.html" class="quarto-xref"><span>Seção 3</span></a>. A base <code>Data/AnalysisData/whoqol_analysis.csv</code> é produzida no pré-processamento (<a href="05_preprocessing.html#sec-cier-decision" class="quarto-xref"><span>Seção 5.2.1</span></a>) e lida diretamente pelo código abaixo. A exportação utiliza a pasta <code>Output/Results/Tables</code>, disponível no projeto.</p>
+<p>O procedimento utiliza as especificações <code>analyzemodel</code> e <code>h1modelfree</code>, definidas em <a href="Scripts/DataAppendixScripts/models.R">models.R</a>, e as funções de <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a>, conforme a organização apresentada no início da <a href="03_model_selection.html" class="quarto-xref"><span>Seção 3</span></a>. O chunk anterior, <code>prepare-cv-partition</code>, explicado no callout de obtenção das amostras, lê a base produzida no pré-processamento (<a href="05_preprocessing.html#sec-cier-decision" class="quarto-xref"><span>Seção 5.2.1</span></a>) e disponibiliza a parcela de calibração em <code>calibration_data</code>. Os dois ajustes utilizam esse objeto diretamente. A exportação utiliza a pasta <code>Output/Results/Tables</code>, disponível no projeto.</p>
 <p><strong>Procedimento</strong></p>
-<p>O bloco importa a base analítica e estima H<sub>0</sub> e H<sub>1</sub> sob as mesmas condições. Em seguida, organiza as cargas de cada ajuste e reúne os dois conjuntos em uma tabela, identificando o modelo de origem de cada linha.</p>
+<p>O bloco estima H<sub>0</sub> e H<sub>1</sub> na amostra de calibração sob as mesmas condições. Em seguida, organiza as cargas de cada ajuste e reúne os dois conjuntos em uma tabela, identificando o modelo de origem de cada linha.</p>
 <p>A função <code>table_par()</code> recebe cada ajuste e prepara sua tabela de parâmetros. Com <code>lang = "pt"</code>, utiliza rótulos em português e mantém a seleção padrão de cargas livres. Sua auxiliar <code>tidy_par()</code> preserva os parâmetros numéricos completos. O atributo <code>table_data</code> reúne os dados de apresentação usados na tabela e no CSV; <code>par_data</code> conserva os parâmetros numéricos completos. Antes de reunir as tabelas, o código verifica se os dados de apresentação estão disponíveis e não estão vazios. A exportação utiliza o mesmo conteúdo apresentado no artigo, com os mesmos rótulos, ordem e valores de exibição, em um CSV compatível com o Excel.</p>
 <p><strong>Execução e resultado</strong></p>
 <p>Após a preparação indicada, execute o bloco completo. Ele produz a tabela apresentada acima, mantém os ajustes <code>fit_analyzemodel</code> e <code>fit_h1modelfree</code> na sessão e salva <code>tbl-estimation-parameters.csv</code> em <code>Output/Results/Tables</code>.</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Read the preprocessed analysis data.</span></span>
-<span><span class="va">analysis_data</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv2</a></span><span class="op">(</span></span>
-<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Data"</span>, <span class="st">"AnalysisData"</span>, <span class="st">"whoqol_analysis.csv"</span><span class="op">)</span>,</span>
-<span>  na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">""</span>, <span class="st">"NA"</span><span class="op">)</span>,</span>
-<span>  show_col_types <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Estimate H0 using MLR/FIML and unit latent variances.</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Estimate H0 using MLR/FIML and unit latent variances.</span></span>
 <span><span class="va">fit_analyzemodel</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">cfa</a></span><span class="op">(</span></span>
 <span>  model <span class="op">=</span> <span class="va">analyzemodel</span>,</span>
-<span>  data <span class="op">=</span> <span class="va">analysis_data</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">calibration_data</span>,</span>
 <span>  estimator <span class="op">=</span> <span class="st">"MLR"</span>,</span>
 <span>  missing <span class="op">=</span> <span class="st">"fiml"</span>,</span>
 <span>  std.lv <span class="op">=</span> <span class="cn">TRUE</span></span>
@@ -926,7 +1007,7 @@ Tabela&nbsp;6.1: Parâmetros fatoriais estimados nos modelos H<sub>0</sub> e H<s
 <span><span class="co"># Estimate H1 under the same analytical conditions.</span></span>
 <span><span class="va">fit_h1modelfree</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">cfa</a></span><span class="op">(</span></span>
 <span>  model <span class="op">=</span> <span class="va">h1modelfree</span>,</span>
-<span>  data <span class="op">=</span> <span class="va">analysis_data</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">calibration_data</span>,</span>
 <span>  estimator <span class="op">=</span> <span class="st">"MLR"</span>,</span>
 <span>  missing <span class="op">=</span> <span class="st">"fiml"</span>,</span>
 <span>  std.lv <span class="op">=</span> <span class="cn">TRUE</span></span>
@@ -970,7 +1051,7 @@ Tabela&nbsp;6.1: Parâmetros fatoriais estimados nos modelos H<sub>0</sub> e H<s
 </section><section id="convergência-e-admissibilidade" class="level2" data-number="6.3"><h2 data-number="6.3" class="anchored" data-anchor-id="convergência-e-admissibilidade">
 <span class="header-section-number">6.3</span> Convergência e admissibilidade</h2>
 <p>Convergência e admissibilidade encerram a etapa de estimação. A convergência indica que o algoritmo encontrou uma solução para o modelo especificado. A admissibilidade é examinada pelas variâncias negativas e pelas cargas padronizadas superiores a 1, diagnósticos associados a soluções Heywood <span class="citation" data-cites="brown2015 nye2022">(<a href="references.html#ref-brown2015" role="doc-biblioref">Brown, 2015</a>; <a href="references.html#ref-nye2022" role="doc-biblioref">Nye, 2022</a>)</span>. A <a href="#tbl-estimation-checks" class="quarto-xref">Tabela&nbsp;<span>6.2</span></a> reúne essas verificações para H<sub>0</sub> e H<sub>1</sub> e registra o tamanho amostral e o número de parâmetros livres.</p>
-<p>Os dois modelos convergiram, não apresentaram variâncias negativas e não produziram cargas padronizadas superiores a 1. As soluções estão prontas para a avaliação do ajuste global e local.</p>
+<p>Na amostra de calibração, os dois modelos convergiram, não apresentaram variâncias negativas e não produziram cargas padronizadas superiores a 1. As soluções estão prontas para a avaliação do ajuste global e local.</p>
 <div class="cell">
 <div id="tbl-estimation-checks" class="cell quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-estimation-checks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -997,7 +1078,7 @@ Tabela&nbsp;6.2: Verificações de convergência e admissibilidade das soluçõe
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">H0</td>
-<td style="text-align: right;">1243</td>
+<td style="text-align: right;">621</td>
 <td style="text-align: right;">79</td>
 <td style="text-align: left;">Sim</td>
 <td style="text-align: right;">0</td>
@@ -1005,7 +1086,7 @@ Tabela&nbsp;6.2: Verificações de convergência e admissibilidade das soluçõe
 </tr>
 <tr class="even">
 <td style="text-align: left;">H1</td>
-<td style="text-align: right;">1243</td>
+<td style="text-align: right;">621</td>
 <td style="text-align: right;">82</td>
 <td style="text-align: left;">Sim</td>
 <td style="text-align: right;">0</td>
@@ -1019,7 +1100,7 @@ Tabela&nbsp;6.2: Verificações de convergência e admissibilidade das soluçõe
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-estimation-checks">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1028,7 +1109,7 @@ Tabela&nbsp;6.2: Verificações de convergência e admissibilidade das soluçõe
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>Finalidade</strong></p>
 <p>Verificar convergência e admissibilidade dos dois ajustes e registrar seu tamanho amostral e número de parâmetros livres.</p>
@@ -1040,7 +1121,7 @@ Tabela&nbsp;6.2: Verificações de convergência e admissibilidade das soluçõe
 <p><strong>Execução e resultado</strong></p>
 <p>Execute o bloco para apresentar e salvar <code>tbl-estimation-checks.csv</code> em <code>Output/Results/Tables</code>, utilizando os ajustes existentes.</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Collect the fitted models for diagnostic checks.</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Collect the fitted models for diagnostic checks.</span></span>
 <span><span class="va">diagnostic_fits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
 <span>  H0 <span class="op">=</span> <span class="va">fit_analyzemodel</span>,</span>
 <span>  H1 <span class="op">=</span> <span class="va">fit_h1modelfree</span></span>
