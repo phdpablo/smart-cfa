@@ -622,7 +622,7 @@ Tabela&nbsp;8.1: Síntese das evidências na literatura sobre a representação 
 <p>O modelo mantém quatro fatores e os três indicadores sociais, com 21 itens: 5 psicológicos, 6 físicos, 3 sociais e 7 ambientais. As exclusões reduzem a cobertura explícita de prazer de viver, mobilidade e acesso aos serviços de saúde, devendo acompanhar a interpretação dos escores modificados. A seleção foi informada pelo diagnóstico da calibração e constitui uma revisão exploratória. A especificação delimitada é avaliada na amostra de validação, incluindo as dificuldades remanescentes, e a confiabilidade é calculada para os conjuntos de itens retidos. A <a href="#fig-adjusted-model" class="quarto-xref">Figura&nbsp;<span>8.1</span></a> apresenta a especificação resultante, com as duas covariâncias residuais e os indicadores preservados.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-adjusted-model" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagrama de quatro fatores correlacionados com 21 indicadores, sem Q5, Q15 e Q24, e covariâncias residuais Q3–Q4 e Q17–Q18." data-fig-align="center">
+<div id="fig-adjusted-model" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Diagrama de quatro fatores correlacionados com 21 indicadores, sem Q5, Q15 e Q24, e covariâncias residuais Q3–Q4 e Q17–Q18.">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-adjusted-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="08_model_comparison_files/figure-html/fig-adjusted-model-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Diagrama de quatro fatores correlacionados com 21 indicadores, sem Q5, Q15 e Q24, e covariâncias residuais Q3–Q4 e Q17–Q18." width="960">
 </div>
@@ -649,12 +649,12 @@ Figura&nbsp;8.1: Modelo modificado de quatro fatores correlacionados e 21 indica
 <p><strong>Preparação</strong></p>
 <p>Utilize <code>adjustedzemodel</code>, definido em <a href="Scripts/DataAppendixScripts/models.R">models.R</a>, e a preparação geral da <a href="03_model_selection.html" class="quarto-xref"><span>Seção 3</span></a>.</p>
 <p><strong>Procedimento</strong></p>
-<p>A chamada reutiliza <code>plot_color()</code> e as abreviações de <code>LABELS</code>, apresentados na <a href="03_model_selection.html" class="quarto-xref"><span>Seção 3</span></a>. O argumento <code>what_labels = "no"</code> omite os valores nas relações, destacando a estrutura especificada.</p>
+<p>A chamada reutiliza <code>plot_cfa()</code> e as abreviações de <code>LABELS</code>, apresentados na <a href="03_model_selection.html" class="quarto-xref"><span>Seção 3</span></a>. O argumento <code>color = "color"</code> mantém as cores dos grupos; <code>color = "BW"</code> produz a versão em preto e branco. O argumento <code>what_labels = "no"</code> omite os valores nas relações, destacando a estrutura especificada.</p>
 <p><strong>Execução e resultado</strong></p>
 <p>Execute o bloco para apresentar o diagrama do modelo modificado.</p>
 <div class="cell">
 <details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Draw the adjusted model without numerical edge labels.</span></span>
-<span><span class="fu">plot_color</span><span class="op">(</span><span class="va">adjustedzemodel</span>, node_labels <span class="op">=</span> <span class="va">LABELS</span>, what_labels <span class="op">=</span> <span class="st">"no"</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="fu">plot_cfa</span><span class="op">(</span><span class="va">adjustedzemodel</span>, color <span class="op">=</span> <span class="st">"BW"</span>, node_labels <span class="op">=</span> <span class="va">LABELS</span>, what_labels <span class="op">=</span> <span class="st">"no"</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </div>
@@ -1273,100 +1273,13 @@ Figura&nbsp;8.2: Distribuições simuladas de CFI e RMSEA e limites dinâmicos d
 <p><strong>Preparação</strong></p>
 <p>Utilize <code>dfi_adjusted</code>, obtido no bloco da <a href="#tbl-adjusted-dfi-cutoffs" class="quarto-xref">Tabela&nbsp;<span>8.5</span></a>. A reconstrução requer os índices persistidos em <code>$indices</code>.</p>
 <p><strong>Procedimento</strong></p>
-<p>O bloco reúne as colunas <code>CFI_L0</code> e <code>RMSEA_L0</code> para a referência e <code>CFI_L2</code> e <code>RMSEA_L2</code> para a discrepância razoável. Os dados são reorganizados em formato longo e os painéis recebem a mesma ordem de índices. As colunas <code>SRMR_L*</code> não são utilizadas: nesta implementação armazenam limites superiores do intervalo do RMSEA.</p>
-<p><code>dfi_plot_cutoffs</code> reúne os limites da linha <code>Fair</code> e os valores convencionais CFI = 0,95 e RMSEA = 0,06. A figura sobrepõe histogramas e acrescenta linhas para essas referências, separando os índices em painéis.</p>
+<p>A função <code>plot_3dfi()</code>, de <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a>, recebe a calibração salva e a referência desejada: <code>"Close"</code>, <code>"Fair"</code> ou <code>"Mediocre"</code>. Essas opções selecionam, respectivamente, as distribuições <code>CFI_L1</code>/<code>RMSEA_L1</code>, <code>CFI_L2</code>/<code>RMSEA_L2</code> ou <code>CFI_L3</code>/<code>RMSEA_L3</code>, sempre comparadas com <code>CFI_L0</code> e <code>RMSEA_L0</code>. Nesta figura, utilizamos <code>reference = "Fair"</code>. As colunas <code>SRMR_L*</code> não são utilizadas: nesta implementação armazenam limites superiores do intervalo do RMSEA.</p>
+<p>A função recupera os limites dinâmicos da linha correspondente à referência escolhida e acrescenta os valores convencionais CFI = 0,95 e RMSEA = 0,06. A figura sobrepõe histogramas e apresenta as linhas de corte em painéis separados. Os atributos <code>plot_data</code> e <code>plot_cutoffs</code> preservam os dados utilizados. Para examinar outro nível, altere apenas <code>reference</code>; por exemplo, <code>plot_3dfi(dfi_adjusted, reference = "Mediocre")</code>.</p>
 <p><strong>Execução e resultado</strong></p>
 <p>Execute o bloco para apresentar <code>dfi_plot_fair</code> e salvar <code>fig-dfi-adjusted-fair.png</code> em <code>Output/Results/Figures</code>. O desenho utiliza a calibração salva, sem repetir a simulação.</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Combine the reference and fair-discrepancy simulated indices.</span></span>
-<span><span class="va">dfi_plot_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
-<span>    Model <span class="op">=</span> <span class="st">"Misspecified"</span>,</span>
-<span>    RMSEA <span class="op">=</span> <span class="va">dfi_adjusted</span><span class="op">$</span><span class="va">indices</span><span class="op">$</span><span class="va">RMSEA_L2</span>,</span>
-<span>    CFI <span class="op">=</span> <span class="va">dfi_adjusted</span><span class="op">$</span><span class="va">indices</span><span class="op">$</span><span class="va">CFI_L2</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
-<span>    Model <span class="op">=</span> <span class="st">"True"</span>,</span>
-<span>    RMSEA <span class="op">=</span> <span class="va">dfi_adjusted</span><span class="op">$</span><span class="va">indices</span><span class="op">$</span><span class="va">RMSEA_L0</span>,</span>
-<span>    CFI <span class="op">=</span> <span class="va">dfi_adjusted</span><span class="op">$</span><span class="va">indices</span><span class="op">$</span><span class="va">CFI_L0</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Reshape the simulated indices into one row per index and replication.</span></span>
-<span><span class="va">dfi_plot_data</span> <span class="op">&lt;-</span> <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span></span>
-<span>  <span class="va">dfi_plot_data</span>,</span>
-<span>  cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">RMSEA</span>, <span class="va">CFI</span><span class="op">)</span>,</span>
-<span>  names_to <span class="op">=</span> <span class="st">"Index"</span>,</span>
-<span>  values_to <span class="op">=</span> <span class="st">"Value"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Set the display order of the fit indices.</span></span>
-<span><span class="va">dfi_plot_data</span><span class="op">$</span><span class="va">Index</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span></span>
-<span>  <span class="va">dfi_plot_data</span><span class="op">$</span><span class="va">Index</span>,</span>
-<span>  levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"RMSEA"</span>, <span class="st">"CFI"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Recover dynamic cutoffs and add conventional reference values.</span></span>
-<span><span class="va">dfi_plot_cutoffs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
-<span>  Index <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"RMSEA"</span>, <span class="st">"CFI"</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>,</span>
-<span>  Reference <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Hu &amp; Bentler Cutoff"</span>, <span class="st">"Dynamic Cutoff"</span><span class="op">)</span>,</span>
-<span>    each <span class="op">=</span> <span class="fl">2</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  Cutoff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
-<span>    <span class="fl">0.06</span>, <span class="fl">0.95</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">dfi_adjusted</span><span class="op">$</span><span class="va">cutoffs</span><span class="op">[</span><span class="st">"Fair"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"RMSEA"</span>, <span class="st">"CFI"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Match the cutoff index order to the plotted distributions.</span></span>
-<span><span class="va">dfi_plot_cutoffs</span><span class="op">$</span><span class="va">Index</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span></span>
-<span>  <span class="va">dfi_plot_cutoffs</span><span class="op">$</span><span class="va">Index</span>,</span>
-<span>  levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"RMSEA"</span>, <span class="st">"CFI"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Plot the distributions and both cutoff references.</span></span>
-<span><span class="va">dfi_plot_fair</span> <span class="op">&lt;-</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
-<span>  <span class="va">dfi_plot_data</span>,</span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Value</span>, fill <span class="op">=</span> <span class="va">Model</span><span class="op">)</span></span>
-<span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span></span>
-<span>    position <span class="op">=</span> <span class="st">"identity"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>, bins <span class="op">=</span> <span class="fl">30</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span></span>
-<span>    data <span class="op">=</span> <span class="va">dfi_plot_cutoffs</span>,</span>
-<span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">Cutoff</span>, linetype <span class="op">=</span> <span class="va">Reference</span><span class="op">)</span>,</span>
-<span>    linewidth <span class="op">=</span> <span class="fl">0.6</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span></span>
-<span>    values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
-<span>      <span class="st">"Misspecified"</span> <span class="op">=</span> <span class="st">"#E9798C"</span>,</span>
-<span>      <span class="st">"True"</span> <span class="op">=</span> <span class="st">"#66C2F5"</span></span>
-<span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_linetype_manual</a></span><span class="op">(</span></span>
-<span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Hu &amp; Bentler Cutoff"</span>, <span class="st">"Dynamic Cutoff"</span><span class="op">)</span>,</span>
-<span>    values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
-<span>      <span class="st">"Hu &amp; Bentler Cutoff"</span> <span class="op">=</span> <span class="st">"dotted"</span>,</span>
-<span>      <span class="st">"Dynamic Cutoff"</span> <span class="op">=</span> <span class="st">"longdash"</span></span>
-<span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span></span>
-<span>    <span class="op">~</span><span class="va">Index</span>, scales <span class="op">=</span> <span class="st">"free"</span>, nrow <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>    strip.position <span class="op">=</span> <span class="st">"bottom"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">"Fair"</span>,</span>
-<span>    x <span class="op">=</span> <span class="cn">NULL</span>, y <span class="op">=</span> <span class="cn">NULL</span>, fill <span class="op">=</span> <span class="cn">NULL</span>, linetype <span class="op">=</span> <span class="cn">NULL</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span></span>
-<span>    axis.text.y <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    axis.ticks.y <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    strip.background <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    strip.placement <span class="op">=</span> <span class="st">"outside"</span>,</span>
-<span>    legend.position <span class="op">=</span> <span class="st">"bottom"</span></span>
-<span>  <span class="op">)</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Plot the saved distributions for the fair reference.</span></span>
+<span><span class="va">dfi_plot_fair</span> <span class="op">&lt;-</span> <span class="fu">plot_3dfi</span><span class="op">(</span><span class="va">dfi_adjusted</span>, reference <span class="op">=</span> <span class="st">"Fair"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Display the simulated distributions and cutoff references.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">dfi_plot_fair</span><span class="op">)</span></span>
@@ -1549,8 +1462,8 @@ Tabela&nbsp;8.6: Vinte maiores índices de modificação do modelo modificado, c
 <p><strong>Preparação</strong></p>
 <p>Utilize <code>fit_adjustedzemodel</code>, estimado na amostra de validação no bloco da <a href="#tbl-adjusted-parameters" class="quarto-xref">Tabela&nbsp;<span>8.2</span></a>. Este procedimento reutiliza esse ajuste, sem ler ou selecionar outra amostra.</p>
 <p><strong>Procedimento</strong></p>
-<p>O bloco aplica <code>table_mi()</code>, apresentada no racional da <a href="07_model_fit.html#tbl-modification-indices-top20" class="quarto-xref">Tabela&nbsp;<span>7.3</span></a>, ao ajuste modificado. A ordenação segue o MI e mantém EPC bruto e padronizado para cada relação elegível; relações já livres são excluídas da seleção.</p>
-<p>O atributo <code>mi_data</code> preserva todas as relações elegíveis com precisão completa. Após a verificação de <code>table_data</code>, as mesmas vinte relações exibidas são exportadas. Os operadores lavaan são preservados no documento e como texto comum no CSV.</p>
+<p>O bloco aplica <code>table_mi()</code>, apresentada no racional da <a href="07_model_fit.html#tbl-modification-indices-top20" class="quarto-xref">Tabela&nbsp;<span>7.3</span></a>, ao ajuste modificado. O lavaan calcula e ordena os MI, com EPC bruto e padronizado, e exclui parâmetros já livres e MI indisponíveis. O helper apresenta as primeiras vinte relações e formata a tabela.</p>
+<p>O atributo <code>mi_data</code> preserva a saída completa do lavaan com precisão completa para uso no texto. Após a verificação de <code>table_data</code>, as mesmas vinte relações exibidas são exportadas. Os operadores lavaan são preservados no documento e como texto comum no CSV.</p>
 <p><strong>Execução e resultado</strong></p>
 <p>Execute o bloco para apresentar a tabela e salvar <code>tbl-adjusted-modification-indices-top20.csv</code> em <code>Output/Results/Tables</code>. A inspeção utiliza o ajuste fechado na validação e não libera novos parâmetros; suas sugestões não são aplicadas como novo refinamento nessa amostra.</p>
 <div class="cell">
@@ -1581,7 +1494,7 @@ Tabela&nbsp;8.6: Vinte maiores índices de modificação do modelo modificado, c
 <p>A <a href="#fig-residual-correlations-adjusted" class="quarto-xref">Figura&nbsp;<span>8.3</span></a> apresenta as diferenças entre as correlações observadas e reproduzidas pelo modelo. Cada par aparece uma única vez, com cor proporcional à magnitude absoluta e rótulo que preserva o sinal. A referência de magnitude absoluta de 0,10 orienta a localização das discrepâncias remanescentes, em conjunto com os parâmetros e MI/EPC.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-residual-correlations-adjusted" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Mapa triangular das diferenças entre correlações observadas e reproduzidas para os 21 indicadores do modelo modificado." data-fig-align="center">
+<div id="fig-residual-correlations-adjusted" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Mapa triangular das diferenças entre correlações observadas e reproduzidas para os 21 indicadores do modelo modificado.">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-residual-correlations-adjusted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="08_model_comparison_files/figure-html/fig-residual-correlations-adjusted-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Mapa triangular das diferenças entre correlações observadas e reproduzidas para os 21 indicadores do modelo modificado." width="768">
 </div>

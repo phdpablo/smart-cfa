@@ -501,16 +501,17 @@ Figura&nbsp;3.1: Modelo de quatro fatores correlacionados com covariância resid
 <p><strong>Finalidade</strong></p>
 <p>Desenhar a especificação populacional de quatro fatores correlacionados, com a covariância residual entre Q3 e Q4. Os valores exibidos correspondem aos parâmetros fixados nessa especificação.</p>
 <p><strong>Preparação</strong></p>
-<p>Utilize a preparação apresentada em “Como as análises estão organizadas”, no início dessa seção. O script <a href="Scripts/DataAppendixScripts/models.R">models.R</a> define o modelo <code>popmodel</code>, e <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a> disponibiliza a função <code>plot_color()</code> e o vetor de rótulos <code>LABELS</code>.</p>
+<p>Utilize a preparação apresentada em “Como as análises estão organizadas”, no início dessa seção. O script <a href="Scripts/DataAppendixScripts/models.R">models.R</a> define o modelo <code>popmodel</code>, e <a href="Scripts/DataAppendixScripts/helpers.R">helpers.R</a> disponibiliza a função <code>plot_cfa()</code> e o vetor de rótulos <code>LABELS</code>.</p>
 <p><strong>Procedimento</strong></p>
-<p>A função <code>plot_color()</code> recebe a especificação no argumento <code>model</code> e produz seu diagrama. Internamente, utiliza <code><a href="https://rdrr.io/pkg/semPlot/man/semPlotModel.html">semPlot::semPlotModel()</a></code> para representar o modelo e <code><a href="https://rdrr.io/pkg/semPlot/man/semPaths.html">semPlot::semPaths()</a></code> para desenhar suas relações. Ela também aceita um modelo já ajustado.</p>
+<p>A função <code>plot_cfa()</code> recebe a especificação no argumento <code>model</code> e produz seu diagrama. Internamente, utiliza <code><a href="https://rdrr.io/pkg/semPlot/man/semPlotModel.html">semPlot::semPlotModel()</a></code> para representar o modelo e <code><a href="https://rdrr.io/pkg/semPlot/man/semPaths.html">semPlot::semPaths()</a></code> para desenhar suas relações. Ela também aceita um modelo já ajustado.</p>
+<p>O argumento <code>color = "color"</code> utiliza as cores automáticas dos grupos de fatores. Para produzir o mesmo diagrama em preto e branco, utilize <code>color = "BW"</code>: os nós ficam brancos, e as linhas, bordas e rótulos ficam pretos. Essa escolha preserva a estrutura e a disposição do diagrama.</p>
 <p>O argumento opcional <code>node_labels = LABELS</code> utiliza o vetor nomeado definido em <code>helpers.R</code> para substituir <code>psycho</code>, <code>physical</code>, <code>social</code> e <code>environment</code> por <code>PSI</code>, <code>FIS</code>, <code>SOC</code> e <code>AMB</code>. As substituições são feitas pelo nome original de cada nó; nomes não incluídos no vetor são preservados. Sem esse argumento, a função mantém os nomes presentes no modelo.</p>
 <p>Os demais argumentos usam seus padrões: <code>layout = "circle"</code> organiza o diagrama em círculo e <code>what_labels = "est"</code> apresenta os valores da especificação fornecida, que aqui são os parâmetros populacionais fixados.</p>
 <p><strong>Execução e resultado</strong></p>
 <p>Após a preparação indicada, execute o bloco abaixo para produzir o diagrama apresentado acima.</p>
 <div class="cell">
 <details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Draw the reference population model.</span></span>
-<span><span class="fu">plot_color</span><span class="op">(</span><span class="va">popmodel</span>, node_labels <span class="op">=</span> <span class="va">LABELS</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="fu">plot_cfa</span><span class="op">(</span><span class="va">popmodel</span>, color <span class="op">=</span> <span class="st">"BW"</span>, node_labels <span class="op">=</span> <span class="va">LABELS</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </div>
@@ -552,7 +553,7 @@ Figura&nbsp;3.2: Modelo de quatro fatores correlacionados com covariância resid
 <p>Execute o bloco abaixo para produzir o diagrama da especificação alternativa.</p>
 <div class="cell">
 <details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Draw the alternative population model.</span></span>
-<span><span class="fu">plot_color</span><span class="op">(</span><span class="va">h1model</span>, node_labels <span class="op">=</span> <span class="va">LABELS</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="fu">plot_cfa</span><span class="op">(</span><span class="va">h1model</span>, color <span class="op">=</span> <span class="st">"BW"</span>, node_labels <span class="op">=</span> <span class="va">LABELS</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </div>
