@@ -50,7 +50,7 @@ O artigo é apresentado em dois formatos complementares. O PDF preserva a narrat
 
 ::: {.callout-tip title="Como acompanhar o tutorial" collapse="true"}
 
-Acompanhe a narrativa, as tabelas e as figuras e abra os blocos “Racional da saída” para examinar como cada resultado foi produzido. Nos códigos, clique nos nomes de funções que aparecem como links para consultar sua documentação. A organização das análises e sua preparação são explicadas no início da @sec-model-selection. Para executar o projeto, siga as orientações do [README](README.md); os códigos demonstrativos pressupõem essa preparação.
+Acompanhe a narrativa, as tabelas e as figuras e abra os blocos “Racional da saída” para examinar como cada resultado foi produzido. Nos códigos, clique nos nomes de funções que aparecem como links para consultar sua documentação. A organização das análises e sua preparação são explicadas no início da @sec-model-selection. Para executar o projeto, siga as orientações do [README](../README.md); os códigos demonstrativos pressupõem essa preparação.
 
 :::
 

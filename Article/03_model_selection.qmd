@@ -6,9 +6,9 @@
 
 A partir dessa seção, as análises seguem princípios de programação funcional e do [Tidyverse Style Guide](https://style.tidyverse.org/): funções pequenas e reutilizáveis, nomes em `snake_case`, uso do pipe nativo `|>` e separação entre computação e apresentação quando apropriado. Preservamos as nomenclaturas dos modelos e as constantes compartilhadas do projeto.
 
-Nas seções seguintes, cada arquivo começa com um chunk de preparação oculto, que carrega com `source()` os scripts locais necessários à análise. O script [models.R](Scripts/DataAppendixScripts/models.R) reúne as especificações populacionais e empíricas dos modelos. O script [helpers.R](Scripts/DataAppendixScripts/helpers.R) carrega os pacotes e define funções auxiliares e parâmetros compartilhados. Os caminhos são resolvidos por `here::here()` a partir da raiz do projeto. Os scripts são reutilizáveis, mas sua seleção varia entre as seções: o pré-processamento, por exemplo, utiliza apenas `helpers.R`, enquanto as etapas com simulação também carregam os scripts de cache.
+Nas seções seguintes, cada arquivo começa com um chunk de preparação oculto, que carrega com `source()` os scripts locais necessários à análise. O script [models.R](../Scripts/DataAppendixScripts/models.R) reúne as especificações populacionais e empíricas dos modelos. O script [helpers.R](../Scripts/DataAppendixScripts/helpers.R) carrega os pacotes e define funções auxiliares e parâmetros compartilhados. Os caminhos são resolvidos por `here::here()` a partir da raiz do projeto. Os scripts são reutilizáveis, mas sua seleção varia entre as seções: o pré-processamento, por exemplo, utiliza apenas `helpers.R`, enquanto as etapas com simulação também carregam os scripts de cache.
 
-O script [cache_utils.R](Scripts/DataAppendixScripts/cache_utils.R) define `cache_or_run()`, que reaproveita um objeto da sessão ou seu arquivo `.rds` e, quando nenhum deles existe, executa a expressão e salva o resultado. O script [cache_loader.R](Scripts/DataAppendixScripts/cache_loader.R) define `cache_load_existing()`, que lê os arquivos `.rds` de `Data/IntermediateData` e disponibiliza os objetos na sessão. Esses dois scripts são carregados nas seções que utilizam simulações. Esses arquivos permitem reutilizar resultados, especialmente de simulações, e são distintos do cache de chunks do Quarto.
+O script [cache_utils.R](../Scripts/DataAppendixScripts/cache_utils.R) define `cache_or_run()`, que reaproveita um objeto da sessão ou seu arquivo `.rds` e, quando nenhum deles existe, executa a expressão e salva o resultado. O script [cache_loader.R](../Scripts/DataAppendixScripts/cache_loader.R) define `cache_load_existing()`, que lê os arquivos `.rds` de `Data/IntermediateData` e disponibiliza os objetos na sessão. Esses dois scripts são carregados nas seções que utilizam simulações. Esses arquivos permitem reutilizar resultados, especialmente de simulações, e são distintos do cache de chunks do Quarto.
 
 Cada seção prepara os objetos de que necessita, desde que os dados e resultados exigidos estejam disponíveis no projeto. A leitura dos dados, a estimação dos modelos e as demais operações específicas aparecem nos chunks das saídas correspondentes (Racional da saída). No pré-processamento, a obtenção de algumas análises tem um bloco próprio, pois produz a base intermediária utilizada nas etapas seguintes.
 
@@ -16,7 +16,7 @@ Os documentos HTML e PDF preservam o enredo científico. No HTML, cada saída (t
 
 Nos blocos de código do HTML, os nomes de funções que aparecem como links dão acesso à sua documentação. Passe o mouse sobre o nome para identificar o link e clique para consultar o funcionamento, a sintaxe e os argumentos disponíveis. As funções próprias do projeto são explicadas nos callouts e documentadas nos scripts indicados. Acima de cada bloco lógico de código, um comentário curto em inglês, iniciado por `#`, resume a operação realizada.
 
-Para reproduzir o trabalho completo, é necessário baixar ou clonar o [projeto](https://github.com/phdpablo/smart-cfa) e seguir as orientações do [README](README.md).
+Para reproduzir o trabalho completo, é necessário baixar ou clonar o [projeto](https://github.com/phdpablo/smart-cfa) e seguir as orientações do [README](../README.md).
 
 O bloco abaixo exemplifica e executa a preparação dessa seção:
 
@@ -73,8 +73,8 @@ parâmetros fixados nessa especificação.
 
 Utilize a preparação apresentada em “Como as análises estão organizadas”, no
 início dessa seção. O script
-[models.R](Scripts/DataAppendixScripts/models.R) define o modelo `popmodel`, e
-[helpers.R](Scripts/DataAppendixScripts/helpers.R) disponibiliza a função
+[models.R](../Scripts/DataAppendixScripts/models.R) define o modelo `popmodel`, e
+[helpers.R](../Scripts/DataAppendixScripts/helpers.R) disponibiliza a função
 `plot_cfa()` e o vetor de rótulos `LABELS`.
 
 **Procedimento**

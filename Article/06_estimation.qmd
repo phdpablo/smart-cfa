@@ -248,8 +248,8 @@ cargas padronizadas.
 **Preparação**
 
 O procedimento utiliza as especificações `analyzemodel` e `h1modelfree`,
-definidas em [models.R](Scripts/DataAppendixScripts/models.R), e as funções de
-[helpers.R](Scripts/DataAppendixScripts/helpers.R), conforme a organização
+definidas em [models.R](../Scripts/DataAppendixScripts/models.R), e as funções de
+[helpers.R](../Scripts/DataAppendixScripts/helpers.R), conforme a organização
 apresentada no início da @sec-model-selection. O chunk anterior,
 `prepare-cv-partition`, explicado no callout de obtenção das amostras,
 lê a base produzida no pré-processamento

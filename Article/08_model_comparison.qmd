@@ -164,7 +164,7 @@ Representar a estrutura do modelo modificado antes de sua estimação.
 
 **Preparação**
 
-Utilize `adjustedzemodel`, definido em [models.R](Scripts/DataAppendixScripts/models.R), e a preparação geral da @sec-model-selection.
+Utilize `adjustedzemodel`, definido em [models.R](../Scripts/DataAppendixScripts/models.R), e a preparação geral da @sec-model-selection.
 
 **Procedimento**
 
@@ -775,7 +775,7 @@ Utilize `dfi_adjusted`, obtido no bloco da @tbl-adjusted-dfi-cutoffs. A reconstr
 
 **Procedimento**
 
-A função `plot_3dfi()`, de [helpers.R](Scripts/DataAppendixScripts/helpers.R), recebe a calibração salva e a referência desejada: `"Close"`, `"Fair"` ou `"Mediocre"`. Essas opções selecionam, respectivamente, as distribuições `CFI_L1`/`RMSEA_L1`, `CFI_L2`/`RMSEA_L2` ou `CFI_L3`/`RMSEA_L3`, sempre comparadas com `CFI_L0` e `RMSEA_L0`. Nesta figura, utilizamos `reference = "Fair"`. As colunas `SRMR_L*` não são utilizadas: nesta implementação armazenam limites superiores do intervalo do RMSEA.
+A função `plot_3dfi()`, de [helpers.R](../Scripts/DataAppendixScripts/helpers.R), recebe a calibração salva e a referência desejada: `"Close"`, `"Fair"` ou `"Mediocre"`. Essas opções selecionam, respectivamente, as distribuições `CFI_L1`/`RMSEA_L1`, `CFI_L2`/`RMSEA_L2` ou `CFI_L3`/`RMSEA_L3`, sempre comparadas com `CFI_L0` e `RMSEA_L0`. Nesta figura, utilizamos `reference = "Fair"`. As colunas `SRMR_L*` não são utilizadas: nesta implementação armazenam limites superiores do intervalo do RMSEA.
 
 A função recupera os limites dinâmicos da linha correspondente à referência escolhida e acrescenta os valores convencionais CFI = 0,95 e RMSEA = 0,06. A figura sobrepõe histogramas e apresenta as linhas de corte em painéis separados. Os atributos `plot_data` e `plot_cutoffs` preservam os dados utilizados. Para examinar outro nível, altere apenas `reference`; por exemplo, `plot_3dfi(dfi_adjusted, reference = "Mediocre")`.
 
@@ -1046,7 +1046,7 @@ Estimar os modelos configural, métrico, escalar e estrito para avaliar a invari
 
 **Preparação**
 
-Utilize `adjustedzemodel`, definido em [models.R](Scripts/DataAppendixScripts/models.R), e a partição persistida em `Data/AnalysisData/whoqol_cv.csv`. A preparação geral da seção disponibiliza os pacotes e a especificação do modelo de 21 indicadores.
+Utilize `adjustedzemodel`, definido em [models.R](../Scripts/DataAppendixScripts/models.R), e a partição persistida em `Data/AnalysisData/whoqol_cv.csv`. A preparação geral da seção disponibiliza os pacotes e a especificação do modelo de 21 indicadores.
 
 **Procedimento**
 
@@ -1149,7 +1149,7 @@ Apresentar o teste de cada modelo e os testes robustos das restrições acrescen
 
 **Preparação**
 
-Utilize `fit_configural`, `fit_metric`, `fit_scalar` e `fit_strict`, obtidos no bloco de estimação anterior. A função `table_lrt()` está definida em [helpers.R](Scripts/DataAppendixScripts/helpers.R).
+Utilize `fit_configural`, `fit_metric`, `fit_scalar` e `fit_strict`, obtidos no bloco de estimação anterior. A função `table_lrt()` está definida em [helpers.R](../Scripts/DataAppendixScripts/helpers.R).
 
 **Procedimento**
 
@@ -1222,7 +1222,7 @@ Apresentar CFI e RMSEA robustos e SRMR, intercalados com suas mudanças entre n�
 
 **Preparação**
 
-Utilize `invariance_fits`, organizado no bloco da @tbl-invariance-tests, e `table_fit_changes()`, definida em [helpers.R](Scripts/DataAppendixScripts/helpers.R).
+Utilize `invariance_fits`, organizado no bloco da @tbl-invariance-tests, e `table_fit_changes()`, definida em [helpers.R](../Scripts/DataAppendixScripts/helpers.R).
 
 **Procedimento**
 
@@ -1367,7 +1367,7 @@ Apresentar as diferenças observadas dos índices e os valores-p empíricos do t
 
 **Preparação**
 
-Utilize `perm_metric`, obtido no bloco de permutação anterior, e `table_permutation()`, definida em [helpers.R](Scripts/DataAppendixScripts/helpers.R).
+Utilize `perm_metric`, obtido no bloco de permutação anterior, e `table_permutation()`, definida em [helpers.R](../Scripts/DataAppendixScripts/helpers.R).
 
 **Procedimento**
 

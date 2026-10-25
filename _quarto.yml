@@ -56,20 +56,20 @@ book: # https://quarto.org/docs/books/index.html
   
   chapters:
     - index.qmd
-    - 01_intro.qmd
-    - 02_background.qmd
-    - 03_model_selection.qmd
-    - 04_pa.qmd
-    - 05_preprocessing.qmd
-    - 06_estimation.qmd
-    - 07_model_fit.qmd
-    - 08_model_comparison.qmd
-    - 09_conclusion.qmd
-    - references.qmd
+    - Article/01_intro.qmd
+    - Article/02_background.qmd
+    - Article/03_model_selection.qmd
+    - Article/04_pa.qmd
+    - Article/05_preprocessing.qmd
+    - Article/06_estimation.qmd
+    - Article/07_model_fit.qmd
+    - Article/08_model_comparison.qmd
+    - Article/09_conclusion.qmd
+    - Article/references.qmd
 
-bibliography: references.bib # https://quarto.org/docs/authoring/citations.html
+bibliography: Article/references.bib # https://quarto.org/docs/authoring/citations.html
 # File containing the bibliographic references in BibTeX format.
-csl: apa7ed.csl # Citation Style Language file defining the citation format (APA 7th ed.).
+csl: Article/apa7ed.csl # Citation Style Language file defining the citation format (APA 7th ed.).
 # See others at https://www.zotero.org/styles
 
 format: # https://quarto.org/docs/reference/formats/html.html

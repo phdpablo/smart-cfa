@@ -127,7 +127,7 @@ calibração sem repetir a divisão ou depender de uma sessão anterior.
 **Procedimento**
 
 O bloco lê a partição persistida e estima os dois modelos apenas na calibração,
-mantendo as condições da @sec-estimation. A função própria `table_fit()`, definida em [helpers.R](Scripts/DataAppendixScripts/helpers.R), recebe cada ajuste e prepara suas medidas de ajuste. Sua auxiliar `tidy_fit()` organiza os índices compatíveis com o teste utilizado, preservando os valores numéricos completos.
+mantendo as condições da @sec-estimation. A função própria `table_fit()`, definida em [helpers.R](../Scripts/DataAppendixScripts/helpers.R), recebe cada ajuste e prepara suas medidas de ajuste. Sua auxiliar `tidy_fit()` organiza os índices compatíveis com o teste utilizado, preservando os valores numéricos completos.
 
 O atributo `fit_data` fornece as medidas completas para os valores inseridos no texto, e `table_data` fornece a apresentação. Após verificar se ambas as tabelas estão disponíveis, o bloco as reúne pela medida, com uma coluna para cada modelo. A exportação conserva o mesmo conteúdo exibido.
 
@@ -335,7 +335,7 @@ Utilize `fit_analyzemodel` e `fit_h1modelfree`, estimados no bloco da @tbl-model
 
 **Procedimento**
 
-A função própria `table_reliability()`, de [helpers.R](Scripts/DataAppendixScripts/helpers.R), recebe cada ajuste e prepara a tabela de confiabilidade. Sua auxiliar `tidy_reliability()` identifica os itens de cada fator e calcula ômega e GLB para os respectivos escores com pesos iguais. O ômega provém de `semTools::compRelSEM()`; o GLB utiliza a matriz observada dos mesmos itens com `psych::glb.algebraic()`.
+A função própria `table_reliability()`, de [helpers.R](../Scripts/DataAppendixScripts/helpers.R), recebe cada ajuste e prepara a tabela de confiabilidade. Sua auxiliar `tidy_reliability()` identifica os itens de cada fator e calcula ômega e GLB para os respectivos escores com pesos iguais. O ômega provém de `semTools::compRelSEM()`; o GLB utiliza a matriz observada dos mesmos itens com `psych::glb.algebraic()`.
 
 A composição acompanha as cargas dos modelos, incluindo as cargas cruzadas de H~1~. As duas tabelas são verificadas e empilhadas, com a coluna `Modelo` identificando sua origem. A exportação utiliza o mesmo conteúdo apresentado.
 
@@ -536,7 +536,7 @@ da calibração, semente `SEED`, MLR e identificação por variâncias unitária
 ajustes e às mesmas condições de geração. A existência de um objeto ou RDS
 anterior não atualiza suas condições automaticamente. Para um recálculo após
 troca da amostra, não reutilize os resultados anteriores na memória ou no disco.
-As instruções operacionais gerais ficam no [README](README.md).
+As instruções operacionais gerais ficam no [README](../README.md).
 
 **Execução e resultado**
 
@@ -872,7 +872,7 @@ Utilize `fit_analyzemodel`, estimado no início desta seção.
 
 **Procedimento**
 
-A função própria `table_mi()`, de [helpers.R](Scripts/DataAppendixScripts/helpers.R), utiliza `lavaan::modindices(object, sort. = TRUE)` para obter os MI em ordem decrescente, com EPC bruto e padronizado (`sepc.all`). O próprio lavaan exclui parâmetros já livres e MI indisponíveis. O helper apresenta as primeiras vinte relações, preserva os operadores lavaan e formata os valores com três casas decimais. O argumento `top_n` permite alterar o número de linhas; `top_n = NULL` apresenta todas.
+A função própria `table_mi()`, de [helpers.R](../Scripts/DataAppendixScripts/helpers.R), utiliza `lavaan::modindices(object, sort. = TRUE)` para obter os MI em ordem decrescente, com EPC bruto e padronizado (`sepc.all`). O próprio lavaan exclui parâmetros já livres e MI indisponíveis. O helper apresenta as primeiras vinte relações, preserva os operadores lavaan e formata os valores com três casas decimais. O argumento `top_n` permite alterar o número de linhas; `top_n = NULL` apresenta todas.
 
 O atributo `mi_data` preserva a saída completa do lavaan, recuperada em `mi_all` para uso no texto. Por isso, a extração é feita uma única vez e `head()` limita apenas as linhas apresentadas. Para obter diretamente apenas os vinte maiores MI, a chamada nativa equivalente é `lavaan::modindices(fit_analyzemodel, sort. = TRUE, maximum.number = 20)`. O atributo `table_data` contém as vinte relações apresentadas e é exportado com os mesmos rótulos e valores de exibição.
 
@@ -968,7 +968,7 @@ Localizar diferenças entre as correlações observadas e reproduzidas por H~0~ 
 
 **Preparação**
 
-Utilize `fit_analyzemodel`, estimado no início desta seção, e a função `plot_stdres()` de [helpers.R](Scripts/DataAppendixScripts/helpers.R).
+Utilize `fit_analyzemodel`, estimado no início desta seção, e a função `plot_stdres()` de [helpers.R](../Scripts/DataAppendixScripts/helpers.R).
 
 **Procedimento**
 

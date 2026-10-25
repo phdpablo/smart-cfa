@@ -86,7 +86,7 @@ Reunir as decisões que definem o cenário da AP, relacionando cada especificaç
 
 **Preparação**
 
-Utilize as constantes `ALPHA` e `POWER` de [helpers.R](Scripts/DataAppendixScripts/helpers.R), conforme a preparação geral descrita na @sec-model-selection.
+Utilize as constantes `ALPHA` e `POWER` de [helpers.R](../Scripts/DataAppendixScripts/helpers.R), conforme a preparação geral descrita na @sec-model-selection.
 
 **Procedimento**
 
@@ -190,7 +190,7 @@ Calcular o tamanho amostral necessário para detectar as relações omitidas pel
 
 **Preparação**
 
-Utilize `h1model` e `analyzemodel`, definidos em [models.R](Scripts/DataAppendixScripts/models.R), e as constantes `ALPHA`, `POWER` e `P` de `helpers.R`.
+Utilize `h1model` e `analyzemodel`, definidos em [models.R](../Scripts/DataAppendixScripts/models.R), e as constantes `ALPHA`, `POWER` e `P` de `helpers.R`.
 
 **Procedimento**
 
@@ -388,7 +388,7 @@ Utilize as especificações de `models.R`, os parâmetros compartilhados de `hel
 
 As duas chamadas de `sim()` estimam `analyzemodel`. O argumento `generate` muda a população geradora: `popmodel` corresponde à condição de referência, e `h1model` inclui as três cargas cruzadas omitidas na estimação. `SEQ` fornece os tamanhos amostrais, `P_MCAR` controla a proporção de ausências e `dist` define a assimetria e a curtose marginais; as chamadas solicitam MLR e FIML.
 
-`cache_or_run()` reutiliza os objetos da sessão ou os arquivos `popmodel_101to400.rds` e `h1model_101to400.rds`, em `Data/IntermediateData`; sem resultado disponível, executa e salva a simulação. A figura compara os índices de `FITS` e mantém a suavização logística padrão. Orientações operacionais de reprodução e recálculo pertencem ao [README](README.md).
+`cache_or_run()` reutiliza os objetos da sessão ou os arquivos `popmodel_101to400.rds` e `h1model_101to400.rds`, em `Data/IntermediateData`; sem resultado disponível, executa e salva a simulação. A figura compara os índices de `FITS` e mantém a suavização logística padrão. Orientações operacionais de reprodução e recálculo pertencem ao [README](../README.md).
 
 **Execução e resultado**
 
@@ -732,7 +732,7 @@ Utilize as mesmas especificações e condições de geração da simulação ant
 
 As chamadas mantêm a condição de referência e a população com cargas cruzadas, estimando o mesmo modelo de análise. O cenário solicita não normalidade moderada, 10% de ausências MCAR, MLR e FIML. Os objetos `popmodel_fixed` e `h1model_fixed` são associados aos arquivos `popmodel_200.rds` e `h1model_200.rds`.
 
-O reaproveitamento segue o procedimento da @fig-realistic-power: com resultados disponíveis, as simulações não são repetidas. A chamada final compara as distribuições dos índices selecionados em `FITS`. Consulte o [README](README.md) para as orientações de execução e recálculo.
+O reaproveitamento segue o procedimento da @fig-realistic-power: com resultados disponíveis, as simulações não são repetidas. A chamada final compara as distribuições dos índices selecionados em `FITS`. Consulte o [README](../README.md) para as orientações de execução e recálculo.
 
 **Execução e resultado**
 
