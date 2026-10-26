@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>1&nbsp; Introdução – Planejamento e avaliação de modelos de análise fatorial confirmatória</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../Article/02_background.html" rel="next">
+<link href="../index.html" rel="prev">
+<link href="../cover.jpg" rel="icon" type="image/jpeg">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-8f4cfe8dde91195664ce4096b0ee6c60.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-8c29fd56b0c87e4ab01b9c836650041e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-8f4cfe8dde91195664ce4096b0ee6c60.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-2MWSHLX73Q"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
+</script>
+
+
+<meta property="og:title" content="1&nbsp; Introdução – Planejamento e avaliação de modelos de análise fatorial confirmatória">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Planejamento e avaliação de modelos de análise fatorial confirmatória">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Article/01_intro.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Planejamento e avaliação de modelos de análise fatorial confirmatória</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/phdpablo/smart-cfa" title="Código fonte" class="quarto-navigation-tool px-1" aria-label="Código fonte"><i class="bi bi-github"></i></a>
+    <a href="../cfa-tutorial.pdf" title="Baixar PDF" class="quarto-navigation-tool px-1" aria-label="Baixar PDF"><i class="bi bi-file-pdf"></i></a>
+    <div class="dropdown">
+      <a href="" title="Compartilhar" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Compartilhar"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo escuro"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Alternar modo de leitor">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Resumo</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/01_intro.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/02_background.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Fundamentação das decisões analíticas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/03_model_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Seleção do modelo de medida</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/04_pa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Análise de poder</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/05_preprocessing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Pré-processamento</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/06_estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Processo de estimação</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/07_model_fit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Ajuste do modelo</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/08_model_comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Comparações e modificações dos modelos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/09_conclusion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Conclusões</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referências</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7"><span id="sec-intro" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span></h1></header>
+
+
+<header id="title-block-header">
+
+
+</header>
+
+
+<p>A Análise Fatorial Confirmatória (AFC) constitui uma das principais ferramentas para reunir evidências de validade baseadas na estrutura interna de instrumentos de mensuração <span class="citation" data-cites="bandalos2018 hughes2018 sireci2013">(<a href="references.html#ref-bandalos2018" role="doc-biblioref">Bandalos, 2018</a>; <a href="references.html#ref-hughes2018" role="doc-biblioref">Hughes, 2018</a>; <a href="references.html#ref-sireci2013" role="doc-biblioref">Sireci &amp; Sukin, 2013</a>)</span>. A validade representa a propriedade psicométrica central de um modelo de medida <span class="citation" data-cites="furr2021">(<a href="references.html#ref-furr2021" role="doc-biblioref">Furr, 2021</a>)</span>, pois responde à questão fundamental da mensuração: o que os instrumentos empíricos estão de fato medindo <span class="citation" data-cites="bandalos2018">(<a href="references.html#ref-bandalos2018" role="doc-biblioref">Bandalos, 2018</a>)</span>. Essa perspectiva remonta à definição clássica de validade, compreendida como o grau em que um teste afere o construto que pretende mensurar <span class="citation" data-cites="bandalos2018 furr2021 sireci2013 urbina2014">(<a href="references.html#ref-bandalos2018" role="doc-biblioref">Bandalos, 2018</a>; <a href="references.html#ref-furr2021" role="doc-biblioref">Furr, 2021</a>; <a href="references.html#ref-sireci2013" role="doc-biblioref">Sireci &amp; Sukin, 2013</a>; <a href="references.html#ref-urbina2014" role="doc-biblioref">Urbina, 2014</a>)</span>, preceito alinhado à visão tripartite tradicional e ainda amplamente empregado na literatura <span class="citation" data-cites="widodo2018">(<a href="references.html#ref-widodo2018" role="doc-biblioref">Widodo, 2018</a>)</span>.</p>
+<p>A perspectiva tripartite estrutura a avaliação psicométrica a partir de três fontes clássicas de evidência: conteúdo, critério e construto <span class="citation" data-cites="bandalos2018">(<a href="references.html#ref-bandalos2018" role="doc-biblioref">Bandalos, 2018</a>)</span>. A validade de conteúdo examina a representatividade e a adequação dos itens frente ao domínio pretendido <span class="citation" data-cites="cohen2022">(<a href="references.html#ref-cohen2022" role="doc-biblioref">Cohen et al., 2022</a>)</span>. A validade de critério analisa a associação entre os escores do teste e critérios externos relevantes, como desempenhos correlatos ou desfechos futuros <span class="citation" data-cites="cohen2022">(<a href="references.html#ref-cohen2022" role="doc-biblioref">Cohen et al., 2022</a>)</span>. Por sua vez, a validade de construto investiga em que medida o instrumento capta a variável latente teórica, confrontando hipóteses conceituais com a evidência empírica observada <span class="citation" data-cites="cohen2022">(<a href="references.html#ref-cohen2022" role="doc-biblioref">Cohen et al., 2022</a>)</span>.</p>
+<p>Formalizada pela <em>American Psychological Association</em> (APA) nos <em>Standards for Educational and Psychological Testing</em> de 1966 <span class="citation" data-cites="bandalos2018">(<a href="references.html#ref-bandalos2018" role="doc-biblioref">Bandalos, 2018</a>)</span>, essa estrutura tripartite orientou a prática psicométrica por décadas. No entanto, a fragmentação da validade em categorias estanques passou a ser criticada <span class="citation" data-cites="sireci2013">(<a href="references.html#ref-sireci2013" role="doc-biblioref">Sireci &amp; Sukin, 2013</a>)</span>, conduzindo a uma reformulação teórica em que as subdivisões clássicas foram integradas a uma concepção unificada <span class="citation" data-cites="widodo2018">(<a href="references.html#ref-widodo2018" role="doc-biblioref">Widodo, 2018</a>)</span>.</p>
+<p>A publicação dos <em>Standards</em> de 1999 <span class="citation" data-cites="aera1999">(<a href="references.html#ref-aera1999" role="doc-biblioref">AERA et al., 1999</a>)</span> e sua revisão em 2014 <span class="citation" data-cites="aera2014">(<a href="references.html#ref-aera2014" role="doc-biblioref">AERA et al., 2014</a>)</span> consolidaram uma mudança paradigmática: a validade deixou de ser considerada uma propriedade intrínseca do instrumento e passou a concernir à legitimidade da interpretação e do uso pretendido de seus escores <span class="citation" data-cites="furr2021">(<a href="references.html#ref-furr2021" role="doc-biblioref">Furr, 2021</a>)</span>. Sob essa ótica contemporânea, a validade constitui um conceito unitário fundamentado em múltiplas fontes de evidência empírica e teórica, mobilizadas para respaldar as inferências pretendidas para finalidades específicas <span class="citation" data-cites="furr2021 urbina2014">(<a href="references.html#ref-furr2021" role="doc-biblioref">Furr, 2021</a>; <a href="references.html#ref-urbina2014" role="doc-biblioref">Urbina, 2014</a>)</span>.</p>
+<p>Assim, de acordo com as diretrizes vigentes <span class="citation" data-cites="aera2014">(<a href="references.html#ref-aera2014" role="doc-biblioref">AERA et al., 2014</a>)</span>, a validade expressa o grau em que as evidências empíricas e os fundamentos teóricos sustentam a interpretação dos escores para os fins concebidos. Trata-se de um julgamento avaliativo integrado acerca da adequação das inferências e das decisões fundamentadas nos resultados das avaliações <span class="citation" data-cites="bandalos2018 furr2021 urbina2014">(<a href="references.html#ref-bandalos2018" role="doc-biblioref">Bandalos, 2018</a>; <a href="references.html#ref-furr2021" role="doc-biblioref">Furr, 2021</a>; <a href="references.html#ref-urbina2014" role="doc-biblioref">Urbina, 2014</a>)</span>.</p>
+<p>Os <em>Standards</em> <span class="citation" data-cites="aera2014">(<a href="references.html#ref-aera2014" role="doc-biblioref">AERA et al., 2014</a>)</span> sistematizam cinco fontes de evidência de validade: conteúdo, processos de resposta, relações com variáveis externas, consequências do teste e estrutura interna. As evidências de conteúdo atestam a representatividade dos itens em relação ao domínio examinado <span class="citation" data-cites="furr2021">(<a href="references.html#ref-furr2021" role="doc-biblioref">Furr, 2021</a>)</span>. Os processos de resposta verificam a aderência entre os mecanismos cognitivos dos respondentes e o construto teórico <span class="citation" data-cites="sireci2013">(<a href="references.html#ref-sireci2013" role="doc-biblioref">Sireci &amp; Sukin, 2013</a>)</span>. As relações com variáveis externas avaliam associações convergentes e discriminantes com outros construtos de interesse <span class="citation" data-cites="furr2021">(<a href="references.html#ref-furr2021" role="doc-biblioref">Furr, 2021</a>)</span>. As consequências do teste analisam os desdobramentos éticos e práticos decorrentes da utilização dos instrumentos <span class="citation" data-cites="bandalos2018">(<a href="references.html#ref-bandalos2018" role="doc-biblioref">Bandalos, 2018</a>)</span>.</p>
+<p>As evidências baseadas na estrutura interna dizem respeito à conformidade entre as inter-relações dos itens observados e a arquitetura teórica do construto latente <span class="citation" data-cites="aera2014 rios2014">(<a href="references.html#ref-aera2014" role="doc-biblioref">AERA et al., 2014</a>; <a href="references.html#ref-rios2014" role="doc-biblioref">Rios &amp; Wells, 2014</a>)</span>. Essa dimensão analítica desdobra-se em três eixos fundamentais <span class="citation" data-cites="rios2014">(<a href="references.html#ref-rios2014" role="doc-biblioref">Rios &amp; Wells, 2014</a>)</span>: dimensionalidade, confiabilidade e invariância de medida.</p>
+<p>A dimensionalidade afere se a estrutura fatorial hipotetizada sustenta as inferências extraídas das pontuações <span class="citation" data-cites="rios2014">(<a href="references.html#ref-rios2014" role="doc-biblioref">Rios &amp; Wells, 2014</a>)</span>. A confiabilidade quantifica a precisão dos escores, tradicionalmente mensurada por indicadores de consistência interna <span class="citation" data-cites="rios2014">(<a href="references.html#ref-rios2014" role="doc-biblioref">Rios &amp; Wells, 2014</a>)</span>. Já a invariância de medida assegura a equivalência psicométrica dos parâmetros entre subgrupos populacionais, como sexo ou faixa etária, viabilizando comparações justas e substantivas.</p>
+<p>Por meio da AFC, examinam-se simultaneamente essas três fontes de evidência da estrutura interna <span class="citation" data-cites="bandalos2018 flora2017 hughes2018 reeves2016 rios2014">(<a href="references.html#ref-bandalos2018" role="doc-biblioref">Bandalos, 2018</a>; <a href="references.html#ref-flora2017" role="doc-biblioref">Flora &amp; Flake, 2017</a>; <a href="references.html#ref-hughes2018" role="doc-biblioref">Hughes, 2018</a>; <a href="references.html#ref-reeves2016" role="doc-biblioref">Reeves &amp; Marbach-Ad, 2016</a>; <a href="references.html#ref-rios2014" role="doc-biblioref">Rios &amp; Wells, 2014</a>)</span>. Em Ciências Sociais Aplicadas, o pesquisador usualmente dispõe de hipóteses teóricas prévias sobre a dimensionalidade do construto <span class="citation" data-cites="sireci2013">(<a href="references.html#ref-sireci2013" role="doc-biblioref">Sireci &amp; Sukin, 2013</a>)</span>, contexto no qual a AFC é recomendada para confrontar o modelo de medida teórico com a matriz de covariâncias empírica <span class="citation" data-cites="rios2014">(<a href="references.html#ref-rios2014" role="doc-biblioref">Rios &amp; Wells, 2014</a>)</span>.</p>
+<p>A AFC constitui o modelo de mensuração da modelagem de equações estruturais baseada em covariâncias (CB-SEM, do inglês <em>Covariance-Based Structural Equation Modeling</em>) <span class="citation" data-cites="brown2023 harrington2009 jackson2009 kline2023 nye2022">(<a href="references.html#ref-brown2023" role="doc-biblioref">Brown, 2023</a>; <a href="references.html#ref-harrington2009" role="doc-biblioref">Harrington, 2009</a>; <a href="references.html#ref-jackson2009" role="doc-biblioref">Jackson et al., 2009</a>; <a href="references.html#ref-kline2023" role="doc-biblioref">Kline, 2023</a>; <a href="references.html#ref-nye2022" role="doc-biblioref">Nye, 2022</a>)</span>. A SEM integra procedimentos de regressão múltipla e análise fatorial em uma única estrutura analítica <span class="citation" data-cites="hoyle2023cap1 kline2023">(<a href="references.html#ref-hoyle2023cap1" role="doc-biblioref">Hoyle, 2023</a>; <a href="references.html#ref-kline2023" role="doc-biblioref">Kline, 2023</a>)</span>, permitindo estimar relações complexas entre construtos teóricos enquanto modela expressamente o erro de mensuração <span class="citation" data-cites="hoyle2023cap1">(<a href="references.html#ref-hoyle2023cap1" role="doc-biblioref">Hoyle, 2023</a>)</span>.</p>
+<p>A condução da AFC envolve escolhas metodológicas condicionadas pela natureza dos dados, pelo formato de resposta dos itens e pelos objetivos do estudo <span class="citation" data-cites="crede2019 flake2017 flake2020 jackson2009 nye2022 rogers2024c">(<a href="references.html#ref-crede2019" role="doc-biblioref">Crede &amp; Harms, 2019</a>; <a href="references.html#ref-flake2017" role="doc-biblioref">Flake et al., 2017</a>; <a href="references.html#ref-flake2020" role="doc-biblioref">Flake &amp; Fried, 2020</a>; <a href="references.html#ref-jackson2009" role="doc-biblioref">Jackson et al., 2009</a>; <a href="references.html#ref-nye2022" role="doc-biblioref">Nye, 2022</a>; <a href="references.html#ref-rogers2024c" role="doc-biblioref">Rogers, 2024</a>)</span>. Tais decisões impactam diretamente a viabilidade analítica: a complexidade do modelo, a distribuição das categorias de resposta e o tamanho amostral condicionam a precisão das estimativas e a convergência dos algoritmos de estimação <span class="citation" data-cites="rhemtulla2012">(<a href="references.html#ref-rhemtulla2012" role="doc-biblioref">Rhemtulla et al., 2012</a>)</span>. Dessa forma, ponderar as implicações psicométricas dos instrumentos ainda no desenho da pesquisa previne inconsistências e dificuldades operacionais nas fases posteriores.</p>
+<p>Nesse contexto, formula-se a seguinte questão de pesquisa: <strong>quais escolhas metodológicas tornam a aplicação da AFC mais viável e flexível para obter evidências de validade baseadas na estrutura interna?</strong> Cabe enfatizar que as decisões técnicas atuam como instrumentos subordinados aos objetivos substantivos da investigação <span class="citation" data-cites="pilcher2023">(<a href="references.html#ref-pilcher2023" role="doc-biblioref">Pilcher &amp; Cortazzi, 2023</a>)</span>. São os objetivos teóricos que delimitam o problema de pesquisa e direcionam a seleção metodológica, cabendo ao método viabilizar o teste rigoroso das hipóteses formuladas.</p>
+<p>Na Psicometria, diversas questões metodológicas admitem mais de uma abordagem defensável. Nesses casos, a escolha deve considerar os objetivos da pesquisa e as consequências da modelagem para a interpretação dos resultados. Nesse artigo, adotamos uma recomendação prática: entre instrumentos adequados ao construto e à população de interesse, privilegiam-se aqueles cujos itens possam ser tratados como contínuos. Essa decisão deve ser planejada e fundamentada, pois oferece acesso às propriedades analíticas da máxima verossimilhança (ML) sem impor o formato ordinal como um obstáculo metodológico intransponível <span class="citation" data-cites="rhemtulla2012 robitzsch2020a robitzsch2022a">(<a href="references.html#ref-rhemtulla2012" role="doc-biblioref">Rhemtulla et al., 2012</a>; <a href="references.html#ref-robitzsch2020a" role="doc-biblioref">Robitzsch, 2020</a>, <a href="references.html#ref-robitzsch2022a" role="doc-biblioref">2022</a>)</span>.</p>
+<p>Para esse propósito, recomendam-se instrumentos com itens estruturados em cinco ou mais categorias de resposta, preferencialmente sete, desde que disponham de evidências prévias de validade para o uso pretendido. Estudos de simulação em AFC sustentam o emprego da ML robusta com cinco a sete categorias em diversas condições empíricas, com resultados particularmente favoráveis quando os limiares das categorias são aproximadamente simétricos <span class="citation" data-cites="rhemtulla2012">(<a href="references.html#ref-rhemtulla2012" role="doc-biblioref">Rhemtulla et al., 2012</a>)</span>.</p>
+<p>O tratamento contínuo permite empregar a estimação por ML e suas correções robustas, além de articular o modelo a rotinas flexíveis de avaliação de ajuste, comparação entre estruturas concorrentes e tratamento direto de dados ausentes <span class="citation" data-cites="rhemtulla2012 robitzsch2020a">(<a href="references.html#ref-rhemtulla2012" role="doc-biblioref">Rhemtulla et al., 2012</a>; <a href="references.html#ref-robitzsch2020a" role="doc-biblioref">Robitzsch, 2020</a>)</span>. A modelagem ordinal, por sua vez, também envolve pressupostos distributivos: a abordagem convencional baseada em matrizes de correlação policórica assume variáveis latentes contínuas subjacentes com distribuição normal bivariada. Assim, ambas as abordagens operam sob premissas teóricas específicas, cabendo ao pesquisador justificar a adequação da representação matemática escolhida frente aos dados disponíveis e às metas analíticas <span class="citation" data-cites="robitzsch2020a robitzsch2022a">(<a href="references.html#ref-robitzsch2020a" role="doc-biblioref">Robitzsch, 2020</a>, <a href="references.html#ref-robitzsch2022a" role="doc-biblioref">2022</a>)</span>.</p>
+<p>Essas propriedades tornam o tratamento contínuo uma alternativa consistente para o presente artigo-tutorial. Na presença de dados omissos, por exemplo, a máxima verossimilhança com informação completa (<em>Full Information Maximum Likelihood</em>, FIML) viabiliza sua incorporação direta na estimação, atendidas as condições teóricas sobre o modelo e o mecanismo de ausência. A literatura indica, adicionalmente, cenários nos quais a ML robusta exibe desempenho superior em amostras menores quando comparada aos estimadores de mínimos quadrados ponderados <span class="citation" data-cites="rhemtulla2012">(<a href="references.html#ref-rhemtulla2012" role="doc-biblioref">Rhemtulla et al., 2012</a>)</span>.</p>
+<p>O presente artigo-tutorial tem como objetivo sistematizar orientações metodológicas para a condução da AFC, demonstrar sua implementação computacional em uma aplicação empírica e disponibilizar um projeto executável e reprodutível que integre dados, rotinas analíticas e redação dinâmica dos resultados. O percurso abrange a seleção do modelo de medida, a análise de poder (AP), o pré-processamento dos dados, a estimação dos parâmetros, a avaliação do ajuste global e local e a comparação e modificação dos modelos alternativos. Cada decisão metodológica é discutida no referencial teórico sob uma tríplice perspectiva: o que fazer <span class="citation" data-cites="flake2017 nye2022 rogers2024c">(<a href="references.html#ref-flake2017" role="doc-biblioref">Flake et al., 2017</a>; <a href="references.html#ref-nye2022" role="doc-biblioref">Nye, 2022</a>; <a href="references.html#ref-rogers2024c" role="doc-biblioref">Rogers, 2024</a>)</span>, o que evitar <span class="citation" data-cites="crede2019 rogers2024c">(<a href="references.html#ref-crede2019" role="doc-biblioref">Crede &amp; Harms, 2019</a>; <a href="references.html#ref-rogers2024c" role="doc-biblioref">Rogers, 2024</a>)</span> e o que reportar <span class="citation" data-cites="flake2020 jackson2009 rogers2024c">(<a href="references.html#ref-flake2020" role="doc-biblioref">Flake &amp; Fried, 2020</a>; <a href="references.html#ref-jackson2009" role="doc-biblioref">Jackson et al., 2009</a>; <a href="references.html#ref-rogers2024c" role="doc-biblioref">Rogers, 2024</a>)</span>.</p>
+<p>A aplicação empírica utiliza a escala WHOQOL-Bref e retoma a base de dados analisada por <span class="citation" data-cites="rogers2024c">Rogers (<a href="references.html#ref-rogers2024c" role="doc-biblioref">2024</a>)</span> e <span class="citation" data-cites="rogers2022">Rogers (<a href="references.html#ref-rogers2022" role="doc-biblioref">2022</a>)</span>, documentando os procedimentos desde os registros brutos. A implementação computacional em R emprega o ecossistema do <em>lavaan</em> <span class="citation" data-cites="rosseel2023">(<a href="references.html#ref-rosseel2023" role="doc-biblioref">Rosseel, 2023</a>)</span> e rotinas modulares reutilizáveis para estruturar operações repetitivas. Tabelas, figuras e estatísticas são compiladas pelo código associado ao manuscrito em Quarto, permitindo ao leitor verificar como cada decisão teórica se traduz nos resultados reportados.</p>
+<p>O público-alvo compreende pesquisadores e estudantes de pós-graduação com noções fundamentais de estatística multivariada e CB-SEM, contemplando diferentes níveis de proficiência em programação. Para atender a essa audiência, o tutorial articula as justificativas teóricas aos procedimentos estatísticos, explicitando os códigos junto às saídas correspondentes. Essa estrutura facilita a compreensão do processo e sua execução prática, franqueando também aos leitores experientes o acesso a materiais modulares para adaptação em suas próprias pesquisas.</p>
+<p>A função essencial de artigos-tutoriais reside em aproximar métodos metodológicos e computacionais avançados de pesquisadores não especialistas <span class="citation" data-cites="martins2021 mendes-da-silva2023">(<a href="references.html#ref-martins2021" role="doc-biblioref">Martins, 2021</a>; <a href="references.html#ref-mendes-da-silva2023" role="doc-biblioref">Mendes-Da-Silva, 2023</a>)</span>. Nessa proposta, a contribuição didática estrutura-se em três frentes: propiciar o entendimento crítico das decisões de uma AFC; assegurar a reprodutibilidade integral da aplicação empírica; e oferecer uma organização de projeto reutilizável na elaboração de novos tutoriais. Protocolos transparentes, dados e códigos abertos viabilizam o escrutínio das escolhas realizadas e suprem o ensino de métodos quantitativos de recursos aplicados, em estrita consonância com os preceitos da Ciência Aberta <span class="citation" data-cites="gilroy2019 kathawalla2021 klein2018">(<a href="references.html#ref-gilroy2019" role="doc-biblioref">Gilroy &amp; Kaplan, 2019</a>; <a href="references.html#ref-kathawalla2021" role="doc-biblioref">Kathawalla et al., 2021</a>; <a href="references.html#ref-klein2018" role="doc-biblioref">Klein et al., 2018</a>)</span> e com os princípios FAIR (<em>Findable, Accessible, Interoperable, and Reusable</em>) <span class="citation" data-cites="wilkinson2016">(<a href="references.html#ref-wilkinson2016" role="doc-biblioref">Wilkinson et al., 2016</a>)</span>.</p>
+<p>A prática da Ciência Aberta pressupõe a incorporação ativa de rotinas de documentação, compartilhamento e governança de dados à atividade científica <span class="citation" data-cites="limongi2025a">(<a href="references.html#ref-limongi2025a" role="doc-biblioref">Limongi &amp; Rogers, 2025a</a>)</span>. Sua consolidação em um fluxo de trabalho exige sistematizar materiais, rastrear versões e conectar as análises estatísticas ao texto final <span class="citation" data-cites="limongi2025b">(<a href="references.html#ref-limongi2025b" role="doc-biblioref">Limongi &amp; Rogers, 2025b</a>)</span>. Para operacionalizar essa integração, adota-se o ARTE (Article Reproducibility Template &amp; Environment), que congrega a gestão do projeto, o controle de versionamento, a administração de dependências computacionais e a editoração de documentos reproduzíveis <span class="citation" data-cites="rogers2025">(<a href="references.html#ref-rogers2025" role="doc-biblioref">Rogers &amp; Limongi, 2025</a>)</span>.</p>
+<p>O ARTE propõe a adoção progressiva dessas práticas, estendendo-se da organização inicial e disponibilização dos arquivos até o isolamento completo do ambiente computacional por meio de contêineres, em conformidade com a complexidade do estudo e a familiaridade do pesquisador com ferramentas de desenvolvimento <span class="citation" data-cites="rogers2025">(<a href="references.html#ref-rogers2025" role="doc-biblioref">Rogers &amp; Limongi, 2025</a>)</span>. No tutorial, essa estrutura conecta os dados brutos aos procedimentos de tratamento e modelagem, aos resultados consolidados e ao texto do manuscrito. Os materiais compartilhados possibilitam reproduzir passo a passo o percurso metodológico e transpor essa infraestrutura para outros problemas psicométricos.</p>
+<p>O artigo é disponibilizado em dois formatos complementares. O PDF preserva a narrativa científica linear, contendo as fundamentações teóricas, os resultados empíricos e suas interpretações substantivas. O HTML acrescenta uma camada didática interativa: abaixo de tabelas e gráficos, blocos expansíveis detalham a finalidade, a preparação, o procedimento estatístico e a execução das rotinas. O conteúdo desses blocos elucida como os scripts geram cada saída numérica, incorporando comentários objetivos nas linhas de código e hiperlinks para a documentação oficial das funções utilizadas. As rotinas autorais encontram-se documentadas nos scripts do projeto, permitindo modular a profundidade da leitura conforme o interesse do leitor.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Como acompanhar o tutorial">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Como acompanhar o tutorial
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Acompanhe a narrativa, as tabelas e as figuras e abra os blocos “Racional da saída” para examinar como cada resultado foi produzido. Nos códigos, clique nos nomes de funções destacados como links para consultar sua documentação oficial. A organização das análises e sua preparação são detalhadas no início da <a href="03_model_selection.html" class="quarto-xref"><span>Seção 3</span></a>. Para executar o projeto localmente, siga as instruções contidas no <a href="../README.md">README</a>, pois os códigos demonstrativos pressupõem essa preparação de ambiente.</p>
+</div>
+</div>
+</div>
+<p>Além dessa introdução, o artigo compreende uma fundamentação teórica, seis etapas aplicadas e a seção de conclusão. A <a href="02_background.html" class="quarto-xref"><span>Seção 2</span></a> reúne as recomendações metodológicas que balizam a aplicação empírica. A <a href="03_model_selection.html" class="quarto-xref"><span>Seção 3</span></a> apresenta o instrumento psicométrico e as especificações dos modelos alternativos; a <a href="04_pa.html" class="quarto-xref"><span>Seção 4</span></a> aborda o planejamento amostral por meio da AP; e a <a href="05_preprocessing.html" class="quarto-xref"><span>Seção 5</span></a> detalha a obtenção da amostra analítica e a análise descritiva dos indicadores. A estimação dos parâmetros e a avaliação da convergência das soluções são examinadas na <a href="06_estimation.html" class="quarto-xref"><span>Seção 6</span></a>. A <a href="07_model_fit.html" class="quarto-xref"><span>Seção 7</span></a> congrega evidências de ajuste global, confiabilidade e diagnóstico local de resíduos, subsidiando os procedimentos comparativos e as reespecificações da <a href="08_model_comparison.html" class="quarto-xref"><span>Seção 8</span></a>. Por fim, a <a href="09_conclusion.html" class="quarto-xref"><span>Seção 9</span></a> sintetiza as principais considerações do trabalho. Essa organização adota as diretrizes para artigos-tutoriais propostas por <span class="citation" data-cites="martins2021">Martins (<a href="references.html#ref-martins2021" role="doc-biblioref">2021</a>)</span>, integrando os preceitos metodológicos a rotinas abertas que viabilizam a replicação autônoma do estudo.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-aera1999" class="csl-entry" role="listitem">
+AERA, APA, &amp; NCME. (1999). <em>Standards for <span>Educational</span> and <span>Psychological Testing</span></em>. American Educational Research Association, American Psychological Association, &amp; National Council on Measurement in Education.
+</div>
+<div id="ref-aera2014" class="csl-entry" role="listitem">
+AERA, APA, &amp; NCME. (2014). <em>Standards for <span>Educational</span> and <span>Pshychological Testing</span></em>. American Educational Research Association, American Psychological Association &amp; National Council on Measurement in Education.
+</div>
+<div id="ref-bandalos2018" class="csl-entry" role="listitem">
+Bandalos, D. L. (2018). <em>Measurement Theory and Applications for the Social Sciences</em>. Guilford Press.
+</div>
+<div id="ref-brown2023" class="csl-entry" role="listitem">
+Brown, T. A. (2023). Confirmatory <span>Factor Analysis</span>. Em R. H. Hoyle (Org.), <em>Handbook of <span>Structural Equation Modeling</span></em>. The Guilford Press.
+</div>
+<div id="ref-cohen2022" class="csl-entry" role="listitem">
+Cohen, R. J., Schneider, J. W., &amp; Tobin, R. M. (2022). <em>Psychological <span>Testing</span> and <span>Assessment</span>: <span>An Introduction</span> to <span>Test</span> and <span>Measurement</span></em>. McGraw Hill LLC.
+</div>
+<div id="ref-crede2019" class="csl-entry" role="listitem">
+Crede, M., &amp; Harms, P. (2019). Questionable Research Practices When Using Confirmatory Factor Analysis. <em>Journal of Managerial Psychology</em>, <em>34</em>(1), 18–30. <a href="https://doi.org/10.1108/JMP-06-2018-0272">https://doi.org/10.1108/JMP-06-2018-0272</a>
+</div>
+<div id="ref-flake2020" class="csl-entry" role="listitem">
+Flake, J. K., &amp; Fried, E. I. (2020). Measurement <span>Schmeasurement</span>: <span>Questionable Measurement Practices</span> and <span>How</span> to <span>Avoid Them</span>. <em>Advances in Methods and Practices in Psychological Science</em>, <em>3</em>(4), 456–465. <a href="https://doi.org/10.1177/2515245920952393">https://doi.org/10.1177/2515245920952393</a>
+</div>
+<div id="ref-flake2017" class="csl-entry" role="listitem">
+Flake, J. K., Pek, J., &amp; Hehman, E. (2017). Construct <span>Validation</span> in <span>Social</span> and <span>Personality Research</span>: <span>Current Practices</span> and <span>Recommendations</span>. <em>Social Psychological and Personality Science</em>, <em>8</em>(4), 370–378. <a href="https://doi.org/10.1177/1948550617693063">https://doi.org/10.1177/1948550617693063</a>
+</div>
+<div id="ref-flora2017" class="csl-entry" role="listitem">
+Flora, D. B., &amp; Flake, J. K. (2017). The Purpose and Practice of Exploratory and Confirmatory Factor Analysis in Psychological Research: <span>Decisions</span> for Scale Development and Validation. <em>Canadian Journal of Behavioural Science</em>, <em>49</em>(2), 78–88. <a href="https://doi.org/10.1037/cbs0000069">https://doi.org/10.1037/cbs0000069</a>
+</div>
+<div id="ref-furr2021" class="csl-entry" role="listitem">
+Furr, M. R. (2021). <em>Psychometrics: <span>An Introduction</span></em>. SAGE Publications.
+</div>
+<div id="ref-gilroy2019" class="csl-entry" role="listitem">
+Gilroy, S. P., &amp; Kaplan, B. A. (2019). Furthering <span>Open Science</span> in <span>Behavior Analysis</span>: <span>An Introduction</span> and <span>Tutorial</span> for <span>Using GitHub</span> in <span>Research</span>. <em>Perspectives on Behavior Science</em>, <em>42</em>(3), 565–581. <a href="https://doi.org/10.1007/s40614-019-00202-5">https://doi.org/10.1007/s40614-019-00202-5</a>
+</div>
+<div id="ref-harrington2009" class="csl-entry" role="listitem">
+Harrington, D. (2009). <em>Confirmatory <span>Factor Analysis</span></em>. Oxford University Press.
+</div>
+<div id="ref-hoyle2023cap1" class="csl-entry" role="listitem">
+Hoyle, R. H. (2023). Structural <span>Equation Modeling</span>: <span>An Overview</span>. Em R. H. Hoyle (Org.), <em>Handbook of <span>Structural Equation Modeling</span></em>. Guilford Press.
+</div>
+<div id="ref-hughes2018" class="csl-entry" role="listitem">
+Hughes, D. J. (2018). Psychometric <span>Validity</span>: <span>Establishing</span> the <span>Accuracy</span> and <span>Appropriateness</span> of <span>Psychometric Measures</span>. Em P. Irwing, T. Booth, &amp; D. J. Hughes (Org.), <em>The <span>Wiley Handbook</span> of <span>Psychometric Testing</span>: <span>A Multidisciplinary Reference</span> on <span>Survey</span>, <span>Scale</span> and <span>Test Development</span></em>. John Wiley &amp; Sons Ltd.
+</div>
+<div id="ref-jackson2009" class="csl-entry" role="listitem">
+Jackson, D. L., Gillaspy, J. A., &amp; Purc-Stephenson, R. (2009). Reporting Practices in Confirmatory Factor Analysis: <span>An</span> Overview and Some Recommendations. <em>Psychological Methods</em>, <em>14</em>(1). <a href="https://doi.org/10.1037/a0014694">https://doi.org/10.1037/a0014694</a>
+</div>
+<div id="ref-kathawalla2021" class="csl-entry" role="listitem">
+Kathawalla, U.-K., Silverstein, P., &amp; Syed, M. (2021). Easing <span>Into Open Science</span>: <span>A Guide</span> for <span>Graduate Students</span> and <span>Their Advisors</span>. <em>Collabra: Psychology</em>, <em>7</em>(1), 18684. <a href="https://doi.org/10.1525/collabra.18684">https://doi.org/10.1525/collabra.18684</a>
+</div>
+<div id="ref-klein2018" class="csl-entry" role="listitem">
+Klein, O., Hardwicke, T. E., Aust, F., Breuer, J., Danielsson, H., Mohr, A. H., IJzerman, H., Nilsonne, G., Vanpaemel, W., &amp; Frank, M. C. (2018). A <span>Practical Guide</span> for <span>Transparency</span> in <span>Psychological Science</span>. <em>Collabra: Psychology</em>, <em>4</em>(1), 20. <a href="https://doi.org/10.1525/collabra.158">https://doi.org/10.1525/collabra.158</a>
+</div>
+<div id="ref-kline2023" class="csl-entry" role="listitem">
+Kline, R. B. (2023). <em>Principles and <span>Pratice</span> of <span>Structural Equation Modeling</span></em> (Fifth Edition). The Guilford Press.
+</div>
+<div id="ref-limongi2025a" class="csl-entry" role="listitem">
+Limongi, R., &amp; Rogers, P. (2025a). Open <span>Science</span> in <span>Three Acts</span>: <span>Foundations</span>, <span>Practice</span>, and <span>Implementation</span> - <span>First Act</span>. <em>BAR - Brazilian Administration Review</em>, <em>22</em>(1), e250079. <a href="https://doi.org/10.1590/1807-7692bar2025250079">https://doi.org/10.1590/1807-7692bar2025250079</a>
+</div>
+<div id="ref-limongi2025b" class="csl-entry" role="listitem">
+Limongi, R., &amp; Rogers, P. (2025b). Open <span>Science</span> in <span>Three Acts</span>: <span>Foundations</span>, <span>Practice</span>, and <span>Implementation</span> - <span>Second Act</span>. <em>BAR - Brazilian Administration Review</em>, <em>22</em>(2), e250116. <a href="https://doi.org/10.1590/1807-7692bar2025250116">https://doi.org/10.1590/1807-7692bar2025250116</a>
+</div>
+<div id="ref-martins2021" class="csl-entry" role="listitem">
+Martins, H. C. (2021). Tutorial-<span>Articles</span>: <span>The Importance</span> of <span>Data</span> and <span>Code Sharing</span>. <em>Revista de Administra<span class="nocase">ç</span><span class="nocase">ã</span>o Contempor<span class="nocase">â</span>nea</em>, <em>25</em>(1), e200212. <a href="https://doi.org/10.1590/1982-7849rac2021200212">https://doi.org/10.1590/1982-7849rac2021200212</a>
+</div>
+<div id="ref-mendes-da-silva2023" class="csl-entry" role="listitem">
+Mendes-Da-Silva, W. (2023). What <span>Lectures</span> and <span>Research</span> in <span>Business Management Need</span> to <span>Know About Open Science</span>. <em>Revista de Administra<span class="nocase">ç</span><span class="nocase">ã</span>o de Empresas</em>, <em>63</em>(4), e0000–0033. <a href="https://doi.org/10.1590/s0034-759020230408x">https://doi.org/10.1590/s0034-759020230408x</a>
+</div>
+<div id="ref-nye2022" class="csl-entry" role="listitem">
+Nye, C. D. (2022). Reviewer <span>Resources</span>: <span>Confirmatory Factor Analysis</span>. <em>Organizational Research Methods</em>, 109442812211205. <a href="https://doi.org/10.1177/10944281221120541">https://doi.org/10.1177/10944281221120541</a>
+</div>
+<div id="ref-pilcher2023" class="csl-entry" role="listitem">
+Pilcher, N., &amp; Cortazzi, M. (2023). ’<span>Qualitative</span>’ and ’quantitative’ Methods and Approaches across Subject Fields: Implications for Research Values, Assumptions, and Practices. <em>Quality &amp; Quantity</em>. <a href="https://doi.org/10.1007/s11135-023-01734-4">https://doi.org/10.1007/s11135-023-01734-4</a>
+</div>
+<div id="ref-reeves2016" class="csl-entry" role="listitem">
+Reeves, T. D., &amp; Marbach-Ad, G. (2016). Contemporary Test Validity in Theory and Practice: <span>A</span> Primer for Discipline-Based Education Researchers. <em>CBE Life Sciences Education</em>, <em>15</em>(1). <a href="https://doi.org/10.1187/cbe.15-08-0183">https://doi.org/10.1187/cbe.15-08-0183</a>
+</div>
+<div id="ref-rhemtulla2012" class="csl-entry" role="listitem">
+Rhemtulla, M., Brosseau-Liard, P. É., &amp; Savalei, V. (2012). When Can Categorical Variables Be Treated as Continuous? <span>A</span> Comparison of Robust Continuous and Categorical <span>SEM</span> Estimation Methods under Suboptimal Conditions. <em>Psychological Methods</em>, <em>17</em>(3), 354–373. <a href="https://doi.org/10.1037/a0029315">https://doi.org/10.1037/a0029315</a>
+</div>
+<div id="ref-rios2014" class="csl-entry" role="listitem">
+Rios, J., &amp; Wells, C. (2014). Validity Evidence Based on Internal Structure. <em>Psicothema</em>, <em>26</em>(1), 108–116. <a href="https://doi.org/10.7334/psicothema2013.260">https://doi.org/10.7334/psicothema2013.260</a>
+</div>
+<div id="ref-robitzsch2020a" class="csl-entry" role="listitem">
+Robitzsch, A. (2020). Why <span>Ordinal Variables Can</span> (<span>Almost</span>) <span>Always Be Treated</span> as <span>Continuous Variables</span>: <span>Clarifying Assumptions</span> of <span>Robust Continuous</span> and <span>Ordinal Factor Analysis Estimation Methods</span>. <em>Frontiers in Education</em>, <em>5</em>. <a href="https://doi.org/10.3389/feduc.2020.589965">https://doi.org/10.3389/feduc.2020.589965</a>
+</div>
+<div id="ref-robitzsch2022a" class="csl-entry" role="listitem">
+Robitzsch, A. (2022). On the <span>Bias</span> in <span>Confirmatory Factor Analysis When Treating Discrete Variables</span> as <span>Ordinal Instead</span> of <span>Continuous</span>. <em>Axioms</em>, <em>11</em>(4). <a href="https://doi.org/10.3390/axioms11040162">https://doi.org/10.3390/axioms11040162</a>
+</div>
+<div id="ref-rogers2022" class="csl-entry" role="listitem">
+Rogers, P. (2022). Best <span>Practices</span> for <span>Your Exploratory Factor Analysis</span>: <span>A Factor Tutorial</span>. <em>Revista de Administra<span class="nocase">ç</span><span class="nocase">ã</span>o Contempor<span class="nocase">â</span>nea</em>, <em>26</em>(6). <a href="https://doi.org/10.1590/1982-7849rac2022210085.en">https://doi.org/10.1590/1982-7849rac2022210085.en</a>
+</div>
+<div id="ref-rogers2024c" class="csl-entry" role="listitem">
+Rogers, P. (2024). Best Practices for Your Confirmatory Factor Analysis: <span>A JASP</span> and Lavaan Tutorial. <em>Behavior Research Methods</em>. <a href="https://doi.org/10.3758/s13428-024-02375-7">https://doi.org/10.3758/s13428-024-02375-7</a>
+</div>
+<div id="ref-rogers2025" class="csl-entry" role="listitem">
+Rogers, P., &amp; Limongi, R. (2025). Open <span>Science</span> in <span>Three Acts</span>: <span>Foundations</span>, <span>Practice</span>, and <span>Implementation</span> - <span>Third Act</span>. <em>BAR - Brazilian Administration Review</em>, <em>22</em>(3), e250162. <a href="https://doi.org/10.1590/1807-7692bar2025250162">https://doi.org/10.1590/1807-7692bar2025250162</a>
+</div>
+<div id="ref-rosseel2023" class="csl-entry" role="listitem">
+Rosseel, Y. (2023). <em>The Lavaan Tutorial</em>. Department of Data Analysis, Ghent University.
+</div>
+<div id="ref-sireci2013" class="csl-entry" role="listitem">
+Sireci, S. G., &amp; Sukin, T. (2013). Test Validity. Em <em><span>APA</span> Handbook of Testing and Assessment in Psychology, <span>Vol</span>. 1: <span>Test</span> Theory and Testing and Assessment in Industrial and Organizational Psychology.</em> (p. 61–84). American Psychological Association. <a href="https://doi.org/10.1037/14047-004">https://doi.org/10.1037/14047-004</a>
+</div>
+<div id="ref-urbina2014" class="csl-entry" role="listitem">
+Urbina, S. (2014). <em>Essentials of <span>Psychological Testing</span></em>. John Wiley &amp; Sons.
+</div>
+<div id="ref-widodo2018" class="csl-entry" role="listitem">
+Widodo, E. (2018). Some <span>Notes</span> on the <span>Contemporary Views</span> of <span>Validity</span> in <span>Psychological</span> and <span>Educational Assessment</span>. <em>Advances in Social Science, Education and Humanities Research</em>, <em>231</em>, 732–734. <a href="https://doi.org/10.3968/8877">https://doi.org/10.3968/8877</a>
+</div>
+<div id="ref-wilkinson2016" class="csl-entry" role="listitem">
+Wilkinson, M. D., Dumontier, M., Aalbersberg, Ij. J., Appleton, G., Axton, M., Baak, A., Blomberg, N., Boiten, J.-W., Da Silva Santos, L. B., Bourne, P. E., Bouwman, J., Brookes, A. J., Clark, T., Crosas, M., Dillo, I., Dumon, O., Edmunds, S., Evelo, C. T., Finkers, R., … Mons, B. (2016). The <span>FAIR Guiding Principles</span> for Scientific Data Management and Stewardship. <em>Scientific Data</em>, <em>3</em>(1), 160018. <a href="https://doi.org/10.1038/sdata.2016.18">https://doi.org/10.1038/sdata.2016.18</a>
+</div>
+</div>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiada");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiada");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/phdpablo\.github\.io\/smart-cfa\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../index.html" class="pagination-link" aria-label="Resumo">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Resumo</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../Article/02_background.html" class="pagination-link" aria-label="Fundamentação das decisões analíticas">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Fundamentação das decisões analíticas</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><a href="https://www.phdpablo.com">por Pablo Rogers</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Este artigo foi desenvolvido com <a href="https://quarto.org/">Quarto</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>5&nbsp; Pré-processamento – Planejamento e avaliação de modelos de análise fatorial confirmatória</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../Article/06_estimation.html" rel="next">
+<link href="../Article/04_pa.html" rel="prev">
+<link href="../cover.jpg" rel="icon" type="image/jpeg">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-8f4cfe8dde91195664ce4096b0ee6c60.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-8c29fd56b0c87e4ab01b9c836650041e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-8f4cfe8dde91195664ce4096b0ee6c60.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-2MWSHLX73Q"></script><script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
+</script>
+<meta property="og:title" content="5&nbsp; Pré-processamento – Planejamento e avaliação de modelos de análise fatorial confirmatória">
+<meta property="og:description" content="">
+<meta property="og:image" content="https://phdpablo.github.io/smart-cfa/Article/05_preprocessing_files/figure-html/fig-likert-social-1.png">
+<meta property="og:site_name" content="Planejamento e avaliação de modelos de análise fatorial confirmatória">
+<meta property="og:image:alt" content="Barras horizontais divergentes e centralizadas mostrando as respostas aos itens Q20, Q21 e Q22.">
+<meta property="og:image:height" content="864">
+<meta property="og:image:width" content="1536">
+</head>
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Article/05_preprocessing.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Pré-processamento</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Planejamento e avaliação de modelos de análise fatorial confirmatória</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/phdpablo/smart-cfa" title="Código fonte" class="quarto-navigation-tool px-1" aria-label="Código fonte"><i class="bi bi-github"></i></a>
+    <a href="../cfa-tutorial.pdf" title="Baixar PDF" class="quarto-navigation-tool px-1" aria-label="Baixar PDF"><i class="bi bi-file-pdf"></i></a>
+    <div class="dropdown">
+      <a href="" title="Compartilhar" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Compartilhar"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+<li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+      </ul>
+</div>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo escuro"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Alternar modo de leitor">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Resumo</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/01_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/02_background.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Fundamentação das decisões analíticas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/03_model_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Seleção do modelo de medida</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/04_pa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Análise de poder</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/05_preprocessing.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Pré-processamento</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/06_estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Processo de estimação</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/07_model_fit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Ajuste do modelo</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/08_model_comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Comparações e modificações dos modelos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/09_conclusion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Conclusões</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referências</span></a>
+  </div>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Índice</h2>
+   
+  <ul>
+<li><a href="#sec-cier-exante" id="toc-sec-cier-exante" class="nav-link active" data-scroll-target="#sec-cier-exante"><span class="header-section-number">5.1</span> Exclusões procedurais</a></li>
+  <li>
+<a href="#sec-cier-expost" id="toc-sec-cier-expost" class="nav-link" data-scroll-target="#sec-cier-expost"><span class="header-section-number">5.2</span> Critérios estatísticos</a>
+  <ul class="collapse">
+<li><a href="#sec-cier-decision" id="toc-sec-cier-decision" class="nav-link" data-scroll-target="#sec-cier-decision"><span class="header-section-number">5.2.1</span> Decisão final e amostra de análise</a></li>
+  </ul>
+</li>
+  <li><a href="#sec-cier-description" id="toc-sec-cier-description" class="nav-link" data-scroll-target="#sec-cier-description"><span class="header-section-number">5.3</span> Descrição dos itens</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7"><span id="sec-preprocessing" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Pré-processamento</span></span></h1></header><header id="title-block-header">
+
+</header><p>O pré-processamento em questionários de autorrelato tem como finalidade proteger as análises subsequentes contra vieses decorrentes de C/IER, registros incompletos ou respostas inconsistentes, além de inspecionar preliminarmente as variáveis para a detecção precoce de anomalias. Diferentemente das seções anteriores, em que os dados empíricos não foram demandados, as etapas subsequentes operam diretamente sobre dados brutos, adotando-se a mesma base empregada por <span class="citation" data-cites="rogers2024c">Rogers (<a href="references.html#ref-rogers2024c" role="doc-biblioref">2024</a>)</span> e <span class="citation" data-cites="rogers2022">Rogers (<a href="references.html#ref-rogers2022" role="doc-biblioref">2022</a>)</span>.</p>
+<p>No presente tutorial, no entanto, o processamento parte dos 1.546 registros brutos e explicita tanto os critérios procedurais (<em>ex-ante</em>) quanto os indicadores estatísticos (<em>ex-post</em>) de triagem C/IER. Como os trabalhos anteriores <span class="citation" data-cites="rogers2024c rogers2022">(<a href="references.html#ref-rogers2022" role="doc-biblioref">Rogers, 2022</a>, <a href="references.html#ref-rogers2024c" role="doc-biblioref">2024</a>)</span> partiram de uma base pré-processada de 1.047 participantes, eventuais diferenças entre seus resultados e os do presente tutorial não devem ser atribuídas exclusivamente ao tratamento ordinal ou contínuo dos itens. Após a verificação da integridade do banco e a remoção de registros sem identificação ou com mais de cinco respostas ausentes na WHOQOL-Bref, a amostra elegível foi submetida a um protocolo sequencial de triagem C/IER. As respostas ausentes nos registros retidos foram preservadas para tratamento via FIML na etapa de estimação.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Como a amostra elegível foi obtida">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Como a amostra elegível foi obtida
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Preparar os registros brutos e obter a amostra elegível para a triagem de respostas.</p>
+<p><strong>Preparação</strong></p>
+<p>Utiliza-se <code>Data/InputData/data.csv</code> e a preparação geral da <a href="03_model_selection.html" class="quarto-xref"><span>Seção 3</span></a>. O arquivo deve conter identificação, timestamps, três itens de atenção e os 26 itens da WHOQOL-Bref.</p>
+<p><strong>Procedimento</strong></p>
+<p>O chunk <code>data-preparation</code> importa o arquivo e define os vetores <code>scale_items</code> e <code>attention_items</code>. A verificação das colunas obrigatórias interrompe a execução se faltar algum campo. O processamento transforma os timestamps em datas, calcula a duração em segundos e converte as respostas em valores numéricos.</p>
+<p>A flag <code>dropout</code> identifica registros sem identificação ou com mais de cinco respostas ausentes nos 26 itens. O objeto <code>eligible_data</code> retém os demais registros. O diretório intermediário é preparado antes da gravação. Ao adaptar o processamento, recomenda-se conferir os nomes das colunas e o formato dos timestamps; os critérios de elegibilidade devem corresponder ao protocolo da nova pesquisa.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>O bloco abaixo executa a preparação e salva <code>whoqol_eligible.csv</code> em <code>Data/IntermediateData</code>. Os objetos criados alimentam os critérios de triagem seguintes.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Import the raw questionnaire data.</span></span>
+<span><span class="va">raw_data</span> <span class="op">&lt;-</span> <span class="fu">read_csv2</span><span class="op">(</span></span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Data"</span>, <span class="st">"InputData"</span>, <span class="st">"data.csv"</span><span class="op">)</span>,</span>
+<span>  show_col_types <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Identify the scale items and attention checks.</span></span>
+<span><span class="va">scale_items</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Q"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">26</span><span class="op">)</span></span>
+<span><span class="va">attention_items</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"CQ"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Check that all required columns are available.</span></span>
+<span><span class="va">required_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>  <span class="st">"ID"</span>, <span class="st">"CREATED"</span>, <span class="st">"MODIFIED"</span>, <span class="va">attention_items</span>, <span class="va">scale_items</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">missing_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html">setdiff</a></span><span class="op">(</span><span class="va">required_columns</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">raw_data</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">missing_columns</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">cli</span><span class="fu">::</span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_abort.html">cli_abort</a></span><span class="op">(</span></span>
+<span>    <span class="st">"As colunas obrigatórias ausentes são: {paste(missing_columns, collapse = ', ')}"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Flag incomplete records and prepare response values and durations.</span></span>
+<span><span class="va">prepared_data</span> <span class="op">&lt;-</span> <span class="va">raw_data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    dropout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">ID</span><span class="op">)</span> <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="fu">pick</span><span class="op">(</span><span class="fu">all_of</span><span class="op">(</span><span class="va">scale_items</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">5</span>,</span>
+<span>    created_dt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html">as.POSIXct</a></span><span class="op">(</span></span>
+<span>      <span class="va">CREATED</span>, format <span class="op">=</span> <span class="st">"%d/%m/%Y %H:%M"</span>, tz <span class="op">=</span> <span class="st">"UTC"</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    modified_dt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html">as.POSIXct</a></span><span class="op">(</span></span>
+<span>      <span class="va">MODIFIED</span>, format <span class="op">=</span> <span class="st">"%d/%m/%Y %H:%M"</span>, tz <span class="op">=</span> <span class="st">"UTC"</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    TIME <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/difftime.html">difftime</a></span><span class="op">(</span></span>
+<span>      <span class="va">modified_dt</span>, <span class="va">created_dt</span>, units <span class="op">=</span> <span class="st">"secs"</span></span>
+<span>    <span class="op">)</span><span class="op">)</span>,</span>
+<span>    <span class="fu">across</span><span class="op">(</span><span class="fu">all_of</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">attention_items</span>, <span class="va">scale_items</span><span class="op">)</span><span class="op">)</span>, <span class="va">as.numeric</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Retain the records eligible for response screening.</span></span>
+<span><span class="va">eligible_data</span> <span class="op">&lt;-</span> <span class="va">prepared_data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">dropout</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create the output directory if it is missing.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Data"</span>, <span class="st">"IntermediateData"</span><span class="op">)</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Save the eligible sample.</span></span>
+<span><span class="fu">write_csv2</span><span class="op">(</span></span>
+<span>  <span class="va">eligible_data</span>,</span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Data"</span>, <span class="st">"IntermediateData"</span>, <span class="st">"whoqol_eligible.csv"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p>Para o tratamento dos indivíduos com C/IER adotou-se a abordagem de múltiplos obstáculos (<em>multiple-hurdle approach</em>) recomendada por <span class="citation" data-cites="curran2016">Curran (<a href="references.html#ref-curran2016" role="doc-biblioref">2016</a>)</span> e <span class="citation" data-cites="desimone2015">DeSimone et al. (<a href="references.html#ref-desimone2015" role="doc-biblioref">2015</a>)</span>. Como os índices de desatenção mensuram manifestações comportamentais distintas (a exemplo de respostas aleatórias, padrões invariantes e preenchimento excessivamente rápido) e podem apresentar correlações baixas ou nulas entre si <span class="citation" data-cites="meade2012 goldammer2020 biemann2025">(<a href="references.html#ref-biemann2025" role="doc-biblioref">Biemann et al., 2025</a>; <a href="references.html#ref-goldammer2020" role="doc-biblioref">Goldammer et al., 2020</a>; <a href="references.html#ref-meade2012" role="doc-biblioref">Meade &amp; Craig, 2012</a>)</span>, a literatura preconiza a aplicação combinada de múltiplos critérios de triagem <span class="citation" data-cites="curran2016 arthur2021 ulitzsch2022">(<a href="references.html#ref-arthur2021" role="doc-biblioref">Arthur et al., 2021</a>; <a href="references.html#ref-curran2016" role="doc-biblioref">Curran, 2016</a>; <a href="references.html#ref-ulitzsch2022" role="doc-biblioref">Ulitzsch et al., 2022</a>)</span>. No presente tutorial, cada critério foi tratado como uma barreira obrigatória, de modo que a falha em qualquer obstáculo determinou a exclusão do participante da amostra final <span class="citation" data-cites="curran2016 goldammer2020">(<a href="references.html#ref-curran2016" role="doc-biblioref">Curran, 2016</a>; <a href="references.html#ref-goldammer2020" role="doc-biblioref">Goldammer et al., 2020</a>)</span>.</p>
+<section id="sec-cier-exante" class="level2" data-number="5.1"><h2 data-number="5.1" class="anchored" data-anchor-id="sec-cier-exante">
+<span class="header-section-number">5.1</span> Exclusões procedurais</h2>
+<p>No âmbito dos controles <em>ex-ante</em>, adotaram-se itens de atenção inseridos no questionário e a duração total de preenchimento da pesquisa <span class="citation" data-cites="curran2016 ward2023">(<a href="references.html#ref-curran2016" role="doc-biblioref">Curran, 2016</a>; <a href="references.html#ref-ward2023" role="doc-biblioref">Ward &amp; Meade, 2023</a>)</span>. A falha em pelo menos dois dos três itens de atenção incluídos foi interpretada como evidência de C/IER <span class="citation" data-cites="desimone2015 chauliac2023">(<a href="references.html#ref-chauliac2023" role="doc-biblioref">Chauliac et al., 2023</a>; <a href="references.html#ref-desimone2015" role="doc-biblioref">DeSimone et al., 2015</a>)</span>. Adicionalmente, foram excluídos os questionários de respondentes com velocidade inferior a quatro segundos por item, limiar adotado para sinalizar preenchimentos excessivamente rápidos nessa aplicação, situando-se dentro do intervalo de referência de dois a quatro segundos por item discutido na <a href="02_background.html#sec-theory-preprocessing" class="quarto-xref"><span>Seção 2.3</span></a>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Operacionalização dos itens de atenção e tempo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Operacionalização dos itens de atenção e tempo
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Identificar falhas nos controles de atenção e no tempo de preenchimento.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilizam-se <code>eligible_data</code>, <code>attention_items</code> e <code>scale_items</code>, criados no bloco de obtenção da amostra elegível.</p>
+<p><strong>Procedimento</strong></p>
+<p>O processamento seleciona identificação, controles, duração e itens. Conta as respostas diferentes de 1 nos controles e cria <code>fail_attention</code> quando há pelo menos duas falhas. A flag <code>fail_time</code> identifica <code>TIME &lt; 416</code>, correspondente ao critério de quatro segundos por item para o questionário completo de 104 itens. Esses critérios pertencem ao protocolo dessa aplicação e devem ser revistos em eventuais adaptações da rotina.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para criar <code>procedural_data</code> e salvar <code>whoqol_procedural.csv</code> em <code>Data/IntermediateData</code>.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Flag failures in attention checks and response time.</span></span>
+<span><span class="va">procedural_data</span> <span class="op">&lt;-</span> <span class="va">eligible_data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">ID</span>, <span class="fu">all_of</span><span class="op">(</span><span class="va">attention_items</span><span class="op">)</span>, <span class="va">TIME</span>, <span class="fu">all_of</span><span class="op">(</span><span class="va">scale_items</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    qc_failures <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">all_of</span><span class="op">(</span><span class="va">attention_items</span><span class="op">)</span>, <span class="op">~</span> <span class="va">.x</span> <span class="op">!=</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>                           na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    fail_attention <span class="op">=</span> <span class="va">qc_failures</span> <span class="op">&gt;=</span> <span class="fl">2</span>,</span>
+<span>    fail_time <span class="op">=</span> <span class="va">TIME</span> <span class="op">&lt;</span> <span class="fl">416</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Save the procedural screening results.</span></span>
+<span><span class="fu">write_csv2</span><span class="op">(</span></span>
+<span>  <span class="va">procedural_data</span>,</span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Data"</span>, <span class="st">"IntermediateData"</span>, <span class="st">"whoqol_procedural.csv"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</section><section id="sec-cier-expost" class="level2" data-number="5.2"><h2 data-number="5.2" class="anchored" data-anchor-id="sec-cier-expost">
+<span class="header-section-number">5.2</span> Critérios estatísticos</h2>
+<p>Como critérios <em>ex-post</em>, empregaram-se a medida de <em>longstring</em>, o IRV e a distância de Mahalanobis <span class="citation" data-cites="dunn2018a biemann2025">(<a href="references.html#ref-biemann2025" role="doc-biblioref">Biemann et al., 2025</a>; <a href="references.html#ref-dunn2018a" role="doc-biblioref">Dunn et al., 2018</a>)</span>. O primeiro indicador permite identificar padrões mecânicos de marcação uniforme, o segundo detecta tanto variabilidade anormalmente baixa quanto dispersão atipicamente elevada, e o terceiro aponta padrões multivariados distantes do comportamento normativo da amostra, condizentes com aleatoriedade excessiva <span class="citation" data-cites="curran2016 hong2020 meade2012 desimone2015">(<a href="references.html#ref-curran2016" role="doc-biblioref">Curran, 2016</a>; <a href="references.html#ref-desimone2015" role="doc-biblioref">DeSimone et al., 2015</a>; <a href="references.html#ref-hong2020" role="doc-biblioref">Hong et al., 2020</a>; <a href="references.html#ref-meade2012" role="doc-biblioref">Meade &amp; Craig, 2012</a>)</span>. Considerou-se problemática uma sequência contínua (<em>longstring</em>) superior a 13 respostas consecutivas, o que corresponde à metade dos 26 itens da WHOQOL-Bref avaliados na triagem. Para o IRV, adotaram-se os percentis 1% e 99%, enquanto para a distância de Mahalanobis estabeleceu-se o percentil 99%. As regras de triagem foram delimitadas com base na extensão da escala e nas caudas das distribuições empíricas. Os pontos de corte foram calculados diretamente sobre a amostra submetida aos critérios estatísticos, buscando equilibrar a sensibilidade à desatenção e a preservação de respondentes sinceros <span class="citation" data-cites="goldammer2020 steedle2018 arthur2021">(<a href="references.html#ref-arthur2021" role="doc-biblioref">Arthur et al., 2021</a>; <a href="references.html#ref-goldammer2020" role="doc-biblioref">Goldammer et al., 2020</a>; <a href="references.html#ref-steedle2018" role="doc-biblioref">Steedle, 2018</a>)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Cálculo dos índices estatísticos">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Cálculo dos índices estatísticos
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Calcular os indicadores estatísticos de triagem e sinalizar os registros que atingem os critérios de exclusão.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilizam-se <code>procedural_data</code> e <code>scale_items</code>. Os indicadores são calculados antes da recodificação dos itens invertidos.</p>
+<p><strong>Procedimento</strong></p>
+<p>O bloco acrescenta Longstring, IRV e distância de Mahalanobis. Para a distância, calcula médias por item e covariâncias baseadas nos pares observados. Em seguida, extrai os percentis amostrais e cria três flags: Longstring maior que 13, IRV nas caudas de 1% ou 99% e distância de Mahalanobis a partir do percentil 99.</p>
+<p>O objeto <code>screened_data</code> reúne os indicadores e as flags procedurais e estatísticas. A exportação preserva esses indicadores para auditoria; a tabela seguinte resume os limites utilizados.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para criar <code>indicator_data</code>, os limites amostrais e <code>screened_data</code>, e salvar <code>whoqol_indicators.csv</code> em <code>Data/IntermediateData</code>.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Calculate longstring, response variability, and Mahalanobis distance.</span></span>
+<span><span class="va">indicator_data</span> <span class="op">&lt;-</span> <span class="va">procedural_data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    longstring <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span><span class="op">(</span><span class="fu">careless</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/careless/man/longstring.html">longstring</a></span><span class="op">(</span><span class="fu">pick</span><span class="op">(</span><span class="fu">all_of</span><span class="op">(</span><span class="va">scale_items</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    irv <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu">careless</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/careless/man/irv.html">irv</a></span><span class="op">(</span></span>
+<span>      <span class="fu">pick</span><span class="op">(</span><span class="fu">all_of</span><span class="op">(</span><span class="va">scale_items</span><span class="op">)</span><span class="op">)</span>, split <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>    <span class="op">)</span><span class="op">)</span>,</span>
+<span>    mahalanobis <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu">modi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/modi/man/MDmiss.html">MDmiss</a></span><span class="op">(</span></span>
+<span>      data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="fu">pick</span><span class="op">(</span><span class="fu">all_of</span><span class="op">(</span><span class="va">scale_items</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>      center <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="fu">pick</span><span class="op">(</span><span class="fu">all_of</span><span class="op">(</span><span class="va">scale_items</span><span class="op">)</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>      cov <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cov</a></span><span class="op">(</span><span class="fu">pick</span><span class="op">(</span><span class="fu">all_of</span><span class="op">(</span><span class="va">scale_items</span><span class="op">)</span><span class="op">)</span>, use <span class="op">=</span> <span class="st">"pairwise.complete.obs"</span><span class="op">)</span></span>
+<span>    <span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Define the empirical cutoffs for variability and Mahalanobis distance.</span></span>
+<span><span class="va">irv_cutoffs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span></span>
+<span>  <span class="va">indicator_data</span><span class="op">$</span><span class="va">irv</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.01</span>, <span class="fl">.99</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  names <span class="op">=</span> <span class="cn">FALSE</span>, type <span class="op">=</span> <span class="fl">7</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">mahalanobis_cutoff</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span></span>
+<span>  <span class="va">indicator_data</span><span class="op">$</span><span class="va">mahalanobis</span>, probs <span class="op">=</span> <span class="fl">.99</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  names <span class="op">=</span> <span class="cn">FALSE</span>, type <span class="op">=</span> <span class="fl">7</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Apply the response-screening rules.</span></span>
+<span><span class="va">screened_data</span> <span class="op">&lt;-</span> <span class="va">indicator_data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    fail_longstring <span class="op">=</span> <span class="va">longstring</span> <span class="op">&gt;</span> <span class="fl">13</span>,</span>
+<span>    fail_irv <span class="op">=</span> <span class="va">irv</span> <span class="op">&lt;=</span> <span class="va">irv_cutoffs</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">|</span> <span class="va">irv</span> <span class="op">&gt;=</span> <span class="va">irv_cutoffs</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>    fail_mahalanobis <span class="op">=</span> <span class="va">mahalanobis</span> <span class="op">&gt;=</span> <span class="va">mahalanobis_cutoff</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Save the statistical screening indicators.</span></span>
+<span><span class="fu">write_csv2</span><span class="op">(</span></span>
+<span>  <span class="va">screened_data</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">select</span><span class="op">(</span><span class="va">ID</span>, <span class="va">longstring</span>, <span class="va">irv</span>, <span class="va">mahalanobis</span>, <span class="va">fail_longstring</span>,</span>
+<span>           <span class="va">fail_irv</span>, <span class="va">fail_mahalanobis</span><span class="op">)</span>,</span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Data"</span>, <span class="st">"IntermediateData"</span>, <span class="st">"whoqol_indicators.csv"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div id="tbl-indicator-cutoffs" class="cell quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-indicator-cutoffs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;5.1: Pontos de corte dos indicadores estatísticos.
+</figcaption><div aria-describedby="tbl-indicator-cutoffs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 6%">
+<col style="width: 13%">
+<col style="width: 7%">
+<col style="width: 12%">
+<col style="width: 13%">
+<col style="width: 21%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Indicador</th>
+<th style="text-align: right;">Média</th>
+<th style="text-align: right;">Desvio-padrão</th>
+<th style="text-align: right;">Mediana</th>
+<th style="text-align: right;">1º percentil</th>
+<th style="text-align: right;">99º percentil</th>
+<th style="text-align: left;">Regra de exclusão</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Longstring</td>
+<td style="text-align: right;">5.216</td>
+<td style="text-align: right;">2.734</td>
+<td style="text-align: right;">4.000</td>
+<td style="text-align: right;">2.000</td>
+<td style="text-align: right;">15.000</td>
+<td style="text-align: left;">longstring &gt; 13</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">IRV</td>
+<td style="text-align: right;">1.025</td>
+<td style="text-align: right;">0.207</td>
+<td style="text-align: right;">1.027</td>
+<td style="text-align: right;">0.552</td>
+<td style="text-align: right;">1.491</td>
+<td style="text-align: left;">IRV ≤ p1 ou IRV ≥ p99</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Distância de Mahalanobis</td>
+<td style="text-align: right;">26.000</td>
+<td style="text-align: right;">15.336</td>
+<td style="text-align: right;">22.060</td>
+<td style="text-align: right;">5.844</td>
+<td style="text-align: right;">80.639</td>
+<td style="text-align: left;">Mahalanobis ≥ p99</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-indicator-cutoffs">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#tbl-indicator-cutoffs" class="quarto-xref">Tabela&nbsp;<span>5.1</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Sintetizar as distribuições dos três indicadores estatísticos e registrar as regras de exclusão utilizadas na triagem.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilizam-se os indicadores de <code>indicator_data</code> e os limites <code>irv_cutoffs</code> e <code>mahalanobis_cutoff</code>, calculados no bloco anterior.</p>
+<p><strong>Procedimento</strong></p>
+<p>O bloco organiza tendência central, dispersão e percentis em <code>indicator_cutoffs</code>, ao lado da regra de exclusão de cada indicador. A tabela documenta os critérios já definidos. Os valores completos são salvos antes do arredondamento da cópia de apresentação para três casas decimais.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para apresentar a síntese e salvar <code>tbl-indicator-cutoffs.csv</code> em <code>Output/Results/Tables</code>.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Summarize the statistical screening cutoffs.</span></span>
+<span><span class="va">indicator_cutoffs</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span></span>
+<span>  Indicador <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Longstring"</span>, <span class="st">"IRV"</span>, <span class="st">"Distância de Mahalanobis"</span><span class="op">)</span>,</span>
+<span>  Média <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">indicator_data</span><span class="op">$</span><span class="va">longstring</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>            <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">indicator_data</span><span class="op">$</span><span class="va">irv</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>            <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">indicator_data</span><span class="op">$</span><span class="va">mahalanobis</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  `Desvio-padrão` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">indicator_data</span><span class="op">$</span><span class="va">longstring</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>                      <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">indicator_data</span><span class="op">$</span><span class="va">irv</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>                      <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">indicator_data</span><span class="op">$</span><span class="va">mahalanobis</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  Mediana <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">indicator_data</span><span class="op">$</span><span class="va">longstring</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>               <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">indicator_data</span><span class="op">$</span><span class="va">irv</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>               <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">indicator_data</span><span class="op">$</span><span class="va">mahalanobis</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  `1º percentil` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">indicator_data</span><span class="op">$</span><span class="va">longstring</span>, <span class="fl">.01</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>                     <span class="va">irv_cutoffs</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>                     <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">indicator_data</span><span class="op">$</span><span class="va">mahalanobis</span>, <span class="fl">.01</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  `99º percentil` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">indicator_data</span><span class="op">$</span><span class="va">longstring</span>, <span class="fl">.99</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>                      <span class="va">irv_cutoffs</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, <span class="va">mahalanobis_cutoff</span><span class="op">)</span>,</span>
+<span>  `Regra de exclusão` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"longstring &gt; 13"</span>,</span>
+<span>    <span class="st">"IRV ≤ p1 ou IRV ≥ p99"</span>,</span>
+<span>    <span class="st">"Mahalanobis ≥ p99"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Create the results directory if it is missing.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span><span class="op">)</span>,</span>
+<span>           recursive <span class="op">=</span> <span class="cn">TRUE</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Save the screening cutoffs.</span></span>
+<span><span class="fu">write_csv2</span><span class="op">(</span></span>
+<span>  <span class="va">indicator_cutoffs</span>,</span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-indicator-cutoffs.csv"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Present the screening cutoffs with three decimal places.</span></span>
+<span><span class="va">indicator_cutoffs</span> <span class="op">|&gt;</span> <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">.x</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<section id="sec-cier-decision" class="level3" data-number="5.2.1"><h3 data-number="5.2.1" class="anchored" data-anchor-id="sec-cier-decision">
+<span class="header-section-number">5.2.1</span> Decisão final e amostra de análise</h3>
+<p>Após o cálculo dos indicadores de atenção, velocidade, invariância e discrepância multivariada, cada participante foi avaliado simultaneamente nos cinco obstáculos definidos no protocolo. A decisão de exclusão foi aplicada de forma estrita: a falha em qualquer barreira determinou a exclusão do respondente da amostra de análise. A <a href="#tbl-hurdle-summary" class="quarto-xref">Tabela&nbsp;<span>5.2</span></a> resume a frequência de sinalização em cada critério e permite avaliar quais manifestações de resposta descuidada foram mais frequentes na amostra elegível. As sinalizações associadas aos itens de atenção e ao IRV foram as mais recorrentes, ao passo que o tempo de resposta apresentou menor incidência. Essa distribuição reforça a utilidade da estratégia de múltiplos obstáculos, pois os critérios não identificam exatamente os mesmos participantes nem representam uma única modalidade de resposta inadequada.</p>
+<div class="cell">
+<div id="tbl-hurdle-summary" class="cell quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-hurdle-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;5.2: Frequência de falhas em cada obstáculo de limpeza.
+</figcaption><div aria-describedby="tbl-hurdle-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;">Critério</th>
+<th style="text-align: right;">N sinalizado</th>
+<th style="text-align: right;">Percentual (%)</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Itens de atenção</td>
+<td style="text-align: right;">28</td>
+<td style="text-align: right;">2.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Tempo de resposta</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Longstring</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">1.6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">IRV</td>
+<td style="text-align: right;">28</td>
+<td style="text-align: right;">2.1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Distância de Mahalanobis</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">1.1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-hurdle-summary">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#tbl-hurdle-summary" class="quarto-xref">Tabela&nbsp;<span>5.2</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Aplicar a decisão conjunta de triagem e resumir as falhas em cada um dos cinco critérios.</p>
+<p><strong>Preparação</strong></p>
+<p>Utiliza-se <code>screened_data</code>, que reúne os indicadores e as flags dos controles procedurais e estatísticos.</p>
+<p><strong>Procedimento</strong></p>
+<p>O bloco conta as flags de falha por participante e define <code>exclude = hurdles_failed &gt; 0</code>: qualquer obstáculo falhado determina a exclusão. A operação por linha com <code>pmap_chr()</code> reúne os critérios sinalizados em <code>evidence</code>, preservando a justificativa individual.</p>
+<p>O objeto <code>intermediate_data</code> guarda os registros com indicadores e decisões, enquanto <code>criterion_summary</code> resume as frequências e os percentuais sobre a amostra elegível. Como um participante pode falhar em múltiplos critérios simultaneamente, essas frequências não constituem grupos mutuamente exclusivos. O arredondamento afeta unicamente a exibição da tabela.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para apresentar o resumo e salvar <code>whoqol_preprocessed.csv</code> em <code>Data/IntermediateData</code>, <code>exclusion_log.csv</code> em <code>Output/DataAppendixOutput/Tables</code> e <code>tbl-hurdle-summary.csv</code> em <code>Output/Results/Tables</code>.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Apply the response-screening rules.</span></span>
+<span><span class="va">screened_data</span> <span class="op">&lt;-</span> <span class="va">screened_data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    hurdles_failed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">starts_with</span><span class="op">(</span><span class="st">"fail_"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    exclude <span class="op">=</span> <span class="va">hurdles_failed</span> <span class="op">&gt;</span> <span class="fl">0</span>,</span>
+<span>    evidence <span class="op">=</span> <span class="fu">pmap_chr</span><span class="op">(</span></span>
+<span>      <span class="fu">pick</span><span class="op">(</span><span class="va">fail_attention</span>, <span class="va">fail_time</span>, <span class="va">fail_longstring</span>,</span>
+<span>           <span class="va">fail_irv</span>, <span class="va">fail_mahalanobis</span><span class="op">)</span>,</span>
+<span>      \<span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span>        <span class="va">labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"atenção"</span>, <span class="st">"tempo"</span>, <span class="st">"longstring"</span>, <span class="st">"IRV"</span>, <span class="st">"Mahalanobis"</span><span class="op">)</span></span>
+<span>        <span class="fu">str_c</span><span class="op">(</span><span class="va">labels</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">...</span><span class="op">)</span><span class="op">]</span>, collapse <span class="op">=</span> <span class="st">" + "</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">na_if</span><span class="op">(</span><span class="st">""</span><span class="op">)</span></span>
+<span>      <span class="op">}</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Preserve the screening data and summarize failures by criterion.</span></span>
+<span><span class="va">intermediate_data</span> <span class="op">&lt;-</span> <span class="va">screened_data</span></span>
+<span><span class="va">criterion_summary</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span></span>
+<span>  Critério <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Itens de atenção"</span>, <span class="st">"Tempo de resposta"</span>, <span class="st">"Longstring"</span>, <span class="st">"IRV"</span>,</span>
+<span>               <span class="st">"Distância de Mahalanobis"</span><span class="op">)</span>,</span>
+<span>  `N sinalizado` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">screened_data</span><span class="op">$</span><span class="va">fail_attention</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">screened_data</span><span class="op">$</span><span class="va">fail_time</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">screened_data</span><span class="op">$</span><span class="va">fail_longstring</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">screened_data</span><span class="op">$</span><span class="va">fail_irv</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">screened_data</span><span class="op">$</span><span class="va">fail_mahalanobis</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>`Percentual (%)` <span class="op">=</span> <span class="va">`N sinalizado`</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">screened_data</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create the output directory if it is missing.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Data"</span>, <span class="st">"IntermediateData"</span><span class="op">)</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create the output directory if it is missing.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"DataAppendixOutput"</span>, <span class="st">"Tables"</span><span class="op">)</span>,</span>
+<span>           recursive <span class="op">=</span> <span class="cn">TRUE</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Save the complete preprocessing data.</span></span>
+<span><span class="fu">write_csv2</span><span class="op">(</span><span class="va">intermediate_data</span>, <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span></span>
+<span>  <span class="st">"Data"</span>, <span class="st">"IntermediateData"</span>, <span class="st">"whoqol_preprocessed.csv"</span></span>
+<span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Save the respondent exclusion log.</span></span>
+<span><span class="fu">write_csv2</span><span class="op">(</span><span class="va">intermediate_data</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">exclude</span><span class="op">)</span>, <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span></span>
+<span>  <span class="st">"Output"</span>, <span class="st">"DataAppendixOutput"</span>, <span class="st">"Tables"</span>, <span class="st">"exclusion_log.csv"</span></span>
+<span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Present the frequency of screening failures.</span></span>
+<span><span class="va">criterion_summary</span> <span class="op">|&gt;</span> <span class="fu">mutate</span><span class="op">(</span>`Percentual (%)` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">`Percentual (%)`</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Save the screening failure summary.</span></span>
+<span><span class="fu">write_csv2</span><span class="op">(</span></span>
+<span>  <span class="va">criterion_summary</span>,</span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-hurdle-summary.csv"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p>A aplicação conjunta dos cinco obstáculos resultou em redução amostral de 1.546 para 1.243 participantes. Dos 1.546 registros brutos, 223 foram eliminados na etapa preliminar por não apresentarem as condições mínimas de preenchimento da escala. Entre os 1.323 respondentes elegíveis aos obstáculos, 80 falharam em pelo menos um critério e foram excluídos da base analítica. Essa trajetória evidencia que a maior perda amostral ocorreu antes da aplicação dos indicadores de C/IER, ao passo que a triagem comportamental produziu uma exclusão proporcionalmente menor, concentrada em padrões incompatíveis com o preenchimento atencioso. A <a href="#tbl-analysis-sample-summary" class="quarto-xref">Tabela&nbsp;<span>5.3</span></a> sintetiza essa evolução.</p>
+<div class="cell">
+<div id="tbl-analysis-sample-summary" class="cell quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-analysis-sample-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;5.3: Trajetória da amostra durante o pré-processamento.
+</figcaption><div aria-describedby="tbl-analysis-sample-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;">Etapa</th>
+<th style="text-align: right;">N</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Banco bruto</td>
+<td style="text-align: right;">1546</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Dropouts removidos</td>
+<td style="text-align: right;">223</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Elegíveis aos obstáculos</td>
+<td style="text-align: right;">1323</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Excluídos por pelo menos um obstáculo</td>
+<td style="text-align: right;">80</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Amostra final</td>
+<td style="text-align: right;">1243</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-analysis-sample-summary">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#tbl-analysis-sample-summary" class="quarto-xref">Tabela&nbsp;<span>5.3</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Obter a base de análise final e documentar a trajetória de seleção da amostra.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilizam-se <code>screened_data</code> com a decisão <code>exclude</code> criada no bloco anterior, os itens identificados em <code>scale_items</code> e os objetos que registram as etapas precedentes.</p>
+<p><strong>Procedimento</strong></p>
+<p>O processamento retém os respondentes aprovados em todos os obstáculos, seleciona identificação e itens, e recodifica os itens com polaridade invertida. A tabela <code>sample_summary</code> reúne as contagens desde os registros brutos até a amostra final. As verificações asseguram a correspondência entre a regra de exclusão e o número de linhas, além da ausência de identificadores nulos. Ao adaptar a rotina, recomenda-se conferir a polaridade e a escala de resposta dos itens antes de reutilizar a recodificação.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para criar <code>final_analysis_data</code>, salvar <code>Data/AnalysisData/whoqol_analysis.csv</code> e apresentar e exportar a trajetória em <code>Output/Results/Tables/tbl-analysis-sample-summary.csv</code>.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Retain eligible respondents and reverse-score the negative items.</span></span>
+<span><span class="va">final_analysis_data</span> <span class="op">&lt;-</span> <span class="va">screened_data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">exclude</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">ID</span>, <span class="fu">all_of</span><span class="op">(</span><span class="va">scale_items</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">all_of</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Q3"</span>, <span class="st">"Q4"</span>, <span class="st">"Q26"</span><span class="op">)</span><span class="op">)</span>, <span class="op">~</span> <span class="fl">6</span> <span class="op">-</span> <span class="va">.x</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Summarize the sample size at each preprocessing stage.</span></span>
+<span><span class="va">sample_summary</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span></span>
+<span>  Etapa <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Banco bruto"</span>, <span class="st">"Dropouts removidos"</span>, <span class="st">"Elegíveis aos obstáculos"</span>,</span>
+<span>            <span class="st">"Excluídos por pelo menos um obstáculo"</span>, <span class="st">"Amostra analítica final"</span><span class="op">)</span>,</span>
+<span>  N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">raw_data</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">prepared_data</span><span class="op">$</span><span class="va">dropout</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">indicator_data</span><span class="op">)</span>,</span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">intermediate_data</span><span class="op">$</span><span class="va">exclude</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">final_analysis_data</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create the output directory if it is missing.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Data"</span>, <span class="st">"AnalysisData"</span><span class="op">)</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Save the final analysis data.</span></span>
+<span><span class="fu">write_csv2</span><span class="op">(</span><span class="va">final_analysis_data</span>, <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span></span>
+<span>  <span class="st">"Data"</span>, <span class="st">"AnalysisData"</span>, <span class="st">"whoqol_analysis.csv"</span></span>
+<span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Check the final sample size and respondent identifiers.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html">stopifnot</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">final_analysis_data</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="op">!</span><span class="va">intermediate_data</span><span class="op">$</span><span class="va">exclude</span><span class="op">)</span>,</span>
+<span>  <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">anyNA</a></span><span class="op">(</span><span class="va">final_analysis_data</span><span class="op">$</span><span class="va">ID</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Present the sample-selection summary.</span></span>
+<span><span class="va">sample_summary</span> <span class="op">|&gt;</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Save the sample-selection summary.</span></span>
+<span><span class="fu">write_csv2</span><span class="op">(</span></span>
+<span>  <span class="va">sample_summary</span>,</span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-analysis-sample-summary.csv"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</section></section><section id="sec-cier-description" class="level2" data-number="5.3"><h2 data-number="5.3" class="anchored" data-anchor-id="sec-cier-description">
+<span class="header-section-number">5.3</span> Descrição dos itens</h2>
+<p>Com a amostra de análise delimitada, a etapa seguinte consistiu em avaliar o comportamento empírico dos itens que integram o modelo de AFC. Essa inspeção preliminar verifica o volume de respostas disponíveis, a tendência central, a dispersão e o formato das distribuições, fornecendo subsídios diretos para a escolha do estimador psicométrico. Em termos gerais, os itens apresentaram médias superiores ao ponto médio da escala e variabilidade adequada para capturar as diferenças individuais. A proporção de dados ausentes variou discretamente entre os itens, mantendo-se em níveis residuais e justificando a retenção dos participantes mediante tratamento por FIML. A <a href="#tbl-item-description" class="quarto-xref">Tabela&nbsp;<span>5.4</span></a> sintetiza essas estatísticas.</p>
+<div class="cell">
+<div id="tbl-item-description" class="cell quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-item-description-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;5.4: Estatísticas descritivas dos itens utilizados na AFC.
+</figcaption><div aria-describedby="tbl-item-description-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 26%">
+<col style="width: 8%">
+<col style="width: 20%">
+<col style="width: 16%">
+<col style="width: 11%">
+<col style="width: 8%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Item</th>
+<th style="text-align: right;">Respostas válidas</th>
+<th style="text-align: right;">Média</th>
+<th style="text-align: right;">Desvio-padrão</th>
+<th style="text-align: right;">Assimetria</th>
+<th style="text-align: right;">Curtose</th>
+<th style="text-align: right;">VIF</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Q3</td>
+<td style="text-align: right;">1242</td>
+<td style="text-align: right;">4.136</td>
+<td style="text-align: right;">0.941</td>
+<td style="text-align: right;">-0.910</td>
+<td style="text-align: right;">0.076</td>
+<td style="text-align: right;">1.624</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q4</td>
+<td style="text-align: right;">1241</td>
+<td style="text-align: right;">4.089</td>
+<td style="text-align: right;">1.009</td>
+<td style="text-align: right;">-0.983</td>
+<td style="text-align: right;">0.183</td>
+<td style="text-align: right;">1.473</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q5</td>
+<td style="text-align: right;">1230</td>
+<td style="text-align: right;">3.283</td>
+<td style="text-align: right;">0.818</td>
+<td style="text-align: right;">-0.472</td>
+<td style="text-align: right;">-0.008</td>
+<td style="text-align: right;">2.140</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q6</td>
+<td style="text-align: right;">1238</td>
+<td style="text-align: right;">3.895</td>
+<td style="text-align: right;">0.974</td>
+<td style="text-align: right;">-0.871</td>
+<td style="text-align: right;">0.534</td>
+<td style="text-align: right;">1.752</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q7</td>
+<td style="text-align: right;">1241</td>
+<td style="text-align: right;">3.586</td>
+<td style="text-align: right;">0.858</td>
+<td style="text-align: right;">-0.489</td>
+<td style="text-align: right;">0.059</td>
+<td style="text-align: right;">1.706</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q8</td>
+<td style="text-align: right;">1240</td>
+<td style="text-align: right;">2.933</td>
+<td style="text-align: right;">0.979</td>
+<td style="text-align: right;">-0.098</td>
+<td style="text-align: right;">-0.459</td>
+<td style="text-align: right;">1.317</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q9</td>
+<td style="text-align: right;">1239</td>
+<td style="text-align: right;">3.471</td>
+<td style="text-align: right;">0.884</td>
+<td style="text-align: right;">-0.569</td>
+<td style="text-align: right;">0.216</td>
+<td style="text-align: right;">1.475</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q10</td>
+<td style="text-align: right;">1241</td>
+<td style="text-align: right;">3.587</td>
+<td style="text-align: right;">0.903</td>
+<td style="text-align: right;">-0.164</td>
+<td style="text-align: right;">-0.368</td>
+<td style="text-align: right;">2.226</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q11</td>
+<td style="text-align: right;">1241</td>
+<td style="text-align: right;">3.798</td>
+<td style="text-align: right;">0.996</td>
+<td style="text-align: right;">-0.615</td>
+<td style="text-align: right;">-0.087</td>
+<td style="text-align: right;">1.611</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q12</td>
+<td style="text-align: right;">1242</td>
+<td style="text-align: right;">3.414</td>
+<td style="text-align: right;">1.099</td>
+<td style="text-align: right;">-0.241</td>
+<td style="text-align: right;">-0.530</td>
+<td style="text-align: right;">1.825</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q13</td>
+<td style="text-align: right;">1243</td>
+<td style="text-align: right;">3.896</td>
+<td style="text-align: right;">0.828</td>
+<td style="text-align: right;">-0.570</td>
+<td style="text-align: right;">0.235</td>
+<td style="text-align: right;">1.545</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q14</td>
+<td style="text-align: right;">1240</td>
+<td style="text-align: right;">3.331</td>
+<td style="text-align: right;">0.956</td>
+<td style="text-align: right;">-0.281</td>
+<td style="text-align: right;">-0.245</td>
+<td style="text-align: right;">1.927</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q15</td>
+<td style="text-align: right;">1243</td>
+<td style="text-align: right;">4.398</td>
+<td style="text-align: right;">0.807</td>
+<td style="text-align: right;">-1.513</td>
+<td style="text-align: right;">2.455</td>
+<td style="text-align: right;">1.504</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q16</td>
+<td style="text-align: right;">1232</td>
+<td style="text-align: right;">3.485</td>
+<td style="text-align: right;">1.035</td>
+<td style="text-align: right;">-0.124</td>
+<td style="text-align: right;">-1.165</td>
+<td style="text-align: right;">1.430</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q17</td>
+<td style="text-align: right;">1242</td>
+<td style="text-align: right;">3.711</td>
+<td style="text-align: right;">0.921</td>
+<td style="text-align: right;">-0.504</td>
+<td style="text-align: right;">-0.538</td>
+<td style="text-align: right;">3.689</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q18</td>
+<td style="text-align: right;">1243</td>
+<td style="text-align: right;">3.730</td>
+<td style="text-align: right;">0.955</td>
+<td style="text-align: right;">-0.488</td>
+<td style="text-align: right;">-0.659</td>
+<td style="text-align: right;">3.247</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q19</td>
+<td style="text-align: right;">1240</td>
+<td style="text-align: right;">3.691</td>
+<td style="text-align: right;">0.942</td>
+<td style="text-align: right;">-0.400</td>
+<td style="text-align: right;">-0.706</td>
+<td style="text-align: right;">2.661</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q20</td>
+<td style="text-align: right;">1239</td>
+<td style="text-align: right;">3.608</td>
+<td style="text-align: right;">0.891</td>
+<td style="text-align: right;">-0.237</td>
+<td style="text-align: right;">-0.674</td>
+<td style="text-align: right;">1.893</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q21</td>
+<td style="text-align: right;">1242</td>
+<td style="text-align: right;">3.420</td>
+<td style="text-align: right;">1.009</td>
+<td style="text-align: right;">-0.003</td>
+<td style="text-align: right;">-1.111</td>
+<td style="text-align: right;">1.316</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q22</td>
+<td style="text-align: right;">1241</td>
+<td style="text-align: right;">3.554</td>
+<td style="text-align: right;">0.884</td>
+<td style="text-align: right;">-0.131</td>
+<td style="text-align: right;">-0.703</td>
+<td style="text-align: right;">1.730</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q23</td>
+<td style="text-align: right;">1237</td>
+<td style="text-align: right;">3.973</td>
+<td style="text-align: right;">0.949</td>
+<td style="text-align: right;">-0.686</td>
+<td style="text-align: right;">-0.413</td>
+<td style="text-align: right;">1.392</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q24</td>
+<td style="text-align: right;">1242</td>
+<td style="text-align: right;">3.725</td>
+<td style="text-align: right;">0.963</td>
+<td style="text-align: right;">-0.400</td>
+<td style="text-align: right;">-0.771</td>
+<td style="text-align: right;">1.389</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q25</td>
+<td style="text-align: right;">1241</td>
+<td style="text-align: right;">3.821</td>
+<td style="text-align: right;">0.978</td>
+<td style="text-align: right;">-0.489</td>
+<td style="text-align: right;">-0.737</td>
+<td style="text-align: right;">1.402</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q26</td>
+<td style="text-align: right;">1243</td>
+<td style="text-align: right;">3.891</td>
+<td style="text-align: right;">0.930</td>
+<td style="text-align: right;">-1.160</td>
+<td style="text-align: right;">1.535</td>
+<td style="text-align: right;">1.559</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-item-description">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#tbl-item-description" class="quarto-xref">Tabela&nbsp;<span>5.4</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Descrever os indicadores da AFC e reunir o diagnóstico de colinearidade na mesma tabela.</p>
+<p><strong>Preparação</strong></p>
+<p>Utiliza-se <code>final_analysis_data</code>, já submetida à triagem e à recodificação. Os indicadores da análise compreendem os itens Q3 a Q26.</p>
+<p><strong>Procedimento</strong></p>
+<p>O bloco cria <code>item_data</code> e calcula contagem de respostas válidas, média, desvio-padrão, assimetria e curtose. Uma regressão auxiliar usa os itens como preditores e <code>ID</code> como variável dependente apenas para extrair os respectivos VIFs: esse diagnóstico decorre exclusivamente das inter-relações lineares entre os preditores.</p>
+<p>As estatísticas descritivas e os VIFs são combinados pelo rótulo do item em <code>item_description</code>. A gravação preserva os valores originais; a exibição arredonda os dados para três casas decimais.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para criar <code>item_data</code>, apresentar a tabela e salvar <code>tbl-item-description.csv</code> em <code>Output/Results/Tables</code>. O objeto <code>item_data</code> também será utilizado no gráfico subsequente.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Identify the indicators used in the factor analysis.</span></span>
+<span><span class="va">analysis_items</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Q"</span>, <span class="fl">3</span><span class="op">:</span><span class="fl">26</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Select the analysis items.</span></span>
+<span><span class="va">item_data</span> <span class="op">&lt;-</span> <span class="va">final_analysis_data</span> <span class="op">|&gt;</span> <span class="fu">select</span><span class="op">(</span><span class="fu">all_of</span><span class="op">(</span><span class="va">analysis_items</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Estimate an auxiliary regression and extract item VIFs.</span></span>
+<span><span class="va">vif_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">ID</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">final_analysis_data</span> <span class="op">|&gt;</span></span>
+<span>                  <span class="fu">select</span><span class="op">(</span><span class="va">ID</span>, <span class="fu">all_of</span><span class="op">(</span><span class="va">analysis_items</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                na.action <span class="op">=</span> <span class="va">na.omit</span><span class="op">)</span></span>
+<span><span class="va">vif_values</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span></span>
+<span>  Item <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/vif.html">vif</a></span><span class="op">(</span><span class="va">vif_model</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  VIF <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/vif.html">vif</a></span><span class="op">(</span><span class="va">vif_model</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Calculate the descriptive statistics for each item.</span></span>
+<span><span class="va">item_description</span> <span class="op">&lt;-</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/describe.html">describe</a></span><span class="op">(</span><span class="va">item_data</span>, fast <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">rownames_to_column</span><span class="op">(</span><span class="st">"Item"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">as_tibble</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">transmute</span><span class="op">(</span></span>
+<span>    <span class="va">Item</span>, `Respostas válidas` <span class="op">=</span> <span class="va">n</span>, Média <span class="op">=</span> <span class="va">mean</span>, `Desvio-padrão` <span class="op">=</span> <span class="va">sd</span>,</span>
+<span>    Assimetria <span class="op">=</span> <span class="va">skew</span>, Curtose <span class="op">=</span> <span class="va">kurtosis</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Combine item descriptions and collinearity diagnostics.</span></span>
+<span><span class="va">item_description</span> <span class="op">&lt;-</span> <span class="fu">left_join</span><span class="op">(</span><span class="va">item_description</span>, <span class="va">vif_values</span>, by <span class="op">=</span> <span class="st">"Item"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Save the item statistics before display rounding.</span></span>
+<span><span class="fu">write_csv2</span><span class="op">(</span></span>
+<span>  <span class="va">item_description</span>,</span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-item-description.csv"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Present the item statistics with three decimal places.</span></span>
+<span><span class="va">item_description</span> <span class="op">|&gt;</span> <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">.x</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p>A <a href="#tbl-item-description" class="quarto-xref">Tabela&nbsp;<span>5.4</span></a> permite também avaliar a distribuição dos itens. Observa-se assimetria predominantemente negativa, sobretudo nos itens com maior concentração nas categorias superiores, ao passo que determinados itens exibem coeficientes de curtose mais elevados. Esses achados são compatíveis com o padrão característico de respostas em escalas Likert, nas quais a amplitude discreta de categorias e a assimetria das respostas produzem afastamentos em relação à normalidade multivariada. Por essa razão, a estimação subsequente requer procedimentos dotados de correções robustas para os erros-padrão e para as estatísticas de teste <span class="citation" data-cites="li2016cfa li2016sem">(<a href="references.html#ref-li2016cfa" role="doc-biblioref">Li, 2016a</a>, <a href="references.html#ref-li2016sem" role="doc-biblioref">2016b</a>)</span>.</p>
+<p>A presença de dados ausentes residuais em determinados itens igualmente orienta a escolha metodológica. Como os participantes não foram descartados por omissões pontuais, a análise preserva a integralidade das informações observadas ao empregar o procedimento FIML <span class="citation" data-cites="lai2021missing lei2020">(<a href="references.html#ref-lai2021missing" role="doc-biblioref">Lai, 2021</a>; <a href="references.html#ref-lei2020" role="doc-biblioref">Lei &amp; Shiverdecker, 2020</a>)</span>. Dessa forma, as respostas disponíveis de cada participante contribuem para a função de verossimilhança sem necessidade de exclusão <em>listwise</em>.</p>
+<p>Os valores de VIF complementam a inspeção univariada ao rastrear eventuais redundâncias lineares severas entre os indicadores. Todas as estimativas situaram-se confortavelmente abaixo do ponto de corte de 5 <span class="citation" data-cites="kyriazos2023">(<a href="references.html#ref-kyriazos2023" role="doc-biblioref">Kyriazos &amp; Poga, 2023</a>)</span>, assegurando a ausência de multicolinearidade crítica entre os itens da AFC e garantindo a estabilidade numérica na inversão das matrizes de covariâncias e de informação.</p>
+<p>Como exemplo, a <a href="#fig-likert-social" class="quarto-xref">Figura&nbsp;<span>5.1</span></a> ilustra a distribuição empírica das respostas nos itens do construto Relações Sociais. O gráfico evidencia simultaneamente a concentração das marcações, a baixa frequência nas categorias inferiores e a assimetria de cada indicador. Observa-se maior adensamento nas categorias 4 e 5 da escala, padrão plenamente condizente com as médias elevadas reportadas na <a href="#tbl-item-description" class="quarto-xref">Tabela&nbsp;<span>5.4</span></a>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-likert-social" class="quarto-float quarto-figure quarto-figure-left anchored" alt="Barras horizontais divergentes e centralizadas mostrando as respostas aos itens Q20, Q21 e Q22.">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-likert-social-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05_preprocessing_files/figure-html/fig-likert-social-1.png" class="img-fluid figure-img" alt="Barras horizontais divergentes e centralizadas mostrando as respostas aos itens Q20, Q21 e Q22." width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-likert-social-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.1: Distribuição das categorias de resposta Likert no construto Relações sociais.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @fig-likert-social">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#fig-likert-social" class="quarto-xref">Figura&nbsp;<span>5.1</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Visualizar as frequências das categorias de resposta nos três itens de Relações sociais.</p>
+<p><strong>Preparação</strong></p>
+<p>Utiliza-se <code>item_data</code>, criada na descrição dos indicadores, selecionando-se os itens Q20, Q21 e Q22.</p>
+<p><strong>Procedimento</strong></p>
+<p>As respostas são convertidas em fatores ordenados com cinco níveis possíveis, preservando também categorias sem observações. O argumento <code>nlevels = 5</code> mantém essa estrutura na preparação com <code>likert()</code>. O desenho com <code>centered = TRUE</code> organiza barras divergentes em torno do ponto central. A apresentação mantém as cores padrão e acrescenta título e rótulos básicos.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para criar e apresentar <code>social_plot</code> e salvar <code>fig-likert-social.png</code> em <code>Output/Results/Figures</code>.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Prepare the social-domain items as five-category factors.</span></span>
+<span><span class="va">social_items</span> <span class="op">&lt;-</span> <span class="va">item_data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">Q20</span><span class="op">:</span><span class="va">Q22</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">everything</span><span class="op">(</span><span class="op">)</span>, <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span></span>
+<span>    <span class="va">.x</span>, levels <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, ordered <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot the response distributions for the social-domain items.</span></span>
+<span><span class="va">social_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span></span>
+<span>  <span class="fu">likert</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/likert/man/likert.html">likert</a></span><span class="op">(</span><span class="va">social_items</span>, nlevels <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,</span>
+<span>  centered <span class="op">=</span> <span class="cn">TRUE</span>, include.center <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  legend.position <span class="op">=</span> <span class="st">"bottom"</span></span>
+<span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Relações sociais"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Item"</span>, y <span class="op">=</span> <span class="st">"Percentual"</span>, fill <span class="op">=</span> <span class="st">"Resposta"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>, legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Figures"</span><span class="op">)</span>,</span>
+<span>           recursive <span class="op">=</span> <span class="cn">TRUE</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu">ggsave</span><span class="op">(</span></span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Figures"</span>, <span class="st">"fig-likert-social.png"</span><span class="op">)</span>,</span>
+<span>  plot <span class="op">=</span> <span class="va">social_plot</span>, width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">4.5</span>, dpi <span class="op">=</span> <span class="fl">300</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">social_plot</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-arthur2021" class="csl-entry" role="listitem">
+Arthur, W., Hagen, E., &amp; George, F. (2021). The <span>Lazy</span> or <span>Dishonest Respondent</span>: <span>Detection</span> and <span>Prevention</span>. <em>Annu. Rev. Organ. Psychol. Organ. Behav.</em>, <em>8</em>, 105–137. <a href="https://doi.org/10.1146/annurev-orgpsych-012420-055324">https://doi.org/10.1146/annurev-orgpsych-012420-055324</a>
+</div>
+<div id="ref-biemann2025" class="csl-entry" role="listitem">
+Biemann, T., Koch-Bayram, I. F., Meier-Barthold, M., &amp; Aguinis, H. (2025). Using <span>Markov Chains</span> to <span>Detect Careless Responding</span> in <span>Survey Research</span>. <em>Organ. Res. Methods</em>, <em>28</em>(4), 543–568. <a href="https://doi.org/10.1177/10944281251334778">https://doi.org/10.1177/10944281251334778</a>
+</div>
+<div id="ref-chauliac2023" class="csl-entry" role="listitem">
+Chauliac, M., Willems, J., Gijbels, D., &amp; Donche, V. (2023). The Prevalence of Careless Response Behaviour and Its Consequences on Data Quality in Self-Report Questionnaires on Student Learning. <em>Front. Educ.</em>, <em>8</em>. <a href="https://doi.org/10.3389/feduc.2023.1197324">https://doi.org/10.3389/feduc.2023.1197324</a>
+</div>
+<div id="ref-curran2016" class="csl-entry" role="listitem">
+Curran, P. G. (2016). Methods for the Detection of Carelessly Invalid Responses in Survey Data. <em>J. Exp. Soc. Psychol.</em>, <em>66</em>, 4–19. <a href="https://doi.org/10.1016/j.jesp.2015.07.006">https://doi.org/10.1016/j.jesp.2015.07.006</a>
+</div>
+<div id="ref-desimone2015" class="csl-entry" role="listitem">
+DeSimone, J. A., Harms, P. D., &amp; DeSimone, A. J. (2015). Best Practice Recommendations for Data Screening. <em>J. Organ. Behav.</em>, <em>36</em>(2), 171–181. <a href="https://doi.org/10.1002/job.1962">https://doi.org/10.1002/job.1962</a>
+</div>
+<div id="ref-dunn2018a" class="csl-entry" role="listitem">
+Dunn, A. M., Heggestad, E. D., Shanock, L. R., &amp; Theilgard, N. (2018). Intra-Individual <span>Response Variability</span> as an <span>Indicator</span> of <span>Insufficient Effort Responding</span>: <span>Comparison</span> to <span>Other Indicators</span> and <span>Relationships</span> with <span>Individual Differences</span>. <em>J. Bus. Psychol.</em>, <em>33</em>(1), 105–121. <a href="https://doi.org/10.1007/s10869-016-9479-0">https://doi.org/10.1007/s10869-016-9479-0</a>
+</div>
+<div id="ref-goldammer2020" class="csl-entry" role="listitem">
+Goldammer, P., Annen, H., Stöckli, P. L., &amp; Jonas, K. (2020). Careless Responding in Questionnaire Measures: <span>Detection</span>, Impact, and Remedies. <em>Leadersh. Q.</em>, <em>31</em>(4), 101384. <a href="https://doi.org/10.1016/j.leaqua.2020.101384">https://doi.org/10.1016/j.leaqua.2020.101384</a>
+</div>
+<div id="ref-hong2020" class="csl-entry" role="listitem">
+Hong, M., Steedle, J. T., &amp; Cheng, Y. (2020). Methods of <span>Detecting Insufficient Effort Responding</span>: <span>Comparisons</span> and <span>Practical Recommendations</span>. <em>Educ. Psychol. Meas.</em>, <em>80</em>(2), 312–345. <a href="https://doi.org/10.1177/0013164419865316">https://doi.org/10.1177/0013164419865316</a>
+</div>
+<div id="ref-kyriazos2023" class="csl-entry" role="listitem">
+Kyriazos, T., &amp; Poga, M. (2023). Dealing with <span>Multicollinearity</span> in <span>Factor Analysis</span>: <span>The Problem</span>, <span>Detections</span>, and <span>Solutions</span>. <em>Open Journal of Statistics</em>, <em>13</em>(3), 404–424. <a href="https://doi.org/10.4236/ojs.2023.133020">https://doi.org/10.4236/ojs.2023.133020</a>
+</div>
+<div id="ref-lai2021missing" class="csl-entry" role="listitem">
+Lai, K. (2021). Using <span>Information Criteria Under Missing Data</span>: <span>Full Information Maximum Likelihood Versus Two-Stage Estimation</span>. <em>Structural Equation Modeling: A Multidisciplinary Journal</em>, <em>28</em>(2), 278–291. <a href="https://doi.org/10.1080/10705511.2020.1780925">https://doi.org/10.1080/10705511.2020.1780925</a>
+</div>
+<div id="ref-lei2020" class="csl-entry" role="listitem">
+Lei, P.-W., &amp; Shiverdecker, L. K. (2020). Performance of <span>Estimators</span> for <span>Confirmatory Factor Analysis</span> of <span>Ordinal Variables</span> with <span>Missing Data</span>. <em>Structural Equation Modeling: A Multidisciplinary Journal</em>, <em>27</em>(4), 584–601. <a href="https://doi.org/10.1080/10705511.2019.1680292">https://doi.org/10.1080/10705511.2019.1680292</a>
+</div>
+<div id="ref-li2016cfa" class="csl-entry" role="listitem">
+Li, C. H. (2016a). Confirmatory Factor Analysis with Ordinal Data: <span>Comparing</span> Robust Maximum Likelihood and Diagonally Weighted Least Squares. <em>Behavior Research Methods</em>, <em>48</em>(3), 936–949. <a href="https://doi.org/10.3758/s13428-015-0619-7">https://doi.org/10.3758/s13428-015-0619-7</a>
+</div>
+<div id="ref-li2016sem" class="csl-entry" role="listitem">
+Li, C. H. (2016b). The Performance of <span>ML</span>, <span>DWLS</span>, and <span>ULS</span> Estimation with Robust Corrections in Structural Equation Models with Ordinal Variables. <em>Psychological Methods</em>, <em>21</em>(3), 369–387. <a href="https://doi.org/10.1037/met0000093">https://doi.org/10.1037/met0000093</a>
+</div>
+<div id="ref-meade2012" class="csl-entry" role="listitem">
+Meade, A. W., &amp; Craig, S. B. (2012). Identifying Careless Responses in Survey Data. <em>Psychol. Methods</em>, <em>17</em>(3), 437–455. <a href="https://doi.org/10.1037/a0028085">https://doi.org/10.1037/a0028085</a>
+</div>
+<div id="ref-rogers2022" class="csl-entry" role="listitem">
+Rogers, P. (2022). Best <span>Practices</span> for <span>Your Exploratory Factor Analysis</span>: <span>A Factor Tutorial</span>. <em>Revista de Administra<span class="nocase">ç</span><span class="nocase">ã</span>o Contempor<span class="nocase">â</span>nea</em>, <em>26</em>(6). <a href="https://doi.org/10.1590/1982-7849rac2022210085.en">https://doi.org/10.1590/1982-7849rac2022210085.en</a>
+</div>
+<div id="ref-rogers2024c" class="csl-entry" role="listitem">
+Rogers, P. (2024). Best Practices for Your Confirmatory Factor Analysis: <span>A JASP</span> and Lavaan Tutorial. <em>Behavior Research Methods</em>. <a href="https://doi.org/10.3758/s13428-024-02375-7">https://doi.org/10.3758/s13428-024-02375-7</a>
+</div>
+<div id="ref-steedle2018" class="csl-entry" role="listitem">
+Steedle, J. (2018). <em>Detecting <span>Inattentive Responding</span> on a <span>Psychosocial Measure</span> of <span>College Readiness</span></em>. ACT.org.
+</div>
+<div id="ref-ulitzsch2022" class="csl-entry" role="listitem">
+Ulitzsch, E., Pohl, S., Khorramdel, L., Kroehne, U., &amp; Davier, M. von. (2022). A <span>Response-Time-Based Latent Response Mixture Model</span> for <span>Identifying</span> and <span>Modeling Careless</span> and <span>Insufficient Effort Responding</span> in <span>Survey Data</span>. <em>Psychometrika</em>, <em>87</em>(2), 593–619. <a href="https://doi.org/10.1007/s11336-021-09817-7">https://doi.org/10.1007/s11336-021-09817-7</a>
+</div>
+<div id="ref-ward2023" class="csl-entry" role="listitem">
+Ward, M. K., &amp; Meade, A. W. (2023). Dealing with <span>Careless Responding</span> in <span>Survey Data</span>: <span>Prevention</span>, <span>Identification</span>, and <span>Recommended Best Practices</span>. <em>Annu. Rev. Psychol.</em>, <em>74</em>(Volume 74, 2023), 577–596. <a href="https://doi.org/10.1146/annurev-psych-040422-045007">https://doi.org/10.1146/annurev-psych-040422-045007</a>
+</div>
+</div>
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiada");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiada");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/phdpablo\.github\.io\/smart-cfa\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="../Article/04_pa.html" class="pagination-link" aria-label="Análise de poder">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Análise de poder</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../Article/06_estimation.html" class="pagination-link" aria-label="Processo de estimação">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Processo de estimação</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+<p><a href="https://www.phdpablo.com">por Pablo Rogers</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Este artigo foi desenvolvido com <a href="https://quarto.org/">Quarto</a></p>
+</div>
+  </div>
+</footer>
+
+
+</body></html>

@@ -1,0 +1,1778 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>4&nbsp; Análise de poder – Planejamento e avaliação de modelos de análise fatorial confirmatória</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../Article/05_preprocessing.html" rel="next">
+<link href="../Article/03_model_selection.html" rel="prev">
+<link href="../cover.jpg" rel="icon" type="image/jpeg">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-8f4cfe8dde91195664ce4096b0ee6c60.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-8c29fd56b0c87e4ab01b9c836650041e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-8f4cfe8dde91195664ce4096b0ee6c60.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-2MWSHLX73Q"></script><script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
+</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+<meta property="og:title" content="4&nbsp; Análise de poder – Planejamento e avaliação de modelos de análise fatorial confirmatória">
+<meta property="og:description" content="">
+<meta property="og:image" content="https://phdpablo.github.io/smart-cfa/Article/04_pa_files/figure-html/fig-analytical-power-1.png">
+<meta property="og:site_name" content="Planejamento e avaliação de modelos de análise fatorial confirmatória">
+<meta property="og:image:alt" content="Duas curvas em sino representam as distribuições do qui-quadrado sob a hipótese nula e sob a discrepância populacional especificada.">
+<meta property="og:image:height" content="960">
+<meta property="og:image:width" content="1536">
+</head>
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Article/04_pa.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Análise de poder</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Planejamento e avaliação de modelos de análise fatorial confirmatória</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/phdpablo/smart-cfa" title="Código fonte" class="quarto-navigation-tool px-1" aria-label="Código fonte"><i class="bi bi-github"></i></a>
+    <a href="../cfa-tutorial.pdf" title="Baixar PDF" class="quarto-navigation-tool px-1" aria-label="Baixar PDF"><i class="bi bi-file-pdf"></i></a>
+    <div class="dropdown">
+      <a href="" title="Compartilhar" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Compartilhar"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+<li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+      </ul>
+</div>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo escuro"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Alternar modo de leitor">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Resumo</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/01_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/02_background.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Fundamentação das decisões analíticas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/03_model_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Seleção do modelo de medida</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/04_pa.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Análise de poder</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/05_preprocessing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Pré-processamento</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/06_estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Processo de estimação</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/07_model_fit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Ajuste do modelo</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/08_model_comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Comparações e modificações dos modelos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/09_conclusion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Conclusões</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referências</span></a>
+  </div>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Índice</h2>
+   
+  <ul>
+<li><a href="#pressupostos-a-priori" id="toc-pressupostos-a-priori" class="nav-link active" data-scroll-target="#pressupostos-a-priori"><span class="header-section-number">4.1</span> Pressupostos a priori</a></li>
+  <li><a href="#abordagem-anal%C3%ADtica-de-poder" id="toc-abordagem-analítica-de-poder" class="nav-link" data-scroll-target="#abordagem-anal%C3%ADtica-de-poder"><span class="header-section-number">4.2</span> Abordagem analítica de poder</a></li>
+  <li><a href="#smc-com-tamanho-amostral-vari%C3%A1vel" id="toc-smc-com-tamanho-amostral-variável" class="nav-link" data-scroll-target="#smc-com-tamanho-amostral-vari%C3%A1vel"><span class="header-section-number">4.3</span> SMC com tamanho amostral variável</a></li>
+  <li><a href="#smc-com-tamanho-amostral-fixo" id="toc-smc-com-tamanho-amostral-fixo" class="nav-link" data-scroll-target="#smc-com-tamanho-amostral-fixo"><span class="header-section-number">4.4</span> SMC com tamanho amostral fixo</a></li>
+  <li><a href="#compara%C3%A7%C3%A3o-com-pontos-de-corte-tradicionais" id="toc-comparação-com-pontos-de-corte-tradicionais" class="nav-link" data-scroll-target="#compara%C3%A7%C3%A3o-com-pontos-de-corte-tradicionais"><span class="header-section-number">4.5</span> Comparação com pontos de corte tradicionais</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7"><span id="sec-pa" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Análise de poder</span></span></h1></header><header id="title-block-header">
+
+</header><p>Em pesquisas empíricas, a escala psicométrica atua frequentemente como modelo de mensuração de construtos latentes a serem integrados em um modelo estrutural posterior. O planejamento amostral deve fundamentar-se no instrumento específico e na estrutura fatorial a ser estimada, superando regras heurísticas genéricas sobre o número de itens ou parâmetros livres <span class="citation" data-cites="kline2023">(<a href="references.html#ref-kline2023" role="doc-biblioref">Kline, 2023</a>)</span>. Nessa seção, define-se o poder estatístico como a probabilidade de detectar uma omissão estrutural formalmente delimitada antes da coleta de dados.</p>
+<section id="pressupostos-a-priori" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="pressupostos-a-priori">
+<span class="header-section-number">4.1</span> Pressupostos a priori</h2>
+<p>O planejamento da AP ancora-se nas duas especificações do modelo de medida fundamentadas na <a href="03_model_selection.html" class="quarto-xref"><span>Seção 3</span></a>. Nessa análise, o segundo modelo representa a condição populacional alternativa na qual a adoção da estrutura parcimoniosa implica a omissão deliberada de três cargas cruzadas.</p>
+<p>As cargas fatoriais principais, as correlações inter-fatores e as variâncias residuais foram parametrizadas com base nas evidências meta-analíticas e revisões sistemáticas prévias <span class="citation" data-cites="lin2022 mosqueirataipe2026 skevington2018">(<a href="references.html#ref-lin2022" role="doc-biblioref">Lin &amp; Yao, 2022</a>; <a href="references.html#ref-mosqueirataipe2026" role="doc-biblioref"><span class="nocase">Mosqueira Taipe et al.</span>, 2026</a>; <a href="references.html#ref-skevington2018" role="doc-biblioref">Skevington &amp; Epton, 2018</a>)</span>. Dessa forma, a AP é conduzida estritamente <em>a priori</em>: as características populacionais e a magnitude da má especificação são estabelecidas antes do acesso aos dados empíricos examinados nas seções posteriores.</p>
+<p>Além da configuração fatorial, as simulações incorporam duas condições metodológicas frequentes na aplicação da AFC: desvios de normalidade e dados omissos. A distribuição dos indicadores contempla assimetrias entre <span class="math inline">\(-1\)</span> e <span class="math inline">\(+1\)</span> e curtose entre 1,7 e 2,0, refletindo desvios moderados de normalidade compatíveis com dados empíricos da escala WHOQOL-Bref <span class="citation" data-cites="yoshitake2015">(<a href="references.html#ref-yoshitake2015" role="doc-biblioref">Yoshitake et al., 2015</a>)</span>.</p>
+<p>Admite-se, igualmente, que 10% das respostas estejam ausentes sob o mecanismo completamente ao acaso (<em>Missing Completely at Random</em>, MCAR). A adoção desse padrão modela a perda informacional sem demandar hipóteses condicionais complexas sobre variáveis auxiliares. Em todas as condições experimentais, os parâmetros são estimados por MLR, associada ao tratamento de dados omissos por FIML. A <a href="#tbl-power-assumptions" class="quarto-xref">Tabela&nbsp;<span>4.1</span></a> sintetiza as especificações adotadas.</p>
+<div class="cell">
+<div id="tbl-power-assumptions" class="cell quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-power-assumptions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;4.1: Pressupostos da análise de poder a priori.
+</figcaption><div aria-describedby="tbl-power-assumptions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 54%">
+<col style="width: 26%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Componente</th>
+<th style="text-align: left;">Especificação</th>
+<th style="text-align: left;">Base</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Modelo de referência</td>
+<td style="text-align: left;">Quatro fatores correlacionados e covariância residual Q3–Q4</td>
+<td style="text-align: left;">Lin e Yao (2022)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Misspecificação</td>
+<td style="text-align: left;">Omissão de três cargas cruzadas</td>
+<td style="text-align: left;">Mosqueira-Taipe et al.&nbsp;(2026)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Não normalidade</td>
+<td style="text-align: left;">Assimetria de -1 a +1; curtose entre 1,7 e 2,0</td>
+<td style="text-align: left;">Yoshitake et al.&nbsp;(2015)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Dados ausentes</td>
+<td style="text-align: left;">10% MCAR</td>
+<td style="text-align: left;">Mosqueira-Taipe et al.&nbsp;(2026)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Estimação</td>
+<td style="text-align: left;">MLR + FIML</td>
+<td style="text-align: left;">Cenário realístico</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Erro tipo I</td>
+<td style="text-align: left;">0.05</td>
+<td style="text-align: left;">Definido a priori</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Poder-alvo</td>
+<td style="text-align: left;">0.80</td>
+<td style="text-align: left;">Definido a priori</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-power-assumptions">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#tbl-power-assumptions" class="quarto-xref">Tabela&nbsp;<span>4.1</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Sintetizar as decisões metodológicas que delimitam o cenário da AP, relacionando cada especificação paramétrica ao seu respectivo embasamento na literatura.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize as constantes <code>ALPHA</code> e <code>POWER</code> de <a href="../Scripts/DataAppendixScripts/helpers.R">helpers.R</a>, conforme a rotina preparatória descrita na <a href="03_model_selection.html" class="quarto-xref"><span>Seção 3</span></a>.</p>
+<p><strong>Procedimento</strong></p>
+<p>O bloco organiza as premissas em <code>power_assumptions</code>, estruturando três colunas: componente, especificação e fundamentação. As constantes globais mantêm o nível de significância nominal e o poder estatístico desejado perfeitamente sincronizados com as análises posteriores. A instrução final compila a tabela formatada.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para gerar a estrutura <code>power_assumptions</code> e renderizar a síntese dos pressupostos.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Summarize the assumptions used for power analysis.</span></span>
+<span><span class="va">power_assumptions</span> <span class="op">&lt;-</span> <span class="fu">tribble</span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">component</span>, <span class="op">~</span><span class="va">specification</span>, <span class="op">~</span><span class="va">basis</span>,</span>
+<span>  <span class="st">"Modelo de referência"</span>,</span>
+<span>  <span class="st">"Quatro fatores correlacionados e covariância residual Q3--Q4"</span>,</span>
+<span>  <span class="st">"Lin e Yao (2022)"</span>,</span>
+<span>  <span class="st">"Misspecificação"</span>,</span>
+<span>  <span class="st">"Omissão de três cargas cruzadas"</span>,</span>
+<span>  <span class="st">"Mosqueira-Taipe et al. (2026)"</span>,</span>
+<span>  <span class="st">"Não normalidade"</span>,</span>
+<span>  <span class="st">"Assimetria de -1 a +1; curtose entre 1,7 e 2,0"</span>,</span>
+<span>  <span class="st">"Yoshitake et al. (2015)"</span>,</span>
+<span>  <span class="st">"Dados ausentes"</span>, <span class="st">"10% MCAR"</span>, <span class="st">"Mosqueira-Taipe et al. (2026)"</span>,</span>
+<span>  <span class="st">"Estimação"</span>, <span class="st">"MLR + FIML"</span>, <span class="st">"Cenário realístico"</span>,</span>
+<span>  <span class="st">"Erro tipo I"</span>, <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">ALPHA</span>, nsmall <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>, <span class="st">"Definido a priori"</span>,</span>
+<span>  <span class="st">"Poder-alvo"</span>, <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">POWER</span>, nsmall <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>, <span class="st">"Definido a priori"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Present the summary table.</span></span>
+<span><span class="fu">kable</span><span class="op">(</span></span>
+<span>  <span class="va">power_assumptions</span>,</span>
+<span>  col.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Componente"</span>, <span class="st">"Especificação"</span>, <span class="st">"Base"</span><span class="op">)</span>,</span>
+<span>  align <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"l"</span>, <span class="st">"l"</span>, <span class="st">"l"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</section><section id="abordagem-analítica-de-poder" class="level2" data-number="4.2"><h2 data-number="4.2" class="anchored" data-anchor-id="abordagem-analítica-de-poder">
+<span class="header-section-number">4.2</span> Abordagem analítica de poder</h2>
+<p>A primeira estimativa do tamanho amostral mínimo decorre da derivação analítica baseada em modelos. Nessa abordagem, a população geradora incorpora as três cargas cruzadas teóricas, ao passo que o modelo estimado restringe a análise às cargas principais e à covariância residual entre Q3 e Q4. A magnitude do efeito decorre da discrepância populacional entre a matriz implicada e as restrições estruturais impostas pelo modelo de análise <span class="citation" data-cites="moshagen2024">(<a href="references.html#ref-moshagen2024" role="doc-biblioref">Moshagen &amp; Bader, 2024</a>)</span>.</p>
+<p>Sem a especificação de um modelo alternativo aninhado estimado livremente, o teste avalia o ajuste global do modelo de análise frente ao modelo saturado. Dessa forma, a hipótese estatística quantifica a probabilidade de rejeitar formalmente a estrutura parcimoniosa diante da presença real das cargas cruzadas na população.</p>
+<p>Adotando-se nível de significância de 5% e poder estatístico-alvo de 80%, o procedimento analítico indicou a necessidade de um tamanho amostral mínimo de 106 participantes. Esse valor opera como baliza inicial para os estudos de simulação, e não como determinação amostral definitiva.</p>
+<p>A <a href="#tbl-analytical-power" class="quarto-xref">Tabela&nbsp;<span>4.2</span></a> apresenta as métricas resultantes da derivação analítica e o tamanho de amostra necessário para alcançar o poder estabelecido.</p>
+<div class="cell">
+<div id="tbl-analytical-power" class="cell quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-analytical-power-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;4.2: Resultados da abordagem analítica de poder baseada em modelos.
+</figcaption><div aria-describedby="tbl-analytical-power-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 58%">
+<col style="width: 31%">
+<col style="width: 10%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Medida</th>
+<th style="text-align: center;">Símbolo</th>
+<th style="text-align: right;">Valor</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Discrepância populacional</td>
+<td style="text-align: center;"><span class="math inline">\(F_0\)</span></td>
+<td style="text-align: right;">0.579</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Raiz do erro quadrático médio de aproximação</td>
+<td style="text-align: center;"><span class="math inline">\(\text{RMSEA}\)</span></td>
+<td style="text-align: right;">0.049</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Índice de centralidade de McDonald</td>
+<td style="text-align: center;"><span class="math inline">\(Mc\)</span></td>
+<td style="text-align: right;">0.749</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Índice de qualidade do ajuste</td>
+<td style="text-align: center;"><span class="math inline">\(\text{GFI}\)</span></td>
+<td style="text-align: right;">0.954</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Índice de qualidade do ajuste ajustado</td>
+<td style="text-align: center;"><span class="math inline">\(\text{AGFI}\)</span></td>
+<td style="text-align: right;">0.944</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Raiz do resíduo quadrático médio padronizado</td>
+<td style="text-align: center;"><span class="math inline">\(\text{SRMR}\)</span></td>
+<td style="text-align: right;">0.064</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Índice de ajuste comparativo</td>
+<td style="text-align: center;"><span class="math inline">\(\text{CFI}\)</span></td>
+<td style="text-align: right;">0.960</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Graus de liberdade</td>
+<td style="text-align: center;"><span class="math inline">\(df\)</span></td>
+<td style="text-align: right;">245</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Tamanho amostral necessário</td>
+<td style="text-align: center;"><span class="math inline">\(N\)</span></td>
+<td style="text-align: right;">106</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Qui-quadrado crítico</td>
+<td style="text-align: center;"><span class="math inline">\(\chi^2_{\text{crit}}\)</span></td>
+<td style="text-align: right;">282.511</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Parâmetro de não centralidade</td>
+<td style="text-align: center;"><span class="math inline">\(\lambda\)</span></td>
+<td style="text-align: right;">60.793</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Nível de significância (alfa)</td>
+<td style="text-align: center;"><span class="math inline">\(\alpha\)</span></td>
+<td style="text-align: right;">0.050</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Erro tipo II (beta)</td>
+<td style="text-align: center;"><span class="math inline">\(\beta\)</span></td>
+<td style="text-align: right;">0.1968</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Poder estatístico</td>
+<td style="text-align: center;"><span class="math inline">\(1 - \beta\)</span></td>
+<td style="text-align: right;">0.8032</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-analytical-power">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#tbl-analytical-power" class="quarto-xref">Tabela&nbsp;<span>4.2</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Calcular o tamanho amostral necessário para detectar as relações estruturais omitidas pelo modelo de análise e apresentar as métricas da abordagem analítica de AP.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize os objetos <code>h1model</code> e <code>analyzemodel</code>, definidos em <a href="../Scripts/DataAppendixScripts/models.R">models.R</a>, e as constantes globais <code>ALPHA</code>, <code>POWER</code> e <code>P</code> de <code>helpers.R</code>.</p>
+<p><strong>Procedimento</strong></p>
+<p>A função <code>semPower.powerLav()</code> compara a população com três cargas cruzadas ao modelo de análise que as restringe a zero. O argumento <code>type = "a-priori"</code> especifica a derivação prospectiva de tamanho amostral, enquanto <code>lavOptions = list(std.lv = TRUE)</code> estabelece a identificação por variâncias latentes unitárias. O resultado é atribuído ao objeto <code>ap_h1model</code>.</p>
+<p>A rotina autoral <code>table_sempower()</code> estrutura esse resultado em tabela padronizada em português. Internamente, <code>tidy_sempower()</code> extrai as métricas e <code>format_metric_val()</code> ajusta a notação numérica. O tamanho amostral e o poder exibidos correspondem às soluções diretas do cálculo analítico.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para calcular <code>ap_h1model</code> e compilar a tabela de indices. O objeto gerado é reaproveitado no gráfico subsequente.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Calculate the required sample size from the specified models.</span></span>
+<span><span class="va">ap_h1model</span> <span class="op">&lt;-</span> <span class="fu">semPower.powerLav</span><span class="op">(</span></span>
+<span>  type <span class="op">=</span> <span class="st">"a-priori"</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="va">ALPHA</span>,</span>
+<span>  power <span class="op">=</span> <span class="va">POWER</span>,</span>
+<span>  modelPop <span class="op">=</span> <span class="va">h1model</span>,</span>
+<span>  modelH0 <span class="op">=</span> <span class="va">analyzemodel</span>,</span>
+<span>  lavOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>std.lv <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  p <span class="op">=</span> <span class="va">P</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Present the analytical power results separately from the plot.</span></span>
+<span><span class="fu">table_sempower</span><span class="op">(</span><span class="va">ap_h1model</span>, lang <span class="op">=</span> <span class="st">"pt"</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p>A <a href="#fig-analytical-power" class="quarto-xref">Figura&nbsp;<span>4.1</span></a> ilustra as distribuições central e não central do qui-quadrado. A distribuição sob a hipótese nula representa o comportamento esperado da estatística sob correta especificação estrutural, ao passo que a distribuição não central projeta a dispersão diante da discrepância populacional estipulada. A área de rejeição e a sobreposição das curvas expressam graficamente a relação entre o erro Tipo I e o poder estatístico do teste.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-analytical-power" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Duas curvas em sino representam as distribuições do qui-quadrado sob a hipótese nula e sob a discrepância populacional especificada.">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-analytical-power-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04_pa_files/figure-html/fig-analytical-power-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Duas curvas em sino representam as distribuições do qui-quadrado sob a hipótese nula e sob a discrepância populacional especificada." width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-analytical-power-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.1: Distribuições central e não central do qui-quadrado da abordagem analítica de poder baseada em modelos.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @fig-analytical-power">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#fig-analytical-power" class="quarto-xref">Figura&nbsp;<span>4.1</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Representar visualmente as distribuições teóricas da estatística de teste e as regiões de decisão subjacentes ao cálculo analítico de poder.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize o objeto <code>ap_h1model</code>, calculado na etapa da <a href="#tbl-analytical-power" class="quarto-xref">Tabela&nbsp;<span>4.2</span></a>.</p>
+<p><strong>Procedimento</strong></p>
+<p>A rotina autoral <code>plot_sempower()</code> processa os parâmetros do teste (valor crítico, graus de liberdade e parâmetro de não centralidade) e desenha as curvas por meio de <code><a href="https://rdrr.io/pkg/semPower/man/semPower.showPlot.html">semPower::semPower.showPlot()</a></code>. A instrução preserva a rotulagem gráfica e exibe apenas o diagrama.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para renderizar o gráfico a partir do objeto <code>ap_h1model</code>.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Plot the chi-square distributions without the console summary.</span></span>
+<span><span class="fu">plot_sempower</span><span class="op">(</span><span class="va">ap_h1model</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</section><section id="smc-com-tamanho-amostral-variável" class="level2" data-number="4.3"><h2 data-number="4.3" class="anchored" data-anchor-id="smc-com-tamanho-amostral-variável">
+<span class="header-section-number">4.3</span> SMC com tamanho amostral variável</h2>
+<p>Embora a derivação assintótica forneça uma estimativa inicial objetiva, não reproduz integralmente as condições empíricas observadas na prática da pesquisa. Dessa forma, a fase subsequente implementa uma SMC combinando desvios moderados de normalidade e 10% de dados omissos MCAR, preservando-se a estimação por MLR com tratamento via FIML.</p>
+<p>Os tamanhos amostrais variam de 101 a 400 participantes. Para cada tamanho de amostra, geram-se dez replicações sob duas condições populacionais: na condição de referência, os dados reproduzem o modelo de quatro fatores sem cargas cruzadas; na condição alternativa, os dados incorporam as três cargas secundárias, mas são estimados pelo modelo parcimonioso. O confronto dessas condições permite estimar o poder empírico dos índices RMSEA, SRMR, CFI e TLI na identificação da má especificação planejada.</p>
+<p>Apresentam-se duas configurações gráficas da relação entre tamanho amostral e poder estatístico. A primeira adota suavização logística para destacar a trajetória de evolução do poder ao longo do gradiente amostral (<a href="#fig-realistic-power" class="quarto-xref">Figura&nbsp;<span>4.2</span></a>). A segunda exibe diretamente as taxas empíricas de rejeição observadas nas replicações realizadas em cada patamar (<a href="#fig-realistic-curve" class="quarto-xref">Figura&nbsp;<span>4.3</span></a>).</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-realistic-power" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Curvas logísticas de poder de RMSEA, SRMR, CFI e TLI entre 101 e 400 participantes.">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-realistic-power-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04_pa_files/figure-html/fig-realistic-power-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Curvas logísticas de poder de RMSEA, SRMR, CFI e TLI entre 101 e 400 participantes." width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-realistic-power-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.2: Curvas de poder com suavização logística sob não normalidade leve e 10% de dados ausentes MCAR.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @fig-realistic-power">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#fig-realistic-power" class="quarto-xref">Figura&nbsp;<span>4.2</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Contrastar a trajetória do poder estatístico ao longo de diferentes tamanhos amostrais sob correta especificação e sob omissão das cargas cruzadas.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize as especificações paramétricas de <code>models.R</code>, os parâmetros compartilhados de <code>helpers.R</code> e a infraestrutura de cache descrita na <a href="03_model_selection.html" class="quarto-xref"><span>Seção 3</span></a>. As simulações são instanciadas nos objetos <code>popmodel_varying</code> e <code>h1model_varying</code>.</p>
+<p><strong>Procedimento</strong></p>
+<p>As instruções com <code>sim()</code> estimam a estrutura <code>analyzemodel</code>. O argumento <code>generate</code> altera a matriz populacional de origem: <code>popmodel</code> representa a condição de referência e <code>h1model</code> incorpora as três cargas cruzadas omitidas na estimação. O vetor <code>SEQ</code> delimita a faixa amostral, <code>P_MCAR</code> estipula a taxa de omissão e <code>DIST</code> estabelece a assimetria e a curtose dos indicadores sob MLR e FIML.</p>
+<p>A função <code>cache_or_run()</code> reaproveita os dados em memória ou os arquivos <code>popmodel_101to400.rds</code> e <code>h1model_101to400.rds</code> armazenados em <code>Data/IntermediateData</code>; caso inexistentes, executa a simulação e grava os resultados. O gráfico compara os índices definidos em <code>FITS</code>, aplicando suavização logística padrão. Diretrizes para recálculo constam no <a href="../README.md">README</a>.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para recuperar ou processar as duas simulações e renderizar as curvas suavizadas. Os objetos permanecem disponíveis para as saídas subsequentes.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Reuse or simulate the reference population across sample sizes.</span></span>
+<span><span class="va">popmodel_varying</span> <span class="op">&lt;-</span> <span class="fu">cache_or_run</span><span class="op">(</span><span class="st">"popmodel_101to400"</span>, <span class="op">{</span></span>
+<span>  <span class="fu">sim</span><span class="op">(</span></span>
+<span>    <span class="cn">NULL</span>,</span>
+<span>    n <span class="op">=</span> <span class="va">SEQ</span>,</span>
+<span>    pmMCAR <span class="op">=</span> <span class="va">P_MCAR</span>,</span>
+<span>    <span class="va">analyzemodel</span>,</span>
+<span>    generate <span class="op">=</span> <span class="va">popmodel</span>,</span>
+<span>    indDist <span class="op">=</span> <span class="va">DIST</span>,</span>
+<span>    std.lv <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    lavaanfun <span class="op">=</span> <span class="st">"cfa"</span>,</span>
+<span>    estimator <span class="op">=</span> <span class="st">"mlr"</span>,</span>
+<span>    missing <span class="op">=</span> <span class="st">"fiml"</span>,</span>
+<span>    seed <span class="op">=</span> <span class="va">SEED</span>,</span>
+<span>    multicore <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Reuse or simulate the alternative population across sample sizes.</span></span>
+<span><span class="va">h1model_varying</span> <span class="op">&lt;-</span> <span class="fu">cache_or_run</span><span class="op">(</span><span class="st">"h1model_101to400"</span>, <span class="op">{</span></span>
+<span>  <span class="fu">sim</span><span class="op">(</span></span>
+<span>    <span class="cn">NULL</span>,</span>
+<span>    n <span class="op">=</span> <span class="va">SEQ</span>,</span>
+<span>    pmMCAR <span class="op">=</span> <span class="va">P_MCAR</span>,</span>
+<span>    <span class="va">analyzemodel</span>,</span>
+<span>    generate <span class="op">=</span> <span class="va">h1model</span>,</span>
+<span>    indDist <span class="op">=</span> <span class="va">DIST</span>,</span>
+<span>    std.lv <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    lavaanfun <span class="op">=</span> <span class="st">"cfa"</span>,</span>
+<span>    estimator <span class="op">=</span> <span class="st">"mlr"</span>,</span>
+<span>    missing <span class="op">=</span> <span class="st">"fiml"</span>,</span>
+<span>    seed <span class="op">=</span> <span class="va">SEED</span>,</span>
+<span>    multicore <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot power across sample sizes.</span></span>
+<span><span class="fu">plotPowerFit</span><span class="op">(</span></span>
+<span>  <span class="va">h1model_varying</span>,</span>
+<span>  <span class="va">popmodel_varying</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="va">ALPHA</span>,</span>
+<span>  usedFit <span class="op">=</span> <span class="va">FITS</span></span>
+<span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-realistic-curve" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Valores de poder não suavizados de RMSEA, SRMR, CFI e TLI entre 101 e 400 participantes.">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-realistic-curve-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04_pa_files/figure-html/fig-realistic-curve-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Valores de poder não suavizados de RMSEA, SRMR, CFI e TLI entre 101 e 400 participantes." width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-realistic-curve-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.3: Poder empírico sem suavização logística sob não normalidade leve e 10% de dados ausentes MCAR.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @fig-realistic-curve">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#fig-realistic-curve" class="quarto-xref">Figura&nbsp;<span>4.3</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Inspecionar as taxas de poder estatístico observadas em cada tamanho amostral sem a interpolação das curvas logísticas.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize os objetos <code>popmodel_varying</code> e <code>h1model_varying</code>, gerados na etapa da <a href="#fig-realistic-power" class="quarto-xref">Figura&nbsp;<span>4.2</span></a>.</p>
+<p><strong>Procedimento</strong></p>
+<p>A instrução reaproveita os resultados das simulações, alterando apenas o parâmetro para <code>logistic = FALSE</code>. Esse ajuste vincula as estimativas pontuais de poder em cada patamar amostral, revelando a variabilidade amostral resumida pelo modelo logístico. Mantêm-se os índices e as condições especificadas.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para renderizar as curvas empíricas sem suavização.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Plot the unsmoothed power curves.</span></span>
+<span><span class="fu">plotPowerFit</span><span class="op">(</span></span>
+<span>  <span class="va">h1model_varying</span>,</span>
+<span>  <span class="va">popmodel_varying</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="va">ALPHA</span>,</span>
+<span>  usedFit <span class="op">=</span> <span class="va">FITS</span>,</span>
+<span>  logistic <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p>As curvas apresentadas na <a href="#fig-realistic-power" class="quarto-xref">Figura&nbsp;<span>4.2</span></a> e na <a href="#fig-realistic-curve" class="quarto-xref">Figura&nbsp;<span>4.3</span></a> indicam que uma amostra próxima a 150 respondentes atinge sensibilidade suficiente para que os índices globais identifiquem a omissão das cargas cruzadas. Calculam-se, então, o poder e os pontos de corte empíricos especificamente para <span class="math inline">\(N = 150\)</span>. Essa verificação permite aferir se o patamar indicado visualmente pelas curvas mantém estabilidade entre os quatro índices globais ou se opera excessivamente próximo do limiar crítico.</p>
+<div class="cell">
+<div id="tbl-power-cutoff-realistic" class="cell quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-power-cutoff-realistic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;4.3: Poder e pontos de corte calibrados pelo modelo para N = 150.
+</figcaption><div aria-describedby="tbl-power-cutoff-realistic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: center;">RMSEA</th>
+<th style="text-align: center;">SRMR</th>
+<th style="text-align: center;">CFI</th>
+<th style="text-align: center;">TLI</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Poder</td>
+<td style="text-align: center;">0.864</td>
+<td style="text-align: center;">0.999</td>
+<td style="text-align: center;">0.847</td>
+<td style="text-align: center;">0.847</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ponto de corte</td>
+<td style="text-align: center;">0.046</td>
+<td style="text-align: center;">0.068</td>
+<td style="text-align: center;">0.957</td>
+<td style="text-align: center;">0.951</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-power-cutoff-realistic">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#tbl-power-cutoff-realistic" class="quarto-xref">Tabela&nbsp;<span>4.3</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Consolidar o poder empírico e os pontos de corte calibrados pelo modelo para o tamanho amostral de 150 participantes.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize os objetos <code>popmodel_varying</code> e <code>h1model_varying</code>, gerados na <a href="#fig-realistic-power" class="quarto-xref">Figura&nbsp;<span>4.2</span></a>, e as constantes <code>ALPHA</code> e <code>FITS</code>.</p>
+<p><strong>Procedimento</strong></p>
+<p>O poder é estimado na condição alternativa, adotando a distribuição sob correta especificação para definir as zonas de rejeição. As rotinas são parametrizadas com <code>nVal = 150</code> sob o mesmo nível de significância: <code>getPowerFit()</code> quantifica o poder e <code>getCutoff()</code> recupera os limiares correspondentes. O bloco consolida ambas as informações em <code>power_cutoff_varying</code>, organizando as colunas pelos índices analisados.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para renderizar a tabela contendo o poder e os pontos de corte calculados para a amostra de 150 indivíduos.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Estimate power at N = 150 using model-calibrated cutoffs.</span></span>
+<span><span class="va">power_varying</span> <span class="op">&lt;-</span> <span class="fu">getPowerFit</span><span class="op">(</span></span>
+<span>  <span class="va">h1model_varying</span>,</span>
+<span>  nullObject <span class="op">=</span> <span class="va">popmodel_varying</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="va">ALPHA</span>,</span>
+<span>  nVal <span class="op">=</span> <span class="fl">150</span>,</span>
+<span>  usedFit <span class="op">=</span> <span class="va">FITS</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Extract the model-calibrated cutoffs at N = 150.</span></span>
+<span><span class="va">cutoff_varying</span> <span class="op">&lt;-</span> <span class="fu">getCutoff</span><span class="op">(</span></span>
+<span>  <span class="va">popmodel_varying</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="va">ALPHA</span>,</span>
+<span>  nVal <span class="op">=</span> <span class="fl">150</span>,</span>
+<span>  usedFit <span class="op">=</span> <span class="va">FITS</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Combine power and cutoffs in one table.</span></span>
+<span><span class="va">power_cutoff_varying</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span></span>
+<span>  <span class="st">"Poder"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">power_varying</span><span class="op">)</span>,</span>
+<span>  <span class="st">"Ponto de corte"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">cutoff_varying</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Format the fit-index column labels.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">power_cutoff_varying</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">toupper</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">power_varying</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Present the summary table.</span></span>
+<span><span class="fu">kable</span><span class="op">(</span><span class="va">power_cutoff_varying</span>, digits <span class="op">=</span> <span class="fl">3</span>, align <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p>Em <span class="math inline">\(N=150\)</span>, o poder estimado atingiu 0.864 para o RMSEA, 0.999 para o SRMR, 0.847 para o CFI e 0.847 para o TLI.</p>
+<p>Essa etapa inicial avalia especificamente a sensibilidade dos índices globais de ajuste à má especificação estrutural. Cumpre ressalvar que a adequação amostral para o teste de ajuste global não assegura, isoladamente, a precisão assintótica na recuperação pontual de parâmetros ou na cobertura de intervalos de confiança <span class="citation" data-cites="feng2023 pornprasertmanit2022">(<a href="references.html#ref-feng2023" role="doc-biblioref">Feng &amp; Hancock, 2023</a>; <a href="references.html#ref-pornprasertmanit2022" role="doc-biblioref">Pornprasertmanit et al., 2022</a>)</span>, justificando cautela na fixação do tamanho amostral definitivo.</p>
+</section><section id="smc-com-tamanho-amostral-fixo" class="level2" data-number="4.4"><h2 data-number="4.4" class="anchored" data-anchor-id="smc-com-tamanho-amostral-fixo">
+<span class="header-section-number">4.4</span> SMC com tamanho amostral fixo</h2>
+<p>Considerando os resultados das curvas de poder e a necessidade de resguardar a precisão das estimativas sob desvios de normalidade e dados omissos, adota-se <span class="math inline">\(N=200\)</span> como tamanho amostral prudencial de planejamento no presente tutorial.</p>
+<p>A análise com tamanho amostral fixo emprega 1.000 replicações para cada condição populacional. Na primeira, simulam-se dados consistentes com o modelo de referência; na segunda, os dados incorporam as três cargas cruzadas, mantendo-se a estimação pelo modelo parcimonioso. Diferentemente da fase anterior, na qual dez replicações foram distribuídas em múltiplos tamanhos amostrais, essa etapa concentra todas as 1.000 replicações em <span class="math inline">\(N=200\)</span>. Essa concentração assegura estimativas mais estáveis do poder estatístico e das distribuições empíricas dos índices de ajuste para esse patamar específico.</p>
+<p>Com o tamanho amostral constante, dispensa-se a interpolação logística. A <a href="#fig-power-fixed" class="quarto-xref">Figura&nbsp;<span>4.4</span></a> retrata diretamente o comportamento empírico dos índices nas duas condições populacionais. A separação entre as curvas ilustra a capacidade do teste em evidenciar a má especificação estrutural.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-power-fixed" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Distribuições de RMSEA, SRMR, CFI e TLI nas populações de referência e com cargas cruzadas, mantendo N igual a 200.">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-power-fixed-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04_pa_files/figure-html/fig-power-fixed-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Distribuições de RMSEA, SRMR, CFI e TLI nas populações de referência e com cargas cruzadas, mantendo N igual a 200." width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-power-fixed-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.4: Distribuições empíricas dos índices de ajuste em 1.000 replicações com N = 200.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @fig-power-fixed">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#fig-power-fixed" class="quarto-xref">Figura&nbsp;<span>4.4</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Contrastar as distribuições empíricas dos índices de ajuste nas duas condições populacionais sob tamanho amostral fixado.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize as especificações e condições paramétricas da simulação anterior. Em <code>helpers.R</code>, a constante <code>SIM</code> define 1.000 replicações e <code>N_TARGET</code> fixa 200 participantes por replicação.</p>
+<p><strong>Procedimento</strong></p>
+<p>As instruções preservam a condição de referência e a população com cargas cruzadas, estimando a mesma estrutura de análise sob não normalidade moderada, 10% de dados omissos MCAR, MLR e FIML. Os objetos <code>popmodel_fixed</code> e <code>h1model_fixed</code> vinculam-se aos arquivos <code>popmodel_200.rds</code> e <code>h1model_200.rds</code>.</p>
+<p>O reaproveitamento segue a sistemática da <a href="#fig-realistic-power" class="quarto-xref">Figura&nbsp;<span>4.2</span></a>: com saídas previamente salvas, os cálculos não são repetidos. O gráfico compara as distribuições dos índices selecionados em <code>FITS</code>. Orientações adicionais constam no <a href="../README.md">README</a>.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para recuperar ou processar as simulações com tamanho fixo e apresentar as respectivas densidades. Os objetos são preservados para as etapas seguintes.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Reuse or simulate the reference population at the target sample size.</span></span>
+<span><span class="va">popmodel_fixed</span> <span class="op">&lt;-</span> <span class="fu">cache_or_run</span><span class="op">(</span><span class="st">"popmodel_200"</span>, <span class="op">{</span></span>
+<span>  <span class="fu">sim</span><span class="op">(</span></span>
+<span>    <span class="va">SIM</span>,</span>
+<span>    n <span class="op">=</span> <span class="va">N_TARGET</span>,</span>
+<span>    pmMCAR <span class="op">=</span> <span class="va">P_MCAR</span>,</span>
+<span>    <span class="va">analyzemodel</span>,</span>
+<span>    generate <span class="op">=</span> <span class="va">popmodel</span>,</span>
+<span>    indDist <span class="op">=</span> <span class="va">DIST</span>,</span>
+<span>    std.lv <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    lavaanfun <span class="op">=</span> <span class="st">"cfa"</span>,</span>
+<span>    estimator <span class="op">=</span> <span class="st">"mlr"</span>,</span>
+<span>    missing <span class="op">=</span> <span class="st">"fiml"</span>,</span>
+<span>    seed <span class="op">=</span> <span class="va">SEED</span>,</span>
+<span>    multicore <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Reuse or simulate the alternative population at the target sample size.</span></span>
+<span><span class="va">h1model_fixed</span> <span class="op">&lt;-</span> <span class="fu">cache_or_run</span><span class="op">(</span><span class="st">"h1model_200"</span>, <span class="op">{</span></span>
+<span>  <span class="fu">sim</span><span class="op">(</span></span>
+<span>    <span class="va">SIM</span>,</span>
+<span>    n <span class="op">=</span> <span class="va">N_TARGET</span>,</span>
+<span>    pmMCAR <span class="op">=</span> <span class="va">P_MCAR</span>,</span>
+<span>    <span class="va">analyzemodel</span>,</span>
+<span>    generate <span class="op">=</span> <span class="va">h1model</span>,</span>
+<span>    indDist <span class="op">=</span> <span class="va">DIST</span>,</span>
+<span>    std.lv <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    lavaanfun <span class="op">=</span> <span class="st">"cfa"</span>,</span>
+<span>    estimator <span class="op">=</span> <span class="st">"mlr"</span>,</span>
+<span>    missing <span class="op">=</span> <span class="st">"fiml"</span>,</span>
+<span>    seed <span class="op">=</span> <span class="va">SEED</span>,</span>
+<span>    multicore <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot the fit-index distributions at the target sample size.</span></span>
+<span><span class="fu">plotPowerFit</span><span class="op">(</span></span>
+<span>  <span class="va">h1model_fixed</span>,</span>
+<span>  <span class="va">popmodel_fixed</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="va">ALPHA</span>,</span>
+<span>  usedFit <span class="op">=</span> <span class="va">FITS</span></span>
+<span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p>Calculam-se, em seguida, o poder de detecção da má especificação e os pontos de corte correspondentes a RMSEA, SRMR, CFI e TLI. Esses limiares são calibrados a partir da distribuição empírica sob correta especificação, integrando simultaneamente tamanho amostral, desvios de normalidade, taxa de omissão e método de estimação. A <a href="#tbl-power-cutoff-fixed" class="quarto-xref">Tabela&nbsp;<span>4.4</span></a> reúne os resultados para <span class="math inline">\(N=200\)</span>.</p>
+<div class="cell">
+<div id="tbl-power-cutoff-fixed" class="cell quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-power-cutoff-fixed-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;4.4: Poder e pontos de corte calibrados pelo modelo em 1.000 replicações com N = 200.
+</figcaption><div aria-describedby="tbl-power-cutoff-fixed-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: center;">RMSEA</th>
+<th style="text-align: center;">SRMR</th>
+<th style="text-align: center;">CFI</th>
+<th style="text-align: center;">TLI</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Poder</td>
+<td style="text-align: center;">0.984</td>
+<td style="text-align: center;">1.000</td>
+<td style="text-align: center;">0.982</td>
+<td style="text-align: center;">0.982</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ponto de corte</td>
+<td style="text-align: center;">0.036</td>
+<td style="text-align: center;">0.056</td>
+<td style="text-align: center;">0.974</td>
+<td style="text-align: center;">0.971</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-power-cutoff-fixed">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#tbl-power-cutoff-fixed" class="quarto-xref">Tabela&nbsp;<span>4.4</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Apresentar o poder empírico e os limiares de corte calibrados para a simulação com 200 participantes.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize os objetos <code>popmodel_fixed</code> e <code>h1model_fixed</code>, consolidados na <a href="#fig-power-fixed" class="quarto-xref">Figura&nbsp;<span>4.4</span></a>.</p>
+<p><strong>Procedimento</strong></p>
+<p>O bloco estima o poder na condição alternativa e recupera os limiares na condição de referência, em consonância com a lógica da <a href="#tbl-power-cutoff-realistic" class="quarto-xref">Tabela&nbsp;<span>4.3</span></a>. Com tamanho amostral constante, dispensa-se o argumento <code>nVal</code>. A indexação por <code>FITS</code> ordena uniformemente os índices RMSEA, SRMR, CFI e TLI, assegurando alinhamento entre poder e pontos de corte.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para gerar a estrutura <code>power_cutoff_fixed</code> e compilar a tabela correspondente.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Estimate power using the calibrated cutoffs.</span></span>
+<span><span class="va">power_fixed</span> <span class="op">&lt;-</span> <span class="fu">getPowerFit</span><span class="op">(</span></span>
+<span>  <span class="va">h1model_fixed</span>,</span>
+<span>  nullObject <span class="op">=</span> <span class="va">popmodel_fixed</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="va">ALPHA</span>,</span>
+<span>  usedFit <span class="op">=</span> <span class="va">FITS</span></span>
+<span><span class="op">)</span><span class="op">[</span><span class="va">FITS</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Extract the model-calibrated cutoffs at the target sample size.</span></span>
+<span><span class="va">cutoff_fixed</span> <span class="op">&lt;-</span> <span class="fu">getCutoff</span><span class="op">(</span></span>
+<span>  <span class="va">popmodel_fixed</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="va">ALPHA</span>,</span>
+<span>  usedFit <span class="op">=</span> <span class="va">FITS</span></span>
+<span><span class="op">)</span><span class="op">[</span>, <span class="va">FITS</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Combine power and cutoffs in one table.</span></span>
+<span><span class="va">power_cutoff_fixed</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span></span>
+<span>  <span class="st">"Poder"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">power_fixed</span><span class="op">)</span>,</span>
+<span>  <span class="st">"Ponto de corte"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">cutoff_fixed</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Format the fit-index column labels.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">power_cutoff_fixed</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">toupper</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">power_fixed</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Present the summary table.</span></span>
+<span><span class="fu">kable</span><span class="op">(</span><span class="va">power_cutoff_fixed</span>, digits <span class="op">=</span> <span class="fl">3</span>, align <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</section><section id="comparação-com-pontos-de-corte-tradicionais" class="level2" data-number="4.5"><h2 data-number="4.5" class="anchored" data-anchor-id="comparação-com-pontos-de-corte-tradicionais">
+<span class="header-section-number">4.5</span> Comparação com pontos de corte tradicionais</h2>
+<p>Por fim, compara-se o desempenho dos pontos de corte calibrados empiricamente com os limiares heurísticos tradicionais de ajuste global. Para RMSEA e SRMR, a rejeição ocorre quando as estimativas ultrapassam os limites teóricos estabelecidos; para CFI e TLI, verifica-se a rejeição quando os valores situam-se abaixo dos respectivos cortes.</p>
+<p>A simulação com tamanho amostral fixo é reavaliada mantendo-se inalterados o tamanho amostral, as matrizes populacionais e as propriedades empíricas dos dados, modificando-se estritamente o critério de decisão. A <a href="#fig-power-fixed-traditional" class="quarto-xref">Figura&nbsp;<span>4.5</span></a> exibe a classificação decorrente dos pontos de corte convencionais, e a <a href="#tbl-power-traditional" class="quarto-xref">Tabela&nbsp;<span>4.5</span></a> resume o poder resultante.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-power-fixed-traditional" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Distribuições de RMSEA, SRMR, CFI e TLI comparadas aos respectivos pontos de corte tradicionais.">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-power-fixed-traditional-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04_pa_files/figure-html/fig-power-fixed-traditional-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Distribuições de RMSEA, SRMR, CFI e TLI comparadas aos respectivos pontos de corte tradicionais." width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-power-fixed-traditional-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.5: Distribuições dos índices de ajuste avaliadas por pontos de corte tradicionais em 1.000 replicações com N = 200.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @fig-power-fixed-traditional">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#fig-power-fixed-traditional" class="quarto-xref">Figura&nbsp;<span>4.5</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Contrastar o poder resultante dos limiares tradicionais com os resultados fundamentados em cortes calibrados pelo modelo.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize os objetos <code>popmodel_fixed</code>, <code>h1model_fixed</code> e o vetor <code>RULE_OF_THUMB</code>, definido em <code>helpers.R</code>.</p>
+<p><strong>Procedimento</strong></p>
+<p>O gráfico reaproveita os dados simulados da <a href="#fig-power-fixed" class="quarto-xref">Figura&nbsp;<span>4.4</span></a>, inserindo os limites convencionais pelo argumento <code>cutoff = RULE_OF_THUMB</code>. Os modelos, o tamanho amostral e as demais condições permanecem idênticos, alterando-se exclusivamente os limiares de avaliação.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para renderizar o diagrama com as referências tradicionais, dispensando a geração de novas réplicas.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Plot power using conventional cutoffs.</span></span>
+<span><span class="fu">plotPowerFit</span><span class="op">(</span></span>
+<span>  <span class="va">h1model_fixed</span>,</span>
+<span>  <span class="va">popmodel_fixed</span>,</span>
+<span>  cutoff <span class="op">=</span> <span class="va">RULE_OF_THUMB</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="va">ALPHA</span>,</span>
+<span>  usedFit <span class="op">=</span> <span class="va">FITS</span></span>
+<span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div id="tbl-power-traditional" class="cell quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-power-traditional-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;4.5: Poder obtido com pontos de corte tradicionais em 1.000 replicações com N = 200.
+</figcaption><div aria-describedby="tbl-power-traditional-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: center;">CFI</th>
+<th style="text-align: center;">TLI</th>
+<th style="text-align: center;">RMSEA</th>
+<th style="text-align: center;">SRMR</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td style="text-align: left;">Poder</td>
+<td style="text-align: center;">0.496</td>
+<td style="text-align: center;">0.678</td>
+<td style="text-align: center;">0.062</td>
+<td style="text-align: center;">1</td>
+</tr></tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-power-traditional">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#tbl-power-traditional" class="quarto-xref">Tabela&nbsp;<span>4.5</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Quantificar o poder estatístico sob os pontos de corte tradicionais para confrontação direta com os limiares empíricos calibrados.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize os objetos <code>h1model_fixed</code>, <code>RULE_OF_THUMB</code> e <code>FITS</code>, consolidados nas fases anteriores.</p>
+<p><strong>Procedimento</strong></p>
+<p>O cálculo injeta os limiares heurísticos no parâmetro <code>cutoff</code>. O vetor de poder retornado é estruturado em formato tabular, com cabeçalhos identificando cada índice. A operação reaproveita a condição alternativa com tamanho amostral fixado.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para compilar a estrutura <code>power_traditional_tbl</code> e exibir o poder estatístico associado às regras tradicionais.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Estimate power using conventional cutoffs.</span></span>
+<span><span class="va">power_traditional</span> <span class="op">&lt;-</span> <span class="fu">getPowerFit</span><span class="op">(</span></span>
+<span>  <span class="va">h1model_fixed</span>,</span>
+<span>  cutoff <span class="op">=</span> <span class="va">RULE_OF_THUMB</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="va">ALPHA</span>,</span>
+<span>  usedFit <span class="op">=</span> <span class="va">FITS</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Arrange the power estimates in a single row.</span></span>
+<span><span class="va">power_traditional_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">power_traditional</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Label the fit indices and power row.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">power_traditional_tbl</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">toupper</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">power_traditional</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">power_traditional_tbl</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"Poder"</span></span>
+<span></span>
+<span><span class="co"># Present the summary table.</span></span>
+<span><span class="fu">kable</span><span class="op">(</span><span class="va">power_traditional_tbl</span>, digits <span class="op">=</span> <span class="fl">3</span>, align <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p>Sob os pontos de corte tradicionais, o poder observado foi de 0.062 para o RMSEA, 1.000 para o SRMR, 0.496 para o CFI e 0.678 para o TLI.</p>
+<p>Essa comparação evidencia que as regras de bolso convencionais geram diagnósticos substancialmente divergentes dos limiares calibrados por simulação, distorcendo a sensibilidade do teste à má especificação do modelo <span class="citation" data-cites="groskurth2024 mcneishwolf2023cfa">(<a href="references.html#ref-groskurth2024" role="doc-biblioref">Groskurth et al., 2024</a>; <a href="references.html#ref-mcneishwolf2023cfa" role="doc-biblioref">McNeish &amp; Wolf, 2023</a>)</span>.</p>
+<p>Dessa forma, as três etapas da AP cumprem funções complementares: a abordagem analítica fornece uma estimativa inicial fundamentada na discrepância populacional; a simulação com tamanho variável descreve a evolução da curva de poder entre 101 e 400 participantes; e a simulação intensiva com 1.000 replicações em <span class="math inline">\(N=200\)</span> confere estabilidade assintótica ao planejamento amostral adotado.</p>
+<p>Os pontos de corte derivados em <span class="math inline">\(N=200\)</span> vinculam-se estritamente às premissas desse planejamento: parâmetros populacionais informados pela literatura empírica, desvios moderados de normalidade e 10% de dados omissos MCAR. Sua transposição para amostras com outras dimensões, distribuições ou configurações exige calibração específica. O resultado central dessa etapa reside na determinação do poder estatístico esperado para identificar a omissão estrutural planejada sob o cenário simulado.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-feng2023" class="csl-entry" role="listitem">
+Feng, Y., &amp; Hancock, G. R. (2023). Power <span>Analysis</span> within a <span>Structural Equation Modeling Framework</span>. Em R. H. Hoyle (Org.), <em>Handbook of <span>Structural Equation Modeling</span></em>. The Guilford Press.
+</div>
+<div id="ref-groskurth2024" class="csl-entry" role="listitem">
+Groskurth, K., Bluemke, M., &amp; Lechner, C. M. (2024). Why We Need to Abandon Fixed Cutoffs for Goodness-of-Fit Indices: <span>An</span> Extensive Simulation and Possible Solutions. <em>Behav. Res. Methods</em>, <em>56</em>(4), 3891–3914. <a href="https://doi.org/10.3758/s13428-023-02193-3">https://doi.org/10.3758/s13428-023-02193-3</a>
+</div>
+<div id="ref-kline2023" class="csl-entry" role="listitem">
+Kline, R. B. (2023). <em>Principles and <span>Pratice</span> of <span>Structural Equation Modeling</span></em> (Fifth Edition). The Guilford Press.
+</div>
+<div id="ref-lin2022" class="csl-entry" role="listitem">
+Lin, L.-C., &amp; Yao, G. (2022). Validation of the Factor Structure of the <span>WHOQOL-BREF</span> Using Meta-Analysis of Exploratory Factor Analysis and Social Network Analysis. <em>Psychological Assessment</em>, <em>34</em>(7), 660–670. <a href="https://doi.org/10.1037/pas0001122">https://doi.org/10.1037/pas0001122</a>
+</div>
+<div id="ref-mcneishwolf2023cfa" class="csl-entry" role="listitem">
+McNeish, D., &amp; Wolf, M. G. (2023). Dynamic Fit Index Cutoffs for Confirmatory Factor Analysis Models. <em>Psychological Methods</em>, <em>28</em>(1), 61–88. <a href="https://doi.org/10.1037/met0000425">https://doi.org/10.1037/met0000425</a>
+</div>
+<div id="ref-moshagen2024" class="csl-entry" role="listitem">
+Moshagen, M., &amp; Bader, M. (2024). <span>semPower</span>: <span>General</span> Power Analysis for Structural Equation Models. <em>Behav. Res. Methods</em>, <em>56</em>(4), 2901–2922. <a href="https://doi.org/10.3758/s13428-023-02254-7">https://doi.org/10.3758/s13428-023-02254-7</a>
+</div>
+<div id="ref-mosqueirataipe2026" class="csl-entry" role="listitem">
+<span class="nocase">Mosqueira Taipe, C. M., Amador Campos, J. A., Krieger, V., Miasso, A. I., Molina, N. P. F. M., &amp; dos Santos, P. L.</span> (2026). Systematic Review of the Factor Structure of <span>WHOQOL-bref</span> in Adult Population. <em>Quality of Life Research</em>, <em>35</em>(17), 1–18. <a href="https://doi.org/10.1007/s11136-025-04115-6">https://doi.org/10.1007/s11136-025-04115-6</a>
+</div>
+<div id="ref-pornprasertmanit2022" class="csl-entry" role="listitem">
+Pornprasertmanit, S., Miller, P., Jorgensen, T. D., &amp; Corbin, Q. (2022). <em>Simsem: <span>SIMulated Structural Equation Modeling</span></em>. R package. <a href="https://www.simsem.org">www.simsem.org</a>
+</div>
+<div id="ref-skevington2018" class="csl-entry" role="listitem">
+Skevington, S. M., &amp; Epton, T. (2018). How Will the Sustainable Development Goals Deliver Changes in Well-Being? <span>A</span> Systematic Review and Meta-Analysis to Investigate Whether <span>WHOQOL-BREF</span> Scores Respond to Change. <em>BMJ Glob. Health</em>, <em>3</em>. <a href="https://doi.org/10.1136/bmjgh-2017-000609">https://doi.org/10.1136/bmjgh-2017-000609</a>
+</div>
+<div id="ref-yoshitake2015" class="csl-entry" role="listitem">
+Yoshitake, N., Sun, Y., Sugawara, M., Matsumoto, S., Sakai, A., Takaoka, J., &amp; Goto, N. (2015). The Psychometric Properties of the <span>WHOQOL-BREF</span> in Japanese Couples. <em>Health Psychology Open</em>, <em>2</em>(2), 1–9. <a href="https://doi.org/10.1177/2055102915598089">https://doi.org/10.1177/2055102915598089</a>
+</div>
+</div>
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiada");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiada");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/phdpablo\.github\.io\/smart-cfa\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="../Article/03_model_selection.html" class="pagination-link" aria-label="Seleção do modelo de medida">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Seleção do modelo de medida</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../Article/05_preprocessing.html" class="pagination-link" aria-label="Pré-processamento">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Pré-processamento</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+<p><a href="https://www.phdpablo.com">por Pablo Rogers</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Este artigo foi desenvolvido com <a href="https://quarto.org/">Quarto</a></p>
+</div>
+  </div>
+</footer>
+
+
+</body></html>

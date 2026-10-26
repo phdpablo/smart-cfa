@@ -50,20 +50,22 @@ The project follows the [TIER Protocol 4.0](https://www.projecttier.org/tier-pro
 
 ```
 smart-cfa/
-├── index.qmd              # Abstract
-├── 01_intro.qmd           # Introdução
-├── 02_background.qmd      # Fundamentação e escolhas inteligentes
-├── 03_model_selection.qmd # Seleção do modelo de medida
-├── 04_pa.qmd              # Análise de poder
-├── 05_preprocessing.qmd   # Pré-processamento
-├── 06_estimation.qmd      # Estimação
-├── 07_model_fit.qmd       # Ajuste do modelo
-├── 08_model_comparison.qmd # Comparações e modificações
-├── 09_conclusion.qmd      # Conclusões
-├── references.qmd         # References
+├── index.qmd              # Book home page; includes Article/00_abstract.qmd
+├── Article/               # Article sources and bibliography
+│   ├── 00_abstract.qmd    # Resumo e palavras-chave
+│   ├── 01_intro.qmd       # Introdução
+│   ├── 02_background.qmd  # Fundamentação
+│   ├── 03_model_selection.qmd # Seleção do modelo de medida
+│   ├── 04_pa.qmd          # Análise de poder
+│   ├── 05_preprocessing.qmd # Pré-processamento
+│   ├── 06_estimation.qmd  # Estimação
+│   ├── 07_model_fit.qmd   # Ajuste do modelo
+│   ├── 08_model_comparison.qmd # Comparações e modificações
+│   ├── 09_conclusion.qmd  # Conclusões
+│   ├── references.qmd    # References
+│   ├── references.bib    # BibTeX references
+│   └── apa7ed.csl        # APA 7th edition citation style
 ├── _quarto.yml            # Quarto project configuration
-├── references.bib         # BibTeX references
-├── apa7ed.csl             # APA 7th edition citation style
 ├── render_cleanup.R       # Post-render cleanup script
 ├── Data/                  # Input, intermediate, and analysis data
 ├── Scripts/               # Processing, analysis, and appendix scripts

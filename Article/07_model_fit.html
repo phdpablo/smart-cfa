@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>7&nbsp; Ajuste do modelo – Planejamento e avaliação de modelos de análise fatorial confirmatória</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../Article/08_model_comparison.html" rel="next">
+<link href="../Article/06_estimation.html" rel="prev">
+<link href="../cover.jpg" rel="icon" type="image/jpeg">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-8f4cfe8dde91195664ce4096b0ee6c60.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-8c29fd56b0c87e4ab01b9c836650041e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-8f4cfe8dde91195664ce4096b0ee6c60.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-2MWSHLX73Q"></script><script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
+</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+<meta property="og:title" content="7&nbsp; Ajuste do modelo – Planejamento e avaliação de modelos de análise fatorial confirmatória">
+<meta property="og:description" content="">
+<meta property="og:image" content="https://phdpablo.github.io/smart-cfa/Article/07_model_fit_files/figure-html/fig-empirical-fit-distributions-1.png">
+<meta property="og:site_name" content="Planejamento e avaliação de modelos de análise fatorial confirmatória">
+<meta property="og:image:height" content="960">
+<meta property="og:image:width" content="1536">
+</head>
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Article/07_model_fit.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Ajuste do modelo</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Planejamento e avaliação de modelos de análise fatorial confirmatória</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/phdpablo/smart-cfa" title="Código fonte" class="quarto-navigation-tool px-1" aria-label="Código fonte"><i class="bi bi-github"></i></a>
+    <a href="../cfa-tutorial.pdf" title="Baixar PDF" class="quarto-navigation-tool px-1" aria-label="Baixar PDF"><i class="bi bi-file-pdf"></i></a>
+    <div class="dropdown">
+      <a href="" title="Compartilhar" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Compartilhar"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+<li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+      </ul>
+</div>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo escuro"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Alternar modo de leitor">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Resumo</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/01_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/02_background.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Fundamentação das decisões analíticas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/03_model_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Seleção do modelo de medida</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/04_pa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Análise de poder</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/05_preprocessing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Pré-processamento</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/06_estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Processo de estimação</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/07_model_fit.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Ajuste do modelo</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/08_model_comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Comparações e modificações dos modelos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/09_conclusion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Conclusões</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Article/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referências</span></a>
+  </div>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Índice</h2>
+   
+  <ul>
+<li><a href="#ajuste-global-dos-modelos-originais" id="toc-ajuste-global-dos-modelos-originais" class="nav-link active" data-scroll-target="#ajuste-global-dos-modelos-originais"><span class="header-section-number">7.1</span> Ajuste global dos modelos originais</a></li>
+  <li><a href="#confiabilidade-dos-escores" id="toc-confiabilidade-dos-escores" class="nav-link" data-scroll-target="#confiabilidade-dos-escores"><span class="header-section-number">7.2</span> Confiabilidade dos escores</a></li>
+  <li><a href="#distribui%C3%A7%C3%B5es-dos-%C3%ADndices-sob-os-modelos-emp%C3%ADricos" id="toc-distribuições-dos-índices-sob-os-modelos-empíricos" class="nav-link" data-scroll-target="#distribui%C3%A7%C3%B5es-dos-%C3%ADndices-sob-os-modelos-emp%C3%ADricos"><span class="header-section-number">7.3</span> Distribuições dos índices sob os modelos empíricos</a></li>
+  <li>
+<a href="#diagn%C3%B3stico-local" id="toc-diagnóstico-local" class="nav-link" data-scroll-target="#diagn%C3%B3stico-local"><span class="header-section-number">7.4</span> Diagnóstico local</a>
+  <ul class="collapse">
+<li><a href="#%C3%ADndices-de-modifica%C3%A7%C3%A3o-e-mudan%C3%A7as-esperadas" id="toc-índices-de-modificação-e-mudanças-esperadas" class="nav-link" data-scroll-target="#%C3%ADndices-de-modifica%C3%A7%C3%A3o-e-mudan%C3%A7as-esperadas"><span class="header-section-number">7.4.1</span> Índices de modificação e mudanças esperadas</a></li>
+  <li><a href="#res%C3%ADduos-de-correla%C3%A7%C3%A3o" id="toc-resíduos-de-correlação" class="nav-link" data-scroll-target="#res%C3%ADduos-de-correla%C3%A7%C3%A3o"><span class="header-section-number">7.4.2</span> Resíduos de correlação</a></li>
+  </ul>
+</li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7"><span id="sec-model-fit" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Ajuste do modelo</span></span></h1></header><header id="title-block-header">
+
+</header><section id="ajuste-global-dos-modelos-originais" class="level2" data-number="7.1"><h2 data-number="7.1" class="anchored" data-anchor-id="ajuste-global-dos-modelos-originais">
+<span class="header-section-number">7.1</span> Ajuste global dos modelos originais</h2>
+<p>O ajuste global avalia a extensão em que a estrutura de covariâncias dos indicadores é reproduzida pelas relações especificadas no modelo. Conforme fundamentado na <a href="02_background.html#sec-theory-fit" class="quarto-xref"><span>Seção 2.5</span></a>, essa avaliação articula o teste de ajuste exato a índices descritivos que quantificam a magnitude do desajuste residual.</p>
+<p>A <a href="#tbl-model-fit-global" class="quarto-xref">Tabela&nbsp;<span>7.1</span></a> apresenta os resultados de H<sub>0</sub> e H<sub>1</sub> estimados para os 621 participantes da subamostra de calibração. O teste <span class="math inline">\(\chi^2\)</span> e o respectivo <span class="math inline">\(p\)</span>-valor reportam a estatística com correção de escala (Satorra-Bentler), ao passo que CFI, TLI e RMSEA são informados em suas versões robustas, incluindo os limites do intervalo de confiança de 90% do RMSEA. O SRMR complementa o diagnóstico como medida de desajuste médio absoluto nas correlações. A leitura conjunta e integrada desses índices orienta o julgamento confirmatório das especificações originais <span class="citation" data-cites="mai2021 niemand2018">(<a href="references.html#ref-mai2021" role="doc-biblioref">Mai et al., 2021</a>; <a href="references.html#ref-niemand2018" role="doc-biblioref">Niemand &amp; Mai, 2018</a>)</span>.</p>
+<div class="cell">
+<div id="tbl-model-fit-global" class="cell quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-model-fit-global-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;7.1: Ajuste global dos modelos originais H<sub>0</sub> e H<sub>1</sub>, estimados por MLR/FIML.
+</figcaption><div aria-describedby="tbl-model-fit-global-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;">Medida</th>
+<th style="text-align: right;">H0</th>
+<th style="text-align: right;">H1</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">N</td>
+<td style="text-align: right;">621</td>
+<td style="text-align: right;">621</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">χ² ajust.</td>
+<td style="text-align: right;">764.651</td>
+<td style="text-align: right;">712.025</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">df</td>
+<td style="text-align: right;">245</td>
+<td style="text-align: right;">242</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">p-valor</td>
+<td style="text-align: right;">&lt; 0.001</td>
+<td style="text-align: right;">&lt; 0.001</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CFI (robusto)</td>
+<td style="text-align: right;">0.895</td>
+<td style="text-align: right;">0.905</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TLI (robusto)</td>
+<td style="text-align: right;">0.882</td>
+<td style="text-align: right;">0.892</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RMSEA (robusto)</td>
+<td style="text-align: right;">0.063</td>
+<td style="text-align: right;">0.060</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RMSEA IC90% inf.</td>
+<td style="text-align: right;">0.058</td>
+<td style="text-align: right;">0.055</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RMSEA IC90% sup.</td>
+<td style="text-align: right;">0.068</td>
+<td style="text-align: right;">0.066</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">p (RMSEA ≤ 0,05)</td>
+<td style="text-align: right;">&lt; 0.001</td>
+<td style="text-align: right;">&lt; 0.001</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SRMR</td>
+<td style="text-align: right;">0.054</td>
+<td style="text-align: right;">0.050</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-model-fit-global">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#tbl-model-fit-global" class="quarto-xref">Tabela&nbsp;<span>7.1</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Reunir as medidas de ajuste global de H<sub>0</sub> e H<sub>1</sub> para apresentação comparativa lado a lado.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilizam-se a base <code>Data/AnalysisData/whoqol_cv.csv</code>, salva na <a href="06_estimation.html" class="quarto-xref"><span>Seção 6</span></a>, as especificações <code>analyzemodel</code> e <code>h1modelfree</code> e a rotina geral da <a href="03_model_selection.html" class="quarto-xref"><span>Seção 3</span></a>. O código lê a partição salva e seleciona <code>sample_group == 0</code> em <code>calibration_data</code>, recuperando a subamostra de calibração sem demandar novo sorteio ou depender do estado da sessão anterior.</p>
+<p><strong>Procedimento</strong></p>
+<p>O bloco lê a partição persistida e estima os dois modelos na subamostra de calibração, mantendo rigorosamente as condições da <a href="06_estimation.html" class="quarto-xref"><span>Seção 6</span></a>. A função <code>table_fit()</code>, definida em <a href="../Scripts/DataAppendixScripts/helpers.R">helpers.R</a>, recebe cada ajuste e consolida as estatísticas de ajuste. A rotina auxiliar <code>tidy_fit()</code> organiza os índices compatíveis com o estimador empregado, preservando os valores numéricos em precisão completa.</p>
+<p>O atributo <code>fit_data</code> fornece as medidas completas para inserção inline no texto, enquanto <code>table_data</code> estrutura os dados para exibição. Após verificar a disponibilidade de ambas as tabelas, o bloco as combina por medida, dedicando uma coluna a cada modelo. A exportação reproduz fielmente o conteúdo apresentado.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para processar os ajustes, gerar <code>fit_global</code> e salvar <code>tbl-model-fit-global.csv</code> em <code>Output/Results/Tables</code>. As estimativas serão aproveitadas nas saídas seguintes.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Read the saved partition created in Section 6.</span></span>
+<span><span class="va">cv_data</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv2</a></span><span class="op">(</span></span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Data"</span>, <span class="st">"AnalysisData"</span>, <span class="st">"whoqol_cv.csv"</span><span class="op">)</span>,</span>
+<span>  na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">""</span>, <span class="st">"NA"</span><span class="op">)</span>,</span>
+<span>  col_types <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span><span class="op">(</span></span>
+<span>    ID <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html">col_character</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    missing_flag <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html">col_integer</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    sample_group <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html">col_integer</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  show_col_types <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Select the same calibration sample used for parameter estimation.</span></span>
+<span><span class="va">calibration_data</span> <span class="op">&lt;-</span> <span class="va">cv_data</span><span class="op">[</span><span class="va">cv_data</span><span class="op">$</span><span class="va">sample_group</span> <span class="op">==</span> <span class="fl">0L</span>, <span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Recreate the H0 fit using the same settings as in Section 6.</span></span>
+<span><span class="va">fit_analyzemodel</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">cfa</a></span><span class="op">(</span></span>
+<span>  model <span class="op">=</span> <span class="va">analyzemodel</span>, data <span class="op">=</span> <span class="va">calibration_data</span>, estimator <span class="op">=</span> <span class="st">"MLR"</span>,</span>
+<span>  missing <span class="op">=</span> <span class="st">"fiml"</span>, std.lv <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Recreate the H1 fit using the same settings as in Section 6.</span></span>
+<span><span class="va">fit_h1modelfree</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/cfa.html">cfa</a></span><span class="op">(</span></span>
+<span>  model <span class="op">=</span> <span class="va">h1modelfree</span>, data <span class="op">=</span> <span class="va">calibration_data</span>, estimator <span class="op">=</span> <span class="st">"MLR"</span>,</span>
+<span>  missing <span class="op">=</span> <span class="st">"fiml"</span>, std.lv <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Prepare each model's formatted fit summary.</span></span>
+<span><span class="va">fit_table_h0</span> <span class="op">&lt;-</span> <span class="fu">table_fit</span><span class="op">(</span><span class="va">fit_analyzemodel</span>, lang <span class="op">=</span> <span class="st">"pt"</span><span class="op">)</span></span>
+<span><span class="va">fit_table_h1</span> <span class="op">&lt;-</span> <span class="fu">table_fit</span><span class="op">(</span><span class="va">fit_h1modelfree</span>, lang <span class="op">=</span> <span class="st">"pt"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Preserve full-precision measures for the values inserted in the text.</span></span>
+<span><span class="va">fit_data_h0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">fit_table_h0</span>, <span class="st">"fit_data"</span><span class="op">)</span></span>
+<span><span class="va">fit_data_h1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">fit_table_h1</span>, <span class="st">"fit_data"</span><span class="op">)</span></span>
+<span><span class="va">fit_measures_h0</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="va">fit_data_h0</span><span class="op">$</span><span class="va">estimate</span>, <span class="va">fit_data_h0</span><span class="op">$</span><span class="va">measure</span><span class="op">)</span></span>
+<span><span class="va">fit_measures_h1</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="va">fit_data_h1</span><span class="op">$</span><span class="va">estimate</span>, <span class="va">fit_data_h1</span><span class="op">$</span><span class="va">measure</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Validate the display data before joining and exporting the tables.</span></span>
+<span><span class="va">fit_display_h0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">fit_table_h0</span>, <span class="st">"table_data"</span><span class="op">)</span></span>
+<span><span class="va">fit_display_h1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">fit_table_h1</span>, <span class="st">"table_data"</span><span class="op">)</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">is.data.frame</a></span><span class="op">(</span><span class="va">fit_display_h0</span><span class="op">)</span> <span class="op">||</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">is.data.frame</a></span><span class="op">(</span><span class="va">fit_display_h1</span><span class="op">)</span> <span class="op">||</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">fit_display_h0</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0L</span> <span class="op">||</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">fit_display_h1</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0L</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"table_data is missing. Reload helpers.R and rerun this chunk."</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Join the displayed values by measure, preserving each model's column.</span></span>
+<span><span class="va">fit_global</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join</a></span><span class="op">(</span></span>
+<span>  <span class="va">fit_display_h0</span>,</span>
+<span>  <span class="va">fit_display_h1</span>,</span>
+<span>  by <span class="op">=</span> <span class="st">"Medida"</span>,</span>
+<span>  suffix <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"_H0"</span>, <span class="st">"_H1"</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>H0 <span class="op">=</span> <span class="va">Valor_H0</span>, H1 <span class="op">=</span> <span class="va">Valor_H1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Export exactly the content displayed in the combined table.</span></span>
+<span><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_excel_csv2</a></span><span class="op">(</span></span>
+<span>  <span class="va">fit_global</span>,</span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-model-fit-global.csv"</span><span class="op">)</span>,</span>
+<span>  na <span class="op">=</span> <span class="st">"NA"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Present both model summaries side by side.</span></span>
+<span><span class="va">fit_global_display</span> <span class="op">&lt;-</span> <span class="va">fit_global</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/output_type.html">is_latex_output</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">fit_global_display</span><span class="op">$</span><span class="va">Medida</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span></span>
+<span>    <span class="st">"χ²"</span>, <span class="st">"$\\chi^2$"</span>, <span class="va">fit_global_display</span><span class="op">$</span><span class="va">Medida</span>, fixed <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span></span>
+<span>  <span class="va">fit_global_display</span><span class="op">$</span><span class="va">Medida</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span></span>
+<span>    <span class="st">"≤"</span>, <span class="st">"$\\leq$"</span>, <span class="va">fit_global_display</span><span class="op">$</span><span class="va">Medida</span>, fixed <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">fit_global_display</span>, format <span class="op">=</span> <span class="st">"pipe"</span>, align <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"l"</span>, <span class="st">"r"</span>, <span class="st">"r"</span><span class="op">)</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p>Os resultados da <a href="#tbl-model-fit-global" class="quarto-xref">Tabela&nbsp;<span>7.1</span></a> evidenciam limitações de ajuste em ambas as especificações teóricas. O teste de ajuste exato revelou-se estatisticamente significante em H<sub>0</sub>, χ²(245) = 764,651 (p &lt;0,001), e em H<sub>1</sub>, χ²(242) = 712,025 (p &lt;0,001). Como o teste <span class="math inline">\(\chi^2\)</span> apresenta alta sensibilidade ao tamanho amostral, rejeitando frequentemente discrepâncias de magnitude residual, sua interpretação é articulada aos índices descritivos <span class="citation" data-cites="nye2022 west2023">(<a href="references.html#ref-nye2022" role="doc-biblioref">Nye, 2022</a>; <a href="references.html#ref-west2023" role="doc-biblioref">West et al., 2023</a>)</span>.</p>
+<p>Os índices incrementais concentram os principais indícios de inadequação nessa avaliação inicial. Em H<sub>0</sub>, CFI e TLI robustos atingiram 0,895 e 0,882, ao passo que em H<sub>1</sub> registraram-se 0,905 e 0,892. Esses coeficientes atestam ganho modesto de ajuste frente ao modelo nulo de independência. Por sua vez, o RMSEA robusto situou-se em 0,063 (IC 90%: 0,058–0,068) em H<sub>0</sub> e em 0,060 (IC 90%: 0,055–0,066) em H<sub>1</sub>, alinhando-se à zona de corte tradicional de 0,06.</p>
+<p>O SRMR reportou comportamento mais favorável, marcando 0,054 em H<sub>0</sub> e 0,050 em H<sub>1</sub>. A baixa magnitude média dos resíduos padronizados pode, contudo, coexistir com focos de desajuste em pares específicos de itens, inspecionados oportunamente na etapa de diagnóstico local. A divergência entre as métricas reforça a necessidade metodológica de interpretá-las conjuntamente <span class="citation" data-cites="mai2021 niemand2018">(<a href="references.html#ref-mai2021" role="doc-biblioref">Mai et al., 2021</a>; <a href="references.html#ref-niemand2018" role="doc-biblioref">Niemand &amp; Mai, 2018</a>)</span>.</p>
+<p>H<sub>1</sub> apresenta índices descritivamente superiores, embora o ganho empírico frente a H<sub>0</sub> seja discreto. O déficit nos índices incrementais persiste nas duas especificações, nada obstante os níveis aceitáveis de RMSEA e SRMR. A abordagem por simulação complementa esse julgamento ao balizar as distribuições empíricas sob as condições da subamostra de calibração, conforme a estratégia discutida na <a href="02_background.html#sec-theory-fit" class="quarto-xref"><span>Seção 2.5</span></a>. O diagnóstico local examina os pontos de tensão em que as discrepâncias se concentram e norteia sua interpretação conceitual.</p>
+</section><section id="confiabilidade-dos-escores" class="level2" data-number="7.2"><h2 data-number="7.2" class="anchored" data-anchor-id="confiabilidade-dos-escores">
+<span class="header-section-number">7.2</span> Confiabilidade dos escores</h2>
+<p>A confiabilidade mensura a precisão do escore compósito sob determinadas condições de mensuração. O coeficiente ômega (<span class="math inline">\(\omega\)</span>) figura como indicador central, estimado a partir das cargas fatoriais e das variâncias residuais do modelo. Essa aferição complementa o ajuste global e depende intrinsecamente da correta especificação fatorial <span class="citation" data-cites="flora2020 cho2022">(<a href="references.html#ref-cho2022" role="doc-biblioref">Cho, 2022</a>; <a href="references.html#ref-flora2020" role="doc-biblioref">Flora, 2020</a>)</span>.</p>
+<p>A <a href="#tbl-domain-reliability" class="quarto-xref">Tabela&nbsp;<span>7.2</span></a> expõe o ômega e o GLB para os quatro domínios em H<sub>0</sub> e H<sub>1</sub>. Em H<sub>1</sub>, o fator Psicológico incorpora também Q8 e Q9, enquanto o fator Meio Ambiente agrega Q15, passando a totalizar oito e nove itens, respectivamente. Os demais fatores preservam sua composição original. O GLB é computado separadamente com base na matriz observada de cada modelo, permitindo confrontar os resultados. Como sua dedução algébrica pressupõe independência residual e tende à superestimação amostral em amostras finitas, sua interpretação difere da confiabilidade derivada do modelo estrutural com covariância residual entre Q3 e Q4 <span class="citation" data-cites="trizano-hermosilla2016">(<a href="references.html#ref-trizano-hermosilla2016" role="doc-biblioref">Trizano-Hermosilla &amp; Alvarado, 2016</a>)</span>.</p>
+<div class="cell">
+<div id="tbl-domain-reliability" class="cell quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-domain-reliability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;7.2: Confiabilidade dos escores de domínio conforme a composição em H<sub>0</sub> e H<sub>1</sub></figcaption><div aria-describedby="tbl-domain-reliability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;">Modelo</th>
+<th style="text-align: left;">Fator</th>
+<th style="text-align: right;">Itens</th>
+<th style="text-align: right;">Ômega</th>
+<th style="text-align: right;">GLB</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">psycho</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.807</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">physical</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.800</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">social</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.707</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">H0</td>
+<td style="text-align: left;">environment</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.781</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">psycho</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.802</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">physical</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.793</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">social</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.707</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">environment</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0.797</td>
+<td style="text-align: right;">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-domain-reliability">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#tbl-domain-reliability" class="quarto-xref">Tabela&nbsp;<span>7.2</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Estimar a confiabilidade dos escores de cada domínio, respeitando sua composição em H<sub>0</sub> e H<sub>1</sub>.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilizam-se <code>fit_analyzemodel</code> e <code>fit_h1modelfree</code>, estimados no bloco da <a href="#tbl-model-fit-global" class="quarto-xref">Tabela&nbsp;<span>7.1</span></a>.</p>
+<p><strong>Procedimento</strong></p>
+<p>A função <code>table_reliability()</code>, de <a href="../Scripts/DataAppendixScripts/helpers.R">helpers.R</a>, recebe cada ajuste e gera a tabela de confiabilidade. A rotina auxiliar <code>tidy_reliability()</code> identifica os indicadores de cada fator e calcula ômega e GLB para os escores unitários. O coeficiente ômega provém de <code><a href="https://rdrr.io/pkg/semTools/man/compRelSEM.html">semTools::compRelSEM()</a></code>, enquanto o GLB utiliza a matriz de correlações observadas mediante <code><a href="https://rdrr.io/pkg/psych/man/glb.algebraic.html">psych::glb.algebraic()</a></code>.</p>
+<p>A composição reproduz as cargas dos modelos, incluindo as cargas cruzadas postuladas em H<sub>1</sub>. Ambas as tabelas são verificadas e empilhadas, com a coluna <code>Modelo</code> sinalizando a respectiva especificação. A exportação mantém o mesmo padrão de apresentação.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para exibir os escores dos modelos e salvar <code>tbl-domain-reliability.csv</code> em <code>Output/Results/Tables</code>. O cálculo reaproveita os ajustes em memória, sem demandar reestimação.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Prepare each model's formatted score reliability table.</span></span>
+<span><span class="va">reliability_table_h0</span> <span class="op">&lt;-</span> <span class="fu">table_reliability</span><span class="op">(</span><span class="va">fit_analyzemodel</span>, lang <span class="op">=</span> <span class="st">"pt"</span><span class="op">)</span></span>
+<span><span class="va">reliability_table_h1</span> <span class="op">&lt;-</span> <span class="fu">table_reliability</span><span class="op">(</span><span class="va">fit_h1modelfree</span>, lang <span class="op">=</span> <span class="st">"pt"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Validate the display data before combining and exporting the tables.</span></span>
+<span><span class="va">reliability_display_h0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">reliability_table_h0</span>, <span class="st">"table_data"</span><span class="op">)</span></span>
+<span><span class="va">reliability_display_h1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">reliability_table_h1</span>, <span class="st">"table_data"</span><span class="op">)</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">is.data.frame</a></span><span class="op">(</span><span class="va">reliability_display_h0</span><span class="op">)</span> <span class="op">||</span></span>
+<span>    <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">is.data.frame</a></span><span class="op">(</span><span class="va">reliability_display_h1</span><span class="op">)</span> <span class="op">||</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">reliability_display_h0</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0L</span> <span class="op">||</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">reliability_display_h1</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0L</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"table_data is missing. Reload helpers.R and rerun this chunk."</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Stack the four factor scores of H0 first and H1 second.</span></span>
+<span><span class="va">reliability_domains</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html">bind_rows</a></span><span class="op">(</span></span>
+<span>  H0 <span class="op">=</span> <span class="va">reliability_display_h0</span>,</span>
+<span>  H1 <span class="op">=</span> <span class="va">reliability_display_h1</span>,</span>
+<span>  .id <span class="op">=</span> <span class="st">"Modelo"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Export exactly the content displayed in the combined table.</span></span>
+<span><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_excel_csv2</a></span><span class="op">(</span></span>
+<span>  <span class="va">reliability_domains</span>,</span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-domain-reliability.csv"</span><span class="op">)</span>,</span>
+<span>  na <span class="op">=</span> <span class="st">"NA"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Present the two model blocks in one table.</span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">reliability_domains</span>, align <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"l"</span>, <span class="st">"l"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span><span class="op">)</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p>No modelo de referência H<sub>0</sub>, os coeficientes ômega dos quatro domínios situaram-se próximos ou acima do patamar aceitável de 0,70, registrando-se os menores índices no domínio Relações Sociais. Em H<sub>1</sub>, a consistência dos escores Psicológico e Meio Ambiente recuou para níveis inferiores a essa referência. A avaliação desse recuo deve ponderar a incorporação de itens com cargas secundárias de baixa magnitude, somada à alteração na dimensionalidade teórica dos fatores. A confiabilidade complementa a caracterização psicométrica do instrumento, sem resolver as fragilidades de ajuste global verificadas anteriormente.</p>
+</section><section id="distribuições-dos-índices-sob-os-modelos-empíricos" class="level2" data-number="7.3"><h2 data-number="7.3" class="anchored" data-anchor-id="distribuições-dos-índices-sob-os-modelos-empíricos">
+<span class="header-section-number">7.3</span> Distribuições dos índices sob os modelos empíricos</h2>
+<p>A análise de poder (<em>a priori</em>) baseou-se em parâmetros populacionais derivados da literatura e em pressupostos teóricos de planejamento. Uma vez realizada a estimação, as magnitudes de cargas e correlações empíricas afastaram-se daquelas premissas ideais. A avaliação por simulação de Monte Carlo foi, desse modo, reparametrizada pelas matrizes empíricas observadas, preservando a estrutura dos modelos e incorporando o tamanho amostral e as assimetrias distributivas da presente análise <span class="citation" data-cites="leite2023 moshagen2024">(<a href="references.html#ref-leite2023" role="doc-biblioref">Leite et al., 2023</a>; <a href="references.html#ref-moshagen2024" role="doc-biblioref">Moshagen &amp; Bader, 2024</a>)</span>. Recalculam-se, assim, os limites fixados no planejamento para os 621 participantes da calibração, considerando os parâmetros estimados, as distribuições marginais e o padrão de dados omissos dessa subamostra. Esse procedimento desloca a questão do dimensionamento amostral prévio para o comportamento empírico esperado dos índices de ajuste sob as condições concretas do estudo.</p>
+<p>Os parâmetros estimados delimitam as populações geradoras hipotéticas. Sob a primeira condição, os dados são gerados e modelados sob H<sub>0</sub>, estabelecendo a distribuição empírica de referência dos índices quando as restrições teóricas do modelo são estritamente satisfeitas. Sob a segunda, os dados são gerados a partir de H<sub>1</sub> e estimados por H<sub>0</sub>, avaliando-se a sensibilidade dos índices à omissão deliberada das três cargas cruzadas especificadas. Esse contraste confere continuidade ao protocolo de planejamento, atualizando as grandezas paramétricas à luz das estimativas da amostra.</p>
+<p>A estratégia reúne a localização dos índices observados de H<sub>0</sub> frente à sua distribuição nula e a sensibilidade estatística dessa referência diante da má especificação concorrente. Os pontos de corte derivados dos quantis sob H<sub>0</sub> refletem a amostragem sob hipótese de ajuste exato, ao passo que a condição alternativa permite averiguar o poder de detecção da omissão estrutural postulada. O procedimento testa uma má especificação substantiva direcionada (as três cargas cruzadas), ao passo que a abordagem 3DFI exposta na <a href="02_background.html#sec-theory-fit" class="quarto-xref"><span>Seção 2.5</span></a> introduz perturbações estocásticas distribuídas na matriz de correlações com magnitude calibrada por MAD <span class="citation" data-cites="mcneish2024">(<a href="references.html#ref-mcneish2024" role="doc-biblioref">McNeish &amp; Wolf, 2024</a>)</span>. As conclusões mantêm-se condicionadas às estimativas pontuais e às distribuições simuladas. Tais estimativas permanecem fixas entre as replicações, cabendo ao Monte Carlo reproduzir o erro de amostragem condicional à subamostra de calibração. O diagnóstico local complementa essa análise ao rastrear anomalias pontuais que escapam ao escopo da alternativa geradora modelada.</p>
+<p>Processaram-se 1.000 replicações de 621 casos em cada condição geradora. A simulação replica as assimetrias e curtoses marginais observadas empiricamente, além de reproduzir o mapa exato de células ausentes da calibração sob o algoritmo MLR/FIML. A <a href="#fig-empirical-fit-distributions" class="quarto-xref">Figura&nbsp;<span>7.1</span></a> sintetiza as distribuições de amostragem para RMSEA, CFI e TLI robustos e SRMR, acompanhando as métricas reportadas na <a href="#tbl-model-fit-global" class="quarto-xref">Tabela&nbsp;<span>7.1</span></a>. A concentração de CFI e TLI em torno de 1 constitui o padrão esperado sob congruência perfeita entre gerador e estimador, permitindo mensurar objetivamente a distância em relação aos dados empíricos observados.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Como as simulações empíricas foram realizadas">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Como as simulações empíricas foram realizadas
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Produzir as simulações empíricas sob H<sub>0</sub> e H<sub>1</sub> que alimentam a avaliação dos índices de ajuste.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilizam-se <code>calibration_data</code>, <code>fit_analyzemodel</code> e <code>fit_h1modelfree</code>, criados no bloco da <a href="#tbl-model-fit-global" class="quarto-xref">Tabela&nbsp;<span>7.1</span></a> para a calibração (<code>sample_group == 0</code>), além de <code>analyzemodel</code>, <code>SIM</code>, <code>SEED</code> e do mecanismo de cache implementado na rotina geral.</p>
+<p><strong>Procedimento</strong></p>
+<p>O bloco ordena os 24 indicadores da amostra de calibração conforme cada ajuste e obtém a assimetria e curtose observadas para parametrizar as distribuições marginais não normais. A condição de referência gera observações a partir do modelo H<sub>0</sub>, enquanto a condição concorrente gera a partir de H<sub>1</sub>. Em ambos os casos, a estimação é aplicada sobre <code>analyzemodel</code>, que impõe a omissão das cargas cruzadas.</p>
+<p>As rotinas processam 1.000 replicações com <code>nrow(calibration_data)</code> observações, semente pseudoaleatória <code>SEED</code>, estimador MLR e identificação por variâncias latentes unitárias (<code>std.lv = TRUE</code>). O perfil de dados omissos é fixado em <code>miss</code>, aplicando-se <code>missing = "fiml"</code>. A função <code>cache_or_run()</code> reaproveita arquivos RDS previamente gravados, executando a rotina apenas na ausência de cache válido. Os resultados reaproveitados vinculam-se estritamente à mesma partição e aos mesmos ajustes. Instruções operacionais detalhadas constam no <a href="../README.md">README</a>.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute inicialmente o bloco da <a href="#tbl-model-fit-global" class="quarto-xref">Tabela&nbsp;<span>7.1</span></a>, seguido da preparação dos momentos marginais e das simulações. Os objetos <code>sim_h0_empirical</code> e <code>sim_h1_empirical</code> fornecem os subsídios para derivação de pontos de corte dinâmicos, cálculo de poder e exibição gráfica. Os dados são persistidos em <code>sim_h0_empirical.rds</code> e <code>sim_h1_empirical.rds</code> no diretório <code>Data/IntermediateData</code>.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Keep the same 24 indicators in the order used by each fitted model.</span></span>
+<span><span class="va">indicators_h0</span> <span class="op">&lt;-</span> <span class="va">calibration_data</span><span class="op">[</span></span>
+<span>  <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/lavNames.html">lavNames</a></span><span class="op">(</span><span class="va">fit_analyzemodel</span>, <span class="st">"ov"</span><span class="op">)</span></span>
+<span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Order the same indicators according to the H1 specification.</span></span>
+<span><span class="va">indicators_h1</span> <span class="op">&lt;-</span> <span class="va">calibration_data</span><span class="op">[</span></span>
+<span>  <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/lavNames.html">lavNames</a></span><span class="op">(</span><span class="va">fit_h1modelfree</span>, <span class="st">"ov"</span><span class="op">)</span></span>
+<span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Use observed marginal skewness and excess kurtosis for data generation.</span></span>
+<span><span class="va">dist_h0</span> <span class="op">&lt;-</span> <span class="fu">simsem</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/simsem/man/bindDist.html">bindDist</a></span><span class="op">(</span></span>
+<span>  skewness <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/skew.html">skew</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">indicators_h0</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  kurtosis <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/skew.html">kurtosi</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">indicators_h0</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Define marginal moments for the H1 generating condition.</span></span>
+<span><span class="va">dist_h1</span> <span class="op">&lt;-</span> <span class="fu">simsem</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/simsem/man/bindDist.html">bindDist</a></span><span class="op">(</span></span>
+<span>  skewness <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/skew.html">skew</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">indicators_h1</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  kurtosis <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/skew.html">kurtosi</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">indicators_h1</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Reuse or simulate samples from H0 and fit the H0 specification.</span></span>
+<span><span class="va">sim_h0_empirical</span> <span class="op">&lt;-</span> <span class="fu">cache_or_run</span><span class="op">(</span><span class="st">"sim_h0_empirical"</span>, <span class="op">{</span></span>
+<span>  <span class="fu">simsem</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/simsem/man/sim.html">sim</a></span><span class="op">(</span></span>
+<span>    nRep <span class="op">=</span> <span class="va">SIM</span>,</span>
+<span>    model <span class="op">=</span> <span class="va">analyzemodel</span>,</span>
+<span>    n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">calibration_data</span><span class="op">)</span>,</span>
+<span>    generate <span class="op">=</span> <span class="va">fit_analyzemodel</span>,</span>
+<span>    indDist <span class="op">=</span> <span class="va">dist_h0</span>,</span>
+<span>    miss <span class="op">=</span> <span class="fu">simsem</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/simsem/man/miss.html">miss</a></span><span class="op">(</span>logical <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">indicators_h0</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    lavaanfun <span class="op">=</span> <span class="st">"cfa"</span>,</span>
+<span>    estimator <span class="op">=</span> <span class="st">"MLR"</span>,</span>
+<span>    missing <span class="op">=</span> <span class="st">"fiml"</span>,</span>
+<span>    std.lv <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    seed <span class="op">=</span> <span class="va">SEED</span>,</span>
+<span>    multicore <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Reuse or simulate samples from H1 and fit H0 without cross-loadings.</span></span>
+<span><span class="va">sim_h1_empirical</span> <span class="op">&lt;-</span> <span class="fu">cache_or_run</span><span class="op">(</span><span class="st">"sim_h1_empirical"</span>, <span class="op">{</span></span>
+<span>  <span class="fu">simsem</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/simsem/man/sim.html">sim</a></span><span class="op">(</span></span>
+<span>    nRep <span class="op">=</span> <span class="va">SIM</span>,</span>
+<span>    model <span class="op">=</span> <span class="va">analyzemodel</span>,</span>
+<span>    n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">calibration_data</span><span class="op">)</span>,</span>
+<span>    generate <span class="op">=</span> <span class="va">fit_h1modelfree</span>,</span>
+<span>    indDist <span class="op">=</span> <span class="va">dist_h1</span>,</span>
+<span>    miss <span class="op">=</span> <span class="fu">simsem</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/simsem/man/miss.html">miss</a></span><span class="op">(</span>logical <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">indicators_h1</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    lavaanfun <span class="op">=</span> <span class="st">"cfa"</span>,</span>
+<span>    estimator <span class="op">=</span> <span class="st">"MLR"</span>,</span>
+<span>    missing <span class="op">=</span> <span class="st">"fiml"</span>,</span>
+<span>    std.lv <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    seed <span class="op">=</span> <span class="va">SEED</span>,</span>
+<span>    multicore <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-empirical-fit-distributions" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-empirical-fit-distributions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07_model_fit_files/figure-html/fig-empirical-fit-distributions-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-empirical-fit-distributions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.1: Distribuições de RMSEA, CFI e TLI robustos e SRMR em 1.000 replicações na amostra de calibração: geração sob H₀ ou H₁ e ajuste de H₀ nas duas condições. H₁ inclui as três cargas cruzadas omitidas pelo modelo de análise. As linhas vermelhas indicam os cortes sob H₀ com α = 0,05: percentil 95 para RMSEA/SRMR e percentil 5 para CFI/TLI.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @fig-empirical-fit-distributions">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#fig-empirical-fit-distributions" class="quarto-xref">Figura&nbsp;<span>7.1</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Obter os limites empíricos dos índices e o poder estatístico de detecção da alternativa geradora, comparando as distribuições de amostragem em ambas as condições.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilizam-se <code>sim_h0_empirical</code> e <code>sim_h1_empirical</code>, obtidos no callout precedente, além dos parâmetros <code>ALPHA</code> e <code>FITS_ROB</code> da rotina geral.</p>
+<p><strong>Procedimento</strong></p>
+<p>A calibração deriva da distribuição de amostragem sob H<sub>0</sub>: percentil 95 para RMSEA robusto e SRMR, e percentil 5 para CFI e TLI robustos. A opção <code>revDirec = TRUE</code> explicita a cauda inferior para os índices incrementais robustos. Esses mesmos pontos de corte alimentam o cômputo de poder estatístico na condição concorrente e o traçado dos gráficos, garantindo estrita consistência entre saídas tabulares e visuais.</p>
+<p>O bloco grava a tabela auxiliar de poder e limites em precisão numérica completa, resguardando-a de exibição redundante. A figura integra a distribuição dos quatro índices de ajuste ao lado de seus limiares de decisão.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco preparatório dos pontos de corte e, na sequência, o bloco de geração gráfica. O procedimento projeta as curvas de densidade e exporta <code>tbl-empirical-power-cutoffs.csv</code> no diretório <code>Output/Results/Tables</code>.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Calibrate the 95th percentiles for RMSEA/SRMR and 5th for robust CFI/TLI.</span></span>
+<span><span class="va">cutoff_fixed</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span></span>
+<span>  <span class="fu">simsem</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/simsem/man/getCutoff.html">getCutoff</a></span><span class="op">(</span></span>
+<span>    <span class="va">sim_h0_empirical</span>,</span>
+<span>    alpha <span class="op">=</span> <span class="va">ALPHA</span>,</span>
+<span>    usedFit <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"rmsea.robust"</span>, <span class="st">"srmr"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  <span class="fu">simsem</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/simsem/man/getCutoff.html">getCutoff</a></span><span class="op">(</span></span>
+<span>    <span class="va">sim_h0_empirical</span>,</span>
+<span>    alpha <span class="op">=</span> <span class="va">ALPHA</span>,</span>
+<span>    usedFit <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"cfi.robust"</span>, <span class="st">"tli.robust"</span><span class="op">)</span>,</span>
+<span>    revDirec <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Apply those same cutoffs to the alternative distribution.</span></span>
+<span><span class="va">power_fixed</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>  <span class="fu">simsem</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/simsem/man/getPowerFit.html">getPowerFit</a></span><span class="op">(</span></span>
+<span>    <span class="va">sim_h1_empirical</span>,</span>
+<span>    cutoff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span></span>
+<span>      <span class="va">cutoff_fixed</span><span class="op">[</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"rmsea.robust"</span>, <span class="st">"srmr"</span><span class="op">)</span><span class="op">]</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    usedFit <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"rmsea.robust"</span>, <span class="st">"srmr"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  <span class="fu">simsem</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/simsem/man/getPowerFit.html">getPowerFit</a></span><span class="op">(</span></span>
+<span>    <span class="va">sim_h1_empirical</span>,</span>
+<span>    cutoff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span></span>
+<span>      <span class="va">cutoff_fixed</span><span class="op">[</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"cfi.robust"</span>, <span class="st">"tli.robust"</span><span class="op">)</span><span class="op">]</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    usedFit <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"cfi.robust"</span>, <span class="st">"tli.robust"</span><span class="op">)</span>,</span>
+<span>    revDirec <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Combine power and cutoffs in one table.</span></span>
+<span><span class="va">power_cutoff_fixed</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span></span>
+<span>  <span class="st">"Poder"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">power_fixed</span><span class="op">)</span>,</span>
+<span>  <span class="st">"Ponto de corte"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">cutoff_fixed</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Format the fit-index column labels.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">power_cutoff_fixed</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">toupper</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">power_fixed</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Export the numeric results before display rounding.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv2</a></span><span class="op">(</span></span>
+<span>  <span class="va">power_cutoff_fixed</span>,</span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-empirical-power-cutoffs.csv"</span><span class="op">)</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  na <span class="op">=</span> <span class="st">"NA"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Compare robust fit indices and SRMR across the two generating conditions.</span></span>
+<span><span class="fu">simsem</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/simsem/man/plotPowerFit.html">plotPowerFit</a></span><span class="op">(</span></span>
+<span>  <span class="va">sim_h1_empirical</span>,</span>
+<span>  nullObject <span class="op">=</span> <span class="va">sim_h0_empirical</span>,</span>
+<span>  cutoff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">cutoff_fixed</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span><span class="op">)</span>,</span>
+<span>  usedFit <span class="op">=</span> <span class="va">FITS_ROB</span></span>
+<span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p>A <a href="#fig-empirical-fit-distributions" class="quarto-xref">Figura&nbsp;<span>7.1</span></a> possibilita contrastar as distribuições teóricas sob H<sub>0</sub> com aquelas geradas sob a presença de três cargas cruzadas na população não especificadas no modelo analítico. Adotando-se o nível nominal de significância <span class="math inline">\(\alpha = 0,05\)</span>, os limiares superiores de rejeição situam-se em 0,017 para o RMSEA e 0,028 para o SRMR. Paralelamente, os limites inferiores de corte equivalem a 0,991 para o CFI e 0,990 para o TLI. Ao incidir sobre a distribuição alternativa, esses cortes revelam coeficientes de poder estatístico correspondentes a 80,7%, 99,6%, 80,1% e 80,1%, respectivamente, mensurando a probabilidade do teste em detectar essa má especificação dimensional sob as condições amostrais do estudo.</p>
+<p>Nos dados empíricos observados, H<sub>0</sub> reportou RMSEA de 0,063 e SRMR de 0,054, enquanto CFI e TLI atingiram 0,895 e 0,882. A projeção desses valores contra as curvas simuladas atesta o afastamento substancial dos índices em relação aos limiares de ajuste exato. Contudo, a detecção da má especificação alternativa não elucida, isoladamente, a origem exata do desajuste observado nem comprova que este decorra com exclusividade das três cargas cruzadas simuladas. Esses achados tornam mandatório o aprofundamento do diagnóstico local, articulando a inspeção dos resíduos às premissas substantivas da teoria de mensuração e aos antecedentes da literatura psicométrica.</p>
+</section><section id="diagnóstico-local" class="level2" data-number="7.4"><h2 data-number="7.4" class="anchored" data-anchor-id="diagnóstico-local">
+<span class="header-section-number">7.4</span> Diagnóstico local</h2>
+<p>O diagnóstico local tem por objetivo mapear as fontes específicas de tensão empírica que culminam no desajuste global observado. Essa investigação conjuga as estimativas fatoriais da <a href="06_estimation.html#tbl-estimation-parameters" class="quarto-xref">Tabela&nbsp;<span>6.1</span></a> aos índices de modificação (MI), às mudanças esperadas nos parâmetros (EPC) e à matriz de resíduos de correlação, conforme prescrito na <a href="02_background.html#sec-theory-fit" class="quarto-xref"><span>Seção 2.5</span></a>. A análise concentra-se prioritariamente em H<sub>0</sub>, modelo teórico de referência que orienta as decisões de reespecificação.</p>
+<section id="índices-de-modificação-e-mudanças-esperadas" class="level3" data-number="7.4.1"><h3 data-number="7.4.1" class="anchored" data-anchor-id="índices-de-modificação-e-mudanças-esperadas">
+<span class="header-section-number">7.4.1</span> Índices de modificação e mudanças esperadas</h3>
+<p>O MI estima a redução teórica na estatística <span class="math inline">\(\chi^2\)</span> proporcionada pela liberação individual de cada parâmetro previamente fixado. O EPC projeta a magnitude esperada da referida estimativa livre, e sua versão padronizada viabiliza a comparação direta do impacto paramétrico. Essas métricas devem ser interpretadas conjuntamente com as cargas fatoriais, com a magnitude dos resíduos e com o fundamento conceitual da relação analisada <span class="citation" data-cites="nye2022">(<a href="references.html#ref-nye2022" role="doc-biblioref">Nye, 2022</a>)</span>. A <a href="#tbl-modification-indices-top20" class="quarto-xref">Tabela&nbsp;<span>7.3</span></a> consolida os vinte maiores MI de H<sub>0</sub> com seus respectivos EPC brutos e padronizados.</p>
+<div class="cell">
+<div id="tbl-modification-indices-top20" class="cell quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-modification-indices-top20-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;7.3: Vinte maiores índices de modificação de H<sub>0</sub>, com EPC bruto e padronizado.
+</figcaption><div aria-describedby="tbl-modification-indices-top20-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;">Relação</th>
+<th style="text-align: right;">MI</th>
+<th style="text-align: right;">EPC</th>
+<th style="text-align: right;">EPC padronizado</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Q17 ~~ Q18</td>
+<td style="text-align: right;">82.261</td>
+<td style="text-align: right;">0.158</td>
+<td style="text-align: right;">0.794</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q5 ~~ Q14</td>
+<td style="text-align: right;">62.470</td>
+<td style="text-align: right;">0.159</td>
+<td style="text-align: right;">0.358</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">environment =~ Q5</td>
+<td style="text-align: right;">48.605</td>
+<td style="text-align: right;">0.362</td>
+<td style="text-align: right;">0.442</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">environment =~ Q15</td>
+<td style="text-align: right;">48.113</td>
+<td style="text-align: right;">0.313</td>
+<td style="text-align: right;">0.366</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">psycho =~ Q10</td>
+<td style="text-align: right;">41.600</td>
+<td style="text-align: right;">0.552</td>
+<td style="text-align: right;">0.591</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q24 ~~ Q25</td>
+<td style="text-align: right;">34.822</td>
+<td style="text-align: right;">0.179</td>
+<td style="text-align: right;">0.256</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q3 ~~ Q15</td>
+<td style="text-align: right;">30.427</td>
+<td style="text-align: right;">0.125</td>
+<td style="text-align: right;">0.202</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">psycho =~ Q17</td>
+<td style="text-align: right;">26.402</td>
+<td style="text-align: right;">-0.408</td>
+<td style="text-align: right;">-0.442</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q10 ~~ Q18</td>
+<td style="text-align: right;">26.359</td>
+<td style="text-align: right;">-0.088</td>
+<td style="text-align: right;">-0.269</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q5 ~~ Q6</td>
+<td style="text-align: right;">25.744</td>
+<td style="text-align: right;">0.111</td>
+<td style="text-align: right;">0.223</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">psycho =~ Q24</td>
+<td style="text-align: right;">25.655</td>
+<td style="text-align: right;">-0.324</td>
+<td style="text-align: right;">-0.341</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q15 ~~ Q17</td>
+<td style="text-align: right;">23.512</td>
+<td style="text-align: right;">-0.076</td>
+<td style="text-align: right;">-0.267</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q23 ~~ Q25</td>
+<td style="text-align: right;">23.341</td>
+<td style="text-align: right;">0.148</td>
+<td style="text-align: right;">0.213</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q11 ~~ Q10</td>
+<td style="text-align: right;">21.303</td>
+<td style="text-align: right;">0.100</td>
+<td style="text-align: right;">0.202</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">environment =~ Q17</td>
+<td style="text-align: right;">20.282</td>
+<td style="text-align: right;">-0.155</td>
+<td style="text-align: right;">-0.167</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">physical =~ Q5</td>
+<td style="text-align: right;">20.123</td>
+<td style="text-align: right;">-0.377</td>
+<td style="text-align: right;">-0.460</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q19 ~~ Q18</td>
+<td style="text-align: right;">20.050</td>
+<td style="text-align: right;">0.068</td>
+<td style="text-align: right;">0.230</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q12 ~~ Q23</td>
+<td style="text-align: right;">19.257</td>
+<td style="text-align: right;">-0.139</td>
+<td style="text-align: right;">-0.211</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">social =~ Q23</td>
+<td style="text-align: right;">18.360</td>
+<td style="text-align: right;">0.225</td>
+<td style="text-align: right;">0.229</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">environment =~ Q10</td>
+<td style="text-align: right;">18.223</td>
+<td style="text-align: right;">0.177</td>
+<td style="text-align: right;">0.189</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-modification-indices-top20">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#tbl-modification-indices-top20" class="quarto-xref">Tabela&nbsp;<span>7.3</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Organizar as vinte maiores relações candidatas à liberação em H<sub>0</sub>, com seus MI e EPC.</p>
+<p><strong>Preparação</strong></p>
+<p>Utiliza-se <code>fit_analyzemodel</code>, estimado no início dessa seção.</p>
+<p><strong>Procedimento</strong></p>
+<p>A função <code>table_mi()</code>, de <a href="../Scripts/DataAppendixScripts/helpers.R">helpers.R</a>, utiliza <code>lavaan::modindices(object, sort. = TRUE)</code> para obter os MI em ordem decrescente, com EPC bruto e padronizado (<code>sepc.all</code>). O próprio lavaan exclui parâmetros já livres e MI indisponíveis. A rotina apresenta as primeiras vinte relações, preserva os operadores lavaan e formata os valores com três casas decimais. O argumento <code>top_n</code> permite alterar o número de linhas; <code>top_n = NULL</code> apresenta todas.</p>
+<p>O atributo <code>mi_data</code> preserva a saída completa do lavaan, recuperada em <code>mi_all</code> para uso no texto. Por isso, a extração é feita uma única vez e <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code> limita apenas as linhas apresentadas. Para obter diretamente apenas os vinte maiores MI, a chamada nativa equivalente é <code>lavaan::modindices(fit_analyzemodel, sort. = TRUE, maximum.number = 20)</code>. O atributo <code>table_data</code> contém as vinte relações apresentadas e é exportado com os mesmos rótulos e valores de exibição.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para apresentar a tabela e salvar <code>tbl-modification-indices-top20.csv</code> em <code>Output/Results/Tables</code>. O procedimento diagnostica o ajuste existente, sem estimar um modelo modificado.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Prepare the twenty largest modification indices for H0 in Portuguese.</span></span>
+<span><span class="va">mi_table_h0</span> <span class="op">&lt;-</span> <span class="fu">table_mi</span><span class="op">(</span><span class="va">fit_analyzemodel</span>, lang <span class="op">=</span> <span class="st">"pt"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Preserve all full-precision candidates for the values inserted in the text.</span></span>
+<span><span class="va">mi_all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">mi_table_h0</span>, <span class="st">"mi_data"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Validate and export exactly the content displayed in the table.</span></span>
+<span><span class="va">mi_table_data_h0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">mi_table_h0</span>, <span class="st">"table_data"</span><span class="op">)</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">is.data.frame</a></span><span class="op">(</span><span class="va">mi_table_data_h0</span><span class="op">)</span> <span class="op">||</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">mi_table_data_h0</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0L</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"table_data is missing or empty. Reload helpers.R and check the model."</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_excel_csv2</a></span><span class="op">(</span></span>
+<span>  <span class="va">mi_table_data_h0</span>,</span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-modification-indices-top20.csv"</span><span class="op">)</span>,</span>
+<span>  na <span class="op">=</span> <span class="st">"NA"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Present the formatted modification index table.</span></span>
+<span><span class="va">mi_table_h0</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</section><section id="resíduos-de-correlação" class="level3" data-number="7.4.2"><h3 data-number="7.4.2" class="anchored" data-anchor-id="resíduos-de-correlação">
+<span class="header-section-number">7.4.2</span> Resíduos de correlação</h3>
+<p>Os resíduos de correlação indicam a magnitude em que cada associação bivariada entre indicadores é subestimada ou superestimada pela estrutura teórica do modelo. Essa métrica evidencia discrepâncias locais ocultas nos resumos globais <span class="citation" data-cites="nye2022 crede2019">(<a href="references.html#ref-crede2019" role="doc-biblioref">Crede &amp; Harms, 2019</a>; <a href="references.html#ref-nye2022" role="doc-biblioref">Nye, 2022</a>)</span>.</p>
+<p>A <a href="#fig-residual-correlations" class="quarto-xref">Figura&nbsp;<span>7.2</span></a> esquematiza a matriz de resíduos de H<sub>0</sub>, dispondo os itens na sequência fatorial do modelo. A intensidade da gradação cromática traduz o valor absoluto do resíduo, ao passo que os valores numéricos informam o sinal aritmético da discrepância. Cada par bivariado é representado uma única vez. O limiar de relevância prática de <span class="math inline">\(|r_{res}| \geq 0,10\)</span>, fundamentado na <a href="02_background.html#sec-theory-fit" class="quarto-xref"><span>Seção 2.5</span></a>, norteia o escrutínio conjunto com os MI, os EPC e a redação dos itens.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-residual-correlations" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Mapa triangular de H₀ com diferenças entre correlações observadas e reproduzidas para os 24 indicadores.">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-residual-correlations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07_model_fit_files/figure-html/fig-residual-correlations-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Mapa triangular de H₀ com diferenças entre correlações observadas e reproduzidas para os 24 indicadores." width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-residual-correlations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.2: Resíduos de correlação de H₀. As cores representam magnitudes absolutas; os rótulos preservam o sinal e apresentam duas casas decimais.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @fig-residual-correlations">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#fig-residual-correlations" class="quarto-xref">Figura&nbsp;<span>7.2</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Localizar diferenças entre as correlações observadas e reproduzidas por H<sub>0</sub> em um mapa de resíduos.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilizam-se <code>fit_analyzemodel</code>, estimado no início dessa seção, e a função <code>plot_stdres()</code> de <a href="../Scripts/DataAppendixScripts/helpers.R">helpers.R</a>.</p>
+<p><strong>Procedimento</strong></p>
+<p><code>plot_stdres()</code> recebe o ajuste e retorna um gráfico <code>ggplot</code>. Sua auxiliar <code>tidy_stdres()</code> organiza os resíduos obtidos por <code><a href="https://rdrr.io/pkg/lavaan/man/lavResiduals.html">lavaan::lavResiduals()</a></code>, utilizando as estatísticas observadas do ajuste com FIML. Os resíduos são diferenças de correlação, sem conversão em estatísticas z.</p>
+<p>O mapa mantém a ordem dos indicadores, apresenta cada par uma vez e omite a diagonal. A cor representa a magnitude absoluta, enquanto os rótulos preservam o sinal e exibem duas casas decimais. Os atributos <code>residual_matrix</code> e <code>residual_data</code> conservam, respectivamente, a matriz completa e os pares com precisão original para exportação e valores no texto.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para apresentar o mapa e salvar <code>residual-correlations-h0.csv</code> em <code>Output/Results/Tables</code> e <code>fig-residual-correlations.png</code> em <code>Output/Results/Figures</code>.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Create the correlation residual heatmap.</span></span>
+<span><span class="va">residual_heatmap</span> <span class="op">&lt;-</span> <span class="fu">plot_stdres</span><span class="op">(</span><span class="va">fit_analyzemodel</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Preserve full-precision residuals for export and inline results.</span></span>
+<span><span class="va">residual_matrix_h0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">residual_heatmap</span>, <span class="st">"residual_matrix"</span><span class="op">)</span></span>
+<span><span class="va">residual_correlations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">residual_heatmap</span>, <span class="st">"residual_data"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Export the complete correlation residual matrix.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv2</a></span><span class="op">(</span></span>
+<span>  <span class="va">residual_matrix_h0</span>,</span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"residual-correlations-h0.csv"</span><span class="op">)</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">TRUE</span>, na <span class="op">=</span> <span class="st">"NA"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Save the residual correlation heatmap.</span></span>
+<span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span></span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Figures"</span>, <span class="st">"fig-residual-correlations.png"</span><span class="op">)</span>,</span>
+<span>  plot <span class="op">=</span> <span class="va">residual_heatmap</span>, width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">7</span>, dpi <span class="op">=</span> <span class="fl">300</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Display the residual correlation heatmap.</span></span>
+<span><span class="va">residual_heatmap</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p>O diagnóstico local de H<sub>0</sub> inspeciona inicialmente os três itens cujas cargas secundárias foram especificadas no modelo alternativo H<sub>1</sub>. Em relação a Q15, a carga cruzada no fator Meio Ambiente figura com destaque entre os maiores MI (MI = 48,113, EPC padronizado = 0,366). O indicador apresenta também resíduos correlacionais positivos expressivos com Q3 e Q4, da ordem de 0,20 e 0,13, indicando covariações bivariadas subestimadas pela estrutura confirmatória pura. Para os itens Q8 e Q9, sobressai a covariância residual entre seus termos de erro (MI = 10,847, EPC padronizado = 0,143), corroborada por resíduo de correlação positivo de 0,09. Esses dados expõem tensões de mensuração nos itens englobados pela formulação de H<sub>1</sub>, nada obstante a dependência residual entre Q8 e Q9 não comprovar, por si só, a existência de cargas adicionais no domínio Psicológico.</p>
+<p>O escrutínio diagnóstico revela, ademais, pontos críticos de desajuste alheios às relações antecipadas por H<sub>1</sub>. O item Q5 concentra indicações recorrentes de cargas secundárias nos domínios Físico e Meio Ambiente, além de correlação residual com Q6 e Q14. O resíduo de correlação no par Q5–Q14, de 0,235, estabelece a discrepância empírica de maior magnitude em toda a matriz. Por sua vez, o item Q24 combina carga primária modesta, demanda de carga cruzada no fator Psicológico e forte associação de erro com Q25, cujo resíduo de correlação alcança 0,166. Integrados aos desvios de Q15, esses achados qualificam Q5, Q15 e Q24 como os principais candidatos à investigação de modificações estruturais na calibração. O item Q8 mantém-se como candidato suplementar, dada a magnitude modesta de sua carga primária e a dependência residual com Q9. Paralelamente, as cargas atenuadas de Q3/Q4 e a covariação residual entre Q17 e Q18 também integram o inventário de desajustes, expressando particularidades de mensuração da escala.</p>
+<p>A análise global evidenciou fragilidades de ajustamento nas especificações originais. O protocolo de simulação proveu distribuições de referência condicionais às propriedades da subamostra de calibração, balizando o julgamento dos índices obtidos. A leitura integrada de parâmetros, resíduos de correlação e indicadores de modificação isolou as fontes prioritárias de desajuste nos itens da escala. Essas evidências justificam a exploração de reespecificações, cujo critério de elegibilidade pressupõe a convergência com a teoria de mensuração e a integridade de cobertura dos domínios. Na <a href="08_model_comparison.html" class="quarto-xref"><span>Seção 8</span></a>, essas hipóteses serão confrontadas com a literatura pregressa para fundamentar a especificação ajustada e suas diretrizes operacionais, sendo o modelo final validado de maneira independente na subamostra de validação.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-cho2022" class="csl-entry" role="listitem">
+Cho, E. (2022). Reliability and <span>Omega Hierarchical</span> in <span>Multidimensional Data</span>: <span>A Comparison</span> of <span>Various Estimators</span>. <em>Psychological Methods</em>. <a href="https://doi.org/10.1037/met0000525">https://doi.org/10.1037/met0000525</a>
+</div>
+<div id="ref-crede2019" class="csl-entry" role="listitem">
+Crede, M., &amp; Harms, P. (2019). Questionable Research Practices When Using Confirmatory Factor Analysis. <em>Journal of Managerial Psychology</em>, <em>34</em>(1), 18–30. <a href="https://doi.org/10.1108/JMP-06-2018-0272">https://doi.org/10.1108/JMP-06-2018-0272</a>
+</div>
+<div id="ref-flora2020" class="csl-entry" role="listitem">
+Flora, D. B. (2020). Your <span>Coefficient Alpha Is Probably Wrong</span>, but <span>Which Coefficient Omega Is Right</span>? <span>A Tutorial</span> on <span>Using R</span> to <span>Obtain Better Reliability Estimates</span>. <em>Advances in Methods and Practices in Psychological Science</em>, <em>3</em>(4), 484–501. <a href="https://doi.org/10.1177/2515245920951747">https://doi.org/10.1177/2515245920951747</a>
+</div>
+<div id="ref-leite2023" class="csl-entry" role="listitem">
+Leite, W. L., Bandalos, D. L., &amp; Shen, Z. (2023). Simulation <span>Methods</span> in <span>Structural Equation Modeling</span>. Em R. H. Hoyle (Org.), <em>Handbook of <span>Structural Equation Modeling</span></em>. The Guilford Press.
+</div>
+<div id="ref-mai2021" class="csl-entry" role="listitem">
+Mai, R., Niemand, T., &amp; Kraus, S. (2021). A Tailored-Fit Model Evaluation Strategy for Better Decisions about Structural Equation Models. <em>Technological Forecasting and Social Change</em>, <em>173</em>, 121142. <a href="https://doi.org/10.1016/j.techfore.2021.121142">https://doi.org/10.1016/j.techfore.2021.121142</a>
+</div>
+<div id="ref-mcneish2024" class="csl-entry" role="listitem">
+McNeish, D., &amp; Wolf, M. G. (2024). Direct <span>Discrepancy Dynamic Fit Index Cutoffs</span> for <span>Arbitrary Covariance Structure Models</span>. <em>Structural Equation Modeling: A Multidisciplinary Journal</em>, <em>31</em>(5), 835–862. <a href="https://doi.org/10.1080/10705511.2024.2308005">https://doi.org/10.1080/10705511.2024.2308005</a>
+</div>
+<div id="ref-moshagen2024" class="csl-entry" role="listitem">
+Moshagen, M., &amp; Bader, M. (2024). <span>semPower</span>: <span>General</span> Power Analysis for Structural Equation Models. <em>Behav. Res. Methods</em>, <em>56</em>(4), 2901–2922. <a href="https://doi.org/10.3758/s13428-023-02254-7">https://doi.org/10.3758/s13428-023-02254-7</a>
+</div>
+<div id="ref-niemand2018" class="csl-entry" role="listitem">
+Niemand, T., &amp; Mai, R. (2018). Flexible Cutoff Values for Fit Indices in the Evaluation of Structural Equation Models. <em>Journal of the Academy of Marketing Science</em>, <em>46</em>(6), 1148–1172. <a href="https://doi.org/10.1007/s11747-018-0602-9">https://doi.org/10.1007/s11747-018-0602-9</a>
+</div>
+<div id="ref-nye2022" class="csl-entry" role="listitem">
+Nye, C. D. (2022). Reviewer <span>Resources</span>: <span>Confirmatory Factor Analysis</span>. <em>Organizational Research Methods</em>, 109442812211205. <a href="https://doi.org/10.1177/10944281221120541">https://doi.org/10.1177/10944281221120541</a>
+</div>
+<div id="ref-trizano-hermosilla2016" class="csl-entry" role="listitem">
+Trizano-Hermosilla, I., &amp; Alvarado, J. M. (2016). Best Alternatives to <span>Cronbach</span>’s Alpha Reliability in Realistic Conditions: <span>Congeneric</span> and Asymmetrical Measurements. <em>Frontiers in Psychology</em>, <em>7</em>(MAY). <a href="https://doi.org/10.3389/fpsyg.2016.00769">https://doi.org/10.3389/fpsyg.2016.00769</a>
+</div>
+<div id="ref-west2023" class="csl-entry" role="listitem">
+West, S. G., Wu, W., McNeish, D., &amp; Savord, A. (2023). Model <span>Fit</span> in <span>Structural Equation Modeling</span>. Em R. H. Hoyle (Org.), <em>Handbook of <span>Structural Equation Modeling</span></em>. The Guilford Press.
+</div>
+</div>
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiada");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiada");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/phdpablo\.github\.io\/smart-cfa\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="../Article/06_estimation.html" class="pagination-link" aria-label="Processo de estimação">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Processo de estimação</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../Article/08_model_comparison.html" class="pagination-link" aria-label="Comparações e modificações dos modelos">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Comparações e modificações dos modelos</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+<p><a href="https://www.phdpablo.com">por Pablo Rogers</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Este artigo foi desenvolvido com <a href="https://quarto.org/">Quarto</a></p>
+</div>
+  </div>
+</footer>
+
+
+</body></html>
