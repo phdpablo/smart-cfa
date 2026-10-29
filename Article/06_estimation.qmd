@@ -9,48 +9,19 @@ source(here::here("Scripts", "DataAppendixScripts", "models.R"))
 source(here::here("Scripts", "DataAppendixScripts", "helpers.R"))
 ```
 
-Depois da seleção dos modelos e do pré-processamento, essa seção estima as duas
-especificações da AFC na amostra de calibração. A estimação converte as
-relações previstas nos modelos em parâmetros amostrais e aplica as condições
-definidas nas etapas anteriores: tratamento contínuo dos itens, MLR, FIML e
-identificação pela variância dos fatores [@jackson2009; @nye2022].
+Após a seleção dos modelos e o pré-processamento, a presente seção estima as duas especificações da AFC na subamostra de calibração. A estimação traduz as relações previstas nos modelos teóricos em parâmetros empíricos, sob as condições estabelecidas nas etapas anteriores: tratamento contínuo dos itens, estimador MLR, procedimento FIML e identificação pela fixação unitária da variância dos fatores [@jackson2009; @nye2022].
 
-Os 1.243 participantes da amostra analítica foram divididos aleatoriamente em
-duas parcelas: 621 para calibração e 622 para validação. A divisão foi
-estratificada pela presença de respostas ausentes nos 24 indicadores,
-distribuindo os 60 participantes com alguma ausência igualmente entre as
-parcelas. A calibração é utilizada para estimar os modelos e examinar seus
-diagnósticos; a validação é reservada à avaliação da especificação selecionada.
+Os 1.243 participantes da amostra de análise foram divididos aleatoriamente em duas parcelas: 621 para calibração e 622 para validação. A partição foi estratificada pela presença de respostas ausentes nos 24 indicadores, distribuindo os 60 participantes com alguma omissão de forma equilibrada entre os dois grupos. A subamostra de calibração é empregada para estimar os modelos e examinar seus diagnósticos, ao passo que a subamostra de validação é reservada à confirmação empírica da reespecificação selecionada.
 
 ## Fundamentação da estimação
 
-Os itens foram tratados como variáveis contínuas, conforme a justificativa
-desenvolvida na @sec-theory-estimation. Segundo @rhemtulla2012, a MLR apresenta 
-desempenho adequado em condições com cinco ou
-mais categorias, especialmente com limiares aproximadamente simétricos.
-@robitzsch2020a e @robitzsch2022a mostram que as abordagens contínua e ordinal
-definem alvos paramétricos distintos. Com cinco categorias e uma estrutura
-fatorial previamente definida, esse estudo adota a formulação contínua como
-aproximação de mensuração.
+Os itens foram tratados como variáveis contínuas, conforme a fundamentação desenvolvida na @sec-theory-estimation. De acordo com @rhemtulla2012, o estimador MLR exibe desempenho adequado em configurações com cinco ou mais categorias ordinais, em especial quando os limiares de resposta distribuem-se de maneira aproximadamente simétrica. @robitzsch2020a e @robitzsch2022a demonstram que as formulações contínua e ordinal definem alvos paramétricos distintos. Com cinco categorias e uma estrutura fatorial previamente fundamentada, adota-se a formulação contínua como aproximação de mensuração no presente estudo.
 
-O método MLR foi mantido porque combina a máxima verossimilhança com
-erros-padrão robustos e estatística de teste escalada. Essa combinação é adequada às
-distribuições observadas na etapa de pré-processamento e segue a recomendação
-da literatura para situações de não normalidade multivariada [@brown2015;
-@kline2023; @rogers2024c].
+O método MLR foi selecionado por combinar a ML com erros-padrão robustos e estatísticas de teste corrigidas por escala. Essa combinação ajusta-se com precisão às distribuições observadas no pré-processamento e atende às recomendações metodológicas para dados sob violação de normalidade multivariada [@brown2015; @kline2023; @rogers2024c].
 
-As poucas respostas ausentes foram incorporadas por FIML. O procedimento utiliza
-a informação observada de cada participante e mantém os 621 casos da amostra
-de calibração. A escolha segue a recomendação de tratar ausências na etapa de
-estimação quando se trabalha com ML ou suas variantes robustas [@brown2023;
-@kline2023].
+O volume residual de respostas ausentes foi tratado por meio do FIML. O procedimento aproveita toda a informação observada de cada respondente e preserva os 621 casos da subamostra de calibração. A opção segue as diretrizes da literatura para tratamento de dados omissos sob o método de ML e suas variantes robustas [@brown2023; @kline2023].
 
-A escala dos fatores foi definida pela fixação de suas variâncias em 1. Essa
-identificação permite estimar livremente as cargas fatoriais e estabelece a
-mesma métrica latente nos dois modelos. As duas especificações foram estimadas
-na mesma parcela de calibração e sob as mesmas condições. A comparação
-concentra-se, assim, nas três relações adicionais do modelo H~1~
-[@jackson2009; @nye2022].
+A escala dos fatores latentes foi definida fixando-se suas variâncias em 1. Essa estratégia de identificação permite estimar livremente todas as cargas fatoriais e assegura a mesma métrica nos dois modelos alternativos. Ambas as especificações foram estimadas sobre a mesma subamostra de calibração e sob condições analíticas idênticas. A comparação empírica concentra-se, assim, nas três relações cruzadas adicionais postuladas no modelo H~1~ [@jackson2009; @nye2022].
 
 :::: {.content-visible unless-format="pdf"}
 
@@ -58,43 +29,23 @@ concentra-se, assim, nas três relações adicionais do modelo H~1~
 
 **Finalidade**
 
-Separar a base analítica em duas parcelas, preservando participantes com
-respostas incompletas em ambas. A calibração alimenta a estimação e o diagnóstico
-dos modelos originais; a validação fica disponível para avaliar a especificação
-selecionada.
+Dividir a base de dados em duas subamostras (calibração e validação), balanceando a presença de respostas incompletas em ambas. A subamostra de calibração viabiliza a estimação e os diagnósticos dos modelos; a de validação destina-se à confirmação da especificação selecionada.
 
 **Preparação**
 
-Utilize `Data/AnalysisData/whoqol_analysis.csv`, produzido no pré-processamento, definido na preparação geral da @sec-model-selection. A divisão
-considera os 24 indicadores Q3–Q26, antes de qualquer exclusão de itens.
+Utiliza-se `Data/AnalysisData/whoqol_analysis.csv`, gerado na etapa de pré-processamento (@sec-preprocessing), conforme a estrutura descrita na @sec-model-selection. A partição abrange os 24 indicadores (Q3–Q26), antes de qualquer exclusão de itens.
 
 **Procedimento**
 
-O chunk abaixo lê a base, preserva os identificadores como texto
-e ordena os registros por `ID`. A variável `missing_flag` vale 0 para quem
-respondeu aos 24 indicadores e 1 para quem apresenta alguma ausência nesse
-conjunto. Esses dois estratos orientam o sorteio.
+O chunk abaixo lê a base, preserva os identificadores como texto e ordena os registros por `ID`. A variável `missing_flag` recebe 0 para quem respondeu aos 24 indicadores e 1 para quem apresenta omissões nesse conjunto. Esses dois estratos orientam o sorteio aleatório.
 
-Em cada estrato, a semente fixa a seleção aleatória de metade dos registros
-para a calibração. Quando o estrato tem tamanho ímpar, o registro excedente fica
-na validação. `sample_group` identifica a parcela: 0 para calibração e 1 para
-validação. Essa variável também poderá identificar os grupos na análise de invariança;
-ela tem função diferente de `missing_flag`, que identifica o estrato
-de ausências.
+Em cada estrato, a semente fixa a partição de metade dos registros para a subamostra de calibração. Quando o estrato tem tamanho ímpar, o registro excedente é alocado na validação. O vetor `sample_group` identifica a subamostra: 0 para calibração e 1 para validação. Essa variável também pode identificar grupos em análises de invariança, distinguindo-se de `missing_flag`, restrita à estratificação de ausências.
 
-`cv_data` conserva todos os participantes e as duas flags. A partição é salva
-em `Data/AnalysisData/whoqol_cv.csv`; nas execuções seguintes, o bloco lê esse
-arquivo e confere sua correspondência com os dados de entrada. Assim, as
-seções seguintes recuperam a mesma seleção, sem depender de objetos deixados
-por outra sessão.
+O objeto `cv_data` conserva todos os participantes e as duas flags. A partição é salva em `Data/AnalysisData/whoqol_cv.csv`; nas execuções subsequentes, o bloco lê esse arquivo e verifica sua integridade com os dados de entrada. Assim, as seções posteriores recuperam exatamente a mesma partição, de forma reprodutível e independente da sessão.
 
 **Execução e resultado**
 
-Execute o bloco abaixo antes da @tbl-estimation-parameters. Ele mantém a base
-completa em `cv_data` e seleciona `calibration_data` para a estimação desta
-seção. A parcela de validação permanece identificada por `sample_group == 1`
-no arquivo salvo e será recuperada quando utilizada. A base analítica
-original é preservada.
+Execute o bloco abaixo antes da @tbl-estimation-parameters. Ele mantém a base completa em `cv_data` e extrai `calibration_data` para a estimação dessa seção. A subamostra de validação permanece identificada por `sample_group == 1` no arquivo gravado e será recuperada na etapa oportuna, preservando-se a integridade do banco original.
 
 ```{r}
 #| label: prepare-cv-partition
@@ -167,18 +118,11 @@ calibration_data <- cv_data[cv_data$sample_group == 0L, ]
 
 ## Parâmetros estimados
 
-Antes da avaliação do ajuste, a @tbl-estimation-parameters apresenta os
-parâmetros fatoriais estimados. Para cada relação entre fator e item, a tabela
-reúne a carga não padronizada, o erro-padrão robusto, a estatística de teste e a
-carga padronizada, conforme recomendado por @jackson2009 e @nye2022.
+Antes da avaliação do ajuste, a @tbl-estimation-parameters apresenta os parâmetros fatoriais estimados. Para cada relação entre fator e item, a tabela sintetiza a carga não padronizada, o erro-padrão robusto, a estatística $z$ de teste e a carga padronizada, conforme recomendado por @jackson2009 e @nye2022.
 
-As cargas não padronizadas preservam a métrica do modelo. As cargas
-padronizadas permitem comparar a magnitude das relações dentro de cada
-especificação, e os erros-padrão refletem a inferência robusta do MLR.
+As cargas não padronizadas reportam a métrica original da escala. Por sua vez, as cargas padronizadas viabilizam a comparação direta da magnitude das relações em cada especificação, enquanto os erros-padrão asseguram inferência estatística corrigida para desvios de normalidade pelo método MLR.
 
-A tabela inclui os dois modelos e mostra as três relações adicionais do H~1~
-junto das cargas primárias. A avaliação dessas relações combina os parâmetros
-estimados com os índices de ajuste e os critérios de comparação dos modelos.
+A tabela consolida ambos os modelos, evidenciando as três relações adicionais de H~1~ ao lado das cargas primárias. A avaliação dessas cargas conjuga os parâmetros estimados aos índices de ajuste global e local examinados nas seções subsequentes.
 
 ```{r}
 #| label: tbl-estimation-parameters
@@ -241,43 +185,21 @@ knitr::kable(parameter_estimates, align = c("l", "l", "r", "r", "r", "r"),
 
 **Finalidade**
 
-Estimar os dois modelos na amostra de calibração e reunir suas cargas fatoriais em
-uma tabela, com estimativas não padronizadas, erros-padrão, estatísticas z e
-cargas padronizadas.
+Estimar os dois modelos na subamostra de calibração e consolidar as cargas fatoriais em tabela única, contendo estimativas não padronizadas, erros-padrão robustos, estatísticas $z$ e cargas padronizadas.
 
 **Preparação**
 
-O procedimento utiliza as especificações `analyzemodel` e `h1modelfree`,
-definidas em [models.R](../Scripts/DataAppendixScripts/models.R), e as funções de
-[helpers.R](../Scripts/DataAppendixScripts/helpers.R), conforme a organização
-apresentada no início da @sec-model-selection. O chunk anterior,
-`prepare-cv-partition`, explicado no callout de obtenção das amostras,
-lê a base produzida no pré-processamento
-(@sec-cier-decision) e disponibiliza a parcela de calibração em
-`calibration_data`. Os dois ajustes utilizam esse objeto diretamente. A exportação
-utiliza a pasta `Output/Results/Tables`, disponível no projeto.
+O procedimento utiliza as especificações `analyzemodel` e `h1modelfree`, definidas em [models.R](../Scripts/DataAppendixScripts/models.R), e as funções de [helpers.R](../Scripts/DataAppendixScripts/helpers.R), conforme a organização apresentada no início da @sec-model-selection. O chunk anterior, `prepare-cv-partition`, lê a base produzida no pré-processamento (@sec-cier-decision) e disponibiliza a subamostra de calibração em `calibration_data`. Os dois ajustes utilizam esse objeto diretamente. A exportação utiliza a pasta `Output/Results/Tables`.
 
 **Procedimento**
 
-O bloco estima H~0~ e H~1~ na amostra de calibração sob as mesmas condições.
-Em seguida, organiza as cargas de cada ajuste e reúne os dois conjuntos em
-uma tabela, identificando o modelo de origem de cada linha.
+O bloco estima H~0~ e H~1~ na subamostra de calibração sob condições idênticas. Em seguida, organiza as cargas de cada ajuste e reúne os dois conjuntos em uma tabela unificada, identificando o modelo de origem de cada linha.
 
-A função `table_par()` recebe cada ajuste e prepara sua tabela de parâmetros.
-Com `lang = "pt"`, utiliza rótulos em português e mantém a seleção padrão de
-cargas livres. Sua auxiliar `tidy_par()` preserva os parâmetros numéricos
-completos. O atributo `table_data` reúne os dados de apresentação usados na
-tabela e no CSV; `par_data` conserva os parâmetros numéricos completos.
-Antes de reunir as tabelas, o código verifica se os dados de
-apresentação estão disponíveis e não estão vazios. A exportação utiliza o
-mesmo conteúdo apresentado no artigo, com os mesmos rótulos, ordem e valores
-de exibição, em um CSV compatível com o Excel.
+A função `table_par()` recebe cada ajuste e prepara sua tabela de parâmetros. Com `lang = "pt"`, utiliza rótulos em português e mantém a seleção padrão de cargas livres. A rotina auxiliar `tidy_par()` preserva os parâmetros numéricos completos. O atributo `table_data` reúne as estimativas para apresentação em tela e exportação, enquanto `par_data` retém os parâmetros numéricos com precisão completa. Antes de combinar as tabelas, o código verifica se os dados de apresentação estão disponíveis e íntegros. A exportação reproduz os mesmos rótulos, ordem e valores de exibição em formato CSV compatível com o Excel.
 
 **Execução e resultado**
 
-Após a preparação indicada, execute o bloco completo. Ele produz a tabela
-apresentada acima, mantém os ajustes `fit_analyzemodel` e `fit_h1modelfree` na
-sessão e salva `tbl-estimation-parameters.csv` em `Output/Results/Tables`.
+Após a preparação indicada, execute o bloco completo. Ele gera a tabela apresentada acima, preserva os ajustes `fit_analyzemodel` e `fit_h1modelfree` na sessão e salva `tbl-estimation-parameters.csv` em `Output/Results/Tables`.
 
 ```{r}
 #| eval: false
@@ -339,16 +261,9 @@ knitr::kable(parameter_estimates, align = c("l", "l", "r", "r", "r", "r"),
 
 ## Convergência e admissibilidade
 
-Convergência e admissibilidade encerram a etapa de estimação. A convergência
-indica que o algoritmo encontrou uma solução para o modelo especificado. A
-admissibilidade é examinada pelas variâncias negativas e pelas cargas
-padronizadas superiores a 1, diagnósticos associados a soluções Heywood
-[@brown2015; @nye2022]. A @tbl-estimation-checks reúne essas verificações para
-H~0~ e H~1~ e registra o tamanho amostral e o número de parâmetros livres.
+A verificação de convergência e admissibilidade encerra formalmente a etapa de estimação. A convergência atesta que o algoritmo encontrou uma solução estável para o modelo especificado. A admissibilidade matemática, por sua vez, é avaliada pela ausência de variâncias residuais negativas (casos Heywood) e de cargas padronizadas superiores à unidade [@brown2015; @nye2022]. A @tbl-estimation-checks sintetiza essas verificações para H~0~ e H~1~, registrando o tamanho amostral efetivo e o número de parâmetros livres.
 
-Na amostra de calibração, os dois modelos convergiram, não apresentaram
-variâncias negativas e não produziram cargas padronizadas superiores a 1.
-As soluções estão prontas para a avaliação do ajuste global e local.
+Na subamostra de calibração, ambos os modelos convergiram satisfatoriamente, sem apresentar estimativas impróprias de variância nem cargas padronizadas superiores a 1. As soluções mostram-se matematicamente admissíveis e aptas para as avaliações de ajuste global e local.
 
 ```{r}
 #| label: tbl-estimation-checks
@@ -417,17 +332,17 @@ estimation_checks |>
 
 **Finalidade**
 
-Verificar convergência e admissibilidade dos dois ajustes e registrar seu tamanho amostral e número de parâmetros livres.
+Atestar a convergência e a admissibilidade paramétrica dos dois modelos estimados, sumarizando o tamanho amostral e o número de parâmetros livres.
 
 **Preparação**
 
-Utilize `fit_analyzemodel` e `fit_h1modelfree`, estimados no bloco da @tbl-estimation-parameters.
+Utilizam-se `fit_analyzemodel` e `fit_h1modelfree`, estimados no bloco da @tbl-estimation-parameters.
 
 **Procedimento**
 
-A lista `diagnostic_fits` permite aplicar a mesma inspeção aos dois modelos. Para cada ajuste, o código recupera convergência e número de observações, conta os parâmetros livres e examina variâncias e cargas padronizadas. As contagens registram variâncias negativas e cargas padronizadas maiores que 1.
+A lista `diagnostic_fits` viabiliza a inspeção padronizada de ambos os modelos. Para cada ajuste, o código recupera o status de convergência e o número de observações, calcula os parâmetros livres e examina variâncias e cargas padronizadas. As contagens registram variâncias negativas e cargas padronizadas maiores que 1.
 
-`estimation_checks` reúne uma linha por modelo. A tabela apresentada e o CSV derivam do mesmo objeto, mantendo uma cópia dos diagnósticos para auditoria.
+O objeto `estimation_checks` reúne uma linha por modelo. A tabela apresentada e o CSV derivam do mesmo objeto, mantendo uma cópia dos diagnósticos para auditoria.
 
 **Execução e resultado**
 
@@ -496,4 +411,3 @@ estimation_checks |>
 :::
 
 ::::
-

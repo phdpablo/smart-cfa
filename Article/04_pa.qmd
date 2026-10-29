@@ -11,39 +11,17 @@ source(here::here("Scripts", "DataAppendixScripts", "cache_utils.R"))
 source(here::here("Scripts", "DataAppendixScripts", "cache_loader.R"))
 ```
 
-Em muitas pesquisas empíricas, uma escala não constitui o desfecho final, mas
-o modelo de medida de construtos posteriormente relacionados em um modelo
-estrutural. O planejamento amostral deve, portanto, considerar o instrumento e
-a estrutura que se pretende estimar, em vez de depender de regras gerais sobre
-o número de itens ou parâmetros [@kline2023]. Nesta seção, tratamos poder como
-a probabilidade de detectar uma omissão estrutural definida antes da coleta.
+Em pesquisas empíricas, a escala psicométrica atua frequentemente como modelo de mensuração de construtos latentes a serem integrados em um modelo estrutural posterior. O planejamento amostral deve fundamentar-se no instrumento específico e na estrutura fatorial a ser estimada, superando regras heurísticas genéricas sobre o número de itens ou parâmetros livres [@kline2023]. Nessa seção, define-se o poder estatístico como a probabilidade de detectar uma omissão estrutural formalmente delimitada antes da coleta de dados.
 
 ## Pressupostos a priori
 
-A AP foi planejada a partir dos dois modelos de medida
-fundamentados na @sec-model-selection. Nesta análise, a segunda especificação
-representa uma condição populacional alternativa na qual o ajuste do modelo
-mais parcimonioso implica a omissão deliberada das três cargas cruzadas.
+O planejamento da AP ancora-se nas duas especificações do modelo de medida fundamentadas na @sec-model-selection. Nessa análise, o segundo modelo representa a condição populacional alternativa na qual a adoção da estrutura parcimoniosa implica a omissão deliberada de três cargas cruzadas.
 
-As cargas fatoriais principais, as correlações entre os fatores e as variâncias
-residuais foram definidas com base nas evidências meta-analíticas e nas revisões
-apresentadas anteriormente [@lin2022; @mosqueirataipe2026; @skevington2018]. Consequentemente, a
-AP é conduzida *a priori*: as características da população e a
-magnitude da misspecificação são estabelecidas antes do acesso aos dados
-empíricos utilizados nas seções subsequentes.
+As cargas fatoriais principais, as correlações inter-fatores e as variâncias residuais foram parametrizadas com base nas evidências meta-analíticas e revisões sistemáticas prévias [@lin2022; @mosqueirataipe2026; @skevington2018]. Dessa forma, a AP é conduzida estritamente *a priori*: as características populacionais e a magnitude da má especificação são estabelecidas antes do acesso aos dados empíricos examinados nas seções posteriores.
 
-Além da estrutura fatorial, as simulações incorporam duas condições
-frequentemente encontradas em aplicações reais da AFC: não normalidade e dados ausentes. A distribuição dos indicadores
-admite assimetrias entre $-1$ e $+1$ e valores de curtose entre aproximadamente
-1,7 e 2,0, representando desvios moderados da normalidade compatíveis com
-resultados anteriores obtidos com o WHOQOL-Bref [@yoshitake2015].
+Além da configuração fatorial, as simulações incorporam duas condições metodológicas frequentes na aplicação da AFC: desvios de normalidade e dados omissos. A distribuição dos indicadores contempla assimetrias entre $-1$ e $+1$ e curtose entre 1,7 e 2,0, refletindo desvios moderados de normalidade compatíveis com dados empíricos da escala WHOQOL-Bref [@yoshitake2015].
 
-Também se pressupõe que 10% das respostas estejam ausentes segundo um mecanismo
-completamente ao acaso (*Missing Completely at Random* — MCAR). A adoção desse mecanismo permite representar a perda
-de informação decorrente dos dados ausentes sem exigir a formulação adicional
-de um padrão prospectivo de ausência dependente de variáveis observadas. Em
-todas as condições, os modelos são estimados por MLR,
-enquanto os dados ausentes são tratados por FIML. A @tbl-power-assumptions sintetiza essas decisões.
+Admite-se, igualmente, que 10% das respostas estejam ausentes sob o mecanismo completamente ao acaso (*Missing Completely at Random*, MCAR). A adoção desse padrão modela a perda informacional sem demandar hipóteses condicionais complexas sobre variáveis auxiliares. Em todas as condições experimentais, os parâmetros são estimados por MLR, associada ao tratamento de dados omissos por FIML. A @tbl-power-assumptions sintetiza as especificações adotadas.
 
 ```{r}
 #| label: tbl-power-assumptions
@@ -82,19 +60,19 @@ kable(
 
 **Finalidade**
 
-Reunir as decisões que definem o cenário da AP, relacionando cada especificação ao seu fundamento.
+Sintetizar as decisões metodológicas que delimitam o cenário da AP, relacionando cada especificação paramétrica ao seu respectivo embasamento na literatura.
 
 **Preparação**
 
-Utilize as constantes `ALPHA` e `POWER` de [helpers.R](../Scripts/DataAppendixScripts/helpers.R), conforme a preparação geral descrita na @sec-model-selection.
+Utilize as constantes `ALPHA` e `POWER` de [helpers.R](../Scripts/DataAppendixScripts/helpers.R), conforme a rotina preparatória descrita na @sec-model-selection.
 
 **Procedimento**
 
-O bloco organiza as decisões em `power_assumptions`, com uma linha por componente e três campos: componente, especificação e fundamento. As constantes compartilhadas mantêm o nível de significância e o poder desejado sincronizados com as análises seguintes. A chamada final apresenta esse objeto como tabela.
+O bloco organiza as premissas em `power_assumptions`, estruturando três colunas: componente, especificação e fundamentação. As constantes globais mantêm o nível de significância nominal e o poder estatístico desejado perfeitamente sincronizados com as análises posteriores. A instrução final compila a tabela formatada.
 
 **Execução e resultado**
 
-Execute o bloco para construir `power_assumptions` e apresentar a síntese dos pressupostos.
+Execute o bloco para gerar a estrutura `power_assumptions` e renderizar a síntese dos pressupostos.
 
 ```{r}
 #| eval: false
@@ -132,20 +110,9 @@ kable(
 
 ## Abordagem analítica de poder
 
-A primeira estimativa do tamanho amostral é obtida pelo método analítico
-baseado em modelos. Nessa análise, a estrutura populacional contém as três
-cargas cruzadas, enquanto o modelo submetido ao teste mantém apenas as cargas
-principais e a covariância residual entre Q3 e Q4. Assim, a magnitude do efeito
-não é definida por um valor convencional de RMSEA ou por outra regra geral,
-mas pela discrepância entre a matriz de covariâncias populacional e as
-restrições impostas pelo modelo de análise [@moshagen2024].
+A primeira estimativa do tamanho amostral mínimo decorre da derivação analítica baseada em modelos. Nessa abordagem, a população geradora incorpora as três cargas cruzadas teóricas, ao passo que o modelo estimado restringe a análise às cargas principais e à covariância residual entre Q3 e Q4. A magnitude do efeito decorre da discrepância populacional entre a matriz implicada e as restrições estruturais impostas pelo modelo de análise [@moshagen2024].
 
-Como não é especificado um segundo modelo livremente estimado para uma
-comparação aninhada, o procedimento avalia o ajuste global do modelo de análise
-em relação ao modelo saturado. Portanto, a hipótese testada não corresponde à
-comparação direta entre o modelo parcimonioso e o modelo livre com cargas
-cruzadas. Ela expressa a capacidade de rejeitar globalmente o modelo que omite
-as relações presentes na população.
+Sem a especificação de um modelo alternativo aninhado estimado livremente, o teste avalia o ajuste global do modelo de análise frente ao modelo saturado. Dessa forma, a hipótese estatística quantifica a probabilidade de rejeitar formalmente a estrutura parcimoniosa diante da presença real das cargas cruzadas na população.
 
 ```{r}
 #| label: analytical-power
@@ -163,17 +130,13 @@ ap_h1model <- semPower.powerLav(
 )
 ```
 
-Considerando nível de significância de 5% e poder desejado de 80%, o método
-analítico indicou um tamanho amostral mínimo de `r ap_h1model$requiredN` participantes. Esse valor é
-utilizado como ponto de partida para a etapa de simulação, e não como
-recomendação amostral definitiva.
+Adotando-se nível de significância de 5% e poder estatístico-alvo de 80%, o procedimento analítico indicou a necessidade de um tamanho amostral mínimo de `r ap_h1model$requiredN` participantes. Esse valor opera como baliza inicial para os estudos de simulação, e não como determinação amostral definitiva.
 
-A @tbl-analytical-power reúne as medidas da análise e o tamanho amostral
-necessário para alcançar o poder desejado.
+A @tbl-analytical-power apresenta as métricas resultantes da derivação analítica e o tamanho de amostra necessário para alcançar o poder estabelecido.
 
 ```{r}
 #| label: tbl-analytical-power
-#| tbl-cap: "Resultados da análise analítica de poder baseada nos modelos."
+#| tbl-cap: "Resultados da abordagem analítica de poder baseada em modelos."
 #| echo: false
 
 # Present the analytical power results separately from the plot.
@@ -186,21 +149,21 @@ table_sempower(ap_h1model, lang = "pt")
 
 **Finalidade**
 
-Calcular o tamanho amostral necessário para detectar as relações omitidas pelo modelo de análise e apresentar a síntese do cálculo analítico.
+Calcular o tamanho amostral necessário para detectar as relações estruturais omitidas pelo modelo de análise e apresentar as métricas da abordagem analítica de AP.
 
 **Preparação**
 
-Utilize `h1model` e `analyzemodel`, definidos em [models.R](../Scripts/DataAppendixScripts/models.R), e as constantes `ALPHA`, `POWER` e `P` de `helpers.R`.
+Utilize os objetos `h1model` e `analyzemodel`, definidos em [models.R](../Scripts/DataAppendixScripts/models.R), e as constantes globais `ALPHA`, `POWER` e `P` de `helpers.R`.
 
 **Procedimento**
 
-A chamada de `semPower.powerLav()` compara a população com três cargas cruzadas ao modelo de análise que as omite. A opção `type = "a-priori"` solicita o tipo de poder desejado; `lavOptions = list(std.lv = TRUE)` mantém a identificação por variâncias latentes unitárias. O resultado é armazenado em `ap_h1model`.
+A função `semPower.powerLav()` compara a população com três cargas cruzadas ao modelo de análise que as restringe a zero. O argumento `type = "a-priori"` especifica a derivação prospectiva de tamanho amostral, enquanto `lavOptions = list(std.lv = TRUE)` estabelece a identificação por variâncias latentes unitárias. O resultado é atribuído ao objeto `ap_h1model`.
 
-A função própria `table_sempower()` recebe esse resultado e produz uma tabela de medidas, símbolos e valores em português. Internamente, `tidy_sempower()` extrai as medidas e `format_metric_val()` formata sua apresentação. O tamanho amostral e o poder apresentados correspondem aos resultados implícitos do cálculo a priori, e a formatação não altera as estimativas.
+A rotina autoral `table_sempower()` estrutura esse resultado em tabela padronizada em português. Internamente, `tidy_sempower()` extrai as métricas e `format_metric_val()` ajusta a notação numérica. O tamanho amostral e o poder exibidos correspondem às soluções diretas do cálculo analítico.
 
 **Execução e resultado**
 
-Execute o bloco completo para criar `ap_h1model` e apresentar sua tabela. O mesmo objeto será utilizado no gráfico seguinte.
+Execute o bloco para calcular `ap_h1model` e compilar a tabela de indices. O objeto gerado é reaproveitado no gráfico subsequente.
 
 ```{r}
 #| eval: false
@@ -225,19 +188,13 @@ table_sempower(ap_h1model, lang = "pt")
 
 ::::
 
-A @fig-analytical-power apresenta as distribuições central e não central do
-qui-quadrado. A distribuição sob a hipótese nula representa o comportamento
-esperado da estatística quando as restrições do modelo são adequadas, enquanto
-a distribuição não central representa o comportamento esperado diante da
-discrepância populacional especificada. A região de rejeição e a sobreposição
-entre as duas distribuições permitem visualizar conjuntamente o erro tipo I e
-o poder estatístico.
+A @fig-analytical-power ilustra as distribuições central e não central do qui-quadrado. A distribuição sob a hipótese nula representa o comportamento esperado da estatística sob correta especificação estrutural, ao passo que a distribuição não central projeta a dispersão diante da discrepância populacional estipulada. A área de rejeição e a sobreposição das curvas expressam graficamente a relação entre o erro Tipo I e o poder estatístico do teste.
 
 ```{r}
 #| label: fig-analytical-power
 #| fig-cap: >-
-#|   Distribuições central e não central do qui-quadrado na análise analítica
-#|   de poder baseada nos modelos.
+#|   Distribuições central e não central do qui-quadrado da abordagem analítica
+#|   de poder baseada em modelos.
 #| fig-alt: >-
 #|   Duas curvas em sino representam as distribuições do qui-quadrado sob a
 #|   hipótese nula e sob a discrepância populacional especificada.
@@ -256,19 +213,19 @@ plot_sempower(ap_h1model)
 
 **Finalidade**
 
-Visualizar as distribuições do teste e as regiões de erro que sustentam o cálculo analítico de poder.
+Representar visualmente as distribuições teóricas da estatística de teste e as regiões de decisão subjacentes ao cálculo analítico de poder.
 
 **Preparação**
 
-Utilize `ap_h1model`, calculado no bloco da @tbl-analytical-power.
+Utilize o objeto `ap_h1model`, calculado na etapa da @tbl-analytical-power.
 
 **Procedimento**
 
-A função própria `plot_sempower()` recebe o resultado de poder e utiliza seu valor crítico, graus de liberdade e parâmetro de não centralidade para desenhar as distribuições com `semPower::semPower.showPlot()`. A chamada mantém os rótulos originais em inglês e apresenta somente o gráfico, sem repetir o resumo textual ou o cálculo amostral.
+A rotina autoral `plot_sempower()` processa os parâmetros do teste (valor crítico, graus de liberdade e parâmetro de não centralidade) e desenha as curvas por meio de `semPower::semPower.showPlot()`. A instrução preserva a rotulagem gráfica e exibe apenas o diagrama.
 
 **Execução e resultado**
 
-Execute o bloco para apresentar o gráfico a partir de `ap_h1model`.
+Execute o bloco para renderizar o gráfico a partir do objeto `ap_h1model`.
 
 ```{r}
 #| eval: false
@@ -284,19 +241,9 @@ plot_sempower(ap_h1model)
 
 ## SMC com tamanho amostral variável
 
-Embora a abordagem analítica forneça um ponto de partida objetivo, ela não
-representa integralmente as condições realísticas previstas na literatura. Por
-esse motivo, a etapa seguinte utiliza uma SMC que combina não
-normalidade moderada e 10% de dados ausentes MCAR, mantendo a estimação por
-MLR com tratamento dos dados ausentes por FIML.
+Embora a derivação assintótica forneça uma estimativa inicial objetiva, não reproduz integralmente as condições empíricas observadas na prática da pesquisa. Dessa forma, a fase subsequente implementa uma SMC combinando desvios moderados de normalidade e 10% de dados omissos MCAR, preservando-se a estimação por MLR com tratamento via FIML.
 
-Os tamanhos amostrais variam de 101 a 400 participantes. Em cada tamanho, são
-realizadas dez replicações sob duas condições populacionais. Na condição de
-referência, os dados seguem a estrutura de quatro fatores sem cargas cruzadas.
-Na condição alternativa, os dados são gerados com as três cargas cruzadas, mas
-analisados pelo modelo que as omite. A comparação entre essas condições permite
-estimar a capacidade de RMSEA, SRMR, CFI e TLI para identificar a
-misspecificação previamente definida.
+Os tamanhos amostrais variam de 101 a 400 participantes. Para cada tamanho de amostra, geram-se dez replicações sob duas condições populacionais: na condição de referência, os dados reproduzem o modelo de quatro fatores sem cargas cruzadas; na condição alternativa, os dados incorporam as três cargas secundárias, mas são estimados pelo modelo parcimonioso. O confronto dessas condições permite estimar o poder empírico dos índices RMSEA, SRMR, CFI e TLI na identificação da má especificação planejada.
 
 ```{r}
 #| label: sim-popmodel-varying
@@ -344,11 +291,7 @@ h1model_varying <- cache_or_run("h1model_101to400", {
 })
 ```
 
-Duas representações das relações entre tamanho amostral e poder são
-apresentadas. A primeira utiliza suavização logística para representar a
-tendência geral de crescimento do poder ao longo da faixa amostral (@fig-realistic-power). A segunda
-mostra diretamente as proporções de rejeição observadas nas replicações
-realizadas em cada tamanho (@fig-realistic-curve).
+Apresentam-se duas configurações gráficas da relação entre tamanho amostral e poder estatístico. A primeira adota suavização logística para destacar a trajetória de evolução do poder ao longo do gradiente amostral (@fig-realistic-power). A segunda exibe diretamente as taxas empíricas de rejeição observadas nas replicações realizadas em cada patamar (@fig-realistic-curve).
 
 ```{r}
 #| label: fig-realistic-power
@@ -378,21 +321,21 @@ plotPowerFit(
 
 **Finalidade**
 
-Comparar o poder ao longo dos tamanhos amostrais sob especificação correta e sob omissão das cargas cruzadas.
+Contrastar a trajetória do poder estatístico ao longo de diferentes tamanhos amostrais sob correta especificação e sob omissão das cargas cruzadas.
 
 **Preparação**
 
-Utilize as especificações de `models.R`, os parâmetros compartilhados de `helpers.R` e o mecanismo de resultados salvos descrito na @sec-model-selection. As simulações são disponibilizadas como `popmodel_varying` e `h1model_varying`.
+Utilize as especificações paramétricas de `models.R`, os parâmetros compartilhados de `helpers.R` e a infraestrutura de cache descrita na @sec-model-selection. As simulações são instanciadas nos objetos `popmodel_varying` e `h1model_varying`.
 
 **Procedimento**
 
-As duas chamadas de `sim()` estimam `analyzemodel`. O argumento `generate` muda a população geradora: `popmodel` corresponde à condição de referência, e `h1model` inclui as três cargas cruzadas omitidas na estimação. `SEQ` fornece os tamanhos amostrais, `P_MCAR` controla a proporção de ausências e `dist` define a assimetria e a curtose marginais; as chamadas solicitam MLR e FIML.
+As instruções com `sim()` estimam a estrutura `analyzemodel`. O argumento `generate` altera a matriz populacional de origem: `popmodel` representa a condição de referência e `h1model` incorpora as três cargas cruzadas omitidas na estimação. O vetor `SEQ` delimita a faixa amostral, `P_MCAR` estipula a taxa de omissão e `DIST` estabelece a assimetria e a curtose dos indicadores sob MLR e FIML.
 
-`cache_or_run()` reutiliza os objetos da sessão ou os arquivos `popmodel_101to400.rds` e `h1model_101to400.rds`, em `Data/IntermediateData`; sem resultado disponível, executa e salva a simulação. A figura compara os índices de `FITS` e mantém a suavização logística padrão. Orientações operacionais de reprodução e recálculo pertencem ao [README](../README.md).
+A função `cache_or_run()` reaproveita os dados em memória ou os arquivos `popmodel_101to400.rds` e `h1model_101to400.rds` armazenados em `Data/IntermediateData`; caso inexistentes, executa a simulação e grava os resultados. O gráfico compara os índices definidos em `FITS`, aplicando suavização logística padrão. Diretrizes para recálculo constam no [README](../README.md).
 
 **Execução e resultado**
 
-Execute o bloco para obter ou reutilizar as duas simulações e apresentar as curvas suavizadas. Os objetos permanecem disponíveis para as saídas seguintes.
+Execute o bloco para recuperar ou processar as duas simulações e renderizar as curvas suavizadas. Os objetos permanecem disponíveis para as saídas subsequentes.
 
 ```{r}
 #| eval: false
@@ -476,19 +419,19 @@ plotPowerFit(
 
 **Finalidade**
 
-Examinar os valores de poder por tamanho amostral sem a suavização das curvas anteriores.
+Inspecionar as taxas de poder estatístico observadas em cada tamanho amostral sem a interpolação das curvas logísticas.
 
 **Preparação**
 
-Utilize `popmodel_varying` e `h1model_varying`, obtidos no procedimento da @fig-realistic-power.
+Utilize os objetos `popmodel_varying` e `h1model_varying`, gerados na etapa da @fig-realistic-power.
 
 **Procedimento**
 
-A chamada reutiliza as simulações e altera apenas `logistic = FALSE`. Assim, conecta os valores de poder observados em cada tamanho amostral, permitindo examinar a variabilidade resumida pelas curvas suavizadas. Os índices selecionados e as condições simuladas são mantidos.
+A instrução reaproveita os resultados das simulações, alterando apenas o parâmetro para `logistic = FALSE`. Esse ajuste vincula as estimativas pontuais de poder em cada patamar amostral, revelando a variabilidade amostral resumida pelo modelo logístico. Mantêm-se os índices e as condições especificadas.
 
 **Execução e resultado**
 
-Execute o bloco para apresentar as curvas sem suavização, sem repetir as simulações.
+Execute o bloco para renderizar as curvas empíricas sem suavização.
 
 ```{r}
 #| eval: false
@@ -508,13 +451,7 @@ plotPowerFit(
 
 ::::
 
-As curvas apresentadas em @fig-realistic-power e @fig-realistic-curve sugerem
-que uma amostra próxima de 150 participantes pode ser suficiente para que os
-índices globais detectem a omissão das cargas cruzadas. O poder e os pontos de
-corte empíricos são, então, calculados especificamente para $N=150$. Essa
-avaliação permite verificar se o tamanho indicado visualmente pelas curvas
-oferece desempenho consistente entre os quatro índices ou se permanece
-excessivamente próximo do limite adotado.
+As curvas apresentadas na @fig-realistic-power e na @fig-realistic-curve indicam que uma amostra próxima a 150 respondentes atinge sensibilidade suficiente para que os índices globais identifiquem a omissão das cargas cruzadas. Calculam-se, então, o poder e os pontos de corte empíricos especificamente para $N = 150$. Essa verificação permite aferir se o patamar indicado visualmente pelas curvas mantém estabilidade entre os quatro índices globais ou se opera excessivamente próximo do limiar crítico.
 
 ```{r}
 #| label: tbl-power-cutoff-realistic
@@ -558,19 +495,19 @@ kable(power_cutoff_varying, digits = 3, align = "c")
 
 **Finalidade**
 
-Reunir o poder e os pontos de corte calibrados pelo modelo para o tamanho amostral de 150 participantes.
+Consolidar o poder empírico e os pontos de corte calibrados pelo modelo para o tamanho amostral de 150 participantes.
 
 **Preparação**
 
-Utilize `popmodel_varying` e `h1model_varying`, obtidos na @fig-realistic-power, e as constantes `ALPHA` e `FITS`.
+Utilize os objetos `popmodel_varying` e `h1model_varying`, gerados na @fig-realistic-power, e as constantes `ALPHA` e `FITS`.
 
 **Procedimento**
 
-O poder é calculado na condição alternativa, usando a distribuição da condição de referência para definir os critérios de rejeição. As duas operações recebem `nVal = 150` e o mesmo nível de significância: `getPowerFit()` obtém o poder e `getCutoff()` recupera os limites correspondentes. O bloco reúne ambos em `power_cutoff_varying` e organiza as colunas pelos índices avaliados.
+O poder é estimado na condição alternativa, adotando a distribuição sob correta especificação para definir as zonas de rejeição. As rotinas são parametrizadas com `nVal = 150` sob o mesmo nível de significância: `getPowerFit()` quantifica o poder e `getCutoff()` recupera os limiares correspondentes. O bloco consolida ambas as informações em `power_cutoff_varying`, organizando as colunas pelos índices analisados.
 
 **Execução e resultado**
 
-Execute o bloco para apresentar a tabela com as linhas Poder e Ponto de corte, mantendo as simulações já disponíveis.
+Execute o bloco para renderizar a tabela contendo o poder e os pontos de corte calculados para a amostra de 150 indivíduos.
 
 ```{r}
 #| eval: false
@@ -610,38 +547,19 @@ kable(power_cutoff_varying, digits = 3, align = "c")
 
 ::::
 
-Em $N=150$, o poder estimado foi de
+Em $N=150$, o poder estimado atingiu
 `r sprintf("%.3f", power_varying[["rmsea"]])` para o RMSEA,
 `r sprintf("%.3f", power_varying[["srmr"]])` para o SRMR,
 `r sprintf("%.3f", power_varying[["cfi"]])` para o CFI e
 `r sprintf("%.3f", power_varying[["tli"]])` para o TLI.
 
-Entretanto, essa primeira simulação examina somente a capacidade dos índices
-globais de ajuste para detectar a misspecificação. Ela não avalia recuperação
-das cargas fatoriais, viés absoluto ou relativo dos parâmetros, viés dos
-erros-padrão, cobertura dos intervalos de confiança ou poder de parâmetros
-individuais. Assim, uma amostra que pareça suficiente para o teste global não
-necessariamente garante precisão adequada para todos os parâmetros do modelo
-[@feng2023; @pornprasertmanit2022].
+Essa etapa inicial avalia especificamente a sensibilidade dos índices globais de ajuste à má especificação estrutural. Cumpre ressalvar que a adequação amostral para o teste de ajuste global não assegura, isoladamente, a precisão assintótica na recuperação pontual de parâmetros ou na cobertura de intervalos de confiança [@feng2023; @pornprasertmanit2022], justificando cautela na fixação do tamanho amostral definitivo.
 
 ## SMC com tamanho amostral fixo
 
-Diante da possibilidade de que 150 participantes representem uma solução
-limítrofe, adota-se $N=200$ como tamanho amostral de planejamento. Essa decisão
-não constitui uma regra universal para AFC. Trata-se
-de uma escolha prudencial que considera, simultaneamente, os resultados das
-curvas de poder, a complexidade do modelo de medida, as condições não ideais de
-distribuição e missing e a ausência, neste tutorial, de uma avaliação completa
-da recuperação dos parâmetros.
+Considerando os resultados das curvas de poder e a necessidade de resguardar a precisão das estimativas sob desvios de normalidade e dados omissos, adota-se $N=200$ como tamanho amostral prudencial de planejamento no presente tutorial.
 
-A análise com tamanho amostral fixo utiliza 1.000 replicações para cada
-condição populacional. Na primeira, são gerados dados de acordo com o modelo de
-referência. Na segunda, os dados são gerados sob a estrutura que contém as três
-cargas cruzadas, mas continuam sendo analisados pelo modelo que as omite.
-Diferentemente da etapa anterior, na qual dez replicações foram distribuídas
-em cada um dos diversos tamanhos amostrais, esta etapa concentra todas as 1.000
-replicações em $N=200$. Isso permite obter estimativas mais estáveis do poder e
-das distribuições empíricas dos índices de ajuste nesse tamanho específico.
+A análise com tamanho amostral fixo emprega 1.000 replicações para cada condição populacional. Na primeira, simulam-se dados consistentes com o modelo de referência; na segunda, os dados incorporam as três cargas cruzadas, mantendo-se a estimação pelo modelo parcimonioso. Diferentemente da fase anterior, na qual dez replicações foram distribuídas em múltiplos tamanhos amostrais, essa etapa concentra todas as 1.000 replicações em $N=200$. Essa concentração assegura estimativas mais estáveis do poder estatístico e das distribuições empíricas dos índices de ajuste para esse patamar específico.
 
 ```{r}
 #| label: sim-popmodel-fixed
@@ -689,10 +607,7 @@ h1model_fixed <- cache_or_run("h1model_200", {
 })
 ```
 
-Como o tamanho amostral permanece constante, não é necessária uma suavização
-logística. A @fig-power-fixed mostra diretamente o comportamento empírico dos
-índices nas duas condições populacionais. A separação entre as distribuições é
-a representação gráfica da capacidade de identificar a misspecificação.
+Com o tamanho amostral constante, dispensa-se a interpolação logística. A @fig-power-fixed retrata diretamente o comportamento empírico dos índices nas duas condições populacionais. A separação entre as curvas ilustra a capacidade do teste em evidenciar a má especificação estrutural.
 
 ```{r}
 #| label: fig-power-fixed
@@ -722,21 +637,21 @@ plotPowerFit(
 
 **Finalidade**
 
-Comparar as distribuições dos índices de ajuste nas duas condições populacionais com tamanho amostral fixo.
+Contrastar as distribuições empíricas dos índices de ajuste nas duas condições populacionais sob tamanho amostral fixado.
 
 **Preparação**
 
-Utilize as mesmas especificações e condições de geração da simulação anterior. Em `helpers.R`, `SIM` define 1.000 replicações e `N_TARGET` fixa 200 participantes por replicação.
+Utilize as especificações e condições paramétricas da simulação anterior. Em `helpers.R`, a constante `SIM` define 1.000 replicações e `N_TARGET` fixa 200 participantes por replicação.
 
 **Procedimento**
 
-As chamadas mantêm a condição de referência e a população com cargas cruzadas, estimando o mesmo modelo de análise. O cenário solicita não normalidade moderada, 10% de ausências MCAR, MLR e FIML. Os objetos `popmodel_fixed` e `h1model_fixed` são associados aos arquivos `popmodel_200.rds` e `h1model_200.rds`.
+As instruções preservam a condição de referência e a população com cargas cruzadas, estimando a mesma estrutura de análise sob não normalidade moderada, 10% de dados omissos MCAR, MLR e FIML. Os objetos `popmodel_fixed` e `h1model_fixed` vinculam-se aos arquivos `popmodel_200.rds` e `h1model_200.rds`.
 
-O reaproveitamento segue o procedimento da @fig-realistic-power: com resultados disponíveis, as simulações não são repetidas. A chamada final compara as distribuições dos índices selecionados em `FITS`. Consulte o [README](../README.md) para as orientações de execução e recálculo.
+O reaproveitamento segue a sistemática da @fig-realistic-power: com saídas previamente salvas, os cálculos não são repetidos. O gráfico compara as distribuições dos índices selecionados em `FITS`. Orientações adicionais constam no [README](../README.md).
 
 **Execução e resultado**
 
-Execute o bloco para obter ou reutilizar as simulações com tamanho fixo e apresentar suas distribuições. Os dois objetos serão reutilizados nas comparações seguintes.
+Execute o bloco para recuperar ou processar as simulações com tamanho fixo e apresentar as respectivas densidades. Os objetos são preservados para as etapas seguintes.
 
 ```{r}
 #| eval: false
@@ -791,12 +706,7 @@ plotPowerFit(
 
 ::::
 
-Em seguida, são calculados o poder de detecção da misspecificação e os pontos
-de corte correspondentes a RMSEA, SRMR, CFI e TLI. Esses pontos são derivados
-da distribuição dos índices quando o modelo está corretamente especificado,
-considerando simultaneamente o tamanho amostral, a não normalidade, o percentual
-de dados ausentes e o método de estimação. A @tbl-power-cutoff-fixed apresenta
-os resultados para $N=200$.
+Calculam-se, em seguida, o poder de detecção da má especificação e os pontos de corte correspondentes a RMSEA, SRMR, CFI e TLI. Esses limiares são calibrados a partir da distribuição empírica sob correta especificação, integrando simultaneamente tamanho amostral, desvios de normalidade, taxa de omissão e método de estimação. A @tbl-power-cutoff-fixed reúne os resultados para $N=200$.
 
 ```{r}
 #| label: tbl-power-cutoff-fixed
@@ -839,19 +749,19 @@ kable(power_cutoff_fixed, digits = 3, align = "c")
 
 **Finalidade**
 
-Apresentar o poder e os limites calibrados pelo modelo para a simulação com 200 participantes.
+Apresentar o poder empírico e os limiares de corte calibrados para a simulação com 200 participantes.
 
 **Preparação**
 
-Utilize `popmodel_fixed` e `h1model_fixed`, obtidos na @fig-power-fixed.
+Utilize os objetos `popmodel_fixed` e `h1model_fixed`, consolidados na @fig-power-fixed.
 
 **Procedimento**
 
-O bloco calcula o poder na condição alternativa e obtém os limites na condição de referência, seguindo a lógica da @tbl-power-cutoff-realistic. Como o tamanho amostral é fixo, não é necessário informar `nVal`. As seleções por `FITS` conservam e ordenam RMSEA, SRMR, CFI e TLI, assegurando que poder e limites ocupem as mesmas colunas.
+O bloco estima o poder na condição alternativa e recupera os limiares na condição de referência, em consonância com a lógica da @tbl-power-cutoff-realistic. Com tamanho amostral constante, dispensa-se o argumento `nVal`. A indexação por `FITS` ordena uniformemente os índices RMSEA, SRMR, CFI e TLI, assegurando alinhamento entre poder e pontos de corte.
 
 **Execução e resultado**
 
-Execute o bloco para criar `power_cutoff_fixed` e apresentar as duas linhas da tabela.
+Execute o bloco para gerar a estrutura `power_cutoff_fixed` e compilar a tabela correspondente.
 
 ```{r}
 #| eval: false
@@ -889,20 +799,11 @@ kable(power_cutoff_fixed, digits = 3, align = "c")
 
 ::::
 
-
 ## Comparação com pontos de corte tradicionais
 
-Finalmente, o desempenho dos pontos de corte calibrados é comparado ao
-desempenho dos limites tradicionalmente utilizados para interpretar o ajuste
-global. Para RMSEA e SRMR, a rejeição ocorre quando os valores ultrapassam os
-respectivos limites; para CFI e TLI, ocorre quando os valores ficam abaixo
-deles.
+Por fim, compara-se o desempenho dos pontos de corte calibrados empiricamente com os limiares heurísticos tradicionais de ajuste global. Para RMSEA e SRMR, a rejeição ocorre quando as estimativas ultrapassam os limites teóricos estabelecidos; para CFI e TLI, verifica-se a rejeição quando os valores situam-se abaixo dos respectivos cortes.
 
-A mesma simulação com tamanho amostral fixo é reavaliada, mantendo constantes o
-tamanho amostral, os modelos de geração e análise e todas as características
-dos dados. Apenas o critério de decisão é alterado. A
-@fig-power-fixed-traditional apresenta a classificação obtida com os pontos de
-corte tradicionais, e a @tbl-power-traditional apresenta o poder resultante.
+A simulação com tamanho amostral fixo é reavaliada mantendo-se inalterados o tamanho amostral, as matrizes populacionais e as propriedades empíricas dos dados, modificando-se estritamente o critério de decisão. A @fig-power-fixed-traditional exibe a classificação decorrente dos pontos de corte convencionais, e a @tbl-power-traditional resume o poder resultante.
 
 ```{r}
 #| label: fig-power-fixed-traditional
@@ -933,19 +834,19 @@ plotPowerFit(
 
 **Finalidade**
 
-Comparar o poder obtido com limites tradicionais ao resultado baseado em limites calibrados pelo modelo.
+Contrastar o poder resultante dos limiares tradicionais com os resultados fundamentados em cortes calibrados pelo modelo.
 
 **Preparação**
 
-Utilize `popmodel_fixed`, `h1model_fixed` e o vetor `RULE_OF_THUMB`, definido em `helpers.R`.
+Utilize os objetos `popmodel_fixed`, `h1model_fixed` e o vetor `RULE_OF_THUMB`, definido em `helpers.R`.
 
 **Procedimento**
 
-A figura reutiliza os dados simulados da @fig-power-fixed e fornece os limites tradicionais por `cutoff = RULE_OF_THUMB`. Os modelos, o tamanho amostral e as demais condições permanecem iguais; a mudança está nos critérios usados para avaliar os índices.
+O gráfico reaproveita os dados simulados da @fig-power-fixed, inserindo os limites convencionais pelo argumento `cutoff = RULE_OF_THUMB`. Os modelos, o tamanho amostral e as demais condições permanecem idênticos, alterando-se exclusivamente os limiares de avaliação.
 
 **Execução e resultado**
 
-Execute o bloco para apresentar o gráfico com limites tradicionais, sem gerar novas amostras.
+Execute o bloco para renderizar o diagrama com as referências tradicionais, dispensando a geração de novas réplicas.
 
 ```{r}
 #| eval: false
@@ -997,19 +898,19 @@ kable(power_traditional_tbl, digits = 3, align = "c")
 
 **Finalidade**
 
-Quantificar o poder sob os limites tradicionais para comparação com a tabela de limites calibrados.
+Quantificar o poder estatístico sob os pontos de corte tradicionais para confrontação direta com os limiares empíricos calibrados.
 
 **Preparação**
 
-Utilize `h1model_fixed`, `RULE_OF_THUMB` e `FITS`, disponíveis após os procedimentos anteriores.
+Utilize os objetos `h1model_fixed`, `RULE_OF_THUMB` e `FITS`, consolidados nas fases anteriores.
 
 **Procedimento**
 
-O cálculo fornece os limites diretamente em `cutoff`, em vez de derivá-los de um `nullObject`. O vetor de poder retornado é reorganizado em uma tabela de uma linha, e os cabeçalhos identificam os índices. A operação reutiliza a condição alternativa com tamanho amostral fixo.
+O cálculo injeta os limiares heurísticos no parâmetro `cutoff`. O vetor de poder retornado é estruturado em formato tabular, com cabeçalhos identificando cada índice. A operação reaproveita a condição alternativa com tamanho amostral fixado.
 
 **Execução e resultado**
 
-Execute o bloco para criar `power_traditional_tbl` e apresentar o poder sob os critérios tradicionais.
+Execute o bloco para compilar a estrutura `power_traditional_tbl` e exibir o poder estatístico associado às regras tradicionais.
 
 ```{r}
 #| eval: false
@@ -1038,26 +939,14 @@ kable(power_traditional_tbl, digits = 3, align = "c")
 
 ::::
 
-Com os pontos de corte tradicionais, o poder foi de
+Sob os pontos de corte tradicionais, o poder observado foi de
 `r sprintf("%.3f", power_traditional[["rmsea"]])` para o RMSEA,
 `r sprintf("%.3f", power_traditional[["srmr"]])` para o SRMR,
 `r sprintf("%.3f", power_traditional[["cfi"]])` para o CFI e
 `r sprintf("%.3f", power_traditional[["tli"]])` para o TLI.
 
-Essa comparação permite verificar que os critérios tradicionais produzem
-conclusões completamente diferente às obtidas com as distribuições simuladas, com a
-sensibilidade para a misspecificação considerada considerávelmente distorcida [@mcneishwolf2023cfa;
-@groskurth2024].
+Essa comparação evidencia que as regras de bolso convencionais geram diagnósticos substancialmente divergentes dos limiares calibrados por simulação, distorcendo a sensibilidade do teste à má especificação do modelo [@groskurth2024; @mcneishwolf2023cfa].
 
-Em conjunto, as três etapas cumprem funções complementares. A abordagem
-analítica oferece uma estimativa inicial baseada na discrepância populacional;
-a simulação com tamanho variável mostra como o poder evolui entre 101 e 400
-participantes; e a simulação com 1.000 replicações em $N=200$ fornece uma
-avaliação mais estável do planejamento amostral escolhido.
+Dessa forma, as três etapas da AP cumprem funções complementares: a abordagem analítica fornece uma estimativa inicial fundamentada na discrepância populacional; a simulação com tamanho variável descreve a evolução da curva de poder entre 101 e 400 participantes; e a simulação intensiva com 1.000 replicações em $N=200$ confere estabilidade assintótica ao planejamento amostral adotado.
 
-Os limites obtidos em $N=200$ pertencem às condições desse planejamento:
-parâmetros populacionais definidos pela literatura, não normalidade moderada
-e 10% de ausências MCAR. Sua aplicação a uma amostra com outro tamanho,
-distribuições ou parâmetros requer uma calibração correspondente a essas
-condições. O resultado central dessa etapa é o desempenho esperado para
-detectar a omissão estipulada, condicionado ao cenário simulado.
+Os pontos de corte derivados em $N=200$ vinculam-se estritamente às premissas desse planejamento: parâmetros populacionais informados pela literatura empírica, desvios moderados de normalidade e 10% de dados omissos MCAR. Sua transposição para amostras com outras dimensões, distribuições ou configurações exige calibração específica. O resultado central dessa etapa reside na determinação do poder estatístico esperado para identificar a omissão estrutural planejada sob o cenário simulado.

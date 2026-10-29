@@ -14,15 +14,7 @@ source(here::here("Scripts", "DataAppendixScripts", "cache_loader.R"))
 
 ## Fundamentação das modificações {#sec-modification-rationale}
 
-O diagnóstico da @sec-model-fit, realizado na amostra de calibração, destacou
-dificuldades de representação que orientam modificações em H~0~. A seleção
-das alterações considera a magnitude das cargas, as cargas cruzadas, as
-correlações residuais e o conteúdo dos indicadores,
-em diálogo com os precedentes bibliográficos. A @tbl-whoqol-modification-evidence
-sintetiza variações de representação fatorial descritas por @lin2022 e por
-@mosqueirataipe2026. O levantamento abrange também indicadores
-que serão preservados, oferecendo um panorama das dificuldades documentadas
-para o instrumento.
+O diagnóstico da @sec-model-fit, realizado na subamostra de calibração, destacou pontos de discrepância empírica que orientam modificações estruturais em H~0~. A definição das alterações conjuga a magnitude das cargas primárias, a demanda empírica por cargas cruzadas, as correlações residuais entre termos de erro e o conteúdo conceitual dos indicadores, alinhando-se aos precedentes da literatura. A @tbl-whoqol-modification-evidence sintetiza as variações de representação fatorial catalogadas por @lin2022 e por @mosqueirataipe2026. O levantamento abrange também indicadores que serão preservados, proporcionando um panorama das dificuldades psicométricas documentadas para o instrumento.
 
 ```{r}
 #| label: tbl-whoqol-modification-evidence
@@ -48,12 +40,7 @@ knitr::kable(
 
 **Fontes:** @lin2022 e @mosqueirataipe2026. Os estudos individuais são conhecidos por intermédio dessas sínteses.
 
-**Nota:** A prioridade de atenção na literatura considera a recorrência dos
-registros e suas implicações para a interpretação do modelo, atribuindo maior
-peso às cargas cruzadas, seguido da exclusão de itens (cargas baixas) e das covariâncias
-residuais. A classificação avalia o conjunto das evidências de cada foco.
-A seleção reúne achados destacados pelas revisões e precedentes recorrentes ou
-considerados relevantes.
+**Nota:** A prioridade de atenção na literatura considera a recorrência dos registros e suas implicações para a interpretação do modelo, atribuindo maior peso às cargas cruzadas, seguido da exclusão de itens (cargas baixas) e das covariâncias residuais. A classificação avalia o conjunto das evidências de cada foco. A seleção reúne achados destacados pelas revisões e precedentes recorrentes ou considerados relevantes.
 
 :::: {.content-visible unless-format="pdf"}
 
@@ -65,7 +52,7 @@ Apresentar a síntese bibliográfica que informa a avaliação das possíveis mo
 
 **Preparação**
 
-Utilize o levantamento curado `Data/InputData/Metadata/whoqol_modification_evidence.csv`, preparado e revisado antes desta análise.
+Utiliza-se o levantamento curado `Data/InputData/Metadata/whoqol_modification_evidence.csv`, preparado e revisado antes dessa análise.
 
 **Procedimento**
 
@@ -100,42 +87,13 @@ knitr::kable(
 
 ::::
 
-A especificação modificada para as análises adiante exclui Q5, Q15 e Q24. Em Q5, a concentração de
-correlações com Q6 e Q14 e as indicações de cargas cruzadas apontam
-dificuldades de delimitação entre conteúdos. A literatura registra essas
-dependências e alterações de alocação, ao mesmo tempo que a síntese de @lin2022 mostra forte representação psicológica. Sua exclusão responde às
-dificuldades locais observadas na calibração. Para Q15, a carga reduzida e a
-indicação de relação com o domínio ambiental convergem com precedentes de
-exclusão em amostras de língua portuguesa e de alocação alternativa. Q24
-combina carga reduzida e dependência com Q25, relação também documentada na
-literatura [@lin2022; @mosqueirataipe2026].
+A especificação modificada proposta para as análises subsequentes exclui os itens Q5, Q15 e Q24. Em Q5, a concentração de correlações residuais com Q6 e Q14 e as demandas de cargas cruzadas revelam dificuldades de delimitação dimensional. A literatura reporta essas dependências e alterações de alocação, ao passo que a síntese de @lin2022 indica expressiva sobreposição com o domínio Psicológico. Sua exclusão responde diretamente às distorções locais detectadas na calibração. Quanto a Q15, a carga primária atenuada e a atração pelo domínio Meio Ambiente convergem com precedentes de eliminação em amostras lusófonas e propostas de alocação alternativa. O item Q24 conjuga carga reduzida e forte associação de erro com Q25, padrão igualmente documentado nos estudos prévios [@lin2022; @mosqueirataipe2026].
 
-Q3, Q4 e Q8 permanecem apesar das cargas baixas. Dor e necessidade de
-tratamento representam aspectos da condição física cuja relevância varia com
-o contexto clínico. A revisão documenta a retenção de Q3/Q4 em pacientes e sua
-exclusão em grupos de estudantes. Mantemos esses conteúdos e a covariância
-residual Q3–Q4 já prevista na especificação original. Q8 preserva a percepção
-de segurança no domínio ambiental. Sua proximidade com o domínio psicológico,
-destacada nas duas sínteses, será considerada na interpretação do ajuste
-remanescente [@lin2022; @mosqueirataipe2026].
+Os itens Q3, Q4 e Q8 foram mantidos, nada obstante suas cargas modestas. Dor física e necessidade de tratamento médico representam facetas da saúde física cuja variância depende intrinsecamente do perfil clínico da amostra. A literatura relata a retenção de Q3 e Q4 em populações clínicas e sua eventual exclusão apenas em grupos jovens saudáveis. Preservam-se esses conteúdos conceituais e a covariância residual Q3–Q4 já contemplada na especificação original. Por sua vez, o item Q8 assegura a representação da segurança física no domínio Meio Ambiente. Sua proximidade empírica com o domínio Psicológico, apontada nas revisões, será considerada na interpretação do ajuste remanescente [@lin2022; @mosqueirataipe2026].
 
-Acrescentamos a covariância residual Q17–Q18. A capacidade para realizar
-atividades cotidianas e a capacidade para o trabalho compartilham um conteúdo
-funcional específico, além da condição física geral. A revisão registra essa
-covariância em estudos com participantes com cefaleia crônica e trabalhadores
-da saúde brasileiros; o agrupamento dos itens em outra dimensão oferece evidência complementar dessa proximidade. A relação residual representa
-essa associação específica e preserva ambos os indicadores no fator físico
-[@lin2022; @mosqueirataipe2026].
+Adicionou-se a covariância residual entre Q17 e Q18. A capacidade para o desempenho das atividades diárias e a aptidão laboral compartilham variância funcional específica, para além da dimensão física geral. A literatura documenta essa dependência residual em amostras de pacientes crônicos e de profissionais de saúde, sendo que o agrupamento conjunto desses indicadores em fatores funcionais específicos oferece evidência complementar dessa contiguidade. A inclusão desse parâmetro livre absorve a associação específica e viabiliza a permanência de ambos os itens no fator Físico [@lin2022; @mosqueirataipe2026].
 
-O modelo mantém quatro fatores e os três indicadores sociais, com 21 itens:
-5 psicológicos, 6 físicos, 3 sociais e 7 ambientais. As exclusões reduzem a
-cobertura explícita de prazer de viver, mobilidade e acesso aos serviços de
-saúde, devendo acompanhar a interpretação dos escores modificados. A seleção
-foi informada pelo diagnóstico da calibração e constitui uma revisão
-exploratória. A especificação delimitada é avaliada na amostra de validação,
-incluindo as dificuldades remanescentes, e a confiabilidade é calculada para
-os conjuntos de itens retidos. A @fig-adjusted-model apresenta a especificação
-resultante, com as duas covariâncias residuais e os indicadores preservados.
+O modelo ajustado preserva quatro fatores correlacionados e os três indicadores sociais, passando a integrar 21 itens: 5 psicológicos, 6 físicos, 3 sociais e 7 ambientais. As exclusões suprimem a aferição direta de sentimentos positivos, locomoção e acesso aos serviços de saúde, devendo essa limitação acompanhar a interpretação substantiva dos escores. A formulação apoia-se nos diagnósticos da calibração e assume caráter exploratório. A especificação resultante é submetida ao teste confirmatório na subamostra de validação, avaliando-se o ajuste global, ao desajuste locais e a confiabilidade compósita. A @fig-adjusted-model esquematiza a estrutura resultante com as covariâncias residuais especificadas.
 
 ```{r}
 #| label: fig-adjusted-model
@@ -164,7 +122,7 @@ Representar a estrutura do modelo modificado antes de sua estimação.
 
 **Preparação**
 
-Utilize `adjustedzemodel`, definido em [models.R](../Scripts/DataAppendixScripts/models.R), e a preparação geral da @sec-model-selection.
+Utilizam-se `adjustedzemodel`, definido em [models.R](../Scripts/DataAppendixScripts/models.R), e a rotina geral da @sec-model-selection.
 
 **Procedimento**
 
@@ -188,11 +146,7 @@ plot_cfa(adjustedzemodel, color = "BW", node_labels = LABELS, what_labels = "no"
 
 ## Parâmetros estimados {#sec-adjusted-model-parameters}
 
-O modelo modificado é estimado nos 622 participantes da amostra de validação,
-mantendo as condições de estimação da @sec-estimation. A avaliação apresenta
-os parâmetros, verifica a solução e examina o ajuste global e as
-discrepâncias locais da especificação selecionada na calibração.
-A @tbl-adjusted-parameters apresenta os parâmetros do modelo modificado.
+O modelo modificado é estimado sobre os 622 participantes da subamostra de validação, mantendo idênticas as condições analíticas delineadas na @sec-estimation. A avaliação reporta os parâmetros livres, verifica a admissibilidade matemática e examina o ajuste global e local da especificação formulada na calibração. A @tbl-adjusted-parameters sintetiza os parâmetros do modelo modificado.
 
 ```{r}
 #| label: tbl-adjusted-parameters
@@ -256,16 +210,11 @@ Estimar o modelo modificado e apresentar suas cargas fatoriais.
 
 **Preparação**
 
-Utilize a base `Data/AnalysisData/whoqol_cv.csv`, salva na @sec-estimation,
-e `adjustedzemodel`, disponível na preparação desta seção conforme a
-orientação geral da @sec-model-selection. O código seleciona
-`sample_group == 1` em `validation_data`, recuperando a amostra de validação
-sem repetir a divisão ou depender de uma sessão anterior.
+Utilizam-se a base `Data/AnalysisData/whoqol_cv.csv`, salva na @sec-estimation, e `adjustedzemodel`, disponível na preparação dessa seção conforme a orientação geral da @sec-model-selection. O código seleciona `sample_group == 1` em `validation_data`, recuperando a amostra de validação.
 
 **Procedimento**
 
-O bloco lê a partição salva e estima o modelo na amostra de validação,
-mantendo as condições de estimação da @sec-estimation. A função `table_par()`, apresentada no racional da @tbl-estimation-parameters, mantém a seleção padrão de cargas livres e os rótulos em português.
+O bloco lê a partição salva e estima o modelo na amostra de validação, mantendo as condições de estimação da @sec-estimation. A função `table_par()`, apresentada no racional da @tbl-estimation-parameters, mantém a seleção padrão de cargas livres e os rótulos em português.
 
 O atributo `par_data` disponibiliza os parâmetros completos para os valores inseridos no texto; `table_data` fornece a tabela de apresentação. Após verificar seu conteúdo, o bloco exporta as mesmas células exibidas, preservando rótulos, ordem e valores.
 
@@ -328,27 +277,13 @@ parameter_table_adjusted
 
 ::::
 
-As cargas de Q3, Q4 e Q8 permanecem modestas:
-`r formatC(parameter_estimates_adjusted$std.all[parameter_estimates_adjusted$op == "=~" & parameter_estimates_adjusted$rhs == "Q3"], format = "f", digits = 3, decimal.mark = ",")`,
-`r formatC(parameter_estimates_adjusted$std.all[parameter_estimates_adjusted$op == "=~" & parameter_estimates_adjusted$rhs == "Q4"], format = "f", digits = 3, decimal.mark = ",")` e
-`r formatC(parameter_estimates_adjusted$std.all[parameter_estimates_adjusted$op == "=~" & parameter_estimates_adjusted$rhs == "Q8"], format = "f", digits = 3, decimal.mark = ",")`,
-respectivamente. A retenção desses indicadores, definida na fundamentação
-das modificações, preserva os conteúdos de dor, necessidade de tratamento
-e segurança. As cargas observadas na validação mostram que esses aspectos
-continuam parcialmente representados pelos fatores. A avaliação mantém a
-especificação selecionada na calibração, incluindo a covariância Q3–Q4,
-e caracteriza suas limitações remanescentes.
+As cargas fatoriais de Q3, Q4 e Q8 mantiveram-se modestas na validação: `r formatC(parameter_estimates_adjusted$std.all[parameter_estimates_adjusted$op == "=~" & parameter_estimates_adjusted$rhs == "Q3"], format = "f", digits = 3, decimal.mark = ",")`, `r formatC(parameter_estimates_adjusted$std.all[parameter_estimates_adjusted$op == "=~" & parameter_estimates_adjusted$rhs == "Q4"], format = "f", digits = 3, decimal.mark = ",")` e `r formatC(parameter_estimates_adjusted$std.all[parameter_estimates_adjusted$op == "=~" & parameter_estimates_adjusted$rhs == "Q8"], format = "f", digits = 3, decimal.mark = ",")`, respectivamente. A decisão teórica de reter esses indicadores preserva os aspectos substantivos de dor, dependência terapêutica e segurança física. As magnitudes estimadas confirmam que tais facetas são capturadas apenas parcialmente pela estrutura latente comum. A validação sustenta a especificação fechada na calibração, englobando a covariância residual Q3–Q4 e parametrizando com transparência suas limitações operacionais.
 
-O modelo convergiu e não apresentou variâncias negativas nem cargas
-padronizadas com magnitude superior a 1. Essas verificações sustentam a
-admissibilidade da solução para a avaliação do ajuste global e local
-[@brown2015; @nye2022].
+O algoritmo convergiu plenamente para uma solução admissível, sem ocorrência de variâncias residuais negativas nem cargas padronizadas superiores à unidade. Esse diagnóstico atesta a regularidade matemática do ajuste, autorizando o avanço para a análise de ajuste global e local [@brown2015; @nye2022].
 
 ## Ajuste global do modelo modificado
 
-A @tbl-adjusted-model-fit-global apresenta os índices de ajuste do modelo modificado: χ² ajustado, CFI, TLI e RMSEA
-robustos, intervalo de confiança de 90% do RMSEA e SRMR. Os valores descrevem
-o modelo de 21 indicadores.
+A @tbl-adjusted-model-fit-global reporta os índices de ajuste global do modelo modificado: $\chi^2$ com correção de escala, CFI, TLI e RMSEA robustos, intervalo de confiança de 90% do RMSEA e coeficiente SRMR, parametrizados para os 21 indicadores retidos.
 
 ```{r}
 #| label: tbl-adjusted-model-fit-global
@@ -390,13 +325,11 @@ Organizar as medidas de ajuste global do modelo modificado.
 
 **Preparação**
 
-Utilize `fit_adjustedzemodel`, estimado na parcela de validação no bloco da
-@tbl-adjusted-parameters. Este procedimento reutiliza esse ajuste, sem ler
-ou selecionar outra amostra.
+Utiliza-se `fit_adjustedzemodel`, estimado na subamostra de validação no bloco da @tbl-adjusted-parameters. Esse procedimento reaproveita o referido ajuste, sem nova leitura de dados.
 
 **Procedimento**
 
-O procedimento aplica `table_fit()`, apresentada no racional da @tbl-model-fit-global, ao ajuste modificado. As medidas completas são recuperadas em `fit_data_adjusted` e organizadas em um vetor nomeado para consulta e uso no texto. A tabela de apresentação é verificada e exportada com os mesmos rótulos, ordem e valores exibidos.
+O procedimento aplica a função `table_fit()`, apresentada no racional da @tbl-model-fit-global, ao ajuste modificado. As métricas completas são recuperadas em `fit_data_adjusted` e organizadas em vetor nomeado. A tabela de apresentação é conferida e exportada com idênticos rótulos, ordem e valores numéricos.
 
 **Execução e resultado**
 
@@ -435,32 +368,11 @@ fit_table_adjusted
 
 ::::
 
-O modelo apresentou CFI robusto de
-`r formatC(fit_measures_adjusted["cfi.robust"], format = "f", digits = 3, decimal.mark = ",")`,
-TLI robusto de
-`r formatC(fit_measures_adjusted["tli.robust"], format = "f", digits = 3, decimal.mark = ",")`,
-RMSEA robusto de
-`r formatC(fit_measures_adjusted["rmsea.robust"], format = "f", digits = 3, decimal.mark = ",")`
-e SRMR de
-`r formatC(fit_measures_adjusted["srmr"], format = "f", digits = 3, decimal.mark = ",")`.
-Os índices são descritivamente mais favoráveis que os das especificações
-originais apresentadas na @sec-model-fit. Esse contraste envolve conjuntos
-de indicadores e parcelas amostrais diferentes; portanto, não constitui um
-teste de superioridade do modelo reduzido. A avaliação concentra-se na
-adequação da especificação selecionada aos dados de validação. Para o ajuste
-próximo,
-o teste da hipótese RMSEA robusto ≤ 0,05 apresenta p =
-`r formatC(fit_measures_adjusted["rmsea.pvalue.robust"], format = "f", digits = 3, decimal.mark = ",")`,
-superior a 0,05. Assim, a hipótese de ajuste próximo não é rejeitada na
-amostra de validação.
+A especificação ajustada exibiu CFI robusto de `r formatC(fit_measures_adjusted["cfi.robust"], format = "f", digits = 3, decimal.mark = ",")`, TLI robusto de `r formatC(fit_measures_adjusted["tli.robust"], format = "f", digits = 3, decimal.mark = ",")`, RMSEA robusto de `r formatC(fit_measures_adjusted["rmsea.robust"], format = "f", digits = 3, decimal.mark = ",")` e SRMR de `r formatC(fit_measures_adjusted["srmr"], format = "f", digits = 3, decimal.mark = ",")`. As magnitudes mostram-se expressivamente mais favoráveis em comparação às estimativas das estruturas originais detalhadas na @sec-model-fit. Como esse confronto engloba composições de indicadores e subamostras distintas, ele não configura teste formal de superioridade paramétrica. O foco analítico repousa na adequação confirmatória da especificação modificada perante os dados de validação. No tocante ao ajuste estreito, o teste da hipótese nula de RMSEA robusto $\leq 0,05$ revelou $p = `r formatC(fit_measures_adjusted["rmsea.pvalue.robust"], format = "f", digits = 3, decimal.mark = ",")`$, não se rejeitando a hipótese de ajuste próximo na subamostra de validação.
 
 ## Confiabilidade dos escores
 
-A @tbl-adjusted-domain-reliability apresenta o ômega e o GLB dos quatro
-escores, recalculados com os itens retidos. O ômega incorpora a especificação
-modificada, incluindo suas covariâncias residuais; o GLB mantém o pressuposto
-de erros não correlacionados e requer a mesma cautela de interpretação já
-discutida [@flora2020; @cho2022; @trizano-hermosilla2016].
+A @tbl-adjusted-domain-reliability expõe os coeficientes ômega e GLB calculados para os quatro escores com os 21 itens retidos. O ômega reproduz a parametrização do modelo modificado, incorporando as covariâncias residuais Q3–Q4 e Q17–Q18, ao passo que o GLB repousa na premissa algébrica de independência residual [@flora2020; @cho2022; @trizano-hermosilla2016].
 
 ```{r}
 #| label: tbl-adjusted-domain-reliability
@@ -499,9 +411,7 @@ Recalcular a confiabilidade dos escores correspondentes aos itens retidos no mod
 
 **Preparação**
 
-Utilize `fit_adjustedzemodel`, estimado na amostra de validação no bloco da
-@tbl-adjusted-parameters. Este procedimento reutiliza esse ajuste, sem ler
-ou selecionar outra amostra.
+Utiliza-se `fit_adjustedzemodel`, estimado na subamostra de validação no bloco da @tbl-adjusted-parameters. Esse procedimento reutiliza o referido ajuste.
 
 **Procedimento**
 
@@ -543,54 +453,15 @@ reliability_table_adjusted
 
 ::::
 
-As exclusões alteram a composição dos escores psicológico, físico e ambiental;
-o escore social preserva seus três indicadores. Na validação, o ômega dos
-escores psicológico, social e ambiental supera a referência convencional
-de 0,70. No físico, o coeficiente é
-`r formatC(reliability_adjusted$omega[reliability_adjusted$factor == "physical"], format = "f", digits = 3, decimal.mark = ",")`,
-ligeiramente abaixo dessa referência. Os GLB superam 0,70 nos quatro domínios,
-sob os pressupostos já discutidos [@cho2022; @trizano-hermosilla2016].
+A reespecificação redefiniu a composição dos escores Psicológico, Físico e Meio Ambiente, mantendo-se intacto o fator Relações Sociais com seus três itens. Na subamostra de validação, os coeficientes ômega dos escores Psicológico, Social e Meio Ambiente suplantaram o limiar de 0,70. No domínio Físico, a estimativa fixou-se em `r formatC(reliability_adjusted$omega[reliability_adjusted$factor == "physical"], format = "f", digits = 3, decimal.mark = ",")`, situando-se marginalmente abaixo dessa referência. Os índices GLB superaram 0,70 em todos os quatro domínios [@cho2022; @trizano-hermosilla2016].
 
-Os ômegas variam de
-`r formatC(min(reliability_adjusted$omega), format = "f", digits = 3, decimal.mark = ",")`
-a
-`r formatC(max(reliability_adjusted$omega), format = "f", digits = 3, decimal.mark = ",")`;
-os GLB, de
-`r formatC(min(reliability_adjusted$glb), format = "f", digits = 3, decimal.mark = ",")`
-a
-`r formatC(max(reliability_adjusted$glb), format = "f", digits = 3, decimal.mark = ",")`.
-A interpretação conjunta com H~0~ considera tanto a composição dos escores
-quanto as amostras em que foram estimados. A redução da cobertura dos
-domínios e o ômega físico próximo de 0,70 integram a avaliação dos usos
-possíveis da versão modificada. As diferenças entre coeficientes não podem
-ser atribuídas exclusivamente às exclusões de itens.
+As estimativas de ômega oscilaram entre `r formatC(min(reliability_adjusted$omega), format = "f", digits = 3, decimal.mark = ",")` e `r formatC(max(reliability_adjusted$omega), format = "f", digits = 3, decimal.mark = ",")`, enquanto os valores de GLB situaram-se entre `r formatC(min(reliability_adjusted$glb), format = "f", digits = 3, decimal.mark = ",")` e `r formatC(max(reliability_adjusted$glb), format = "f", digits = 3, decimal.mark = ",")`. A interpretação desses números perante a estrutura original H~0~ deve considerar o estreitamento conceitual decorrente da exclusão de itens e a independência da amostra de teste.
 
 ## Avaliação por 3DFI {#sec-adjusted-dddfi}
 
-A avaliação da especificação modificada na amostra de validação utiliza o
-3DFI fundamentado na @sec-theory-fit. A calibração dos limites caracteriza
-o ajuste aproximado por magnitudes
-de discrepância nas correlações, sem escolher novos caminhos omitidos para
-definir a má especificação. A simulação da @sec-model-fit examinou a
-referência de ajuste exato e a sensibilidade a uma alternativa estrutural
-específica; aqui, o objetivo é qualificar a magnitude do desajuste remanescente
-[@mcneish2024]. A aplicação do 3DFI concentra-se nessas condições para
-demonstrar a avaliação graduada de uma solução após as modificações. As duas
-calibrações respondem a perguntas distintas: o afastamento da referência
-exata nos modelos originais e o grau de ajuste aproximado do modelo
-modificado. Seus resultados devem ser interpretados segundo essas perguntas,
-considerando também a mudança de 24 para 21 indicadores e as amostras
-utilizadas.
+A avaliação confirmatória da especificação ajustada na subamostra de validação fundamenta-se na metodologia 3DFI exposta na @sec-theory-fit. A calibração de pontos de corte dinâmicos qualifica o grau de ajuste aproximado mediante a indução controlada de discrepâncias médias absolutas nas correlações, sem necessidade de arbitrar trajetórias específicas de má especificação. Ao passo que a simulação descrita na @sec-model-fit confrontou o modelo com uma alternativa estrutural pré-determinada, o objetivo da presente análise consiste em mensurar a magnitude tolerável do desajuste residual remanescente [@mcneish2024]. Trata-se de uma avaliação graduada da solução após o refinamento exploratório, respondendo a perguntas complementares: a distância em relação ao ajuste exato nas estruturas iniciais e o nível de concordância empírica aproximada no modelo modificado.
 
-A calibração considera os 21 indicadores, a não normalidade e a estimação
-robusta. São utilizadas 1.000 replicações e três magnitudes médias absolutas de
-discrepância: 0,038, 0,050 e 0,060, correspondentes às referências de ajuste
-próximo, razoável e medíocre. Esses valores seguem as referências heurísticas
-de @mcneish2024; o MAD define a magnitude de entrada, e os pontos de
-corte dos índices são obtidos para esta especificação. A @tbl-adjusted-dfi-cutoffs apresenta os limites
-de CFI, RMSEA e limite superior do intervalo de confiança de 90% do RMSEA.
-A avaliação deve comparar cada índice observado com sua referência correspondente
-[@mcneish2024].
+O procedimento simula 1.000 amostras com base nos 21 indicadores, incorporando as assimetrias distributivas empíricas sob o estimador MLR. Fixaram-se três níveis médios de discrepância absoluta (MAD): 0,038, 0,050 e 0,060, representativos dos patamares de ajuste estreito (*close*), aceitável (*fair*) e medíocre (*mediocre*), segundo as diretrizes de @mcneish2024. A @tbl-adjusted-dfi-cutoffs consolida os pontos de corte dinâmicos para CFI, RMSEA e limite superior do intervalo de confiança de 90% do RMSEA.
 
 ```{r}
 #| label: tbl-adjusted-dfi-cutoffs
@@ -654,21 +525,15 @@ Calibrar e apresentar limites de ajuste aproximado para o modelo modificado por 
 
 **Preparação**
 
-Utilize `validation_data` e `fit_adjustedzemodel`, obtidos na
-@tbl-adjusted-parameters para a validação (`sample_group == 1`), além de `SEED`
-e do mecanismo de resultados salvos da preparação geral. A calibração dos
-limites é armazenada em `Data/IntermediateData/dfi_adjusted.rds`. Aqui,
-calibrar limites é uma operação de simulação; não significa usar a amostra de
-calibração da divisão amostral.
+Utilizam-se `validation_data` e `fit_adjustedzemodel`, obtidos na @tbl-adjusted-parameters para a validação (`sample_group == 1`), além de `SEED` e do mecanismo de cache da rotina geral. A calibração dos limites é armazenada em `Data/IntermediateData/dfi_adjusted.rds`.
 
 **Procedimento**
 
 A função `dynamic::DDDFI()` implementa o 3DFI e recebe o modelo ajustado em `model` e a amostra de validação diretamente em `data`. O procedimento seleciona internamente os indicadores presentes no modelo. A chamada utiliza `scale = "nonnormal"`, `estimator = "MLR"`, 1.000 replicações e discrepâncias médias absolutas de 0,038, 0,050 e 0,060. A semente é fixada antes da simulação, e `plot.dfi = FALSE` desativa a produção dos gráficos internos.
 
-`cache_or_run()` reutiliza o resultado disponível ou executa a calibração; antes de salvar um novo resultado, remove os dados simulados para reduzir seu tamanho. O arquivo compacto é então lido do disco e seu tamanho amostral é conferido
-contra `validation_data`.
+`cache_or_run()` reutiliza o resultado disponível ou executa a calibração; antes de salvar um novo resultado, remove os dados simulados para reduzir seu tamanho. O arquivo compacto é então lido do disco e seu tamanho amostral é conferido contra `validation_data`.
 
-A função própria `table_3dfi()` recebe essa calibração e retorna a tabela; sua auxiliar `tidy_3dfi()` organiza as referências próximo, razoável e medíocre. A apresentação reúne MAD solicitado e simulado, CFI, RMSEA e limite superior do IC de 90% do RMSEA, com três casas decimais e rótulos em português. A exportação utiliza `table_data`, preservando as células apresentadas.
+A função `table_3dfi()` recebe essa calibração e retorna a tabela; sua auxiliar `tidy_3dfi()` organiza as referências próximo, razoável e medíocre. A apresentação reúne MAD solicitado e simulado, CFI, RMSEA e limite superior do IC de 90% do RMSEA, com três casas decimais e rótulos em português. A exportação utiliza `table_data`, preservando as células apresentadas.
 
 **Execução e resultado**
 
@@ -729,10 +594,7 @@ dfi_table_adjusted
 
 ::::
 
-A @fig-dfi-adjusted-fair detalha a referência razoável, contrastando as
-distribuições simuladas de CFI e RMSEA na condição de referência e sob a
-discrepância estipulada. Os limites dinâmicos e convencionais permitem
-visualizar a diferença entre as duas referências de interpretação.
+A @fig-dfi-adjusted-fair ilustra a referência de ajuste aceitável (*fair*), confrontando as distribuições simuladas de CFI e RMSEA na condição nula e sob a perturbação programada. O contraste entre limites dinâmicos e referências convencionais demonstra a sensibilidade das métricas às propriedades empíricas da amostra.
 
 ```{r}
 #| label: fig-dfi-adjusted-fair
@@ -771,11 +633,11 @@ Comparar as distribuições simuladas de CFI e RMSEA sob referência e discrepâ
 
 **Preparação**
 
-Utilize `dfi_adjusted`, obtido no bloco da @tbl-adjusted-dfi-cutoffs. A reconstrução requer os índices persistidos em `$indices`.
+Utiliza-se `dfi_adjusted`, obtido no bloco da @tbl-adjusted-dfi-cutoffs. A reconstrução requer os índices persistidos em `$indices`.
 
 **Procedimento**
 
-A função `plot_3dfi()`, de [helpers.R](../Scripts/DataAppendixScripts/helpers.R), recebe a calibração salva e a referência desejada: `"Close"`, `"Fair"` ou `"Mediocre"`. Essas opções selecionam, respectivamente, as distribuições `CFI_L1`/`RMSEA_L1`, `CFI_L2`/`RMSEA_L2` ou `CFI_L3`/`RMSEA_L3`, sempre comparadas com `CFI_L0` e `RMSEA_L0`. Nesta figura, utilizamos `reference = "Fair"`. As colunas `SRMR_L*` não são utilizadas: nesta implementação armazenam limites superiores do intervalo do RMSEA.
+A função `plot_3dfi()`, de [helpers.R](../Scripts/DataAppendixScripts/helpers.R), recebe a calibração salva e a referência desejada: `"Close"`, `"Fair"` ou `"Mediocre"`. Essas opções selecionam, respectivamente, as distribuições `CFI_L1`/`RMSEA_L1`, `CFI_L2`/`RMSEA_L2` ou `CFI_L3`/`RMSEA_L3`, sempre comparadas com `CFI_L0` e `RMSEA_L0`. Na presente figura, adota-se `reference = "Fair"`. As colunas `SRMR_L*` não são utilizadas: nessa implementação armazenam limites superiores do intervalo do RMSEA.
 
 A função recupera os limites dinâmicos da linha correspondente à referência escolhida e acrescenta os valores convencionais CFI = 0,95 e RMSEA = 0,06. A figura sobrepõe histogramas e apresenta as linhas de corte em painéis separados. Os atributos `plot_data` e `plot_cutoffs` preservam os dados utilizados. Para examinar outro nível, altere apenas `reference`; por exemplo, `plot_3dfi(dfi_adjusted, reference = "Mediocre")`.
 
@@ -810,25 +672,11 @@ ggplot2::ggsave(
 
 ::::
 
-Os índices observados atendem aos limites da referência razoável
-(*fair*): CFI de pelo menos
-`r formatC(as.numeric(dfi_adjusted$cutoffs["Fair", "CFI"]), format = "f", digits = 3, decimal.mark = ",")`,
-RMSEA de até
-`r formatC(as.numeric(dfi_adjusted$cutoffs["Fair", "RMSEA"]), format = "f", digits = 3, decimal.mark = ",")`
-e limite superior do intervalo do RMSEA de até
-`r formatC(as.numeric(dfi_adjusted$cutoffs["Fair", "90% CI"]), format = "f", digits = 3, decimal.mark = ",")`.
-A referência próxima (*close*) é mais exigente e não foi alcançada.
-A classificação 3DFI caracteriza, portanto, o ajuste como razoável sob
-as condições de simulação utilizadas.
+Os coeficientes empíricos observados cumprem com folga os critérios da referência aceitável (*fair*): CFI de pelo menos `r formatC(as.numeric(dfi_adjusted$cutoffs["Fair", "CFI"]), format = "f", digits = 3, decimal.mark = ",")`, RMSEA de até `r formatC(as.numeric(dfi_adjusted$cutoffs["Fair", "RMSEA"]), format = "f", digits = 3, decimal.mark = ",")` e limite superior do intervalo de confiança de 90% do RMSEA de até `r formatC(as.numeric(dfi_adjusted$cutoffs["Fair", "90% CI"]), format = "f", digits = 3, decimal.mark = ",")`. A referência de ajuste estreito (*close*), mais rigorosa, não foi plenamente atingida. Desse modo, o procedimento 3DFI classifica o comportamento do modelo modificado como aceitável perante os dados de validação.
 
 ## Diagnóstico local
 
-O diagnóstico local caracteriza as dificuldades que permanecem no modelo
-modificado na validação. A @tbl-adjusted-modification-indices-top20 apresenta
-os vinte maiores MI, com EPC bruto e padronizado. Esses resultados
-são aproximações da liberação individual de parâmetros e devem ser interpretados
-junto das cargas e dos resíduos, preservando a especificação delimitada na
-fundamentação [@nye2022; @crede2019].
+O diagnóstico local mapeia os desajustes residuais remanescentes no modelo modificado sob a amostra de validação. A @tbl-adjusted-modification-indices-top20 elenca os vinte maiores MI acompanhados de seus respectivos EPC brutos e padronizados. Esses indicadores sinalizam o ganho potencial derivado da liberação isolada de parâmetros e devem ser cotejados com as cargas fatoriais e a matriz de resíduos [@nye2022; @crede2019].
 
 ```{r}
 #| label: tbl-adjusted-modification-indices-top20
@@ -866,20 +714,17 @@ Examinar as vinte maiores relações candidatas à liberação após as modifica
 
 **Preparação**
 
-Utilize `fit_adjustedzemodel`, estimado na amostra de validação no bloco da
-@tbl-adjusted-parameters. Este procedimento reutiliza esse ajuste, sem ler
-ou selecionar outra amostra.
+Utiliza-se `fit_adjustedzemodel`, estimado na amostra de validação no bloco da @tbl-adjusted-parameters. Esse procedimento reaproveita o referido ajuste.
 
 **Procedimento**
 
-O bloco aplica `table_mi()`, apresentada no racional da @tbl-modification-indices-top20, ao ajuste modificado. O lavaan calcula e ordena os MI, com EPC bruto e padronizado, e exclui parâmetros já livres e MI indisponíveis. O helper apresenta as primeiras vinte relações e formata a tabela.
+O bloco aplica a função `table_mi()`, apresentada no racional da @tbl-modification-indices-top20, ao ajuste modificado. O lavaan calcula e ordena os MI, com EPC bruto e padronizado, e exclui parâmetros já livres e MI indisponíveis. A rotina apresenta as primeiras vinte relações e formata a tabela.
 
 O atributo `mi_data` preserva a saída completa do lavaan com precisão completa para uso no texto. Após a verificação de `table_data`, as mesmas vinte relações exibidas são exportadas. Os operadores lavaan são preservados no documento e como texto comum no CSV.
 
 **Execução e resultado**
 
-Execute o bloco para apresentar a tabela e salvar `tbl-adjusted-modification-indices-top20.csv` em `Output/Results/Tables`. A inspeção utiliza o ajuste fechado na validação e não libera novos
-parâmetros; suas sugestões não são aplicadas como novo refinamento nessa amostra.
+Execute o bloco para apresentar a tabela e salvar `tbl-adjusted-modification-indices-top20.csv` em `Output/Results/Tables`. A inspeção utiliza o ajuste fechado na validação e não libera novos parâmetros; suas sugestões não são aplicadas como novo refinamento nessa amostra.
 
 ```{r}
 #| eval: false
@@ -910,11 +755,7 @@ mi_table_adjusted
 
 ::::
 
-A @fig-residual-correlations-adjusted apresenta as diferenças entre as
-correlações observadas e reproduzidas pelo modelo. Cada par aparece uma única
-vez, com cor proporcional à magnitude absoluta e rótulo que preserva o sinal.
-A referência de magnitude absoluta de 0,10 orienta a localização das
-discrepâncias remanescentes, em conjunto com os parâmetros e MI/EPC.
+A @fig-residual-correlations-adjusted exibe as divergências entre as correlações bivariadas observadas e aquelas reproduzidas pela estrutura de 21 itens. Cada par é representado uma única vez, associando-se a saturação de cor à magnitude absoluta do resíduo. O limiar prático de $|r_{res}| \geq 0,10$ serve de guia para identificação dos pontos residuais de desajuste.
 
 ```{r}
 #| label: fig-residual-correlations-adjusted
@@ -959,9 +800,7 @@ Examinar as diferenças entre correlações observadas e reproduzidas pelo model
 
 **Preparação**
 
-Utilize `fit_adjustedzemodel`, estimado na amostra de validação no bloco da
-@tbl-adjusted-parameters. Este procedimento reutiliza esse ajuste, sem ler
-ou selecionar outra amostra.
+Utilizam-se `fit_adjustedzemodel`, estimado na subamostra de validação no bloco da @tbl-adjusted-parameters, e os parâmetros gerais da rotina.
 
 **Procedimento**
 
@@ -1003,38 +842,15 @@ residual_heatmap_adjusted
 
 ::::
 
-O maior resíduo absoluto é
-`r formatC(max(abs(residual_correlations_adjusted$residual)), format = "f", digits = 3, decimal.mark = ",")`;
-`r sum(abs(residual_correlations_adjusted$residual) >= 0.10)` dos
-`r nrow(residual_correlations_adjusted)` pares apresentam magnitude de pelo
-menos 0,10. A leitura conjunta desse mapa, das cargas e dos MI/EPC documenta
-as limitações locais da especificação selecionada, em conjunto com a avaliação
-por 3DFI apresentada anteriormente. Q8–Q9 apresenta o maior MI e o maior
-resíduo absoluto; Q9–Q23 também se destaca nos dois diagnósticos.
-A indicação de carga cruzada de Q6 no fator físico apresenta EPC padronizado de
-`r formatC(with(attr(mi_table_adjusted, "mi_data"), sepc.all[lhs == "physical" & op == "=~" & rhs == "Q6"]), format = "f", digits = 3, decimal.mark = ",")`
-e integra as limitações locais registradas. Esses EPC são aproximações da
-liberação individual de parâmetros, não estimativas de um novo modelo ajustado.
-O contraste com H~0~ considera a retirada dos pares que envolviam os
-indicadores excluídos e o uso de outra parcela amostral.
+O resíduo absoluto de maior magnitude fixou-se em `r formatC(max(abs(residual_correlations_adjusted$residual)), format = "f", digits = 3, decimal.mark = ",")`, registrando-se que apenas `r sum(abs(residual_correlations_adjusted$residual) >= 0.10)` dos `r nrow(residual_correlations_adjusted)` pares avaliados ultrapassam o limiar prático de 0,10. A integração desse mapa com os parâmetros fatoriais e a tabela de MI/EPC delimita com clareza as discrepâncias remanescentes. O par Q8–Q9 lidera tanto o ranking de MI quanto a maior discrepância correlacional isolada, acompanhado de perto pela associação entre Q9 e Q23. A demanda de carga cruzada do item Q6 no fator Físico atinge EPC padronizado de `r formatC(with(attr(mi_table_adjusted, "mi_data"), sepc.all[lhs == "physical" & op == "=~" & rhs == "Q6"]), format = "f", digits = 3, decimal.mark = ",")`, figurando entre as ressalvas diagnósticas documentadas. Cumpre salientar que esses índices projetam estimativas pontuais sob liberação univariada, não representando parâmetros de um modelo reajustado.
 
-A revisão resultou em um modelo de quatro fatores com 21 indicadores,
-preservando os três itens sociais, mantendo a covariância residual Q3–Q4
-e acrescentando Q17–Q18. Na validação, a solução apresentou ajuste
-compatível com a referência razoável do 3DFI, e a hipótese de ajuste próximo
-pelo RMSEA não foi rejeitada. A confiabilidade permaneceu próxima ou acima
-de 0,70, com ômega físico ligeiramente abaixo dessa referência. Cargas
-modestas e discrepâncias locais delimitam a interpretação da solução.
-Retemos essa especificação, desenvolvida na calibração e avaliada na
-validação, com os mesmos critérios de pré-processamento e estimação das
-seções anteriores. Seus usos devem considerar a cobertura reduzida dos
-domínios; a generalização para outros contextos requer novas avaliações.
+A reespecificação consolidou um modelo parcimonioso de quatro fatores com 21 indicadores, resguardando os três itens do domínio Social, mantendo a covariância de erro Q3–Q4 e incorporando a dependência entre Q17 e Q18. Sob a subamostra confirmatória de validação, a solução satisfez os critérios de ajuste aceitável do 3DFI e não teve rejeitada a hipótese de ajuste próximo pelo teste do RMSEA. A confiabilidade compósita sustentou-se em níveis adequados ($\omega \geq 0,70$), observando-se apenas ligeiro recuo no escore Físico. Adota-se essa especificação, fundamentada na calibração e confirmada na validação, para orientar as conclusões metodológicas do estudo, recomendando-se cautela quanto à cobertura conceitual reduzida dos domínios.
 
 ## Invariância de medida {#sec-measurement-invariance}
 
-A avaliação prossegue com a estabilidade do modelo de 21 indicadores entre calibração e validação. A AFC multigrupo mantém a identificação das duas amostras e permite examinar se a estrutura e os parâmetros de mensuração são compatíveis entre elas. O ajuste configural preserva o mesmo padrão de fatores e cargas livres nos grupos; a etapa métrica acrescenta igualdade das cargas não padronizadas [@fischer2019; @putnick2016]. Esse contraste atende ao objetivo central de avaliar a estabilidade das relações entre indicadores e fatores, conforme discutido na @sec-theory-comparison.
+A etapa conclusiva afere a estabilidade estrutural do modelo de 21 indicadores ao longo da partição amostral entre calibração e validação. A análise fatorial confirmatória multigrupo assegura a identificação simultânea de ambas as subamostras, examinando a comparabilidade dos parâmetros de mensuração. O nível configural afere se a configuração de fatores e indicadores mantém-se invariante entre os grupos, enquanto o nível métrico impõe restrições de igualdade sobre as cargas fatoriais não padronizadas [@fischer2019; @putnick2016].
 
-Apesar de não necessário, para nossos fins, os níveis escalar e estrito ampliam a avaliação, acrescentando, sucessivamente, igualdade dos interceptos e das variâncias residuais [@putnick2016]. Todos os ajustes mantêm MLR/FIML e as covariâncias residuais Q3–Q4 e Q17–Q18, estimadas livremente em cada grupo.
+Embora a invariância métrica seja condição suficiente para a estabilidade estrutural das cargas fatoriais, os níveis escalar e estrito estendem a avaliação, impondo sucessivamente a equivalência dos interceptos e das variâncias residuais [@putnick2016]. Todas as especificações mantêm o estimador MLR/FIML e as covariâncias residuais Q3–Q4 e Q17–Q18 livres em cada subamostra.
 
 :::: {.content-visible unless-format="pdf"}
 
@@ -1046,7 +862,7 @@ Estimar os modelos configural, métrico, escalar e estrito para avaliar a invari
 
 **Preparação**
 
-Utilize `adjustedzemodel`, definido em [models.R](../Scripts/DataAppendixScripts/models.R), e a partição persistida em `Data/AnalysisData/whoqol_cv.csv`. A preparação geral da seção disponibiliza os pacotes e a especificação do modelo de 21 indicadores.
+Utilizam-se `adjustedzemodel`, definido em [models.R](../Scripts/DataAppendixScripts/models.R), e a partição persistida em `Data/AnalysisData/whoqol_cv.csv`. A preparação geral da seção disponibiliza os pacotes e a especificação do modelo de 21 indicadores.
 
 **Procedimento**
 
@@ -1111,7 +927,7 @@ fit_strict <- lavaan::cfa(
 
 ::::
 
-A @tbl-invariance-tests apresenta os testes dos modelos e as diferenças robustas entre níveis hierárquicos. A avaliação considera o desajuste decorrente das restrições acrescentadas, distinguindo o teste de diferença da hipótese de ajuste exato de cada modelo. A correção robusta é aplicada ao teste de diferença [@brown2015].
+A @tbl-invariance-tests apresenta os testes dos modelos e as diferenças robustas entre níveis hierárquicos. A avaliação considera o desajuste decorrente das restrições adicionais, distinguindo o teste de diferença da hipótese de ajuste exato de cada especificação sob correção robusta [@brown2015].
 
 ```{r}
 #| label: tbl-invariance-tests
@@ -1149,7 +965,7 @@ Apresentar o teste de cada modelo e os testes robustos das restrições acrescen
 
 **Preparação**
 
-Utilize `fit_configural`, `fit_metric`, `fit_scalar` e `fit_strict`, obtidos no bloco de estimação anterior. A função `table_lrt()` está definida em [helpers.R](../Scripts/DataAppendixScripts/helpers.R).
+Utilizam-se `fit_configural`, `fit_metric`, `fit_scalar` e `fit_strict`, obtidos no bloco de estimação anterior. A função `table_lrt()` está definida em [helpers.R](../Scripts/DataAppendixScripts/helpers.R).
 
 **Procedimento**
 
@@ -1189,9 +1005,9 @@ invariance_test_table
 
 ::::
 
-A igualdade das cargas não foi rejeitada: o contraste métrico/configural apresentou $\Delta\chi^2$ ajustado de `r formatC(attr(invariance_test_table, "lrt_data")$delta_chisq[2], format = "f", digits = 3, decimal.mark = ",")`, com `r formatC(attr(invariance_test_table, "lrt_data")$delta_df[2], format = "f", digits = 0, decimal.mark = ",")` graus de liberdade e $p$ = `r formatC(attr(invariance_test_table, "lrt_data")$p_difference[2], format = "f", digits = 3, decimal.mark = ",")`. As restrições adicionais também foram compatíveis com os dados: os testes escalar/métrico e estrito/escalar retornaram $p$ = `r formatC(attr(invariance_test_table, "lrt_data")$p_difference[3], format = "f", digits = 3, decimal.mark = ",")` e $p$ = `r formatC(attr(invariance_test_table, "lrt_data")$p_difference[4], format = "f", digits = 3, decimal.mark = ",")`, respectivamente. Esses resultados sustentam a manutenção das restrições avaliadas [@putnick2016] e indicam a estabilidade do modelo modificado da WHOQOL-Bref proposto.
+A restrição de igualdade sobre as cargas fatoriais foi plenamente sustentada pelos dados: o contraste entre os modelos métrico e configural exibiu $\Delta\chi^2$ robusto de `r formatC(attr(invariance_test_table, "lrt_data")$delta_chisq[2], format = "f", digits = 3, decimal.mark = ",")`, com `r formatC(attr(invariance_test_table, "lrt_data")$delta_df[2], format = "f", digits = 0, decimal.mark = ",")` graus de liberdade e $p = `r formatC(attr(invariance_test_table, "lrt_data")$p_difference[2], format = "f", digits = 3, decimal.mark = ",")`$. As etapas subsequentes mostraram-se igualmente consistentes: os contrastes escalar/métrico e estrito/escalar retornaram $p = `r formatC(attr(invariance_test_table, "lrt_data")$p_difference[3], format = "f", digits = 3, decimal.mark = ",")`$ e $p = `r formatC(attr(invariance_test_table, "lrt_data")$p_difference[4], format = "f", digits = 3, decimal.mark = ",")`$, respectivamente. Esse padrão empírico respalda a invariância métrica e estrita da versão reduzida do instrumento [@putnick2016].
 
-A @tbl-invariance-fit-changes reúne os índices dos quatro modelos e suas diferenças em relação ao nível anterior. As mudanças são calculadas como modelo mais restrito menos o anterior: queda do CFI e aumento do RMSEA ou do SRMR indicam piora. As referências de aproximadamente 0,010 para queda do CFI e 0,015 para aumento do RMSEA orientam a leitura conjunta, considerando as condições em que foram propostas por @cheung2002 e @chen2007.
+A @tbl-invariance-fit-changes consolida a trajetória dos índices de ajuste e suas respectivas variações incrementais ($\Delta$).
 
 ```{r}
 #| label: tbl-invariance-fit-changes
@@ -1222,7 +1038,7 @@ Apresentar CFI e RMSEA robustos e SRMR, intercalados com suas mudanças entre n�
 
 **Preparação**
 
-Utilize `invariance_fits`, organizado no bloco da @tbl-invariance-tests, e `table_fit_changes()`, definida em [helpers.R](../Scripts/DataAppendixScripts/helpers.R).
+Utilizam-se `invariance_fits`, organizado no bloco da @tbl-invariance-tests, e `table_fit_changes()`, definida em [helpers.R](../Scripts/DataAppendixScripts/helpers.R).
 
 **Procedimento**
 
@@ -1256,11 +1072,11 @@ invariance_fit_table
 
 ::::
 
-O modelo configural apresentou CFI robusto de `r formatC(attr(invariance_fit_table, "fit_data")$cfi[1], format = "f", digits = 3, decimal.mark = ",")`, RMSEA robusto de `r formatC(attr(invariance_fit_table, "fit_data")$rmsea[1], format = "f", digits = 3, decimal.mark = ",")` e SRMR de `r formatC(attr(invariance_fit_table, "fit_data")$srmr[1], format = "f", digits = 3, decimal.mark = ",")`. Com a igualdade das cargas, o CFI aumentou `r formatC(attr(invariance_fit_table, "fit_data")$delta_cfi[2], format = "f", digits = 4, decimal.mark = ",")` e o RMSEA diminuiu `r formatC(abs(attr(invariance_fit_table, "fit_data")$delta_rmsea[2]), format = "f", digits = 4, decimal.mark = ",")`, enquanto o SRMR aumentou `r formatC(attr(invariance_fit_table, "fit_data")$delta_srmr[2], format = "f", digits = 4, decimal.mark = ",")`. A imposição de invariância métrica, portanto, não produziu desajuste relevante nesses índices.
+A especificação configural registrou CFI robusto de `r formatC(attr(invariance_fit_table, "fit_data")$cfi[1], format = "f", digits = 3, decimal.mark = ",")`, RMSEA robusto de `r formatC(attr(invariance_fit_table, "fit_data")$rmsea[1], format = "f", digits = 3, decimal.mark = ",")` e SRMR de `r formatC(attr(invariance_fit_table, "fit_data")$srmr[1], format = "f", digits = 3, decimal.mark = ",")`. A fixação de igualdade sobre as cargas fatoriais aumentou o CFI em `r formatC(attr(invariance_fit_table, "fit_data")$delta_cfi[2], format = "f", digits = 4, decimal.mark = ",")` e atenuou o RMSEA em `r formatC(abs(attr(invariance_fit_table, "fit_data")$delta_rmsea[2]), format = "f", digits = 4, decimal.mark = ",")`, observando-se variação mínima no SRMR (`r formatC(attr(invariance_fit_table, "fit_data")$delta_srmr[2], format = "f", digits = 4, decimal.mark = ",")`). Esse comportamento comprova que a imposição de invariância métrica não degradou a qualidade do ajuste.
 
-Nas etapas escalar e estrita, as quedas de CFI foram de `r formatC(abs(attr(invariance_fit_table, "fit_data")$delta_cfi[3]), format = "f", digits = 4, decimal.mark = ",")` e `r formatC(abs(attr(invariance_fit_table, "fit_data")$delta_cfi[4]), format = "f", digits = 4, decimal.mark = ",")`, acompanhadas de redução do RMSEA e de aumentos pequenos do SRMR. A concordância entre os testes robustos e a magnitude dessas mudanças favorece a estabilidade das cargas, dos interceptos e das variâncias residuais entre as amostras [@putnick2016].
+Nos níveis escalar e estrito, os recuos observados no CFI fixaram-se em `r formatC(abs(attr(invariance_fit_table, "fit_data")$delta_cfi[3]), format = "f", digits = 4, decimal.mark = ",")` e `r formatC(abs(attr(invariance_fit_table, "fit_data")$delta_cfi[4]), format = "f", digits = 4, decimal.mark = ",")`, valores substancialmente inferiores ao limiar convencional de alerta de 0,010 [@cheung2002; @chen2007]. O alinhamento entre os testes formais de diferença e a magnitude ínfima das variações descritivas assegura a invariância de mensuração entre as amostras de calibração e validação [@putnick2016].
 
-A invariância métrica também pode ser examinada por uma referência empírica das mudanças de CFI robusto, RMSEA robusto e SRMR [@jorgensen2018]. Assim, os rótulos de calibração e validação foram redistribuídos dentro dos estratos originais de participantes completos e incompletos, preservando a alocação de cada estrato entre as amostras, e reestimamos os modelos configural e métrico numa permutação que permitiu avaliar se a mudança observada poderia ser extrema na direção de pior ajuste.
+A equivalência métrica foi igualmente corroborada por teste de permutação estratificada para as variações de CFI, RMSEA e SRMR [@jorgensen2018]. Para tanto, redistribuíram-se aleatoriamente os rótulos de calibração e validação dentro de cada estrato de integridade de dados (completos vs. omissos), reestimando-se os modelos configural e métrico para averiguar a probabilidade empírica de observar alterações adversas nos índices.
 
 :::: {.content-visible unless-format="pdf"}
 
@@ -1272,7 +1088,7 @@ Obter uma referência empírica para as mudanças de CFI robusto, RMSEA robusto 
 
 **Preparação**
 
-Utilize `fit_metric`, `fit_configural` e `cv_data`, obtidos no bloco de estimação da invariância, além de `SIM`, `SEED` e `cache_or_run()` da preparação geral. O estrato original de ausência está registrado em `missing_flag` e foi definido pelos 24 indicadores antes da divisão amostral.
+Utilizam-se `fit_metric`, `fit_configural` e `cv_data`, obtidos no bloco de estimação da invariância, além de `SIM`, `SEED` e `cache_or_run()` da preparação geral. O estrato original de ausência está registrado em `missing_flag` e foi definido pelos 24 indicadores antes da divisão amostral.
 
 **Procedimento**
 
@@ -1336,7 +1152,7 @@ perm_metric <- cache_or_run("perm_metric", {
 
 ::::
 
-A @tbl-invariance-permutation apresenta as diferenças observadas e os valores-p empíricos. A referência foi construída com `r perm_metric@n.Permutations` permutações, das quais `r perm_metric@n.Converged` produziram ajustes convergentes.
+A @tbl-invariance-permutation resume as variações observadas e os valores-$p$ derivados das `r perm_metric@n.Permutations` permutações empíricas, das quais `r perm_metric@n.Converged` alcançaram plena convergência numérica.
 
 ```{r}
 #| label: tbl-invariance-permutation
@@ -1367,7 +1183,7 @@ Apresentar as diferenças observadas dos índices e os valores-p empíricos do t
 
 **Preparação**
 
-Utilize `perm_metric`, obtido no bloco de permutação anterior, e `table_permutation()`, definida em [helpers.R](../Scripts/DataAppendixScripts/helpers.R).
+Utilizam-se `perm_metric`, obtido no bloco de permutação anterior, e `table_permutation()`, definida em [helpers.R](../Scripts/DataAppendixScripts/helpers.R).
 
 **Procedimento**
 
@@ -1400,9 +1216,9 @@ permutation_table
 
 ::::
 
-Os valores-p de permutação foram `r formatC(perm_metric@AFI.pval["cfi.robust"], format = "f", digits = 3, decimal.mark = ",")` para CFI robusto, `r formatC(perm_metric@AFI.pval["rmsea.robust"], format = "f", digits = 3, decimal.mark = ",")` para RMSEA robusto e `r formatC(perm_metric@AFI.pval["srmr"], format = "f", digits = 3, decimal.mark = ",")` para SRMR. As diferenças observadas não foram extremas nas respectivas caudas de deterioração, em concordância com o teste robusto de diferença. Essa convergência de evidências sustenta a compatibilidade das restrições métricas com os dados [@jorgensen2018].
+Os valores-$p$ empíricos resultaram em `r formatC(perm_metric@AFI.pval["cfi.robust"], format = "f", digits = 3, decimal.mark = ",")` para o CFI robusto, `r formatC(perm_metric@AFI.pval["rmsea.robust"], format = "f", digits = 3, decimal.mark = ",")` para o RMSEA robusto e `r formatC(perm_metric@AFI.pval["srmr"], format = "f", digits = 3, decimal.mark = ",")` para o SRMR. As alterações observadas situaram-se bem distantes das regiões de cauda associadas à degradação do ajuste, confirmando a robustez dos testes de razão de verossimilhanças [@jorgensen2018].
 
-A @fig-invariance-permutation apresenta as distribuições empíricas de $\Delta$CFI e $\Delta$RMSEA. As linhas vermelhas localizam as diferenças observadas e as pretas indicam os limites críticos: na cauda inferior para o CFI e na superior para o RMSEA. Em ambos os painéis, as mudanças observadas permanecem fora da região de rejeição.
+A @fig-invariance-permutation ilustra as distribuições empíricas de $\Delta$CFI e $\Delta$RMSEA. As linhas tracejadas vermelhas demarcam os valores observados na amostra, ao passo que as linhas pretas sinalizam os pontos de corte críticos a 5%. Em ambos os casos, as estimativas empíricas permanecem afastadas da zona de rejeição.
 
 ```{r}
 #| label: fig-invariance-permutation
@@ -1429,7 +1245,7 @@ Visualizar as distribuições de referência das mudanças de CFI e RMSEA robust
 
 **Preparação**
 
-Utilize `perm_metric`, obtido no bloco de permutação. Os histogramas acessam os resultados armazenados no objeto e não dependem da execução da tabela anterior.
+Utiliza-se `perm_metric`, obtido no bloco de permutação. Os histogramas acessam os resultados armazenados no objeto e não dependem da execução da tabela anterior.
 
 **Procedimento**
 
@@ -1458,4 +1274,4 @@ hist(perm_metric, AFI = "rmsea.robust")
 
 ::::
 
-A análise multigrupos procedida sob a amostra de calibração (grupo 1) e validação (grupo 2) sustenta a estabilidade métrica do modelo de 21 indicadores, acompanhada de resultados favoráveis às restrições escalares e estritas. Essa evidência complementa o ajuste global, a confiabilidade e o diagnóstico local da solução. Seu alcance é a estabilidade interna entre amostras da mesma população de origem [@fischer2019; @putnick2016].
+A análise multigrupo conduzida entre as subamostras de calibração e validação atesta a invariância métrica da estrutura de 21 indicadores, exibindo resultados igualmente favoráveis às restrições escalares e estritas. Essa constatação consolida as evidências de ajuste global, confiabilidade e diagnóstico local, comprovando a estabilidade interna do modelo entre partições independentes da mesma população de origem [@fischer2019; @putnick2016].

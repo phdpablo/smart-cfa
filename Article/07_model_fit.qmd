@@ -14,18 +14,9 @@ source(here::here("Scripts", "DataAppendixScripts", "cache_loader.R"))
 
 ## Ajuste global dos modelos originais
 
-O ajuste global avalia em que medida as relações especificadas reproduzem a
-estrutura de covariâncias dos indicadores. Conforme a @sec-theory-fit, sua
-avaliação combina o teste de ajuste exato e índices que descrevem a magnitude
-do desajuste.
+O ajuste global avalia a extensão em que a estrutura de covariâncias dos indicadores é reproduzida pelas relações especificadas no modelo. Conforme fundamentado na @sec-theory-fit, essa avaliação articula o teste de ajuste exato a índices descritivos que quantificam a magnitude do desajuste residual.
 
-A @tbl-model-fit-global apresenta os resultados de H~0~ e H~1~ para os mesmos
-621 participantes da amostra de calibração. O χ² e seu valor de p correspondem
-ao teste ajustado;
-CFI, TLI e RMSEA são apresentados nas versões robustas, incluindo os limites
-robustos do intervalo do RMSEA. O SRMR acompanha essas medidas como resumo
-adicional. A leitura conjunta dos indicadores orienta a avaliação das
-especificações originais [@mai2021; @niemand2018].
+A @tbl-model-fit-global apresenta os resultados de H~0~ e H~1~ estimados para os 621 participantes da subamostra de calibração. O teste $\chi^2$ e o respectivo $p$-valor reportam a estatística com correção de escala (Satorra-Bentler), ao passo que CFI, TLI e RMSEA são informados em suas versões robustas, incluindo os limites do intervalo de confiança de 90% do RMSEA. O SRMR complementa o diagnóstico como medida de desajuste médio absoluto nas correlações. A leitura conjunta e integrada desses índices orienta o julgamento confirmatório das especificações originais [@mai2021; @niemand2018].
 
 ```{r}
 #| label: tbl-model-fit-global
@@ -114,26 +105,21 @@ knitr::kable(fit_global_display, format = "pipe", align = c("l", "r", "r"),
 
 **Finalidade**
 
-Reunir as medidas de ajuste global de H~0~ e H~1~ para apresentação lado a lado.
+Reunir as medidas de ajuste global de H~0~ e H~1~ para apresentação comparativa lado a lado.
 
 **Preparação**
 
-Utilize a base `Data/AnalysisData/whoqol_cv.csv`, salva na @sec-estimation,
-as especificações `analyzemodel` e `h1modelfree` e a preparação geral da
-@sec-model-selection. O código lê a partição salva e seleciona
-`sample_group == 0` em `calibration_data`, recuperando a mesma amostra de
-calibração sem repetir a divisão ou depender de uma sessão anterior.
+Utilizam-se a base `Data/AnalysisData/whoqol_cv.csv`, salva na @sec-estimation, as especificações `analyzemodel` e `h1modelfree` e a rotina geral da @sec-model-selection. O código lê a partição salva e seleciona `sample_group == 0` em `calibration_data`, recuperando a subamostra de calibração sem demandar novo sorteio ou depender do estado da sessão anterior.
 
 **Procedimento**
 
-O bloco lê a partição persistida e estima os dois modelos apenas na calibração,
-mantendo as condições da @sec-estimation. A função própria `table_fit()`, definida em [helpers.R](../Scripts/DataAppendixScripts/helpers.R), recebe cada ajuste e prepara suas medidas de ajuste. Sua auxiliar `tidy_fit()` organiza os índices compatíveis com o teste utilizado, preservando os valores numéricos completos.
+O bloco lê a partição persistida e estima os dois modelos na subamostra de calibração, mantendo as condições da @sec-estimation. A função `table_fit()`, definida em [helpers.R](../Scripts/DataAppendixScripts/helpers.R), recebe cada ajuste e consolida as estatísticas de ajuste. A rotina auxiliar `tidy_fit()` organiza os índices compatíveis com o estimador empregado, preservando os valores numéricos em precisão completa.
 
-O atributo `fit_data` fornece as medidas completas para os valores inseridos no texto, e `table_data` fornece a apresentação. Após verificar se ambas as tabelas estão disponíveis, o bloco as reúne pela medida, com uma coluna para cada modelo. A exportação conserva o mesmo conteúdo exibido.
+O atributo `fit_data` fornece as medidas completas para inserção inline no texto, enquanto `table_data` estrutura os dados para exibição. Após verificar a disponibilidade de ambas as tabelas, o bloco as combina por medida, dedicando uma coluna a cada modelo.
 
 **Execução e resultado**
 
-Execute o bloco para criar os ajustes, apresentar `fit_global` e salvar `tbl-model-fit-global.csv` em `Output/Results/Tables`. Os ajustes serão reutilizados nas saídas seguintes.
+Execute o bloco para processar os ajustes, gerar `fit_global` e salvar `tbl-model-fit-global.csv` em `Output/Results/Tables`. As estimativas serão aproveitadas nas saídas seguintes.
 
 ```{r}
 #| eval: false
@@ -218,75 +204,24 @@ knitr::kable(fit_global_display, format = "pipe", align = c("l", "r", "r"),
 
 ::::
 
-Os resultados da @tbl-model-fit-global mostram limitações de ajuste nas duas
-especificações. O teste de ajuste exato foi significativo em H~0~,
-χ²(`r round(fit_measures_h0["df.scaled"])`) =
-`r formatC(fit_measures_h0["chisq.scaled"], format = "f", digits = 3, decimal.mark = ",")`
-(p `r format.pval(fit_measures_h0["pvalue.scaled"], digits = 3, eps = 0.001, decimal.mark = ",")`),
-e em H~1~,
-χ²(`r round(fit_measures_h1["df.scaled"])`) =
-`r formatC(fit_measures_h1["chisq.scaled"], format = "f", digits = 3, decimal.mark = ",")`
-(p `r format.pval(fit_measures_h1["pvalue.scaled"], digits = 3, eps = 0.001, decimal.mark = ",")`).
-O teste χ² é sensível ao tamanho amostral e pode detectar discrepâncias de
-pequena magnitude. Sua interpretação é complementada pelos demais índices
-[@nye2022; @west2023].
+Os resultados da @tbl-model-fit-global evidenciam limitações de ajuste em ambas as especificações teóricas. O teste de ajuste exato revelou-se estatisticamente significante em H~0~, χ²(`r round(fit_measures_h0["df.scaled"])`) = `r formatC(fit_measures_h0["chisq.scaled"], format = "f", digits = 3, decimal.mark = ",")` (p `r format.pval(fit_measures_h0["pvalue.scaled"], digits = 3, eps = 0.001, decimal.mark = ",")`), e em H~1~, χ²(`r round(fit_measures_h1["df.scaled"])`) = `r formatC(fit_measures_h1["chisq.scaled"], format = "f", digits = 3, decimal.mark = ",")` (p `r format.pval(fit_measures_h1["pvalue.scaled"], digits = 3, eps = 0.001, decimal.mark = ",")`). Como o teste $\chi^2$ apresenta alta sensibilidade ao tamanho amostral, rejeitando frequentemente discrepâncias de magnitude residual, sua interpretação é articulada aos índices descritivos [@nye2022; @west2023].
 
-Os índices incrementais constituem o principal sinal de fragilidade nesta
-avaliação inicial. Em H~0~, CFI e TLI robustos foram, respectivamente,
-`r formatC(fit_measures_h0["cfi.robust"], format = "f", digits = 3, decimal.mark = ",")`
-e `r formatC(fit_measures_h0["tli.robust"], format = "f", digits = 3, decimal.mark = ",")`;
-em H~1~, foram
-`r formatC(fit_measures_h1["cfi.robust"], format = "f", digits = 3, decimal.mark = ",")`
-e `r formatC(fit_measures_h1["tli.robust"], format = "f", digits = 3, decimal.mark = ",")`.
-Esses valores mostram ganho limitado de ajuste em relação ao modelo de
-referência. O RMSEA robusto foi
-`r formatC(fit_measures_h0["rmsea.robust"], format = "f", digits = 3, decimal.mark = ",")`
-(IC de 90%:
-`r formatC(fit_measures_h0["rmsea.ci.lower.robust"], format = "f", digits = 3, decimal.mark = ",")`–`r formatC(fit_measures_h0["rmsea.ci.upper.robust"], format = "f", digits = 3, decimal.mark = ",")`)
-em H~0~ e
-`r formatC(fit_measures_h1["rmsea.robust"], format = "f", digits = 3, decimal.mark = ",")`
-(IC de 90%:
-`r formatC(fit_measures_h1["rmsea.ci.lower.robust"], format = "f", digits = 3, decimal.mark = ",")`–`r formatC(fit_measures_h1["rmsea.ci.upper.robust"], format = "f", digits = 3, decimal.mark = ",")`)
-em H~1~, com magnitudes próximas à referência convencional de 0,06.
+Os índices incrementais concentram os principais indícios de inadequação nessa avaliação inicial. Em H~0~, CFI e TLI robustos atingiram `r formatC(fit_measures_h0["cfi.robust"], format = "f", digits = 3, decimal.mark = ",")` e `r formatC(fit_measures_h0["tli.robust"], format = "f", digits = 3, decimal.mark = ",")`, ao passo que em H~1~ registraram-se `r formatC(fit_measures_h1["cfi.robust"], format = "f", digits = 3, decimal.mark = ",")` e `r formatC(fit_measures_h1["tli.robust"], format = "f", digits = 3, decimal.mark = ",")`. Esses coeficientes atestam ganho modesto de ajuste frente ao modelo nulo de independência. Por sua vez, o RMSEA robusto situou-se em `r formatC(fit_measures_h0["rmsea.robust"], format = "f", digits = 3, decimal.mark = ",")` (IC 90%: `r formatC(fit_measures_h0["rmsea.ci.lower.robust"], format = "f", digits = 3, decimal.mark = ",")`–`r formatC(fit_measures_h0["rmsea.ci.upper.robust"], format = "f", digits = 3, decimal.mark = ",")`) em H~0~ e em `r formatC(fit_measures_h1["rmsea.robust"], format = "f", digits = 3, decimal.mark = ",")` (IC 90%: `r formatC(fit_measures_h1["rmsea.ci.lower.robust"], format = "f", digits = 3, decimal.mark = ",")`–`r formatC(fit_measures_h1["rmsea.ci.upper.robust"], format = "f", digits = 3, decimal.mark = ",")`) em H~1~, alinhando-se à zona de corte tradicional de 0,06.
 
-O SRMR apresentou um resultado mais favorável, com
-`r formatC(fit_measures_h0["srmr"], format = "f", digits = 3, decimal.mark = ",")`
-em H~0~ e
-`r formatC(fit_measures_h1["srmr"], format = "f", digits = 3, decimal.mark = ",")`
-em H~1~. A menor magnitude média dos resíduos padronizados pode coexistir com
-dificuldades em relações específicas, que serão examinadas no diagnóstico
-local. Essa diferença entre os sinais dos índices reforça a necessidade de
-interpretá-los conjuntamente [@mai2021; @niemand2018].
+O SRMR reportou comportamento mais favorável, marcando `r formatC(fit_measures_h0["srmr"], format = "f", digits = 3, decimal.mark = ",")` em H~0~ e `r formatC(fit_measures_h1["srmr"], format = "f", digits = 3, decimal.mark = ",")` em H~1~. A baixa magnitude média dos resíduos padronizados pode, contudo, coexistir com focos de desajuste em pares específicos de itens, inspecionados oportunamente na etapa de diagnóstico local. A divergência entre as métricas reforça a necessidade metodológica de interpretá-las conjuntamente [@mai2021; @niemand2018].
 
-H~1~ apresenta índices descritivamente mais favoráveis, com melhora pequena
-em relação a H~0~. As limitações dos índices incrementais permanecem nas duas
-especificações, apesar dos resultados mais favoráveis de RMSEA e SRMR. A
-avaliação por simulação complementa essa leitura com referências para as
-condições da amostra de calibração, conforme a estratégia discutida na
-@sec-theory-fit. O diagnóstico local examina as relações em que se concentram
-as discrepâncias e orienta sua interpretação substantiva.
+H~1~ apresenta índices descritivamente superiores, embora o ganho empírico frente a H~0~ seja discreto. O déficit nos índices incrementais persiste nas duas especificações, nada obstante os níveis aceitáveis de RMSEA e SRMR. A abordagem por simulação complementa esse julgamento ao balizar as distribuições empíricas sob as condições da subamostra de calibração, conforme a estratégia discutida na @sec-theory-fit. O diagnóstico local examina os pontos em que as discrepâncias se concentram e norteia sua interpretação conceitual.
 
 ## Confiabilidade dos escores
 
-A confiabilidade expressa a precisão de um escore sob determinadas condições
-de mensuração. O ômega é a medida principal, calculada a partir
-dos parâmetros fatoriais e da variância observada do escore. Essa avaliação
-complementa o ajuste global e depende da adequação da especificação utilizada
-[@flora2020; @cho2022].
+A confiabilidade mensura a precisão do escore compósito sob determinadas condições de mensuração. O coeficiente ômega ($\omega$) figura como indicador central, estimado a partir das cargas fatoriais e das variâncias residuais do modelo. Essa aferição complementa o ajuste global e depende intrinsecamente da correta especificação fatorial [@flora2020; @cho2022].
 
-A @tbl-domain-reliability apresenta o ômega e o GLB para os quatro domínios em H~0~ e H~1~. Em H~1~, o escore
-psicológico inclui também Q8 e Q9, e o ambiental inclui Q15, passando a
-oito e nove itens, respectivamente. Os demais escores mantêm sua composição. O GLB é calculado separadamente a partir da matriz observada
-recuperada de cada ajuste, permitindo verificar a correspondência dos
-resultados. Sua formulação algébrica pressupõe erros não correlacionados e
-pode apresentar viés amostral para cima; portanto, sua interpretação difere
-da confiabilidade baseada no modelo que inclui a covariância residual Q3–Q4
-[@trizano-hermosilla2016].
+A @tbl-domain-reliability expõe o ômega e o GLB para os quatro domínios em H~0~ e H~1~. Em H~1~, o fator Psicológico incorpora também Q8 e Q9, enquanto o fator Meio Ambiente agrega Q15, passando a totalizar oito e nove itens, respectivamente. Os demais fatores preservam sua composição original. O GLB é computado separadamente com base na matriz observada de cada modelo, permitindo confrontar os resultados. Como sua dedução algébrica pressupõe independência residual e tende à superestimação amostral em amostras finitas, sua interpretação difere da confiabilidade derivada do modelo estrutural com covariância residual entre Q3 e Q4 [@trizano-hermosilla2016].
 
 ```{r}
 #| label: tbl-domain-reliability
 #| tbl-cap: >-
-#|   Confiabilidade dos escores de domínio conforme a composição em H~0~ e H~1~
+#|   Confiabilidade dos domínios conforme a composição em H~0~ e H~1~
 #| echo: false
 
 # Prepare each model's formatted score reliability table.
@@ -331,17 +266,17 @@ Estimar a confiabilidade dos escores de cada domínio, respeitando sua composiç
 
 **Preparação**
 
-Utilize `fit_analyzemodel` e `fit_h1modelfree`, estimados no bloco da @tbl-model-fit-global.
+Utilizam-se `fit_analyzemodel` e `fit_h1modelfree`, estimados no bloco da @tbl-model-fit-global.
 
 **Procedimento**
 
-A função própria `table_reliability()`, de [helpers.R](../Scripts/DataAppendixScripts/helpers.R), recebe cada ajuste e prepara a tabela de confiabilidade. Sua auxiliar `tidy_reliability()` identifica os itens de cada fator e calcula ômega e GLB para os respectivos escores com pesos iguais. O ômega provém de `semTools::compRelSEM()`; o GLB utiliza a matriz observada dos mesmos itens com `psych::glb.algebraic()`.
+A função `table_reliability()`, de [helpers.R](../Scripts/DataAppendixScripts/helpers.R), recebe cada ajuste e gera a tabela de confiabilidade. A rotina auxiliar `tidy_reliability()` identifica os indicadores de cada fator e calcula ômega e GLB para os escores unitários. O coeficiente ômega provém de `semTools::compRelSEM()`, enquanto o GLB utiliza a matriz de correlações observadas mediante `psych::glb.algebraic()`.
 
-A composição acompanha as cargas dos modelos, incluindo as cargas cruzadas de H~1~. As duas tabelas são verificadas e empilhadas, com a coluna `Modelo` identificando sua origem. A exportação utiliza o mesmo conteúdo apresentado.
+A composição reproduz as cargas dos modelos, incluindo as cargas cruzadas postuladas em H~1~. Ambas as tabelas são verificadas e empilhadas, com a coluna `Modelo` sinalizando a respectiva especificação. A exportação mantém o mesmo padrão de apresentação.
 
 **Execução e resultado**
 
-Execute o bloco para apresentar os quatro escores de cada modelo e salvar `tbl-domain-reliability.csv` em `Output/Results/Tables`. O cálculo utiliza os ajustes disponíveis, sem nova estimação.
+Execute o bloco para exibir os escores dos modelos e salvar `tbl-domain-reliability.csv` em `Output/Results/Tables`. O cálculo reaproveita os ajustes em memória, sem demandar reestimação.
 
 ```{r}
 #| eval: false
@@ -383,60 +318,17 @@ knitr::kable(reliability_domains, align = c("l", "l", "r", "r", "r"),
 
 ::::
 
-No modelo de interesse H~0~, os coeficientes dos quatro domínios ficaram
-próximos ou acima da referência convencional de 0,70, com os menores valores
-no domínio social. Em H~1~, o ômega dos escores psicológico e ambiental
-ficou abaixo dessa referência. A interpretação dessas diferenças deve
-considerar a ampliação dos dois escores, além da mudança na especificação
-fatorial. A confiabilidade dos escores complementa a avaliação do modelo e
-não resolve as limitações de ajuste global identificadas anteriormente.
+No modelo de referência H~0~, os coeficientes ômega dos quatro domínios situaram-se próximos ou acima do patamar aceitável de 0,70, registrando-se os menores índices no domínio Relações Sociais. Em H~1~, a consistência dos escores Psicológico e Meio Ambiente recuou para níveis inferiores a essa referência. A avaliação desse recuo deve ponderar a incorporação de itens com cargas secundárias de baixa magnitude, somada à alteração na dimensionalidade teórica dos fatores. A confiabilidade complementa a caracterização psicométrica do instrumento, sem resolver as fragilidades de ajuste global verificadas anteriormente.
 
 ## Distribuições dos índices sob os modelos empíricos
 
-A AP utilizou parâmetros populacionais definidos a partir da
-literatura e de pressupostos de planejamento. Após a estimação, as cargas e
-as correlações observadas diferiram dessas condições. A avaliação por
-simulação foi, portanto, parametrizada pelos ajustes empíricos, preservando
-a estrutura dos modelos e incorporando o tamanho amostral e as características
-distributivas consideradas na análise atual [@leite2023; @moshagen2024].
-Os limites do planejamento em $N=200$ são, portanto, recalculados para os
-621 participantes da calibração, com parâmetros estimados, distribuições
-marginais e padrão de ausências dessa parcela. Essa mudança desloca a pergunta
-do tamanho amostral necessário para o comportamento esperado dos índices
-nas condições empíricas.
+A análise de poder (*a priori*) baseou-se em parâmetros populacionais derivados da literatura e em pressupostos teóricos de planejamento. Uma vez realizada a estimação, as magnitudes de cargas e correlações empíricas afastaram-se daquelas premissas ideais. A avaliação por simulação de Monte Carlo foi, desse modo, reparametrizada pelas matrizes empíricas observadas, preservando a estrutura dos modelos e incorporando o tamanho amostral e as assimetrias distributivas da presente análise [@leite2023; @moshagen2024]. Recalculam-se, assim, os limites fixados no planejamento para os 621 participantes da calibração, considerando os parâmetros estimados, as distribuições marginais e o padrão de dados omissos dessa subamostra. Esse procedimento desloca a questão do dimensionamento amostral prévio para o comportamento empírico esperado dos índices de ajuste sob as condições concretas do estudo.
 
-Os parâmetros estimados definem populações geradoras hipotéticas. Sob a
-primeira condição, os dados são gerados e analisados segundo H~0~, fornecendo
-a distribuição de referência dos índices quando suas restrições são
-satisfeitas. Sob a segunda, os dados são gerados segundo H~1~ e analisados
-por H~0~, permitindo avaliar a sensibilidade dos índices à omissão das três
-cargas cruzadas previamente consideradas. A forma desse contraste mantém
-continuidade com o planejamento, enquanto suas magnitudes são atualizadas
-pelas estimativas empíricas.
+Os parâmetros estimados delimitam as populações geradoras hipotéticas. Sob a primeira condição, os dados são gerados e modelados sob H~0~, estabelecendo a distribuição empírica de referência dos índices quando as restrições teóricas do modelo são estritamente satisfeitas. Sob a segunda, os dados são gerados a partir de H~1~ e estimados por H~0~, avaliando-se a sensibilidade dos índices à omissão deliberada das três cargas cruzadas especificadas. Esse contraste confere continuidade ao protocolo de planejamento, atualizando as grandezas paramétricas à luz das estimativas da amostra.
 
-A avaliação reúne o posicionamento dos índices observados de H~0~ diante de
-sua referência e a sensibilidade dessa referência à alternativa especificada.
-Os cortes derivados dos quantis sob H~0~ correspondem à referência de ajuste
-exato; a condição alternativa permite examinar sua capacidade de detectar a
-omissão escolhida. Esse procedimento utiliza uma alternativa estrutural específica,
-com as três cargas cruzadas, enquanto o 3DFI apresentado na
-@sec-theory-fit gera perturbações aleatórias na matriz de correlações,
-com magnitude estipulada por MAD [@mcneish2024]. As conclusões são condicionadas aos parâmetros e às
-condições simuladas. As estimativas utilizadas nos geradores permanecem
-fixas entre replicações; a simulação reproduz a variabilidade amostral sob
-essas estimativas. Trata-se de uma avaliação condicional baseada na mesma
-parcela de calibração utilizada para estimar os parâmetros. O diagnóstico
-local complementa a avaliação, examinando discrepâncias que o contraste
-escolhido pode não representar.
+A estratégia reúne a localização dos índices observados de H~0~ frente à sua distribuição nula e a sensibilidade estatística dessa referência diante da má especificação concorrente. Os pontos de corte derivados dos quantis sob H~0~ refletem a amostragem sob hipótese de ajuste exato, ao passo que a condição alternativa permite averiguar o poder de detecção da omissão estrutural postulada. O procedimento testa uma má especificação substantiva direcionada (as três cargas cruzadas), ao passo que a abordagem 3DFI exposta na @sec-theory-fit introduz perturbações estocásticas distribuídas na matriz de correlações com magnitude calibrada por MAD [@mcneish2024]. As conclusões mantêm-se condicionadas às estimativas pontuais e às distribuições simuladas. Tais estimativas permanecem fixas entre as replicações, cabendo ao Monte Carlo reproduzir o erro de amostragem condicional à subamostra de calibração. O diagnóstico local complementa essa análise ao rastrear anomalias pontuais que escapam ao escopo da alternativa geradora modelada.
 
-São consideradas 1.000 replicações de 621 participantes em cada condição.
-A geração incorpora as assimetrias e curtoses marginais observadas e repete
-o padrão de células ausentes da calibração. A estimação mantém MLR/FIML.
-A @fig-empirical-fit-distributions apresenta as distribuições de RMSEA, CFI e
-TLI robustos, acompanhados do SRMR, preservando as medidas utilizadas na
-@tbl-model-fit-global. A concentração de CFI e TLI próximos de 1 é esperada
-sob a condição em que o modelo ajustado corresponde à estrutura geradora;
-essa referência permite avaliar o afastamento dos valores observados.
+Processaram-se 1.000 replicações de 621 casos em cada condição geradora. A simulação replica as assimetrias e curtoses marginais observadas empiricamente, além de reproduzir o mapa exato de células ausentes da calibração sob o algoritmo MLR/FIML. A @fig-empirical-fit-distributions sintetiza as distribuições de amostragem para RMSEA, CFI e TLI robustos e SRMR, acompanhando as métricas reportadas na @tbl-model-fit-global. A concentração de CFI e TLI em torno de 1 constitui o padrão esperado sob congruência perfeita entre gerador e estimador, permitindo mensurar objetivamente a distância em relação aos dados empíricos observados.
 
 ```{r}
 #| label: setup-empirical-simulation
@@ -525,22 +417,17 @@ Produzir as simulações empíricas sob H~0~ e H~1~ que alimentam a avaliação 
 
 **Preparação**
 
-Utilize `calibration_data`, `fit_analyzemodel` e `fit_h1modelfree`, criados no bloco da @tbl-model-fit-global para a calibração (`sample_group == 0`), além de `analyzemodel`, `SIM`, `SEED` e do mecanismo de resultados salvos da preparação geral.
+Utilizam-se `calibration_data`, `fit_analyzemodel` e `fit_h1modelfree`, criados no bloco da @tbl-model-fit-global para a calibração (`sample_group == 0`), além de `analyzemodel`, `SIM`, `SEED` e do mecanismo de cache implementado na rotina geral.
 
 **Procedimento**
 
-O bloco ordena os 24 indicadores da amostra de calibração conforme cada ajuste e obtém sua assimetria e curtose excedente para construir as distribuições marginais de geração. A condição de referência gera dados a partir do ajuste H~0~; a alternativa gera a partir de H~1~. Nas duas condições, o modelo estimado é `analyzemodel`, que omite as três cargas cruzadas.
+O bloco ordena os 24 indicadores da amostra de calibração conforme cada ajuste e obtém a assimetria e curtose observadas para parametrizar as distribuições marginais não normais. A condição de referência gera observações a partir do modelo H~0~, enquanto a condição concorrente gera a partir de H~1~. Em ambos os casos, a estimação é aplicada sobre `analyzemodel`, que impõe a omissão das cargas cruzadas.
 
-As chamadas solicitam 1.000 replicações, `nrow(calibration_data)` participantes
-da calibração, semente `SEED`, MLR e identificação por variâncias unitárias (`std.lv = TRUE`). O padrão de células ausentes é fornecido em `miss`, e `missing = "fiml"` é passado à chamada. `cache_or_run()` reaproveita os objetos ou arquivos existentes e só simula na ausência de resultados disponíveis. Os resultados reutilizados devem corresponder à mesma partição, aos mesmos
-ajustes e às mesmas condições de geração. A existência de um objeto ou RDS
-anterior não atualiza suas condições automaticamente. Para um recálculo após
-troca da amostra, não reutilize os resultados anteriores na memória ou no disco.
-As instruções operacionais gerais ficam no [README](../README.md).
+As rotinas processam 1.000 replicações com `nrow(calibration_data)` observações, semente pseudoaleatória `SEED`, estimador MLR e identificação por variâncias latentes unitárias (`std.lv = TRUE`). O perfil de dados omissos é fixado em `miss`, aplicando-se `missing = "fiml"`. A função `cache_or_run()` reaproveita arquivos RDS previamente gravados, executando a rotina apenas na ausência de cache válido. Os resultados reaproveitados vinculam-se estritamente à mesma partição e aos mesmos ajustes. Instruções operacionais detalhadas constam no [README](../README.md).
 
 **Execução e resultado**
 
-Execute primeiro o bloco da @tbl-model-fit-global, depois a preparação das distribuições e as duas simulações. Os objetos `sim_h0_empirical` e `sim_h1_empirical` ficam disponíveis para o cálculo dos limites, do poder e das distribuições dos índices. Os resultados são armazenados em `sim_h0_empirical.rds` e `sim_h1_empirical.rds`, em `Data/IntermediateData`, permitindo reutilizá-los sem repetir as simulações.
+Execute inicialmente o bloco da @tbl-model-fit-global, seguido da preparação dos momentos marginais e das simulações. Os objetos `sim_h0_empirical` e `sim_h1_empirical` fornecem os subsídios para derivação de pontos de corte dinâmicos, cálculo de poder e exibição gráfica. Os dados são persistidos em `sim_h0_empirical.rds` e `sim_h1_empirical.rds` no diretório `Data/IntermediateData`.
 
 ```{r}
 #| eval: false
@@ -693,21 +580,21 @@ simsem::plotPowerFit(
 
 **Finalidade**
 
-Obter os limites dos índices e o poder de detecção da alternativa simulada e comparar as distribuições nas duas condições geradoras.
+Obter os limites empíricos dos índices e o poder estatístico de detecção da alternativa geradora, comparando as distribuições de amostragem em ambas as condições.
 
 **Preparação**
 
-Utilize `sim_h0_empirical` e `sim_h1_empirical`, obtidos no callout “Como as simulações empíricas foram realizadas”, além de `ALPHA` e `FITS_ROB` da preparação geral.
+Utilizam-se `sim_h0_empirical` e `sim_h1_empirical`, obtidos no callout precedente, além dos parâmetros `ALPHA` e `FITS_ROB` da rotina geral.
 
 **Procedimento**
 
-A calibração utiliza a distribuição sob H~0~: percentil 95 para RMSEA robusto e SRMR, e percentil 5 para CFI e TLI robustos. `revDirec = TRUE` explicita a inversão para os nomes robustos, que não integram a lista automática do pacote. Os mesmos limites são fornecidos ao cálculo de poder na condição alternativa e ao gráfico, evitando que cada saída obtenha critérios distintos.
+A calibração deriva da distribuição de amostragem sob H~0~: percentil 95 para RMSEA robusto e SRMR, e percentil 5 para CFI e TLI robustos. A opção `revDirec = TRUE` explicita a cauda inferior para os índices incrementais robustos. Esses mesmos pontos de corte alimentam o cômputo de poder estatístico na condição concorrente e o traçado dos gráficos, garantindo estrita consistência entre saídas tabulares e visuais.
 
-O bloco salva a tabela auxiliar de poder e limites com precisão completa, mantendo-a oculta na apresentação. A figura reúne os quatro índices e suas referências de rejeição.
+O bloco grava a tabela auxiliar de poder e limites em precisão numérica completa, resguardando-a de exibição redundante. A figura integra a distribuição dos quatro índices de ajuste ao lado de seus limiares de decisão.
 
 **Execução e resultado**
 
-Execute o bloco de preparação dos limites e do poder e, em seguida, o bloco da figura. O procedimento apresenta as distribuições e salva `tbl-empirical-power-cutoffs.csv` em `Output/Results/Tables`, utilizando as simulações já disponíveis.
+Execute o bloco preparatório dos pontos de corte e, na sequência, o bloco de geração gráfica. O procedimento projeta as curvas de densidade e exporta `tbl-empirical-power-cutoffs.csv` no diretório `Output/Results/Tables`.
 
 ```{r}
 #| eval: false
@@ -777,63 +664,22 @@ simsem::plotPowerFit(
 
 ::::
 
-A @fig-empirical-fit-distributions permite comparar as distribuições
-sob H~0~ e sob a condição em que as três cargas cruzadas estão presentes na
-população, mas são omitidas pelo modelo de análise. Com referência nominal
-de erro Tipo I de 5%, os limites superiores são
-`r formatC(power_cutoff_fixed["Ponto de corte", "RMSEA.ROBUST"], format = "f", digits = 3, decimal.mark = ",")`
-para RMSEA e
-`r formatC(power_cutoff_fixed["Ponto de corte", "SRMR"], format = "f", digits = 3, decimal.mark = ",")`
-para SRMR; os limites inferiores são
-`r formatC(power_cutoff_fixed["Ponto de corte", "CFI.ROBUST"], format = "f", digits = 3, decimal.mark = ",")`
-para CFI e
-`r formatC(power_cutoff_fixed["Ponto de corte", "TLI.ROBUST"], format = "f", digits = 3, decimal.mark = ",")`
-para TLI. Aplicados à condição alternativa, esses cortes fornecem estimativas
-de poder de
-`r formatC(100 * power_cutoff_fixed["Poder", "RMSEA.ROBUST"], format = "f", digits = 1, decimal.mark = ",")`%,
-`r formatC(100 * power_cutoff_fixed["Poder", "SRMR"], format = "f", digits = 1, decimal.mark = ",")`%,
-`r formatC(100 * power_cutoff_fixed["Poder", "CFI.ROBUST"], format = "f", digits = 1, decimal.mark = ",")`%
-e `r formatC(100 * power_cutoff_fixed["Poder", "TLI.ROBUST"], format = "f", digits = 1, decimal.mark = ",")`%,
-respectivamente. Esses valores expressam a capacidade de detectar a omissão
-das cargas cruzadas nas condições simuladas.
+A @fig-empirical-fit-distributions possibilita contrastar as distribuições teóricas sob H~0~ com aquelas geradas sob a presença de três cargas cruzadas na população não especificadas no modelo analítico. Adotando-se o nível nominal de significância $\alpha = 0,05$, os limiares superiores de rejeição situam-se em `r formatC(power_cutoff_fixed["Ponto de corte", "RMSEA.ROBUST"], format = "f", digits = 3, decimal.mark = ",")` para o RMSEA e `r formatC(power_cutoff_fixed["Ponto de corte", "SRMR"], format = "f", digits = 3, decimal.mark = ",")` para o SRMR. Paralelamente, os limites inferiores de corte equivalem a `r formatC(power_cutoff_fixed["Ponto de corte", "CFI.ROBUST"], format = "f", digits = 3, decimal.mark = ",")` para o CFI e `r formatC(power_cutoff_fixed["Ponto de corte", "TLI.ROBUST"], format = "f", digits = 3, decimal.mark = ",")` para o TLI. Ao incidir sobre a distribuição alternativa, esses cortes revelam coeficientes de poder estatístico correspondentes a `r formatC(100 * power_cutoff_fixed["Poder", "RMSEA.ROBUST"], format = "f", digits = 1, decimal.mark = ",")`%, `r formatC(100 * power_cutoff_fixed["Poder", "SRMR"], format = "f", digits = 1, decimal.mark = ",")`%, `r formatC(100 * power_cutoff_fixed["Poder", "CFI.ROBUST"], format = "f", digits = 1, decimal.mark = ",")`% e `r formatC(100 * power_cutoff_fixed["Poder", "TLI.ROBUST"], format = "f", digits = 1, decimal.mark = ",")`%, respectivamente, mensurando a probabilidade do teste em detectar essa má especificação dimensional sob as condições amostrais do estudo.
 
-Nos dados observados, H~0~ apresentou RMSEA de
-`r formatC(fit_measures_h0["rmsea.robust"], format = "f", digits = 3, decimal.mark = ",")`
-e SRMR de
-`r formatC(fit_measures_h0["srmr"], format = "f", digits = 3, decimal.mark = ",")`,
-enquanto CFI e TLI foram
-`r formatC(fit_measures_h0["cfi.robust"], format = "f", digits = 3, decimal.mark = ",")`
-e `r formatC(fit_measures_h0["tli.robust"], format = "f", digits = 3, decimal.mark = ",")`.
-O posicionamento desses valores diante dos limites simulados permite avaliar
-o afastamento da referência de ajuste exato. A capacidade de detectar
-a alternativa simulada não identifica a origem do desajuste observado nem
-demonstra que ele decorra especificamente das três cargas cruzadas. Esses
-resultados fundamentam a investigação local das discrepâncias e sua
-interpretação à luz da teoria, da magnitude dos problemas e dos precedentes
-bibliográficos.
+Nos dados empíricos observados, H~0~ reportou RMSEA de `r formatC(fit_measures_h0["rmsea.robust"], format = "f", digits = 3, decimal.mark = ",")` e SRMR de `r formatC(fit_measures_h0["srmr"], format = "f", digits = 3, decimal.mark = ",")`, enquanto CFI e TLI atingiram `r formatC(fit_measures_h0["cfi.robust"], format = "f", digits = 3, decimal.mark = ",")` e `r formatC(fit_measures_h0["tli.robust"], format = "f", digits = 3, decimal.mark = ",")`. A projeção desses valores contra as curvas simuladas atesta o afastamento substancial dos índices em relação aos limiares de ajuste exato. Contudo, a detecção da má especificação alternativa não elucida, isoladamente, a origem exata do desajuste observado nem comprova que este decorra com exclusividade das três cargas cruzadas simuladas. Esses achados tornam obrigatório o aprofundamento do diagnóstico local, articulando a inspeção dos resíduos às premissas da teoria de mensuração e aos antecedentes empíricos da WHOQOL-Bref.
 
 ## Diagnóstico local
 
-O diagnóstico local identifica relações que contribuem para as discrepâncias
-globais. A leitura combina os parâmetros fatoriais apresentados na
-@tbl-estimation-parameters, os MI, os EPC e os resíduos de correlação, conforme a @sec-theory-fit
-[@nye2022; @crede2019]. A avaliação local concentra-se em H~0~, o modelo de
-análise que orientará os encaminhamentos.
+O diagnóstico local tem por objetivo mapear as fontes específicas de discrepâncias empíricas que podem culminar no desajuste global observado. Essa investigação conjuga as estimativas fatoriais da @tbl-estimation-parameters aos índices de modificação (MI), às mudanças esperadas nos parâmetros (EPC) e à matriz de resíduos de correlação, conforme prescrito na @sec-theory-fit [@nye2022; @crede2019]. A análise concentra-se prioritariamente em H~0~, modelo teórico de referência que orienta as decisões de reespecificação.
 
-### Índices de modificação e mudanças esperadas
+### MI e EPC
 
-O MI estima a redução da estatística de ajuste ao
-liberar individualmente um parâmetro fixado. O EPC expressa a mudança esperada
-nesse parâmetro, e sua versão padronizada auxilia a avaliação da magnitude.
-Essas aproximações devem ser consideradas junto das cargas, dos resíduos e
-do significado substantivo da relação [@nye2022]. A
-@tbl-modification-indices-top20 reúne os vinte maiores MI de H~0~ e seus
-EPC correspondentes.
+O MI estima a redução teórica na estatística $\chi^2$ proporcionada pela liberação individual de cada parâmetro previamente fixado. O EPC projeta a magnitude esperada da referida estimativa livre, e sua versão padronizada viabiliza a comparação direta do impacto paramétrico. Essas métricas devem ser interpretadas conjuntamente com as cargas fatoriais, com a magnitude dos resíduos e com o fundamento conceitual da relação analisada [@nye2022]. A @tbl-modification-indices-top20 consolida os vinte maiores MI de H~0~ com seus respectivos EPC brutos e padronizados.
 
 ```{r}
 #| label: tbl-modification-indices-top20
 #| tbl-cap: >-
-#|   Vinte maiores índices de modificação de H~0~, com EPC bruto e padronizado.
+#|   Vinte maiores MI de H~0~, com EPC bruto e padronizado.
 #| echo: false
 
 # Prepare the twenty largest modification indices for H0 in Portuguese.
@@ -868,11 +714,11 @@ Organizar as vinte maiores relações candidatas à liberação em H~0~, com seu
 
 **Preparação**
 
-Utilize `fit_analyzemodel`, estimado no início desta seção.
+Utiliza-se `fit_analyzemodel`, estimado no início dessa seção.
 
 **Procedimento**
 
-A função própria `table_mi()`, de [helpers.R](../Scripts/DataAppendixScripts/helpers.R), utiliza `lavaan::modindices(object, sort. = TRUE)` para obter os MI em ordem decrescente, com EPC bruto e padronizado (`sepc.all`). O próprio lavaan exclui parâmetros já livres e MI indisponíveis. O helper apresenta as primeiras vinte relações, preserva os operadores lavaan e formata os valores com três casas decimais. O argumento `top_n` permite alterar o número de linhas; `top_n = NULL` apresenta todas.
+A função `table_mi()`, de [helpers.R](../Scripts/DataAppendixScripts/helpers.R), utiliza `lavaan::modindices(object, sort. = TRUE)` para obter os MI em ordem decrescente, com EPC bruto e padronizado (`sepc.all`). O próprio lavaan exclui parâmetros já livres e MI indisponíveis. A rotina apresenta as primeiras vinte relações, preserva os operadores lavaan e formata os valores com três casas decimais. O argumento `top_n` permite alterar o número de linhas; `top_n = NULL` apresenta todas.
 
 O atributo `mi_data` preserva a saída completa do lavaan, recuperada em `mi_all` para uso no texto. Por isso, a extração é feita uma única vez e `head()` limita apenas as linhas apresentadas. Para obter diretamente apenas os vinte maiores MI, a chamada nativa equivalente é `lavaan::modindices(fit_analyzemodel, sort. = TRUE, maximum.number = 20)`. O atributo `table_data` contém as vinte relações apresentadas e é exportado com os mesmos rótulos e valores de exibição.
 
@@ -911,15 +757,9 @@ mi_table_h0
 
 ### Resíduos de correlação
 
-Os resíduos de correlação mostram quanto cada associação entre indicadores
-é subestimada ou superestimada pelo modelo. Sua magnitude permite localizar discrepâncias que podem
-ficar diluídas nos índices globais [@nye2022; @crede2019].
+Os resíduos de correlação indicam a magnitude em que cada associação bivariada entre indicadores é subestimada ou superestimada pela estrutura teórica do modelo. Essa métrica evidencia discrepâncias locais ocultas nos resumos globais [@nye2022; @crede2019].
 
-A @fig-residual-correlations apresenta os resíduos de H~0~, com os itens na
-ordem do modelo de análise. A intensidade da cor representa o
-valor absoluto do resíduo; os números preservam o sinal. Cada par aparece
-uma única vez. A referência de magnitude absoluta de 0,10 discutida na
-@sec-theory-fit orienta a inspeção conjunta com MI, EPC e conteúdo dos itens.
+A @fig-residual-correlations esquematiza a matriz de resíduos de H~0~, dispondo os itens na sequência fatorial do modelo. A intensidade da gradação cromática traduz o valor absoluto do resíduo, ao passo que os valores numéricos informam o sinal aritmético da discrepância. Cada par bivariado é representado uma única vez. O limiar de relevância prática de $|r_{res}| \geq 0,10$, fundamentado na @sec-theory-fit, norteia o escrutínio conjunto com os MI, os EPC e a redação dos itens.
 
 ```{r}
 #| label: fig-residual-correlations
@@ -968,7 +808,7 @@ Localizar diferenças entre as correlações observadas e reproduzidas por H~0~ 
 
 **Preparação**
 
-Utilize `fit_analyzemodel`, estimado no início desta seção, e a função `plot_stdres()` de [helpers.R](../Scripts/DataAppendixScripts/helpers.R).
+Utilizam-se `fit_analyzemodel`, estimado no início dessa seção, e a função `plot_stdres()` de [helpers.R](../Scripts/DataAppendixScripts/helpers.R).
 
 **Procedimento**
 
@@ -1012,48 +852,8 @@ residual_heatmap
 
 ::::
 
-O diagnóstico local de H~0~ examina inicialmente os três itens cujas cargas
-cruzadas foram previamente consideradas em H~1~. Para Q15, a carga adicional
-no domínio Ambiente aparece diretamente entre os maiores MI
-(MI = `r formatC(mi_all$mi[mi_all$lhs == "environment" & mi_all$op == "=~" & mi_all$rhs == "Q15"], format = "f", digits = 3, decimal.mark = ",")`;
-EPC padronizado = `r formatC(mi_all$sepc.all[mi_all$lhs == "environment" & mi_all$op == "=~" & mi_all$rhs == "Q15"], format = "f", digits = 3, decimal.mark = ",")`).
-O item também apresenta resíduos de correlação positivos com Q3 e Q4, de
-aproximadamente `r formatC(residual_matrix_h0["Q3", "Q15"], format = "f", digits = 2, decimal.mark = ",")`
-e `r formatC(residual_matrix_h0["Q4", "Q15"], format = "f", digits = 2, decimal.mark = ",")`,
-respectivamente, indicando associações subestimadas pela especificação atual.
-Para Q8 e Q9, destaca-se a covariância residual entre os itens
-(MI = `r formatC(mi_all$mi[mi_all$op == "~~" & ((mi_all$lhs == "Q8" & mi_all$rhs == "Q9") | (mi_all$lhs == "Q9" & mi_all$rhs == "Q8"))], format = "f", digits = 3, decimal.mark = ",")`;
-EPC padronizado = `r formatC(mi_all$sepc.all[mi_all$op == "~~" & ((mi_all$lhs == "Q8" & mi_all$rhs == "Q9") | (mi_all$lhs == "Q9" & mi_all$rhs == "Q8"))], format = "f", digits = 3, decimal.mark = ",")`),
-acompanhada de um resíduo de correlação de aproximadamente
-`r formatC(residual_matrix_h0["Q8", "Q9"], format = "f", digits = 2, decimal.mark = ",")`.
-Esses resultados retomam dificuldades de representação envolvendo os itens
-contemplados na formulação de H~1~, embora a dependência residual entre Q8 e
-Q9 não constitua, isoladamente, evidência de suas cargas adicionais no domínio
-Psicológico.
+O diagnóstico local de H~0~ inspeciona inicialmente os três itens cujas cargas secundárias foram especificadas no modelo alternativo H~1~. Em relação a Q15, a carga cruzada no fator Meio Ambiente figura com destaque entre os maiores MI (MI = `r formatC(mi_all$mi[mi_all$lhs == "environment" & mi_all$op == "=~" & mi_all$rhs == "Q15"], format = "f", digits = 3, decimal.mark = ",")`, EPC padronizado = `r formatC(mi_all$sepc.all[mi_all$lhs == "environment" & mi_all$op == "=~" & mi_all$rhs == "Q15"], format = "f", digits = 3, decimal.mark = ",")`). O indicador apresenta também resíduos correlacionais positivos expressivos com Q3 e Q4, da ordem de `r formatC(residual_matrix_h0["Q3", "Q15"], format = "f", digits = 2, decimal.mark = ",")` e `r formatC(residual_matrix_h0["Q4", "Q15"], format = "f", digits = 2, decimal.mark = ",")`, indicando covariações bivariadas subestimadas pela estrutura confirmatória pura. Para os itens Q8 e Q9, sobressai a covariância residual entre seus termos de erro (MI = `r formatC(mi_all$mi[mi_all$op == "~~" & ((mi_all$lhs == "Q8" & mi_all$rhs == "Q9") | (mi_all$lhs == "Q9" & mi_all$rhs == "Q8"))], format = "f", digits = 3, decimal.mark = ",")`, EPC padronizado = `r formatC(mi_all$sepc.all[mi_all$op == "~~" & ((mi_all$lhs == "Q8" & mi_all$rhs == "Q9") | (mi_all$lhs == "Q9" & mi_all$rhs == "Q8"))], format = "f", digits = 3, decimal.mark = ",")`), corroborada por resíduo de correlação positivo de `r formatC(residual_matrix_h0["Q8", "Q9"], format = "f", digits = 2, decimal.mark = ",")`. Esses dados expõem discrepâncias de mensuração nos itens englobados pela formulação de H~1~, nada obstante a dependência residual entre Q8 e Q9 não comprovar, por si só, a existência de cargas adicionais no domínio Psicológico.
 
-O diagnóstico também evidencia dificuldades além das relações previstas em
-H~1~. Q5 participa de indicações de cargas adicionais nos domínios físico e
-ambiental e de dependências com Q6 e Q14. O resíduo de correlação Q5–Q14,
-de `r formatC(residual_matrix_h0["Q5", "Q14"], format = "f", digits = 3, decimal.mark = ",")`,
-constitui a maior discrepância absoluta da matriz. Q24 combina carga
-padronizada baixa, indicação de carga adicional no domínio psicológico e
-dependência com Q25, cujo resíduo de correlação é
-`r formatC(residual_matrix_h0["Q24", "Q25"], format = "f", digits = 3, decimal.mark = ",")`.
-Em conjunto com os problemas de Q15, esses resultados destacam Q5, Q15 e Q24
-como candidatos à investigação de uma especificação modificada na
-amostra de calibração.
-Q8 permanece como candidato adicional, considerando sua carga baixa e a
-relação residual com Q9. As cargas reduzidas de Q3/Q4 e a dependência indicada
-entre Q17/Q18 também integram o diagnóstico, embora representem dificuldades
-distintas de mensuração.
+O escrutínio diagnóstico revela, ademais, pontos críticos de desajuste alheios às relações antecipadas por H~1~. O item Q5 concentra indicações recorrentes de cargas secundárias nos domínios Físico e Meio Ambiente, além de correlação residual com Q6 e Q14. O resíduo de correlação no par Q5–Q14, de `r formatC(residual_matrix_h0["Q5", "Q14"], format = "f", digits = 3, decimal.mark = ",")`, estabelece a discrepância empírica de maior magnitude em toda a matriz. Por sua vez, o item Q24 combina carga primária modesta, demanda de carga cruzada no fator Psicológico e forte associação de erro com Q25, cujo resíduo de correlação alcança `r formatC(residual_matrix_h0["Q24", "Q25"], format = "f", digits = 3, decimal.mark = ",")`. Integrados aos desvios de Q15, esses achados qualificam Q5, Q15 e Q24 como os principais candidatos à investigação de modificações estruturais na calibração. O item Q8 mantém-se como candidato suplementar, dada a magnitude modesta de sua carga primária e a dependência residual com Q9. Paralelamente, as cargas atenuadas de Q3/Q4 e a covariação residual entre Q17 e Q18 também integram o inventário de desajustes, expressando particularidades de mensuração da escala.
 
-A avaliação global apontou limitações nas especificações originais. A
-simulação oferece uma referência condicional às características da calibração
-para interpretar os índices observados. A leitura conjunta das cargas, dos
-resíduos e dos MI/EPC localizou relações que merecem investigação adicional. Esses achados
-motivam examinar modificações, cuja seleção exige avaliar o conteúdo dos
-itens e a cobertura dos domínios. Na @sec-model-comparison, os candidatos
-serão confrontados com os precedentes bibliográficos para fundamentar a nova
-especificação e suas condições de uso. As modificações foram desenvolvidas na
-calibração, e a especificação selecionada será avaliada na amostra de validação,
-reservada para essa finalidade.
+A análise global evidenciou fragilidades de ajustamento nas especificações originais. O protocolo de simulação proveu distribuições de referência condicionais às propriedades da subamostra de calibração, balizando o julgamento dos índices obtidos. A leitura integrada de parâmetros, resíduos de correlação e indicadores de modificação isolou as fontes prioritárias de desajuste nos itens da escala. Essas evidências justificam a exploração de reespecificações, cujo critério de elegibilidade pressupõe a convergência com a teoria de mensuração e a integridade de cobertura dos domínios. Na @sec-model-comparison, essas hipóteses serão confrontadas com a literatura pregressa para fundamentar a especificação ajustada e suas diretrizes operacionais, sendo o modelo final validado de maneira independente na subamostra de validação.
