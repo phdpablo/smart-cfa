@@ -245,100 +245,28 @@ Embora a derivação assintótica forneça uma estimativa inicial objetiva, não
 
 Os tamanhos amostrais variam de 101 a 400 participantes. Para cada tamanho de amostra, geram-se dez replicações sob duas condições populacionais: na condição de referência, os dados reproduzem o modelo de quatro fatores sem cargas cruzadas; na condição alternativa, os dados incorporam as três cargas secundárias, mas são estimados pelo modelo parcimonioso. O confronto dessas condições permite estimar o poder empírico dos índices RMSEA, SRMR, CFI e TLI na identificação da má especificação planejada.
 
-```{r}
-#| label: sim-popmodel-varying
-#| include: false
-
-# Reuse or simulate the reference population across sample sizes.
-popmodel_varying <- cache_or_run("popmodel_101to400", {
-  sim(
-    NULL,
-    n = SEQ,
-    pmMCAR = P_MCAR,
-    analyzemodel,
-    generate = popmodel,
-    indDist = DIST,
-    std.lv = TRUE,
-    lavaanfun = "cfa",
-    estimator = "mlr",
-    missing = "fiml",
-    seed = SEED,
-    multicore = TRUE
-  )
-})
-```
-
-```{r}
-#| label: sim-h1model-varying
-#| include: false
-
-# Reuse or simulate the alternative population across sample sizes.
-h1model_varying <- cache_or_run("h1model_101to400", {
-  sim(
-    NULL,
-    n = SEQ,
-    pmMCAR = P_MCAR,
-    analyzemodel,
-    generate = h1model,
-    indDist = DIST,
-    std.lv = TRUE,
-    lavaanfun = "cfa",
-    estimator = "mlr",
-    missing = "fiml",
-    seed = SEED,
-    multicore = TRUE
-  )
-})
-```
-
-Apresentam-se duas configurações gráficas da relação entre tamanho amostral e poder estatístico. A primeira adota suavização logística para destacar a trajetória de evolução do poder ao longo do gradiente amostral (@fig-realistic-power). A segunda exibe diretamente as taxas empíricas de rejeição observadas nas replicações realizadas em cada patamar (@fig-realistic-curve).
-
-```{r}
-#| label: fig-realistic-power
-#| fig-cap: >-
-#|   Curvas de poder com suavização logística sob não normalidade leve e 10%
-#|   de dados ausentes MCAR.
-#| fig-alt: >-
-#|   Curvas logísticas de poder de RMSEA, SRMR, CFI e TLI entre 101 e 400
-#|   participantes.
-#| fig-width: 8
-#| fig-height: 5
-#| fig-align: center
-#| echo: false
-
-# Plot power across sample sizes.
-plotPowerFit(
-  h1model_varying,
-  popmodel_varying,
-  alpha = ALPHA,
-  usedFit = FITS
-)
-```
-
 :::: {.content-visible unless-format="pdf"}
 
-::: {.callout-note title="Racional da @fig-realistic-power" collapse="true"}
+::: {.callout-note title="Como as simulações com N variável foram realizadas" collapse="true"}
 
 **Finalidade**
 
-Contrastar a trajetória do poder estatístico ao longo de diferentes tamanhos amostrais sob correta especificação e sob omissão das cargas cruzadas.
+Gerar as condições populacionais de referência e alternativa para avaliar o poder dos índices de ajuste entre 101 e 400 participantes.
 
 **Preparação**
 
-Utilize as especificações paramétricas de `models.R`, os parâmetros compartilhados de `helpers.R` e a infraestrutura de cache descrita na @sec-model-selection. As simulações são instanciadas nos objetos `popmodel_varying` e `h1model_varying`.
+Utilize `popmodel`, `h1model` e `analyzemodel`, definidos em `models.R`, e as constantes `SEQ`, `P_MCAR`, `DIST` e `SEED`, de `helpers.R`, conforme a preparação geral da @sec-model-selection.
 
 **Procedimento**
 
-As instruções com `sim()` estimam a estrutura `analyzemodel`. O argumento `generate` altera a matriz populacional de origem: `popmodel` representa a condição de referência e `h1model` incorpora as três cargas cruzadas omitidas na estimação. O vetor `SEQ` delimita a faixa amostral, `P_MCAR` estipula a taxa de omissão e `DIST` estabelece a assimetria e a curtose dos indicadores sob MLR e FIML.
-
-A função `cache_or_run()` reaproveita os dados em memória ou os arquivos `popmodel_101to400.rds` e `h1model_101to400.rds` armazenados em `Data/IntermediateData`; caso inexistentes, executa a simulação e grava os resultados. O gráfico compara os índices definidos em `FITS`, aplicando suavização logística padrão. Diretrizes para recálculo constam no [README](../README.md).
+As chamadas a `sim()` ajustam `analyzemodel` nas duas condições. O argumento `generate` seleciona a população de origem: `popmodel` representa a referência e `h1model` acrescenta as três cargas cruzadas omitidas na estimação. O vetor `SEQ = rep(101:400, each = REP)`, com `REP = 10`, determina dez replicações por tamanho amostral, totalizando 3.000 por condição. `DIST` define os momentos marginais não normais, e `P_MCAR = 0.10` introduz 10% de respostas ausentes MCAR. A estimação utiliza MLR, FIML e variâncias latentes unitárias (`std.lv = TRUE`), com semente `SEED` e processamento paralelo (`multicore = TRUE`).
 
 **Execução e resultado**
 
-Execute o bloco para recuperar ou processar as duas simulações e renderizar as curvas suavizadas. Os objetos permanecem disponíveis para as saídas subsequentes.
+Execute o bloco para obter `popmodel_varying` e `h1model_varying`, utilizados nas duas curvas de poder e na tabela para N = 150. `cache_or_run()` reaproveita os objetos em memória ou os arquivos `popmodel_101to400.rds` e `h1model_101to400.rds`, em `Data/IntermediateData`; na ausência deles, executa e salva as simulações. Orientações para recálculo constam no [README](../README.md).
 
 ```{r}
-#| eval: false
+#| label: sim-n-varying
 #| code-fold: true
 
 # Reuse or simulate the reference population across sample sizes.
@@ -376,6 +304,59 @@ h1model_varying <- cache_or_run("h1model_101to400", {
     multicore = TRUE
   )
 })
+```
+
+:::
+
+::::
+
+Apresentam-se duas configurações gráficas da relação entre tamanho amostral e poder estatístico. A primeira adota suavização logística para destacar a trajetória de evolução do poder ao longo do gradiente amostral (@fig-realistic-power). A segunda exibe diretamente as taxas empíricas de rejeição observadas nas replicações realizadas em cada patamar (@fig-realistic-curve).
+
+```{r}
+#| label: fig-realistic-power
+#| fig-cap: >-
+#|   Curvas de poder com suavização logística sob não normalidade leve e 10%
+#|   de dados ausentes MCAR.
+#| fig-alt: >-
+#|   Curvas logísticas de poder de RMSEA, SRMR, CFI e TLI entre 101 e 400
+#|   participantes.
+#| fig-width: 8
+#| fig-height: 5
+#| fig-align: center
+#| echo: false
+
+# Plot power across sample sizes.
+plotPowerFit(
+  h1model_varying,
+  popmodel_varying,
+  alpha = ALPHA,
+  usedFit = FITS
+)
+```
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Racional da @fig-realistic-power" collapse="true"}
+
+**Finalidade**
+
+Contrastar a trajetória do poder estatístico ao longo de diferentes tamanhos amostrais sob correta especificação e sob omissão das cargas cruzadas.
+
+**Preparação**
+
+Utilize `popmodel_varying` e `h1model_varying`, obtidos no callout “Como as simulações com N variável foram realizadas”, além de `ALPHA` e `FITS`.
+
+**Procedimento**
+
+`plotPowerFit()` utiliza a distribuição simulada sob a condição de referência para definir os limites de rejeição e estima o poder na condição alternativa. O argumento `usedFit = FITS` seleciona RMSEA, SRMR, CFI e TLI. A suavização logística padrão resume a trajetória do poder ao longo dos tamanhos amostrais.
+
+**Execução e resultado**
+
+Execute o bloco para apresentar as curvas suavizadas a partir dos resultados das simulações já disponíveis.
+
+```{r}
+#| eval: false
+#| code-fold: true
 
 # Plot power across sample sizes.
 plotPowerFit(
@@ -423,7 +404,7 @@ Inspecionar as taxas de poder estatístico observadas em cada tamanho amostral s
 
 **Preparação**
 
-Utilize os objetos `popmodel_varying` e `h1model_varying`, gerados na etapa da @fig-realistic-power.
+Utilize os objetos `popmodel_varying` e `h1model_varying`, obtidos no callout “Como as simulações com N variável foram realizadas”.
 
 **Procedimento**
 
@@ -499,7 +480,7 @@ Consolidar o poder empírico e os pontos de corte calibrados pelo modelo para o 
 
 **Preparação**
 
-Utilize os objetos `popmodel_varying` e `h1model_varying`, gerados na @fig-realistic-power, e as constantes `ALPHA` e `FITS`.
+Utilize os objetos `popmodel_varying` e `h1model_varying`, obtidos no callout “Como as simulações com N variável foram realizadas”, e as constantes `ALPHA` e `FITS`.
 
 **Procedimento**
 
@@ -561,100 +542,28 @@ Considerando os resultados das curvas de poder e a necessidade de resguardar a p
 
 A análise com tamanho amostral fixo emprega 1.000 replicações para cada condição populacional. Na primeira, simulam-se dados consistentes com o modelo de referência; na segunda, os dados incorporam as três cargas cruzadas, mantendo-se a estimação pelo modelo parcimonioso. Diferentemente da fase anterior, na qual dez replicações foram distribuídas em múltiplos tamanhos amostrais, essa etapa concentra todas as 1.000 replicações em $N=200$. Essa concentração assegura estimativas mais estáveis do poder estatístico e das distribuições empíricas dos índices de ajuste para esse patamar específico.
 
-```{r}
-#| label: sim-popmodel-fixed
-#| include: false
-
-# Reuse or simulate the reference population at the target sample size.
-popmodel_fixed <- cache_or_run("popmodel_200", {
-  sim(
-    SIM,
-    n = N_TARGET,
-    pmMCAR = P_MCAR,
-    analyzemodel,
-    generate = popmodel,
-    indDist = DIST,
-    std.lv = TRUE,
-    lavaanfun = "cfa",
-    estimator = "mlr",
-    missing = "fiml",
-    seed = SEED,
-    multicore = TRUE
-  )
-})
-```
-
-```{r}
-#| label: sim-h1model-fixed
-#| include: false
-
-# Reuse or simulate the alternative population at the target sample size.
-h1model_fixed <- cache_or_run("h1model_200", {
-  sim(
-    SIM,
-    n = N_TARGET,
-    pmMCAR = P_MCAR,
-    analyzemodel,
-    generate = h1model,
-    indDist = DIST,
-    std.lv = TRUE,
-    lavaanfun = "cfa",
-    estimator = "mlr",
-    missing = "fiml",
-    seed = SEED,
-    multicore = TRUE
-  )
-})
-```
-
-Com o tamanho amostral constante, dispensa-se a interpolação logística. A @fig-power-fixed retrata diretamente o comportamento empírico dos índices nas duas condições populacionais. A separação entre as curvas ilustra a capacidade do teste em evidenciar a má especificação estrutural.
-
-```{r}
-#| label: fig-power-fixed
-#| fig-cap: >-
-#|   Distribuições empíricas dos índices de ajuste em 1.000 replicações com
-#|   N = 200.
-#| fig-alt: >-
-#|   Distribuições de RMSEA, SRMR, CFI e TLI nas populações de referência e
-#|   com cargas cruzadas, mantendo N igual a 200.
-#| fig-width: 8
-#| fig-height: 5
-#| fig-align: center
-#| echo: false
-
-# Plot the fit-index distributions at the target sample size.
-plotPowerFit(
-  h1model_fixed,
-  popmodel_fixed,
-  alpha = ALPHA,
-  usedFit = FITS
-)
-```
-
 :::: {.content-visible unless-format="pdf"}
 
-::: {.callout-note title="Racional da @fig-power-fixed" collapse="true"}
+::: {.callout-note title="Como as simulações com N fixo foram realizadas" collapse="true"}
 
 **Finalidade**
 
-Contrastar as distribuições empíricas dos índices de ajuste nas duas condições populacionais sob tamanho amostral fixado.
+Gerar as distribuições dos índices de ajuste nas condições de referência e alternativa com 200 participantes por replicação.
 
 **Preparação**
 
-Utilize as especificações e condições paramétricas da simulação anterior. Em `helpers.R`, a constante `SIM` define 1.000 replicações e `N_TARGET` fixa 200 participantes por replicação.
+Utilize as mesmas especificações `popmodel`, `h1model` e `analyzemodel` e os parâmetros `P_MCAR`, `DIST` e `SEED` do planejamento anterior. As constantes `SIM = 1000` e `N_TARGET = 200`, definidas em `helpers.R`, estabelecem o número de replicações e o tamanho amostral fixo.
 
 **Procedimento**
 
-As instruções preservam a condição de referência e a população com cargas cruzadas, estimando a mesma estrutura de análise sob não normalidade moderada, 10% de dados omissos MCAR, MLR e FIML. Os objetos `popmodel_fixed` e `h1model_fixed` vinculam-se aos arquivos `popmodel_200.rds` e `h1model_200.rds`.
-
-O reaproveitamento segue a sistemática da @fig-realistic-power: com saídas previamente salvas, os cálculos não são repetidos. O gráfico compara as distribuições dos índices selecionados em `FITS`. Orientações adicionais constam no [README](../README.md).
+As duas chamadas a `sim()` mantêm a estimação de `analyzemodel`, variando a população de origem pelo argumento `generate`. Cada condição concentra 1.000 replicações em N = 200, com os mesmos momentos marginais não normais, 10% de respostas ausentes MCAR, MLR, FIML e identificação por variâncias latentes unitárias. A semente e o processamento paralelo seguem a etapa com N variável.
 
 **Execução e resultado**
 
-Execute o bloco para recuperar ou processar as simulações com tamanho fixo e apresentar as respectivas densidades. Os objetos são preservados para as etapas seguintes.
+Execute o bloco para obter `popmodel_fixed` e `h1model_fixed`, utilizados nas distribuições dos índices, no cálculo do poder e dos limites calibrados e na comparação com limites tradicionais. `cache_or_run()` reaproveita os objetos em memória ou os arquivos `popmodel_200.rds` e `h1model_200.rds`, em `Data/IntermediateData`; na ausência deles, executa e salva as simulações. Orientações para recálculo constam no [README](../README.md).
 
 ```{r}
-#| eval: false
+#| label: sim-n-fixed
 #| code-fold: true
 
 # Reuse or simulate the reference population at the target sample size.
@@ -692,6 +601,59 @@ h1model_fixed <- cache_or_run("h1model_200", {
     multicore = TRUE
   )
 })
+```
+
+:::
+
+::::
+
+Com o tamanho amostral constante, dispensa-se a interpolação logística. A @fig-power-fixed retrata diretamente o comportamento empírico dos índices nas duas condições populacionais. A separação entre as curvas ilustra a capacidade do teste em evidenciar a má especificação estrutural.
+
+```{r}
+#| label: fig-power-fixed
+#| fig-cap: >-
+#|   Distribuições empíricas dos índices de ajuste em 1.000 replicações com
+#|   N = 200.
+#| fig-alt: >-
+#|   Distribuições de RMSEA, SRMR, CFI e TLI nas populações de referência e
+#|   com cargas cruzadas, mantendo N igual a 200.
+#| fig-width: 8
+#| fig-height: 5
+#| fig-align: center
+#| echo: false
+
+# Plot the fit-index distributions at the target sample size.
+plotPowerFit(
+  h1model_fixed,
+  popmodel_fixed,
+  alpha = ALPHA,
+  usedFit = FITS
+)
+```
+
+:::: {.content-visible unless-format="pdf"}
+
+::: {.callout-note title="Racional da @fig-power-fixed" collapse="true"}
+
+**Finalidade**
+
+Contrastar as distribuições empíricas dos índices de ajuste nas duas condições populacionais sob tamanho amostral fixado.
+
+**Preparação**
+
+Utilize `popmodel_fixed` e `h1model_fixed`, obtidos no callout “Como as simulações com N fixo foram realizadas”, além de `ALPHA` e `FITS`.
+
+**Procedimento**
+
+`plotPowerFit()` compara as distribuições empíricas dos índices selecionados em `FITS` nas duas condições populacionais. Como todas as replicações utilizam N = 200, a apresentação mostra as distribuições dos índices e seus limites calibrados, sem interpolação ao longo de diferentes tamanhos amostrais.
+
+**Execução e resultado**
+
+Execute o bloco para apresentar as distribuições dos índices a partir das simulações já disponíveis.
+
+```{r}
+#| eval: false
+#| code-fold: true
 
 # Plot the fit-index distributions at the target sample size.
 plotPowerFit(
@@ -753,7 +715,7 @@ Apresentar o poder empírico e os limiares de corte calibrados para a simulaçã
 
 **Preparação**
 
-Utilize os objetos `popmodel_fixed` e `h1model_fixed`, consolidados na @fig-power-fixed.
+Utilize os objetos `popmodel_fixed` e `h1model_fixed`, obtidos no callout “Como as simulações com N fixo foram realizadas”.
 
 **Procedimento**
 
@@ -842,7 +804,7 @@ Utilize os objetos `popmodel_fixed`, `h1model_fixed` e o vetor `RULE_OF_THUMB`, 
 
 **Procedimento**
 
-O gráfico reaproveita os dados simulados da @fig-power-fixed, inserindo os limites convencionais pelo argumento `cutoff = RULE_OF_THUMB`. Os modelos, o tamanho amostral e as demais condições permanecem idênticos, alterando-se exclusivamente os limiares de avaliação.
+O gráfico reaproveita os objetos descritos no callout “Como as simulações com N fixo foram realizadas”, inserindo os limites convencionais pelo argumento `cutoff = RULE_OF_THUMB`. Os modelos, o tamanho amostral e as demais condições permanecem idênticos, alterando-se exclusivamente os limiares de avaliação.
 
 **Execução e resultado**
 

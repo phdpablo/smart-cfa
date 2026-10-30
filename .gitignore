@@ -13,6 +13,8 @@ _freeze/
 /site_libs/
 /*._files/
 /*_cache/
+# Generated support files beside the article sources
+/Article/*_files/
 docs/
 *.tex
 
