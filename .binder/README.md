@@ -8,9 +8,9 @@ O serviço utiliza os arquivos enviados ao GitHub. Alterações locais só estar
 
 ## Conteúdo
 
-O único arquivo de construção nesta pasta é `Dockerfile`. Ele usa `rocker/binder:4.4.2`, instala Quarto 1.9.37 e TinyTeX, restaura `renv.lock` e copia o checkout para `/home/rstudio`.
+O único arquivo de construção nesta pasta é `Dockerfile`. Ele usa `rocker/verse:4.5.2`, acrescenta Jupyter Notebook, JupyterLab, JupyterHub e `jupyter-rsession-proxy` em um ambiente Python separado, instala Quarto 1.9.37 e TinyTeX, restaura `renv.lock` e copia o checkout para `/home/rstudio`. O proxy mantém o acesso ao RStudio pelo endereço `?urlpath=rstudio`.
 
-O lockfile registra R 4.5.2 e já contém os pacotes analíticos. A diferença em relação ao R 4.4.2 do Binder é uma condição de compatibilidade a verificar; não se deve presumir que os testes de uma versão anterior certificam o conjunto atual de dependências. Nesta revisão documental não foi feito novo build nem teste do serviço público.
+Binder, Docker principal e lockfile usam R 4.5.2. Isso atende ao requisito R >= 4.5 de `Deriv 4.3.5`. A imagem `rocker/binder:4.5.2` não está disponível; por isso os serviços Binder são instalados sobre a imagem versionada `verse`, que já fornece RStudio Server. O build verifica o UID 1000 do usuário e a versão de R e remove o entrypoint herdado para aceitar o comando de inicialização do Binder. A versão de `RcppParallel` foi preservada em 6.2.1, com origem CRAN em vez de ZIP local de Windows. Estas correções não equivalem a um novo build completo ou teste do serviço público.
 
 ## Instruções de uso
 

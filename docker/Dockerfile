@@ -1,4 +1,4 @@
-# Build from the repository root; keep the Binder R 4.4.2 compatibility target.
+# Build from the repository root with the same R version as renv.lock and Binder.
 FROM rocker/verse:4.5.2
 
 USER root

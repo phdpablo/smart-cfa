@@ -42,7 +42,7 @@ O artigo-tutorial tem três objetivos:
 | 📄 Preprint | Versão anterior em inglês, com metadados próprios | [PsyArXiv](https://doi.org/10.31234/osf.io/2dy3z) |
 | 🌐 Artigo | Versão disponibilizada no site | [HTML](https://phdpablo.github.io/smart-cfa/) e [PDF](https://phdpablo.github.io/smart-cfa/cfa-tutorial.pdf) |
 | 📁 Projeto OSF | Identificador configurado nesta versão | [10.17605/OSF.IO/NJDQ5](https://doi.org/10.17605/OSF.IO/NJDQ5) |
-| 🚀 Binder | Ambiente interativo para o branch `pt_version` | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/phdpablo/smart-cfa/pt_version?urlpath=rstudio) |
+| 🚀 Binder | Ambiente interativo para o branch `pt_version` | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/phdpablo/smart-cfa/pt_version) |
 | 🐳 Docker | Construção local do checkout selecionado | [Instruções](docker/README.md) |
 | 📝 Fontes | Resumo, seções, referências e estilo de citação | [Article/](Article/README.md) |
 | 📊 Dados e resultados | Entradas, bases derivadas, simulações e exportações | [Data/](Data/README.md) e [Output/](Output/README.md) |
@@ -88,7 +88,7 @@ Abra o [HTML](https://phdpablo.github.io/smart-cfa/) ou o [PDF](https://phdpablo
 
 ### Opção 2: usar o Binder
 
-[![Abrir no Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/phdpablo/smart-cfa/pt_version?urlpath=rstudio)
+[![Abrir no Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/phdpablo/smart-cfa/pt_version)
 
 O link utiliza o branch `pt_version` enviado ao GitHub. A sessão é temporária; salve os arquivos desejados antes de encerrá-la. A configuração e a diferença de versão do R estão descritas em [.binder/README.md](.binder/README.md).
 
@@ -162,9 +162,9 @@ As versões abaixo são as registradas no checkout; não representam uma recomen
 | simsem | 0.5-17 |
 | dynamic | 1.1.0 |
 | PDF | LaTeX; TinyTeX pode ser instalado pelo Quarto |
-| Binder | R 4.4.2 em `rocker/binder:4.4.2`, com o mesmo lockfile de R 4.5.2 |
+| Binder | R 4.5.2 em `rocker/verse:4.5.2`, com Jupyter e proxy para RStudio |
 
-O inventário completo de dependências está em [renv.lock](renv.lock). A diferença de R do Binder exige verificação de compatibilidade com o conjunto atual de pacotes; a configuração disponível não comprova um teste recente desse ambiente. Docker e Binder não congelam uma versão datada do repositório de pacotes TeX.
+O inventário completo de dependências está em [renv.lock](renv.lock). Binder e Docker principal usam a mesma versão de R do lockfile; a configuração disponível não comprova um teste recente desses ambientes. Docker e Binder não congelam uma versão datada do repositório de pacotes TeX.
 
 ## Resultados salvos, renderização e recálculo
 
