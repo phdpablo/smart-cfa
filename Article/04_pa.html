@@ -642,7 +642,7 @@ Tabela&nbsp;4.2: Resultados da abordagem analítica de poder baseada em modelos.
 <tr class="even">
 <td style="text-align: left;">Raiz do resíduo quadrático médio padronizado</td>
 <td style="text-align: center;"><span class="math inline">\(\text{SRMR}\)</span></td>
-<td style="text-align: right;">0.064</td>
+<td style="text-align: right;">0.067</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Índice de ajuste comparativo</td>
@@ -734,7 +734,7 @@ Tabela&nbsp;4.2: Resultados da abordagem analítica de poder baseada em modelos.
 <p>A <a href="#fig-analytical-power" class="quarto-xref">Figura&nbsp;<span>4.1</span></a> ilustra as distribuições central e não central do qui-quadrado. A distribuição sob a hipótese nula representa o comportamento esperado da estatística sob correta especificação estrutural, ao passo que a distribuição não central projeta a dispersão diante da discrepância populacional estipulada. A área de rejeição e a sobreposição das curvas expressam graficamente a relação entre o erro Tipo I e o poder estatístico do teste.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-analytical-power" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Duas curvas em sino representam as distribuições do qui-quadrado sob a hipótese nula e sob a discrepância populacional especificada." data-fig-align="center">
+<div id="fig-analytical-power" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Duas curvas em sino representam as distribuições do qui-quadrado sob a hipótese nula e sob a discrepância populacional especificada.">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-analytical-power-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="04_pa_files/figure-html/fig-analytical-power-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Duas curvas em sino representam as distribuições do qui-quadrado sob a hipótese nula e sob a discrepância populacional especificada." width="768">
 </div>
@@ -776,40 +776,26 @@ Figura&nbsp;4.1: Distribuições central e não central do qui-quadrado da abord
 <span class="header-section-number">4.3</span> SMC com tamanho amostral variável</h2>
 <p>Embora a derivação assintótica forneça uma estimativa inicial objetiva, não reproduz integralmente as condições empíricas observadas na prática da pesquisa. Dessa forma, a fase subsequente implementa uma SMC combinando desvios moderados de normalidade e 10% de dados omissos MCAR, preservando-se a estimação por MLR com tratamento via FIML.</p>
 <p>Os tamanhos amostrais variam de 101 a 400 participantes. Para cada tamanho de amostra, geram-se dez replicações sob duas condições populacionais: na condição de referência, os dados reproduzem o modelo de quatro fatores sem cargas cruzadas; na condição alternativa, os dados incorporam as três cargas secundárias, mas são estimados pelo modelo parcimonioso. O confronto dessas condições permite estimar o poder empírico dos índices RMSEA, SRMR, CFI e TLI na identificação da má especificação planejada.</p>
-<p>Apresentam-se duas configurações gráficas da relação entre tamanho amostral e poder estatístico. A primeira adota suavização logística para destacar a trajetória de evolução do poder ao longo do gradiente amostral (<a href="#fig-realistic-power" class="quarto-xref">Figura&nbsp;<span>4.2</span></a>). A segunda exibe diretamente as taxas empíricas de rejeição observadas nas replicações realizadas em cada patamar (<a href="#fig-realistic-curve" class="quarto-xref">Figura&nbsp;<span>4.3</span></a>).</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div id="fig-realistic-power" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Curvas logísticas de poder de RMSEA, SRMR, CFI e TLI entre 101 e 400 participantes." data-fig-align="center">
-<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-realistic-power-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="04_pa_files/figure-html/fig-realistic-power-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Curvas logísticas de poder de RMSEA, SRMR, CFI e TLI entre 101 e 400 participantes." width="768">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-realistic-power-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;4.2: Curvas de poder com suavização logística sob não normalidade leve e 10% de dados ausentes MCAR.
-</figcaption></figure>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled" title="Racional da @fig-realistic-power">
+<div class="callout callout-style-default callout-note callout-titled" title="Como as simulações com N variável foram realizadas">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Racional da <a href="#fig-realistic-power" class="quarto-xref">Figura&nbsp;<span>4.2</span></a>
+<span class="screen-reader-only">Nota</span>Como as simulações com N variável foram realizadas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>Finalidade</strong></p>
-<p>Contrastar a trajetória do poder estatístico ao longo de diferentes tamanhos amostrais sob correta especificação e sob omissão das cargas cruzadas.</p>
+<p>Gerar as condições populacionais de referência e alternativa para avaliar o poder dos índices de ajuste entre 101 e 400 participantes.</p>
 <p><strong>Preparação</strong></p>
-<p>Utilize as especificações paramétricas de <code>models.R</code>, os parâmetros compartilhados de <code>helpers.R</code> e a infraestrutura de cache descrita na <a href="03_model_selection.html" class="quarto-xref"><span>Seção 3</span></a>. As simulações são instanciadas nos objetos <code>popmodel_varying</code> e <code>h1model_varying</code>.</p>
+<p>Utilize <code>popmodel</code>, <code>h1model</code> e <code>analyzemodel</code>, definidos em <code>models.R</code>, e as constantes <code>SEQ</code>, <code>P_MCAR</code>, <code>DIST</code> e <code>SEED</code>, de <code>helpers.R</code>, conforme a preparação geral da <a href="03_model_selection.html" class="quarto-xref"><span>Seção 3</span></a>.</p>
 <p><strong>Procedimento</strong></p>
-<p>As instruções com <code>sim()</code> estimam a estrutura <code>analyzemodel</code>. O argumento <code>generate</code> altera a matriz populacional de origem: <code>popmodel</code> representa a condição de referência e <code>h1model</code> incorpora as três cargas cruzadas omitidas na estimação. O vetor <code>SEQ</code> delimita a faixa amostral, <code>P_MCAR</code> estipula a taxa de omissão e <code>DIST</code> estabelece a assimetria e a curtose dos indicadores sob MLR e FIML.</p>
-<p>A função <code>cache_or_run()</code> reaproveita os dados em memória ou os arquivos <code>popmodel_101to400.rds</code> e <code>h1model_101to400.rds</code> armazenados em <code>Data/IntermediateData</code>; caso inexistentes, executa a simulação e grava os resultados. O gráfico compara os índices definidos em <code>FITS</code>, aplicando suavização logística padrão. Diretrizes para recálculo constam no <a href="../README.md">README</a>.</p>
+<p>As chamadas a <code>sim()</code> ajustam <code>analyzemodel</code> nas duas condições. O argumento <code>generate</code> seleciona a população de origem: <code>popmodel</code> representa a referência e <code>h1model</code> acrescenta as três cargas cruzadas omitidas na estimação. O vetor <code>SEQ = rep(101:400, each = REP)</code>, com <code>REP = 10</code>, determina dez replicações por tamanho amostral, totalizando 3.000 por condição. <code>DIST</code> define os momentos marginais não normais, e <code>P_MCAR = 0.10</code> introduz 10% de respostas ausentes MCAR. A estimação utiliza MLR, FIML e variâncias latentes unitárias (<code>std.lv = TRUE</code>), com semente <code>SEED</code> e processamento paralelo (<code>multicore = TRUE</code>).</p>
 <p><strong>Execução e resultado</strong></p>
-<p>Execute o bloco para recuperar ou processar as duas simulações e renderizar as curvas suavizadas. Os objetos permanecem disponíveis para as saídas subsequentes.</p>
+<p>Execute o bloco para obter <code>popmodel_varying</code> e <code>h1model_varying</code>, utilizados nas duas curvas de poder e na tabela para N = 150. <code>cache_or_run()</code> reaproveita os objetos em memória ou os arquivos <code>popmodel_101to400.rds</code> e <code>h1model_101to400.rds</code>, em <code>Data/IntermediateData</code>; na ausência deles, executa e salva as simulações. Orientações para recálculo constam no <a href="../README.md">README</a>.</p>
 <div class="cell">
 <details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Reuse or simulate the reference population across sample sizes.</span></span>
 <span><span class="va">popmodel_varying</span> <span class="op">&lt;-</span> <span class="fu">cache_or_run</span><span class="op">(</span><span class="st">"popmodel_101to400"</span>, <span class="op">{</span></span>
@@ -845,9 +831,47 @@ Figura&nbsp;4.2: Curvas de poder com suavização logística sob não normalidad
 <span>    seed <span class="op">=</span> <span class="va">SEED</span>,</span>
 <span>    multicore <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="op">}</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Plot power across sample sizes.</span></span>
+<span><span class="op">}</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p>Apresentam-se duas configurações gráficas da relação entre tamanho amostral e poder estatístico. A primeira adota suavização logística para destacar a trajetória de evolução do poder ao longo do gradiente amostral (<a href="#fig-realistic-power" class="quarto-xref">Figura&nbsp;<span>4.2</span></a>). A segunda exibe diretamente as taxas empíricas de rejeição observadas nas replicações realizadas em cada patamar (<a href="#fig-realistic-curve" class="quarto-xref">Figura&nbsp;<span>4.3</span></a>).</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-realistic-power" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Curvas logísticas de poder de RMSEA, SRMR, CFI e TLI entre 101 e 400 participantes.">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-realistic-power-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04_pa_files/figure-html/fig-realistic-power-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Curvas logísticas de poder de RMSEA, SRMR, CFI e TLI entre 101 e 400 participantes." width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-realistic-power-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.2: Curvas de poder com suavização logística sob não normalidade leve e 10% de dados ausentes MCAR.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @fig-realistic-power">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#fig-realistic-power" class="quarto-xref">Figura&nbsp;<span>4.2</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Contrastar a trajetória do poder estatístico ao longo de diferentes tamanhos amostrais sob correta especificação e sob omissão das cargas cruzadas.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize <code>popmodel_varying</code> e <code>h1model_varying</code>, obtidos no callout “Como as simulações com N variável foram realizadas”, além de <code>ALPHA</code> e <code>FITS</code>.</p>
+<p><strong>Procedimento</strong></p>
+<p><code>plotPowerFit()</code> utiliza a distribuição simulada sob a condição de referência para definir os limites de rejeição e estima o poder na condição alternativa. O argumento <code>usedFit = FITS</code> seleciona RMSEA, SRMR, CFI e TLI. A suavização logística padrão resume a trajetória do poder ao longo dos tamanhos amostrais.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para apresentar as curvas suavizadas a partir dos resultados das simulações já disponíveis.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Plot power across sample sizes.</span></span>
 <span><span class="fu">plotPowerFit</span><span class="op">(</span></span>
 <span>  <span class="va">h1model_varying</span>,</span>
 <span>  <span class="va">popmodel_varying</span>,</span>
@@ -861,7 +885,7 @@ Figura&nbsp;4.2: Curvas de poder com suavização logística sob não normalidad
 </div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-realistic-curve" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Valores de poder não suavizados de RMSEA, SRMR, CFI e TLI entre 101 e 400 participantes." data-fig-align="center">
+<div id="fig-realistic-curve" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Valores de poder não suavizados de RMSEA, SRMR, CFI e TLI entre 101 e 400 participantes.">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-realistic-curve-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="04_pa_files/figure-html/fig-realistic-curve-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Valores de poder não suavizados de RMSEA, SRMR, CFI e TLI entre 101 e 400 participantes." width="768">
 </div>
@@ -872,7 +896,7 @@ Figura&nbsp;4.3: Poder empírico sem suavização logística sob não normalidad
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Racional da @fig-realistic-curve">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -881,18 +905,18 @@ Figura&nbsp;4.3: Poder empírico sem suavização logística sob não normalidad
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>Finalidade</strong></p>
 <p>Inspecionar as taxas de poder estatístico observadas em cada tamanho amostral sem a interpolação das curvas logísticas.</p>
 <p><strong>Preparação</strong></p>
-<p>Utilize os objetos <code>popmodel_varying</code> e <code>h1model_varying</code>, gerados na etapa da <a href="#fig-realistic-power" class="quarto-xref">Figura&nbsp;<span>4.2</span></a>.</p>
+<p>Utilize os objetos <code>popmodel_varying</code> e <code>h1model_varying</code>, obtidos no callout “Como as simulações com N variável foram realizadas”.</p>
 <p><strong>Procedimento</strong></p>
 <p>A instrução reaproveita os resultados das simulações, alterando apenas o parâmetro para <code>logistic = FALSE</code>. Esse ajuste vincula as estimativas pontuais de poder em cada patamar amostral, revelando a variabilidade amostral resumida pelo modelo logístico. Mantêm-se os índices e as condições especificadas.</p>
 <p><strong>Execução e resultado</strong></p>
 <p>Execute o bloco para renderizar as curvas empíricas sem suavização.</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Plot the unsmoothed power curves.</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Plot the unsmoothed power curves.</span></span>
 <span><span class="fu">plotPowerFit</span><span class="op">(</span></span>
 <span>  <span class="va">h1model_varying</span>,</span>
 <span>  <span class="va">popmodel_varying</span>,</span>
@@ -943,7 +967,7 @@ Tabela&nbsp;4.3: Poder e pontos de corte calibrados pelo modelo para N = 150.
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-power-cutoff-realistic">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -952,18 +976,18 @@ Tabela&nbsp;4.3: Poder e pontos de corte calibrados pelo modelo para N = 150.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>Finalidade</strong></p>
 <p>Consolidar o poder empírico e os pontos de corte calibrados pelo modelo para o tamanho amostral de 150 participantes.</p>
 <p><strong>Preparação</strong></p>
-<p>Utilize os objetos <code>popmodel_varying</code> e <code>h1model_varying</code>, gerados na <a href="#fig-realistic-power" class="quarto-xref">Figura&nbsp;<span>4.2</span></a>, e as constantes <code>ALPHA</code> e <code>FITS</code>.</p>
+<p>Utilize os objetos <code>popmodel_varying</code> e <code>h1model_varying</code>, obtidos no callout “Como as simulações com N variável foram realizadas”, e as constantes <code>ALPHA</code> e <code>FITS</code>.</p>
 <p><strong>Procedimento</strong></p>
 <p>O poder é estimado na condição alternativa, adotando a distribuição sob correta especificação para definir as zonas de rejeição. As rotinas são parametrizadas com <code>nVal = 150</code> sob o mesmo nível de significância: <code>getPowerFit()</code> quantifica o poder e <code>getCutoff()</code> recupera os limiares correspondentes. O bloco consolida ambas as informações em <code>power_cutoff_varying</code>, organizando as colunas pelos índices analisados.</p>
 <p><strong>Execução e resultado</strong></p>
 <p>Execute o bloco para renderizar a tabela contendo o poder e os pontos de corte calculados para a amostra de 150 indivíduos.</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Estimate power at N = 150 using model-calibrated cutoffs.</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Estimate power at N = 150 using model-calibrated cutoffs.</span></span>
 <span><span class="va">power_varying</span> <span class="op">&lt;-</span> <span class="fu">getPowerFit</span><span class="op">(</span></span>
 <span>  <span class="va">h1model_varying</span>,</span>
 <span>  nullObject <span class="op">=</span> <span class="va">popmodel_varying</span>,</span>
@@ -1002,42 +1026,28 @@ Tabela&nbsp;4.3: Poder e pontos de corte calibrados pelo modelo para N = 150.
 <span class="header-section-number">4.4</span> SMC com tamanho amostral fixo</h2>
 <p>Considerando os resultados das curvas de poder e a necessidade de resguardar a precisão das estimativas sob desvios de normalidade e dados omissos, adota-se <span class="math inline">\(N=200\)</span> como tamanho amostral prudencial de planejamento no presente tutorial.</p>
 <p>A análise com tamanho amostral fixo emprega 1.000 replicações para cada condição populacional. Na primeira, simulam-se dados consistentes com o modelo de referência; na segunda, os dados incorporam as três cargas cruzadas, mantendo-se a estimação pelo modelo parcimonioso. Diferentemente da fase anterior, na qual dez replicações foram distribuídas em múltiplos tamanhos amostrais, essa etapa concentra todas as 1.000 replicações em <span class="math inline">\(N=200\)</span>. Essa concentração assegura estimativas mais estáveis do poder estatístico e das distribuições empíricas dos índices de ajuste para esse patamar específico.</p>
-<p>Com o tamanho amostral constante, dispensa-se a interpolação logística. A <a href="#fig-power-fixed" class="quarto-xref">Figura&nbsp;<span>4.4</span></a> retrata diretamente o comportamento empírico dos índices nas duas condições populacionais. A separação entre as curvas ilustra a capacidade do teste em evidenciar a má especificação estrutural.</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div id="fig-power-fixed" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Distribuições de RMSEA, SRMR, CFI e TLI nas populações de referência e com cargas cruzadas, mantendo N igual a 200." data-fig-align="center">
-<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-power-fixed-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="04_pa_files/figure-html/fig-power-fixed-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Distribuições de RMSEA, SRMR, CFI e TLI nas populações de referência e com cargas cruzadas, mantendo N igual a 200." width="768">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-power-fixed-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;4.4: Distribuições empíricas dos índices de ajuste em 1.000 replicações com N = 200.
-</figcaption></figure>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled" title="Racional da @fig-power-fixed">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout callout-style-default callout-note callout-titled" title="Como as simulações com N fixo foram realizadas">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Racional da <a href="#fig-power-fixed" class="quarto-xref">Figura&nbsp;<span>4.4</span></a>
+<span class="screen-reader-only">Nota</span>Como as simulações com N fixo foram realizadas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>Finalidade</strong></p>
-<p>Contrastar as distribuições empíricas dos índices de ajuste nas duas condições populacionais sob tamanho amostral fixado.</p>
+<p>Gerar as distribuições dos índices de ajuste nas condições de referência e alternativa com 200 participantes por replicação.</p>
 <p><strong>Preparação</strong></p>
-<p>Utilize as especificações e condições paramétricas da simulação anterior. Em <code>helpers.R</code>, a constante <code>SIM</code> define 1.000 replicações e <code>N_TARGET</code> fixa 200 participantes por replicação.</p>
+<p>Utilize as mesmas especificações <code>popmodel</code>, <code>h1model</code> e <code>analyzemodel</code> e os parâmetros <code>P_MCAR</code>, <code>DIST</code> e <code>SEED</code> do planejamento anterior. As constantes <code>SIM = 1000</code> e <code>N_TARGET = 200</code>, definidas em <code>helpers.R</code>, estabelecem o número de replicações e o tamanho amostral fixo.</p>
 <p><strong>Procedimento</strong></p>
-<p>As instruções preservam a condição de referência e a população com cargas cruzadas, estimando a mesma estrutura de análise sob não normalidade moderada, 10% de dados omissos MCAR, MLR e FIML. Os objetos <code>popmodel_fixed</code> e <code>h1model_fixed</code> vinculam-se aos arquivos <code>popmodel_200.rds</code> e <code>h1model_200.rds</code>.</p>
-<p>O reaproveitamento segue a sistemática da <a href="#fig-realistic-power" class="quarto-xref">Figura&nbsp;<span>4.2</span></a>: com saídas previamente salvas, os cálculos não são repetidos. O gráfico compara as distribuições dos índices selecionados em <code>FITS</code>. Orientações adicionais constam no <a href="../README.md">README</a>.</p>
+<p>As duas chamadas a <code>sim()</code> mantêm a estimação de <code>analyzemodel</code>, variando a população de origem pelo argumento <code>generate</code>. Cada condição concentra 1.000 replicações em N = 200, com os mesmos momentos marginais não normais, 10% de respostas ausentes MCAR, MLR, FIML e identificação por variâncias latentes unitárias. A semente e o processamento paralelo seguem a etapa com N variável.</p>
 <p><strong>Execução e resultado</strong></p>
-<p>Execute o bloco para recuperar ou processar as simulações com tamanho fixo e apresentar as respectivas densidades. Os objetos são preservados para as etapas seguintes.</p>
+<p>Execute o bloco para obter <code>popmodel_fixed</code> e <code>h1model_fixed</code>, utilizados nas distribuições dos índices, no cálculo do poder e dos limites calibrados e na comparação com limites tradicionais. <code>cache_or_run()</code> reaproveita os objetos em memória ou os arquivos <code>popmodel_200.rds</code> e <code>h1model_200.rds</code>, em <code>Data/IntermediateData</code>; na ausência deles, executa e salva as simulações. Orientações para recálculo constam no <a href="../README.md">README</a>.</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Reuse or simulate the reference population at the target sample size.</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Reuse or simulate the reference population at the target sample size.</span></span>
 <span><span class="va">popmodel_fixed</span> <span class="op">&lt;-</span> <span class="fu">cache_or_run</span><span class="op">(</span><span class="st">"popmodel_200"</span>, <span class="op">{</span></span>
 <span>  <span class="fu">sim</span><span class="op">(</span></span>
 <span>    <span class="va">SIM</span>,</span>
@@ -1071,9 +1081,47 @@ Figura&nbsp;4.4: Distribuições empíricas dos índices de ajuste em 1.000 repl
 <span>    seed <span class="op">=</span> <span class="va">SEED</span>,</span>
 <span>    multicore <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="op">}</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Plot the fit-index distributions at the target sample size.</span></span>
+<span><span class="op">}</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p>Com o tamanho amostral constante, dispensa-se a interpolação logística. A <a href="#fig-power-fixed" class="quarto-xref">Figura&nbsp;<span>4.4</span></a> retrata diretamente o comportamento empírico dos índices nas duas condições populacionais. A separação entre as curvas ilustra a capacidade do teste em evidenciar a má especificação estrutural.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-power-fixed" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Distribuições de RMSEA, SRMR, CFI e TLI nas populações de referência e com cargas cruzadas, mantendo N igual a 200.">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-power-fixed-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04_pa_files/figure-html/fig-power-fixed-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Distribuições de RMSEA, SRMR, CFI e TLI nas populações de referência e com cargas cruzadas, mantendo N igual a 200." width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-power-fixed-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.4: Distribuições empíricas dos índices de ajuste em 1.000 replicações com N = 200.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Racional da @fig-power-fixed">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Racional da <a href="#fig-power-fixed" class="quarto-xref">Figura&nbsp;<span>4.4</span></a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Finalidade</strong></p>
+<p>Contrastar as distribuições empíricas dos índices de ajuste nas duas condições populacionais sob tamanho amostral fixado.</p>
+<p><strong>Preparação</strong></p>
+<p>Utilize <code>popmodel_fixed</code> e <code>h1model_fixed</code>, obtidos no callout “Como as simulações com N fixo foram realizadas”, além de <code>ALPHA</code> e <code>FITS</code>.</p>
+<p><strong>Procedimento</strong></p>
+<p><code>plotPowerFit()</code> compara as distribuições empíricas dos índices selecionados em <code>FITS</code> nas duas condições populacionais. Como todas as replicações utilizam N = 200, a apresentação mostra as distribuições dos índices e seus limites calibrados, sem interpolação ao longo de diferentes tamanhos amostrais.</p>
+<p><strong>Execução e resultado</strong></p>
+<p>Execute o bloco para apresentar as distribuições dos índices a partir das simulações já disponíveis.</p>
+<div class="cell">
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Plot the fit-index distributions at the target sample size.</span></span>
 <span><span class="fu">plotPowerFit</span><span class="op">(</span></span>
 <span>  <span class="va">h1model_fixed</span>,</span>
 <span>  <span class="va">popmodel_fixed</span>,</span>
@@ -1123,7 +1171,7 @@ Tabela&nbsp;4.4: Poder e pontos de corte calibrados pelo modelo em 1.000 replica
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-power-cutoff-fixed">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1132,18 +1180,18 @@ Tabela&nbsp;4.4: Poder e pontos de corte calibrados pelo modelo em 1.000 replica
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>Finalidade</strong></p>
 <p>Apresentar o poder empírico e os limiares de corte calibrados para a simulação com 200 participantes.</p>
 <p><strong>Preparação</strong></p>
-<p>Utilize os objetos <code>popmodel_fixed</code> e <code>h1model_fixed</code>, consolidados na <a href="#fig-power-fixed" class="quarto-xref">Figura&nbsp;<span>4.4</span></a>.</p>
+<p>Utilize os objetos <code>popmodel_fixed</code> e <code>h1model_fixed</code>, obtidos no callout “Como as simulações com N fixo foram realizadas”.</p>
 <p><strong>Procedimento</strong></p>
 <p>O bloco estima o poder na condição alternativa e recupera os limiares na condição de referência, em consonância com a lógica da <a href="#tbl-power-cutoff-realistic" class="quarto-xref">Tabela&nbsp;<span>4.3</span></a>. Com tamanho amostral constante, dispensa-se o argumento <code>nVal</code>. A indexação por <code>FITS</code> ordena uniformemente os índices RMSEA, SRMR, CFI e TLI, assegurando alinhamento entre poder e pontos de corte.</p>
 <p><strong>Execução e resultado</strong></p>
 <p>Execute o bloco para gerar a estrutura <code>power_cutoff_fixed</code> e compilar a tabela correspondente.</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Estimate power using the calibrated cutoffs.</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Estimate power using the calibrated cutoffs.</span></span>
 <span><span class="va">power_fixed</span> <span class="op">&lt;-</span> <span class="fu">getPowerFit</span><span class="op">(</span></span>
 <span>  <span class="va">h1model_fixed</span>,</span>
 <span>  nullObject <span class="op">=</span> <span class="va">popmodel_fixed</span>,</span>
@@ -1180,7 +1228,7 @@ Tabela&nbsp;4.4: Poder e pontos de corte calibrados pelo modelo em 1.000 replica
 <p>A simulação com tamanho amostral fixo é reavaliada mantendo-se inalterados o tamanho amostral, as matrizes populacionais e as propriedades empíricas dos dados, modificando-se estritamente o critério de decisão. A <a href="#fig-power-fixed-traditional" class="quarto-xref">Figura&nbsp;<span>4.5</span></a> exibe a classificação decorrente dos pontos de corte convencionais, e a <a href="#tbl-power-traditional" class="quarto-xref">Tabela&nbsp;<span>4.5</span></a> resume o poder resultante.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-power-fixed-traditional" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Distribuições de RMSEA, SRMR, CFI e TLI comparadas aos respectivos pontos de corte tradicionais." data-fig-align="center">
+<div id="fig-power-fixed-traditional" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Distribuições de RMSEA, SRMR, CFI e TLI comparadas aos respectivos pontos de corte tradicionais.">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-power-fixed-traditional-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="04_pa_files/figure-html/fig-power-fixed-traditional-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Distribuições de RMSEA, SRMR, CFI e TLI comparadas aos respectivos pontos de corte tradicionais." width="768">
 </div>
@@ -1191,7 +1239,7 @@ Figura&nbsp;4.5: Distribuições dos índices de ajuste avaliadas por pontos de 
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Racional da @fig-power-fixed-traditional">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1200,18 +1248,18 @@ Figura&nbsp;4.5: Distribuições dos índices de ajuste avaliadas por pontos de 
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>Finalidade</strong></p>
 <p>Contrastar o poder resultante dos limiares tradicionais com os resultados fundamentados em cortes calibrados pelo modelo.</p>
 <p><strong>Preparação</strong></p>
 <p>Utilize os objetos <code>popmodel_fixed</code>, <code>h1model_fixed</code> e o vetor <code>RULE_OF_THUMB</code>, definido em <code>helpers.R</code>.</p>
 <p><strong>Procedimento</strong></p>
-<p>O gráfico reaproveita os dados simulados da <a href="#fig-power-fixed" class="quarto-xref">Figura&nbsp;<span>4.4</span></a>, inserindo os limites convencionais pelo argumento <code>cutoff = RULE_OF_THUMB</code>. Os modelos, o tamanho amostral e as demais condições permanecem idênticos, alterando-se exclusivamente os limiares de avaliação.</p>
+<p>O gráfico reaproveita os objetos descritos no callout “Como as simulações com N fixo foram realizadas”, inserindo os limites convencionais pelo argumento <code>cutoff = RULE_OF_THUMB</code>. Os modelos, o tamanho amostral e as demais condições permanecem idênticos, alterando-se exclusivamente os limiares de avaliação.</p>
 <p><strong>Execução e resultado</strong></p>
 <p>Execute o bloco para renderizar o diagrama com as referências tradicionais, dispensando a geração de novas réplicas.</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Plot power using conventional cutoffs.</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Plot power using conventional cutoffs.</span></span>
 <span><span class="fu">plotPowerFit</span><span class="op">(</span></span>
 <span>  <span class="va">h1model_fixed</span>,</span>
 <span>  <span class="va">popmodel_fixed</span>,</span>
@@ -1252,7 +1300,7 @@ Tabela&nbsp;4.5: Poder obtido com pontos de corte tradicionais em 1.000 replica�
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Racional da @tbl-power-traditional">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1261,7 +1309,7 @@ Tabela&nbsp;4.5: Poder obtido com pontos de corte tradicionais em 1.000 replica�
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>Finalidade</strong></p>
 <p>Quantificar o poder estatístico sob os pontos de corte tradicionais para confrontação direta com os limiares empíricos calibrados.</p>
@@ -1272,7 +1320,7 @@ Tabela&nbsp;4.5: Poder obtido com pontos de corte tradicionais em 1.000 replica�
 <p><strong>Execução e resultado</strong></p>
 <p>Execute o bloco para compilar a estrutura <code>power_traditional_tbl</code> e exibir o poder estatístico associado às regras tradicionais.</p>
 <div class="cell">
-<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Estimate power using conventional cutoffs.</span></span>
+<details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Estimate power using conventional cutoffs.</span></span>
 <span><span class="va">power_traditional</span> <span class="op">&lt;-</span> <span class="fu">getPowerFit</span><span class="op">(</span></span>
 <span>  <span class="va">h1model_fixed</span>,</span>
 <span>  cutoff <span class="op">=</span> <span class="va">RULE_OF_THUMB</span>,</span>
