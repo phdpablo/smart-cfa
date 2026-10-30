@@ -1,30 +1,29 @@
-# AnalysisData Folder
+# Bases para análise
 
-## Overview
+## Visão geral
 
-The `AnalysisData` folder stores data files that have been processed and are ready for analysis. These files originate from the raw data in the `InputData` folder. They include all necessary transformations, cleaning, and modifications. This folder also contains a complete definition and/or coding scheme, basic summary statistics, and a visualization of the distribution for every variable in your Analysis Data Files.
+Esta pasta contém a base final recodificada e sua partição em calibração e validação, utilizadas nas seções empíricas do artigo.
 
-## Contents
+## Conteúdo
 
-### 1. Analysis Data Files
+| Arquivo | Produção | Conteúdo atual |
+| --- | --- | --- |
+| `whoqol_analysis.csv` | [Seção 5](../../Article/05_preprocessing.qmd) | 1.243 participantes, `ID` e `Q1`–`Q26`; Q3, Q4 e Q26 recodificados por `6 - resposta` |
+| `whoqol_cv.csv` | [Seção 6](../../Article/06_estimation.qmd) | Mesma base, com `missing_flag` e `sample_group` para calibração/validação |
 
--   **Purpose**: Store processed data files ready for analysis.
--   **Description**: These files have undergone necessary transformations and cleaning. They represent the data in a format suitable for conducting analyses.
+A base final da seção 5 retém quem não falhou em nenhum dos cinco critérios de triagem. Os itens globais Q1 e Q2 permanecem no arquivo, mas os modelos de quatro domínios utilizam indicadores de Q3–Q26.
 
-### 2. The Data Appendix
+Na partição, `missing_flag = 0` indica ausência de valores omissos nos 24 indicadores; `1` indica pelo menos uma ausência. A divisão é estratificada por essa flag:
 
--   **Purpose**: Provide detailed documentation of the processed data files.
--   **Contents**:
-    -   **Modification Logs**: Detailed records of all transformations, cleaning steps, and modifications applied to the raw data.
-    -   **Rationale**: Explanation of the reasons behind each modification. This ensures transparency and reproducibility.
-    -   **File Descriptions**: Detailed descriptions of each processed data file. Include structure, variables, and changes from the original raw data.
+| `sample_group` | Parcela | Completos | Incompletos | Total |
+| --- | --- | ---: | ---: | ---: |
+| 0 | Calibração | 591 | 30 | 621 |
+| 1 | Validação | 592 | 30 | 622 |
 
-## Guidelines
+## Instruções de uso
 
--   **Documentation**: Document every modification to the raw data in the Data Appendix. Include specific changes, tools and methods used, and the rationale.
--   **Data Integrity**: Maintain data integrity and accuracy throughout processing. Document and address any errors or anomalies found during processing.
--   **Consistency**: Use consistent file naming conventions and data formats across all analysis data files. This facilitates easy use and understanding.
+Os CSVs usam ponto e vírgula e convenção decimal de `write_csv2()`. Leia `ID` como texto quando for necessário preservar sua representação.
 
-## Additional Resources
+A seção 6 reaproveita a partição salva e verifica sua correspondência com a base atual; ela não deve ser apagada para selecionar uma divisão favorável. As seções 6–7 utilizam calibração; a seção 8 utiliza validação e, na invariância multigrupo, as duas parcelas.
 
-For more detailed instructions and best practices, refer to the [TIER Protocol 4.0 AnalysisData Guidelines](https://www.projecttier.org/tier-protocol/protocol-4-0/root/data/analysisdata/).
+Ao substituir os dados, revise o protocolo e a partição antes de reexecutar as análises dependentes. A explicação executável da divisão está no callout próprio da seção 6. O [registro de exclusões](../../Output/DataAppendixOutput/README.md) documenta a triagem anterior.

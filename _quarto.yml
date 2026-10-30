@@ -13,8 +13,6 @@ project: # https://quarto.org/docs/projects/quarto-projects.html
   # if change this key, maybe you have a problem with the structure output
   output-dir: docs # Directory where the rendered output files will be placed.
   # not change this key if you want to deploy in GitHub Pages
-  post-render: render_cleanup.R # Script to run automatically after rendering is complete.
-  # for clean the output directory after render
 resources: # https://quarto.org/docs/projects/quarto-projects.html#project-resources
   # List of directories containing files needed for rendering (e.g., data, scripts).
   # These are copied to the output directory.

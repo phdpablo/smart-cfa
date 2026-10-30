@@ -1,160 +1,224 @@
-# Smart Choices for Measurement Models: Executable Manuscript Tutorial for your CFA in R Environment
+# Planejamento e avaliação de modelos de análise fatorial confirmatória
 
-[![Cite Preprint](https://img.shields.io/badge/Cite%20Preprint-PDF-red)](https://doi.org/10.31234/osf.io/2dy3z) [![TIER Protocol 4.0](https://img.shields.io/badge/TIER%20Protocol-4.0-green)](https://www.projecttier.org/tier-protocol/protocol-4-0/) [![GitHub Pages](https://img.shields.io/github/deployments/phdpablo/smart-cfa/github-pages?label=GitHub%20Pages)](https://phdpablo.github.io/smart-cfa/) [![OSF](https://img.shields.io/badge/OSF-10.31234/osf.io/2dy3z-blue)](https://doi.org/10.31234/osf.io/2dy3z) [![License](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/) [![R version](https://img.shields.io/badge/R-4.5.2-orange)](https://www.r-project.org/) [![Quarto](https://img.shields.io/badge/Quarto-1.9.37-orange)](https://quarto.org/) [![Docker](https://img.shields.io/badge/Docker-4.45.0-orange)](https://www.docker.com/) [![renv](https://img.shields.io/badge/renv-1.2.4-orange)](https://rstudio.github.io/renv/)
+*Um tutorial reprodutível com R e Quarto*
 
-> Rogers, P., & Georgeto, S. M. (2024). *Smart Choices for Measurement Models: Executable Manuscript Tutorial for your Confirmatory Factor Analysis in R Environment.* <https://doi.org/10.31234/osf.io/2dy3z>
+[![Citar preprint](https://img.shields.io/badge/Citar%20preprint-PDF-red)](https://doi.org/10.31234/osf.io/2dy3z) [![Protocolo TIER 4.0](https://img.shields.io/badge/Protocolo%20TIER-4.0-green)](https://www.projecttier.org/tier-protocol/protocol-4-0/) [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Artigo-blue)](https://phdpablo.github.io/smart-cfa/) [![OSF](https://img.shields.io/badge/OSF-10.17605%2FOSF.IO%2FNJDQ5-blue)](https://doi.org/10.17605/OSF.IO/NJDQ5) [![Licença](https://img.shields.io/badge/Licen%C3%A7a-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/) [![R](https://img.shields.io/badge/R-4.5.2-orange)](https://www.r-project.org/) [![Quarto](https://img.shields.io/badge/Quarto-1.9.37-orange)](https://quarto.org/) [![Docker](https://img.shields.io/badge/Docker-Compose-orange)](docker/README.md) [![renv](https://img.shields.io/badge/renv-1.2.4-orange)](https://rstudio.github.io/renv/)
 
-This repository contains the **developing reproducible materials** for the tutorial article on Confirmatory Factor Analysis (CFA) using R. The article guides applied social scientists through key decisions in CFA — from measurement model selection and power analysis to estimation, model fit, and modification — within a dynamic document framework that promotes open science principles (reproducibility, replicability, and transparency).
+Pablo Rogers e Sérgio Murilo Georgeto
 
-The manuscript is structured as a Quarto book and built using the [ARTE template](https://github.com/phdpablo/article-template) (Article Reproducibility Template & Environment). The live rendered version is available at: <https://phdpablo.github.io/smart-cfa/>
+> Rogers, P., & Georgeto, S. M. (2024). *Smart Choices for Measurement Models: Executable Manuscript Tutorial for your Confirmatory Factor Analysis in R Environment.* [Preprint](https://doi.org/10.31234/osf.io/2dy3z).
 
-### Key Features
+A referência acima identifica o preprint anterior. Este checkout contém a versão portuguesa em desenvolvimento, com o título apresentado no início desta página.
 
-- ✅ **Comprehensive CFA guidelines** covering recommended practices, pitfalls, and reporting standards
-- ✅ **Reproducible document** using Quarto with embedded R code (`lavaan` package)
-- ✅ **Pre-rendered website** in `docs/` folder (GitHub Pages)
-- ✅ **Docker environment** for computational reproducibility verification
-- ✅ **TIER Protocol 4.0** compliant folder structure
+Este repositório reúne o artigo-tutorial, os dados e os procedimentos computacionais de uma aplicação de análise fatorial confirmatória (AFC) à WHOQOL-Bref. O percurso articula seleção do modelo, análise de poder, triagem de respostas, estimação MLR/FIML, avaliação global e local, modificações fundamentadas e avaliação da estabilidade entre amostras de calibração e validação por invariância de medida.
 
-## About the Article
+O HTML apresenta a narrativa acompanhada de callouts com explicações e código. O PDF preserva a leitura contínua do artigo. A organização dos materiais utiliza o [ARTE](https://github.com/phdpablo/article-template) — Article Reproducibility Template & Environment — e a separação de fontes, dados, scripts e resultados do protocolo TIER.
 
-This tutorial article pursues three objectives:
+### Principais características
 
-1. **Compile guidelines** for applying CFA — a widely used technique in applied social sciences — covering recommended practices, pitfalls to avoid, and reporting standards.
-2. **Demonstrate** these guidelines through a real-world example implemented entirely in R with the `lavaan` package.
-3. **Structure the narrative** using open science tools (Quarto, renv, Docker, GitHub) to ensure reproducibility, replicability, and transparency.
+- ✅ **Orientações metodológicas para AFC**, com justificativa das decisões e aplicação à WHOQOL-Bref.
+- ✅ **Artigo executável em Quarto**, com análises em R e modelos estimados por `lavaan`.
+- ✅ **Versões HTML e PDF**, com explicações e códigos em callouts no HTML.
+- ✅ **Resultados persistidos**, para reaproveitar simulações e permutações ou recalculá-las de forma controlada.
+- ✅ **Ambientes configurados com renv, Docker e Binder**, com versões e limites documentados.
+- ✅ **Organização baseada no ARTE e no protocolo TIER**, separando fontes, entradas, dados derivados e resultados.
 
-**Key topics covered:**
+## Sobre o artigo
 
-- Measurement model selection and theoretical justification
-- Power analysis for CFA
-- Data pre-processing (missing data, outliers, assumptions)
-- Estimation procedures (ML and robust variants for continuous items)
-- Model fit evaluation (global and local fit indices)
-- Model comparisons and modifications
+O artigo-tutorial tem três objetivos:
 
-**Keywords:** Confirmatory Factor Analysis, Structural Equation Modeling, Internal Structure Validity, Open Science, `lavaan`.
+1. Sistematizar decisões analíticas de AFC fundamentadas na literatura, incluindo planejamento, avaliação e relato dos modelos.
+2. Demonstrar essas decisões em uma aplicação empírica, com código R integrado às tabelas e figuras.
+3. Disponibilizar dados, procedimentos e organização de arquivos para examinar, reproduzir e adaptar o percurso analítico.
 
-## Access the Materials
+**Principais temas:** seleção e fundamentação do modelo de medida; poder analítico e por Monte Carlo; triagem C/IER e dados ausentes; estimação MLR/FIML; ajuste global e local; confiabilidade; modificações fundamentadas; calibração, validação e invariância de medida.
 
-| Resource | Description | Link |
-| :-- | :-- | :-- |
-| **📄 Preprint** | Original paper on PsyArXiv | [doi.org/10.31234/osf.io/2dy3z](https://doi.org/10.31234/osf.io/2dy3z) |
-| **🌐 Tutorial Website** | Pre-rendered complete tutorial | [phdpablo.github.io/smart-cfa](https://phdpablo.github.io/smart-cfa/) |
-| **🚀 MyBinder** | Run interactively in the cloud (no install) | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/phdpablo/smart-cfa/pt_version?urlpath=rstudio) |
-| **📦 Docker Image** | Self-contained reproducible environment | [hub.docker.com/r/phdpablo/smart-cfa](https://hub.docker.com/r/phdpablo/smart-cfa) |
+**Palavras-chave:** Análise Fatorial Confirmatória, Modelagem de Equações Estruturais, Validade da Estrutura Interna, Ciência Aberta, Reprodutibilidade, Quarto e `lavaan`.
 
-## Repository Structure
+## Acesso aos materiais
 
-The project follows the [TIER Protocol 4.0](https://www.projecttier.org/tier-protocol/protocol-4-0/) folder structure:
+| Recurso | Descrição | Acesso |
+| --- | --- | --- |
+| 📄 Preprint | Versão anterior em inglês, com metadados próprios | [PsyArXiv](https://doi.org/10.31234/osf.io/2dy3z) |
+| 🌐 Artigo | Versão disponibilizada no site | [HTML](https://phdpablo.github.io/smart-cfa/) e [PDF](https://phdpablo.github.io/smart-cfa/cfa-tutorial.pdf) |
+| 📁 Projeto OSF | Identificador configurado nesta versão | [10.17605/OSF.IO/NJDQ5](https://doi.org/10.17605/OSF.IO/NJDQ5) |
+| 🚀 Binder | Ambiente interativo para o branch `pt_version` | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/phdpablo/smart-cfa/pt_version?urlpath=rstudio) |
+| 🐳 Docker | Construção local do checkout selecionado | [Instruções](docker/README.md) |
+| 📝 Fontes | Resumo, seções, referências e estilo de citação | [Article/](Article/README.md) |
+| 📊 Dados e resultados | Entradas, bases derivadas, simulações e exportações | [Data/](Data/README.md) e [Output/](Output/README.md) |
+| 🔧 Código compartilhado | Modelos, helpers e persistência | [Scripts/](Scripts/README.md) |
 
-```
+O site publicado corresponde à versão disponibilizada remotamente. Um checkout com alterações locais pode conter conteúdo posterior.
+
+## Estrutura do repositório
+
+```text
 smart-cfa/
-├── index.qmd              # Book home page; includes Article/00_abstract.qmd
-├── Article/               # Article sources and bibliography
-│   ├── 00_abstract.qmd    # Resumo e palavras-chave
-│   ├── 01_intro.qmd       # Introdução
-│   ├── 02_background.qmd  # Fundamentação
-│   ├── 03_model_selection.qmd # Seleção do modelo de medida
-│   ├── 04_pa.qmd          # Análise de poder
-│   ├── 05_preprocessing.qmd # Pré-processamento
-│   ├── 06_estimation.qmd  # Estimação
-│   ├── 07_model_fit.qmd   # Ajuste do modelo
-│   ├── 08_model_comparison.qmd # Comparações e modificações
-│   ├── 09_conclusion.qmd  # Conclusões
-│   ├── references.qmd    # References
-│   ├── references.bib    # BibTeX references
-│   └── apa7ed.csl        # APA 7th edition citation style
-├── _quarto.yml            # Quarto project configuration
-├── render_cleanup.R       # Post-render cleanup script
-├── Data/                  # Input, intermediate, and analysis data
-├── Scripts/               # Processing, analysis, and appendix scripts
-├── Output/                # Results and data appendix outputs
-├── docker/                # Docker configuration for reproducibility
-├── .binder/               # Binder configuration for cloud interactive environment
-└── docs/                  # Pre-rendered website (GitHub Pages)
+├── index.qmd                 # Título do resumo e inclusão de Article/00_abstract.qmd
+├── _quarto.yml               # Ordem das seções, formatos e caminhos do projeto
+├── Article/                  # Resumo, seções 01–09, referências, BibTeX e CSL
+├── Data/
+│   ├── InputData/            # Dados de entrada e Metadata/
+│   ├── IntermediateData/     # Etapas da triagem e oito resultados RDS
+│   └── AnalysisData/         # Base de análise e partição calibração/validação
+├── Scripts/
+│   ├── DataAppendixScripts/  # Modelos, helpers e mecanismo de persistência
+│   ├── ProcessingScripts/    # Pasta reservada; processamento está nos QMDs
+│   └── AnalysisScripts/      # Pasta reservada; análises estão nos QMDs
+├── Output/
+│   ├── Results/              # Tables/ e Figures/ exportadas pelo artigo
+│   └── DataAppendixOutput/   # Registro de exclusões em Tables/
+├── renv.lock                 # Versões dos pacotes R
+├── renv/                     # Ativação e configuração do ambiente R
+├── .Rprofile                 # Ativa renv ao iniciar R na raiz
+├── smart-cfa.Rproj           # Projeto RStudio/Positron
+├── docker/                   # Dockerfile, Compose e scripts de início/parada
+├── .binder/                  # Dockerfile do ambiente Binder
+└── cover.jpg                 # Capa e favicon
 ```
 
-Each subdirectory under `Data/`, `Scripts/`, and `Output/` contains a `README.md` with an overview, contents, and guidelines.
+O repositório mantém `index.qmd` na raiz como página inicial. Os demais documentos estão em `Article/`. A árvore acima apresenta os arquivos-fonte e as pastas disponibilizados no repositório.
 
-## Quick Start
 
-### Option 1: View Pre-Rendered Website (Fastest)
+## Início rápido
 
-Simply visit the deployed website — no installation needed:
+### Opção 1: ler o artigo publicado
 
-**<https://phdpablo.github.io/smart-cfa/>**
+Abra o [HTML](https://phdpablo.github.io/smart-cfa/) ou o [PDF](https://phdpablo.github.io/smart-cfa/cfa-tutorial.pdf), sem instalar R ou Quarto. Para examinar o código e as justificativas de cada saída, utilize os callouts da versão HTML.
 
-The `gh-pages` branch of the repository contains the complete pre-rendered tutorial.
+### Opção 2: usar o Binder
 
-### Option 2: Cloud environment (MyBinder)
+[![Abrir no Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/phdpablo/smart-cfa/pt_version?urlpath=rstudio)
 
-[![Launch RStudio on Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/phdpablo/smart-cfa/pt_version?urlpath=rstudio)
+O link utiliza o branch `pt_version` enviado ao GitHub. A sessão é temporária; salve os arquivos desejados antes de encerrá-la. A configuração e a diferença de versão do R estão descritas em [.binder/README.md](.binder/README.md).
 
-The link targets the Portuguese development branch. Binder reads the latest pushed files, so local changes must be committed and pushed before they are available there. For an exact reproduction, replace the branch name with a full commit SHA. See [.binder/README.md](.binder/README.md).
+### Opção 3: renderizar localmente
 
-### Option 3: Local rendering
-
-Use **R 4.5.2** and **Quarto 1.9.37**, with TinyTeX for PDF output. Quarto is pinned for this project; do not update it automatically.
+Instale R 4.5.2 e Quarto 1.9.37. Para trabalhar no RStudio, abra `smart-cfa.Rproj`. Mantenha o diretório de trabalho na raiz do projeto.
 
 ```bash
 git clone --branch pt_version https://github.com/phdpablo/smart-cfa.git
 cd smart-cfa
-R -e "renv::restore(prompt = FALSE)"
-quarto install tinytex --no-prompt
-quarto render --to all
+Rscript -e "renv::restore(prompt = FALSE)"
+quarto --version
 ```
 
-### Option 4: Docker
+`.Rprofile` ativa o ambiente do projeto. `renv::restore()` instala as versões registradas no lockfile e pode precisar de acesso à internet e ferramentas de compilação, conforme o sistema operacional. Ele não instala a versão do executável R nem o Quarto. Consulte a [documentação de restauração do renv](https://pkgs.rstudio.com/renv/reference/restore.html).
 
-Build the current checkout, rather than relying on a prebuilt image containing older source files:
+Para gerar o PDF, prepare uma distribuição LaTeX. Se optar pelo TinyTeX:
+
+```bash
+quarto install tinytex --no-prompt
+```
+
+Para uma primeira conferência da configuração, sem executar os chunks:
+
+```bash
+quarto inspect
+```
+
+Para produzir o artigo:
+
+```bash
+quarto render --to html
+quarto render --to pdf
+```
+
+Ou gere ambos os formatos com `quarto render --to all`. Abra o `index.html` e o `cfa-tutorial.pdf` gerados no diretório de saída definido em `_quarto.yml` para conferir a leitura. `quarto inspect` verifica a configuração, mas não comprova a execução analítica.
+
+O render executa os QMDs na ordem de `book.chapters`. `execute-dir: project` e `here::here()` resolvem os caminhos R a partir da raiz. O pre-render `pre_render_cache.R` prepara `Data/IntermediateData/` e regrava a definição de `cache_load_existing()`; ele não executa simulações nem carrega automaticamente os RDS.
+
+Alguns callouts contêm chunks executáveis recolhíveis; os exemplos com `eval: false` são demonstrativos. Não execute uma segunda vez o exemplo de uma rotina apenas por ele estar disponível no callout.
+
+### Opção 4: usar o Docker
+
+Na raiz do repositório, construa e inicie o ambiente:
 
 ```bash
 docker compose -f docker/docker-compose.yml build
 docker compose -f docker/docker-compose.yml up -d
 ```
 
-Open <http://127.0.0.1:8787>, then run `quarto render --to all` in the RStudio terminal. See [docker/README.md](docker/README.md).
+Abra [RStudio Server local](http://127.0.0.1:8787) e execute `quarto render --to all` no terminal do container. Veja os detalhes a seguir e em [docker/README.md](docker/README.md).
 
-## Build validation and publication
+## Ambiente Docker
 
-The workflow `.github/workflows/deploy.yml` builds HTML and PDF on pushes to `pt_version` and `main`, and on pull requests to `main`. Each successful build provides a downloadable `smart-cfa-<commit>` artifact containing `docs/`.
+A configuração constrói o checkout com R 4.5.2, Quarto 1.9.37, dependências de `renv.lock` e TinyTeX. O Compose usa uma cópia do projeto, sem volume que sincronize alterações com a pasta do host. Reconstrua a imagem após atualizar as fontes e preserve os resultados que desejar antes de remover o container.
 
-- `main` builds and pull-request builds do **not** publish the site with this workflow.
-- A push to `pt_version` publishes the validated output to `gh-pages`.
-- Manual runs validate by default. Publishing requires selecting `pt_version` and enabling the publish input.
-- The publication step reuses the validated output without rendering again.
+Os scripts `start` e `stop` ficam em `docker/` e devem ser executados dessa pasta. A inicialização usa o mecanismo padrão da imagem base; `init-latex.sh` não é chamado pela configuração atual. Construção, uso e cópia dos resultados estão documentados no [README do ambiente](docker/README.md).
 
-GitHub Pages must serve the `gh-pages` branch from `/`. Local uncommitted workflow changes cannot run on GitHub Actions; commit and push the changes to validate them remotely. A local render does not establish that the remote workflow passed.
+## Escopo de reprodução e versões
 
-## Reproduction scope and versions
+As versões abaixo são as registradas no checkout; não representam uma recomendação de atualizar para as versões mais recentes.
 
-| Component | Primary environment | Binder compatibility environment |
-| --- | --- | --- |
-| R | 4.5.2 | 4.4.2 |
-| Quarto | 1.9.37, fixed | 1.9.37, fixed |
-| R dependencies | `renv.lock` | Same lock file, with the intentional R-version difference |
-| PDF engine | TinyTeX | TinyTeX |
+| Componente | Configuração |
+| --- | --- |
+| R principal | 4.5.2, conforme `renv.lock` e `docker/Dockerfile` |
+| Quarto | 1.9.37, exigido por `_quarto.yml` e fixado nos Dockerfiles |
+| renv | 1.2.4 |
+| lavaan | 0.6-21 |
+| semTools | 0.5-7 |
+| semPower | 2.1.3 |
+| simsem | 0.5-17 |
+| dynamic | 1.1.0 |
+| PDF | LaTeX; TinyTeX pode ser instalado pelo Quarto |
+| Binder | R 4.4.2 em `rocker/binder:4.4.2`, com o mesmo lockfile de R 4.5.2 |
 
-Chapter 4 introduces model-based power analysis with `semPower` 2.1.3 and
-Monte Carlo simulation with `simsem` 0.5-17. The script
-`Scripts/DataAppendixScripts/helpers.R` follows the CFA Power naming convention
-and exposes `REP <- 5L` for a short test; change it manually to `1000L` for the
-definitive run. Chapter 4 keeps the two calls to `sim()` and the
-subsequent calls to `plotPowerFit()`, `getPowerFit()`, and `getCutoff()`
-explicit. The two simulation objects are stored in `Data/IntermediateData`,
-allowing fast rendering or full recomputation after
-`popmodel_realistic.rds` and `h1model_realistic.rds` are removed.
+O inventário completo de dependências está em [renv.lock](renv.lock). A diferença de R do Binder exige verificação de compatibilidade com o conjunto atual de pacotes; a configuração disponível não comprova um teste recente desse ambiente. Docker e Binder não congelam uma versão datada do repositório de pacotes TeX.
 
-TinyTeX packages and base-image tags can change upstream. Record image digests and actual TeX versions for a reproduction test; these configurations do not claim a fully frozen historical environment. Docker, Binder and CI validation should be repeated when computation is added.
+## Resultados salvos, renderização e recálculo
 
-## Citation
+O projeto utiliza dois mecanismos independentes:
 
-If you use or build upon this work, please cite:
+- **Freeze do Quarto:** `freeze: auto` permite reaproveitar execuções de QMDs em renderizações globais quando as fontes não mudaram. Alterações externas em dados ou scripts podem exigir execução explícita dos QMDs afetados. Renderizar um documento isolado executa seu código, independentemente de freeze. Veja [Managing Execution](https://quarto.org/docs/projects/code-execution.html).
+- **Persistência RDS:** `cache_or_run()` procura primeiro o objeto pelo nome na sessão, depois o RDS em `Data/IntermediateData/`. Se ambos estiverem ausentes, executa a expressão e salva o resultado. Esse mecanismo continua atuando mesmo quando o Quarto executa novamente o documento.
 
-Rogers, P., & Georgeto, S. M. (2024). Smart Choices for Measurement Models: Executable Manuscript Tutorial for your Confirmatory Factor Analysis in R Environment. <https://doi.org/10.31234/osf.io/2dy3z>
+Os oito RDS são distribuídos no repositório e permitem reaproveitar as etapas mais demoradas. Renderizar com eles ainda pode executar triagem, estimações, tabelas e exportações; não equivale a repetir todas as simulações. Consulte o [inventário por etapa](Data/IntermediateData/README.md).
 
-**BibTeX:**
+Os parâmetros compartilhados atuais em `helpers.R` são `REP = 10`, `SEQ = rep(101:400, each = REP)`, `SIM = 1000`, `N_TARGET = 200` e `SEED = 123321`. Na seção 4 há 3.000 replicações por condição para N variável e 1.000 por condição para N fixo. As simulações empíricas da seção 7, o DDDFI e a permutação métrica da seção 8 também solicitam 1.000 replicações/permutações. A permutação está configurada com 28 processos; ajuste `ncpus` à capacidade da máquina antes de recalculá-la.
+
+Para recalcular uma etapa de forma deliberada:
+
+1. Identifique no QMD o resultado, os dados e os parâmetros envolvidos. Preserve uma cópia do RDS anterior fora de `Data/IntermediateData/`, com registro de sua configuração.
+2. Inicie uma sessão R limpa ou remova da sessão os objetos de cache correspondentes. Retire de `Data/IntermediateData/` somente os RDS da etapa a recalcular. Mudar parâmetros não invalida automaticamente arquivos ou objetos existentes.
+3. Execute o QMD correspondente, respeitando as dependências das seções anteriores. Para N variável ou fixo, as duas condições precisam corresponder à mesma configuração.
+4. Confira o novo resultado e renderize os documentos dependentes. Não trate resultados de um ensaio curto como equivalentes aos da configuração do artigo.
+
+`quarto render Article/04_pa.qmd --to html`, por exemplo, executa a seção, mas reaproveita seus RDS enquanto estiverem disponíveis. `--no-cache` não desativa `cache_or_run()` nem remove os arquivos persistidos. A partição de calibração/validação também é persistida: não a apague ou sorteie novamente para escolher resultados favoráveis.
+
+## Dados e percurso analítico
+
+O processamento parte de 1.546 registros, mantém 1.323 elegíveis após a etapa preliminar e retém 1.243 após os cinco critérios de C/IER. A seção 6 recupera a partição estratificada por ausência nos 24 indicadores: 621 participantes na calibração e 622 na validação. Esses totais descrevem os arquivos atuais; a tabela do artigo é gerada a partir dos dados.
+
+As seções 6–7 estimam e avaliam os modelos originais na calibração. A seção 8 examina o modelo modificado de 21 indicadores na validação e a invariância entre as amostras. A divisão é uma avaliação interna de estabilidade; as decisões históricas sobre itens não devem ser apresentadas como seleção independente de toda a base original. A interpretação e as limitações metodológicas estão no artigo.
+
+Os CSVs do projeto usam ponto e vírgula como delimitador. Para leitura em R, use `readr::read_csv2()`; exportações numéricas seguem convenções de `write_csv2()` ou `write_excel_csv2()`. A documentação de origem e as definições de variáveis estão em [Metadata/](Data/InputData/Metadata/README.md).
+
+## Reutilizar a organização
+
+Para adaptar o projeto, comece pelos dados e metadados de entrada, pelas especificações em `models.R` e pelos parâmetros em `helpers.R`. Reveja as decisões da triagem, os itens, as condições populacionais, a identificação e a estratégia de validação para a nova pesquisa. Depois recalcule os resultados dependentes e revise a narrativa e os exemplos. A reutilização de um RDS pressupõe correspondência entre dados, modelo e configuração.
+
+Os helpers são documentados junto ao código em [helpers.R](Scripts/DataAppendixScripts/helpers.R); os READMEs indicam os papéis dos arquivos, sem duplicar um catálogo de funções. `ProcessingScripts/` e `AnalysisScripts/` estão reservadas: nesta versão, os próprios QMDs contêm o processamento e as análises.
+
+## Ambientes alternativos e publicação
+
+O [Docker local](docker/README.md) constrói o checkout selecionado. O [Binder](.binder/README.md) utiliza os arquivos enviados ao GitHub e sessões temporárias. Configurações presentes e testes históricos não certificam a reprodução integral da revisão atual; a auditoria final dos ambientes continua separada desta atualização documental.
+
+Para publicar o artigo no GitHub Pages a partir do branch de fontes, utilize:
+
+```bash
+quarto publish gh-pages
+```
+
+O repositório deve estar no GitHub, com autenticação e permissão de envio configuradas. Em **Settings → Pages**, selecione **Deploy from a branch**, o branch **gh-pages** e a pasta **/ (root)**. Se o branch ainda não existir, a primeira publicação pelo Quarto pode criá-lo; depois confirme essa configuração no GitHub. Execute o comando no branch de fontes, não no próprio `gh-pages`.
+
+O comando renderiza e envia o conteúdo publicado ao branch `gh-pages`. A publicação é uma ação explícita, separada do commit dos arquivos-fonte. Consulte as [instruções do Quarto para GitHub Pages](https://quarto.org/docs/publishing/github-pages.html).
+
+## Citação
+
+O DOI do projeto configurado nesta versão é [10.17605/OSF.IO/NJDQ5](https://doi.org/10.17605/OSF.IO/NJDQ5). Para identificar uma reprodução, registre também o commit utilizado e a data de acesso.
+
+O [preprint anterior de Rogers e Georgeto (2024)](https://doi.org/10.31234/osf.io/2dy3z), intitulado *Smart Choices for Measurement Models: Executable Manuscript Tutorial for your Confirmatory Factor Analysis in R Environment*, tem título e estágio editorial diferentes da versão portuguesa em desenvolvimento. Ao citar esse preprint, use seus próprios metadados.
 
 ```bibtex
 @misc{rogers2024smartcfa,
@@ -169,10 +233,8 @@ Rogers, P., & Georgeto, S. M. (2024). Smart Choices for Measurement Models: Exec
 }
 ```
 
-This repository was built using the **ARTE** template. If you reuse the template infrastructure, please also cite:
+A infraestrutura deriva do ARTE. Referência: Rogers, P., & Limongi, R. (2025). Open Science in Three Acts: Foundations, Practice, and Implementation — Third Act. *BAR — Brazilian Administration Review*, 22(3), e250162. [DOI](https://doi.org/10.1590/1807-7692bar2025250162).
 
-Rogers, P., & Limongi, R. (2025). Open Science in Three Acts: Foundations, Practice, and Implementation - Third Act. *BAR - Brazilian Administration Review*, *22*(3), e250162. <https://doi.org/10.1590/1807-7692bar2025250162>
+## Licença
 
-## License
-
-This project is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International License](https://creativecommons.org/licenses/by-nc/4.0/) — see the [LICENSE](LICENSE) file for details.
+O projeto é distribuído sob [CC BY-NC 4.0](LICENSE). A origem dos dados e a literatura utilizada devem ser reconhecidas ao reutilizar os materiais.

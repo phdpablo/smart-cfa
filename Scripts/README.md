@@ -1,35 +1,19 @@
-# Scripts Folder
+# Scripts compartilhados
 
-## Overview
+## Visão geral
 
-The `Scripts` folder holds all scripts for data processing, analysis, and result generation. Scripts are organized into subfolders by function and workflow stage. Good organization and documentation here are key for research reproducibility and transparency.
+A execução do artigo é organizada pelos QMDs de [Article/](../Article/README.md), na ordem definida em `_quarto.yml`. Os scripts desta pasta fornecem especificações, parâmetros, funções de apresentação e persistência.
 
-## Contents
+## Conteúdo
 
-### Subfolders
+| Pasta | Situação atual |
+| --- | --- |
+| [DataAppendixScripts/](DataAppendixScripts/README.md) | Contém os cinco scripts R ativos, reutilizados pelas seções |
+| [ProcessingScripts/](ProcessingScripts/README.md) | Contém apenas README; o pré-processamento está na seção 5 |
+| [AnalysisScripts/](AnalysisScripts/README.md) | Contém apenas README; as análises estão nas seções 4 e 6–8 |
 
-1.  **ProcessingScripts**
-    -   **Purpose**: Scripts for initial processing and cleaning of raw data.
-    -   **Description**: These transform raw data from the `InputData` folder into intermediate forms in the `IntermediateData` folder.
-2.  **DataAppendixScripts**
-    -   **Purpose**: Scripts to generate Data Appendix documentation for processed data.
-    -   **Description**: These automate documentation, accurately recording all transformations and steps.
-3.  **AnalysisScripts**
-    -   **Purpose**: Scripts for actual data analysis.
-    -   **Description**: These take intermediate data and apply statistical or analytical methods. They produce final outputs stored in the `Output` folder.
+Não há um script mestre R separado: o Quarto coordena a execução dos documentos. Cada seção carrega seus scripts e insumos próprios; uma sessão interativa com objetos de outra seção não deve ser requisito da reprodução.
 
-### Master Script
+## Instruções de uso
 
--   **Purpose**: The main script that orchestrates execution of all other scripts.
--   **Description**: This script typically runs all processing, analysis, and documentation scripts in order. It reproduces the entire workflow from raw data to final results.
-
-## Guidelines
-
--   **Organization**: Keep scripts organized in their subfolders by function. Use clear, descriptive names that reflect purpose.
--   **Documentation**: Document each script thoroughly with comments. Explain the purpose, inputs, outputs, and key steps. Include usage instructions if needed.
--   **Modularity**: Write scripts in a modular way. This allows easy updates and code reuse. Separate different processing and analysis stages into distinct scripts.
--   **Version Control**: Use version control to track script changes. Record major changes and maintain a version history.
-
-## Additional Resources
-
-We recommend the [Tidyverse Style Guide](https://style.tidyverse.org/) for standardization. For more detailed instructions, see the [TIER Protocol 4.0 Scripts Guidelines](https://www.projecttier.org/tier-protocol/protocol-4-0/root/scripts/).
+Os caminhos são relativos à raiz, com `here::here()` e `execute-dir: project`. A descrição dos argumentos dos helpers permanece no código; estas páginas documentam os papéis dos arquivos. Para instalar dependências e executar, use o [README principal](../README.md).

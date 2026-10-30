@@ -1,39 +1,25 @@
-# DataAppendixScripts Folder
+# Modelos, helpers e persistência
 
-## Overview
+## Visão geral
 
-The `DataAppendixScripts` folder holds scripts used to generate the Data Appendix documentation for processed data files. These scripts automate documenting transformations and steps applied to raw data. This ensures the data appendix is comprehensive, accurate, and up-to-date. The scripts contain commands that generate the figures, tables, and descriptive statistics presented in the Data Appendix.
+Apesar do nome herdado da estrutura do projeto, esta pasta reúne os scripts compartilhados do artigo, não apenas rotinas de apêndice.
 
-## Contents
+## Conteúdo
 
--   **Data Appendix Scripts**: These scripts create detailed documentation of data processing. This includes descriptions of data files, transformation processes, figures, tables, descriptive statistics, and rationale for changes.
+| Arquivo | Papel |
+| --- | --- |
+| `models.R` | Define os modelos populacionais e os modelos livres originais/modificado utilizados pelos QMDs |
+| `helpers.R` | Carrega pacotes, define parâmetros compartilhados e funções de extração, apresentação e gráficos |
+| `cache_utils.R` | Define `cache_or_run()` para reaproveitar um objeto/RDS ou calcular e salvar um resultado |
+| `cache_loader.R` | Define `cache_load_existing()`; só lê os RDS quando a função é chamada |
+| `pre_render_cache.R` | Pre-render configurado em `_quarto.yml`; cria a pasta intermediária e regrava a definição do loader |
 
-### Current scripts
+As especificações populacionais para planejamento devem ser distinguidas dos modelos ajustados aos dados empíricos. As seções carregam os arquivos de que precisam e mantêm explícitas suas chamadas de estimação e simulação.
 
--   `models.R` defines `popmodel`, `h1model`, `analyzemodel`, and `h1modelfree`, the model objects used throughout the analytical chapters.
--   `helpers.R` loads the required packages, defines the shared uppercase analysis objects, and retains the reusable plotting function for the measurement-model diagrams.
--   `cache_utils.R` defines `cache_or_run()`, which reads an existing simulation object from an RDS file or runs and saves the expression supplied in the chapter.
--   `cache_loader.R` loads existing RDS files from `Data/IntermediateData` into the current session.
--   `pre_render_cache.R` ensures that the intermediate-data directory and cache loader exist before rendering.
+Os parâmetros centrais atuais em `helpers.R` são `REP = 10`, `SIM = 1000`, `SEQ = rep(101:400, each = REP)`, `N_TARGET = 200` e `SEED = 123321`. Os helpers de apresentação recebem objetos já calculados; a documentação de propósito, entradas, saídas e exemplos está no próprio arquivo. Ela inclui diagramas coloridos/BW, tabelas dos resultados e gráfico DDDFI por referência, sem exigir um catálogo paralelo neste README.
 
-The simulation chunks in `04_pa.qmd` write the varying-sample-size objects
-`popmodel_101to400.rds` and `h1model_101to400.rds` and the fixed-sample-size
-objects `popmodel_200.rds` and `h1model_200.rds` under
-`Data/IntermediateData`. These files are versioned reproduction artifacts: the
-book can read them quickly, while a reader who wants to audit the full
-computation can remove them and rerun the explicit calls to `sim()`. The
-helper does not hide any simulation argument.
+## Instruções de uso
 
-## Guidelines
+`cache_or_run()` procura o nome na sessão e depois o RDS. Dados, parâmetros ou modelos modificados não invalidam automaticamente esse resultado. A lista dos oito arquivos persistidos e sua origem está em [Data/IntermediateData/](../../Data/IntermediateData/README.md); o procedimento de recálculo está no [README principal](../../README.md#resultados-salvos-renderização-e-recálculo).
 
--   **File Naming**: Use descriptive names for scripts. Names should indicate their specific roles in generating the Data Appendix.
--   **Documentation**: Document each script thoroughly with comments. Explain its purpose, inputs, outputs, and key steps. Note any assumptions or important considerations.
-    -   **Header Comments**: Start each script with a header. Include the script name, author, date, and a brief function description.
-    -   **Inline Comments**: Use inline comments to explain specific lines or sections. This is important for complex tasks.
--   **Automation**: Design scripts to automate documentation as much as possible. This can include extracting metadata, summarizing steps, and formatting output.
--   **Modularity**: Write scripts in a modular way. This allows easy updates and code reuse. Separate different documentation tasks into distinct scripts.
--   **Version Control**: Use version control to track script changes. Record major changes and maintain a version history.
-
-## Additional Resources
-
-We recommend the [Tidyverse Style Guide](https://style.tidyverse.org/) for standardization. For more detailed instructions, see the [TIER Protocol 4.0 DataAppendixScripts Guidelines](https://www.projecttier.org/tier-protocol/protocol-4-0/root/scripts/dataappendixscripts/).
+O pre-render não executa simulações nem instala pacotes. Mudanças manuais no loader gerado devem considerar que ele será regravado pelo pre-render. O antigo `render_cleanup.R` e sua chamada pós-render foram retirados da configuração atual.
