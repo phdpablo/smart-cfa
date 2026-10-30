@@ -1,5 +1,9 @@
 # Auditoria do ambiente renv — 30/10/2026
 
+## Decisão final: Binder 4.4.2 e Deriv 4.2.0
+
+Por decisão do autor, Binder voltou a `rocker/binder:4.4.2`, aproveitando Jupyter e o proxy RStudio da imagem pronta. A instalação manual desses serviços foi retirada. `Deriv` foi instalado na versão 4.2.0 e somente seu registro foi atualizado no lockfile nessa etapa; essa versão é implementada em R e não declara o requisito R >= 4.5. O teste de derivação de x² em x = 3 e o carregamento dos namespaces doBy e mirt passaram no R local 4.5.2. A origem CRAN de RcppParallel permanece corrigida. O R principal continua em 4.5.2; não foi realizado novo build completo nem renderização no Binder 4.4.2. O diagrama continua gerado pelo código DOT; Chrome e suas bibliotecas são instalados no build para a saída PDF. Esta decisão substitui a migração de Binder para verse descrita no registro histórico abaixo.
+
 ## Correções posteriores autorizadas — 30/10/2026
 
 As duas incompatibilidades identificadas abaixo receberam correção: RcppParallel 6.2.1 agora tem Source = Repository e Repository = CRAN, sem RemoteType/RemoteUrl locais; a fonte CRAN da mesma versão respondeu HTTP 200. Binder passou a rocker/verse:4.5.2 com serviços Jupyter/RStudio proxy, porque a tag rocker/binder:4.5.2 não existe no Docker Hub/GHCR consultados. A base verse:4.5.2 foi confirmada no registro. README principal e do Binder foram sincronizados. As demais versões do lockfile foram preservadas. Não houve instalação na biblioteca local, atualização analítica ou build completo; a descrição de problemas abaixo registra o diagnóstico anterior às correções.

@@ -162,9 +162,10 @@ As versões abaixo são as registradas no checkout; não representam uma recomen
 | simsem | 0.5-17 |
 | dynamic | 1.1.0 |
 | PDF | LaTeX; TinyTeX pode ser instalado pelo Quarto |
-| Binder | R 4.5.2 em `rocker/verse:4.5.2`, com Jupyter e proxy para RStudio |
+| Diagramas no PDF | Chrome Headless Shell, instalado no build de Docker/Binder |
+| Binder | R 4.4.2 em `rocker/binder:4.4.2`; `Deriv` fixado em 4.2.0 |
 
-O inventário completo de dependências está em [renv.lock](renv.lock). Binder e Docker principal usam a mesma versão de R do lockfile; a configuração disponível não comprova um teste recente desses ambientes. Docker e Binder não congelam uma versão datada do repositório de pacotes TeX.
+O inventário completo de dependências está em [renv.lock](renv.lock). Docker principal usa a versão de R do lockfile; Binder usa R 4.4.2, com `Deriv 4.2.0` para compatibilidade. A configuração disponível não comprova um teste recente desses ambientes. Docker e Binder não congelam uma versão datada do repositório de pacotes TeX.
 
 ## Resultados salvos, renderização e recálculo
 

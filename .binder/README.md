@@ -8,9 +8,13 @@ O serviço utiliza os arquivos enviados ao GitHub. Alterações locais só estar
 
 ## Conteúdo
 
-O único arquivo de construção nesta pasta é `Dockerfile`. Ele usa `rocker/verse:4.5.2`, acrescenta Jupyter Notebook, JupyterLab, JupyterHub e `jupyter-rsession-proxy` em um ambiente Python separado, instala Quarto 1.9.37 e TinyTeX, restaura `renv.lock` e copia o checkout para `/home/rstudio`. O proxy mantém o acesso ao RStudio pelo endereço `?urlpath=rstudio`.
+O único arquivo de construção nesta pasta é `Dockerfile`. Ele usa `rocker/binder:4.4.2`, que já fornece Jupyter e o proxy para RStudio, instala Quarto 1.9.37, TinyTeX e Chrome Headless Shell, restaura `renv.lock` e copia o checkout para `/home/rstudio`. O proxy mantém o acesso ao RStudio pelo endereço `?urlpath=rstudio`.
 
-Binder, Docker principal e lockfile usam R 4.5.2. Isso atende ao requisito R >= 4.5 de `Deriv 4.3.5`. A imagem `rocker/binder:4.5.2` não está disponível; por isso os serviços Binder são instalados sobre a imagem versionada `verse`, que já fornece RStudio Server. O build verifica o UID 1000 do usuário e a versão de R e remove o entrypoint herdado para aceitar o comando de inicialização do Binder. A versão de `RcppParallel` foi preservada em 6.2.1, com origem CRAN em vez de ZIP local de Windows. Estas correções não equivalem a um novo build completo ou teste do serviço público.
+Chrome Headless Shell é instalado durante o build como usuário `rstudio`, o mesmo da sessão. Ele permite ao Quarto converter os diagramas Graphviz em PNG para o PDF. O usuário não precisa instalar um navegador ao executar `quarto render`. Assim como TinyTeX, a versão do navegador baixado pelo instalador não é congelada pelo lockfile R.
+
+O build instala também as bibliotecas Linux NSS/NSPR, ATK/AT-SPI, X11, xkbcommon, GBM e ALSA exigidas pelo navegador. Após a instalação, inicia o Chrome para ler uma página vazia, com limite de 30 segundos; assim, uma falha de bibliotecas compartilhadas interrompe o build antes da sessão do usuário.
+
+Binder usa R 4.4.2; o ambiente local, Docker principal e a versão de R registrada no lockfile permanecem em 4.5.2. Para compatibilidade com Binder, `Deriv` foi fixado em 4.2.0, uma implementação em R sem o requisito R >= 4.5 de 4.3.5. O teste de derivação e o carregamento de `doBy` e `mirt` passaram no R local 4.5.2. A renderização e o novo build no Binder 4.4.2 ainda precisam ser validados. `RcppParallel 6.2.1` mantém origem CRAN, sem depender de ZIP local de Windows.
 
 ## Instruções de uso
 

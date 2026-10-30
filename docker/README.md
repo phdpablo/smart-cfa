@@ -2,13 +2,13 @@
 
 ## Visão geral
 
-Esta configuração constrói o checkout selecionado com `rocker/verse:4.5.2`, Quarto 1.9.37, os pacotes analíticos de `renv.lock` e TinyTeX. O número de versão do Docker Desktop não é uma versão de dependência fixada pelo projeto; utilize Docker com o comando `docker compose` disponível.
+Esta configuração constrói o checkout selecionado com `rocker/verse:4.5.2`, Quarto 1.9.37, os pacotes analíticos de `renv.lock`, TinyTeX e Chrome Headless Shell. O navegador headless é instalado como `rstudio` para converter os diagramas Graphviz em imagens na saída PDF. O número de versão do Docker Desktop não é uma versão de dependência fixada pelo projeto; utilize Docker com o comando `docker compose` disponível.
 
 ## Conteúdo
 
 | Arquivo | Função |
 | --- | --- |
-| `Dockerfile` | Instala Quarto/TinyTeX, restaura o lockfile e copia o projeto |
+| `Dockerfile` | Instala Quarto/TinyTeX/Chrome Headless Shell, restaura o lockfile e copia o projeto |
 | `docker-compose.yml` | Serviço `article`, imagem `smart-cfa-local:r4.5.2-q1.9.37`, container `smart-cfa` |
 | `start.bat` / `start.sh` | Executam `compose up -d` e tentam abrir o navegador |
 | `stop.bat` / `stop.sh` | Param o container sem removê-lo |
