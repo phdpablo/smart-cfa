@@ -1,4 +1,8 @@
+# Git and editor metadata
 .git
+.gitignore
+.gitattributes
+.github
 ADM
 adm
 _temp
@@ -14,8 +18,25 @@ renv/library
 renv/staging
 renv/cache
 renv/sandbox
+renv/source
+renv/local
+renv/cellar
+renv/lock
+renv/python
 context.md
 PLAN.md
 .vscode
 .agents
 .codex
+
+# Docker tooling is used to build the image, not to render the article.
+docker/
+.binder/
+
+# Private environment settings and generated logs/LaTeX
+.env
+.env.*
+.Renviron
+*.log
+*.tex
+init-latex.sh

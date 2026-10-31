@@ -71,7 +71,7 @@ smart-cfa/
 ├── renv.lock                 # Versões dos pacotes R
 ├── renv/                     # Ativação e configuração do ambiente R
 ├── .Rprofile                 # Ativa renv ao iniciar R na raiz
-├── smart-cfa.Rproj           # Projeto RStudio/Positron
+├── cfa-tutorial.Rproj           # Projeto RStudio/Positron
 ├── docker/                   # Dockerfile, Compose e scripts de início/parada
 ├── .binder/                  # Dockerfile do ambiente Binder
 └── cover.jpg                 # Capa e favicon
@@ -94,7 +94,7 @@ O link utiliza o branch `pt_version` enviado ao GitHub. A sessão é temporária
 
 ### Opção 3: renderizar localmente
 
-Instale R 4.5.2 e Quarto 1.9.37. Para trabalhar no RStudio, abra `smart-cfa.Rproj`. Mantenha o diretório de trabalho na raiz do projeto.
+Instale R 4.5.2 e Quarto 1.9.37. Para trabalhar no RStudio, abra `cfa-tutorial.Rproj`. Mantenha o diretório de trabalho na raiz do projeto.
 
 ```bash
 git clone --branch pt_version https://github.com/phdpablo/smart-cfa.git
@@ -143,9 +143,9 @@ Abra [RStudio Server local](http://127.0.0.1:8787) e execute `quarto render --to
 
 ## Ambiente Docker
 
-A configuração constrói o checkout com R 4.5.2, Quarto 1.9.37, dependências de `renv.lock` e TinyTeX. O Compose usa uma cópia do projeto, sem volume que sincronize alterações com a pasta do host. Reconstrua a imagem após atualizar as fontes e preserve os resultados que desejar antes de remover o container.
+O ambiente CFA Tutorial usa a imagem `cfa-tutorial:4.5.2`, R 4.5.2, Quarto 1.9.37, dependências de `renv.lock` e TinyTeX com TeX Live 2026. O Dockerfile copia somente as entradas do artigo; não há compartilhamento com o host, volumes adicionais ou entrypoint próprio. No terminal do RStudio, execute `cd /home/rstudio` e `quarto render`.
 
-Os scripts `start` e `stop` ficam em `docker/` e devem ser executados dessa pasta. A inicialização usa o mecanismo padrão da imagem base; `init-latex.sh` não é chamado pela configuração atual. Construção, uso e cópia dos resultados estão documentados no [README do ambiente](docker/README.md).
+Os scripts `start` e `stop` ficam em `docker/` e localizam o Compose independentemente do diretório corrente. No Windows, use `docker/start.bat` e `docker/stop.bat`; em Linux/macOS, `bash docker/start.sh` e `bash docker/stop.sh`. O start constrói a imagem se ela não existir; mudanças posteriores nas fontes ou dependências exigem rebuild explícito. O stop preserva o mesmo container. Mudanças feitas dentro dele devem ser exportadas antes de removê-lo ou recriá-lo. Veja [as instruções do ambiente](docker/README.md).
 
 ## Escopo de reprodução e versões
 
@@ -162,10 +162,10 @@ As versões abaixo são as registradas no checkout; não representam uma recomen
 | simsem | 0.5-17 |
 | dynamic | 1.1.0 |
 | PDF | LaTeX; TinyTeX pode ser instalado pelo Quarto |
-| Diagramas no PDF | Chrome Headless Shell, instalado no build de Docker/Binder |
-| Binder | R 4.4.2 em `rocker/binder:4.4.2`; `Deriv` fixado em 4.2.0 |
+| Diagramas no PDF | Chrome Headless Shell, instalado no build do Docker principal |
+| Binder | R 4.4.2 em `rocker/binder:4.4.2`; Quarto 1.9.37; TeX Live 2026; renderização HTML/PDF na sessão |
 
-O inventário completo de dependências está em [renv.lock](renv.lock). Docker principal usa a versão de R do lockfile; Binder usa R 4.4.2, com `Deriv 4.2.0` para compatibilidade. A configuração disponível não comprova um teste recente desses ambientes. Docker e Binder não congelam uma versão datada do repositório de pacotes TeX.
+O inventário completo de dependências está em [renv.lock](renv.lock). Docker principal usa a versão de R do lockfile; Binder usa R 4.4.2, com `Deriv 4.2.0` para compatibilidade. Docker e Binder não congelam uma versão datada do repositório de pacotes TeX.
 
 ## Resultados salvos, renderização e recálculo
 

@@ -27,3 +27,6 @@ adm/
 /.quarto/
 /.agents/
 **/*.quarto_ipynb
+
+# Local Docker user settings
+/docker/cache/

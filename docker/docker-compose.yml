@@ -1,13 +1,17 @@
-# Build the current checkout; do not substitute an older registry snapshot.
+# CFA Tutorial: build a self-contained copy and open it in RStudio.
+name: cfa-tutorial
 services:
   article:
-    image: smart-cfa-local:r4.5.2-q1.9.37
+    # The root .dockerignore filters the project copied into the image.
     build:
       context: ..
       dockerfile: docker/Dockerfile
-    container_name: smart-cfa
+    image: cfa-tutorial:4.5.2
+    container_name: cfa-tutorial
+    # Password-free RStudio is exposed only on this computer.
     ports:
-      - 127.0.0.1:8787:8787
+      - "${RSTUDIO_IP:-127.0.0.1}:8787:8787"
     environment:
-      - DISABLE_AUTH=true
+      DISABLE_AUTH: "true"
+    # Project, packages and TeX are part of the image; no shared folders/volumes.
     restart: unless-stopped

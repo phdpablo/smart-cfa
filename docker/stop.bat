@@ -1,16 +1,15 @@
 @echo off
 setlocal
 
-echo Pausing RStudio container...
-docker compose -f docker-compose.yml stop
-
-if %ERRORLEVEL% equ 0 (
-  echo Container paused. Your data is preserved.
-  echo Run 'start.bat' to resume your work.
-) else (
-  echo Error stopping container.
+REM Stop without removing the container or its files.
+docker compose -f "%~dp0docker-compose.yml" stop
+if errorlevel 1 (
+  echo Could not stop the container. Check Docker Desktop.
+  pause
   exit /b 1
 )
 
+echo Container stopped. Files remain in this container until it is removed or recreated.
+echo Run start.bat to start it again.
 endlocal
 exit /b 0

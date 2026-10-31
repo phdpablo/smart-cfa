@@ -1,6 +1,13 @@
-# Build from the repository root with the same R version as renv.lock.
+# --- Base image ---
+# Build from the repository root; verse supplies RStudio, Pandoc and LaTeX.
 FROM rocker/verse:4.5.2
 
+LABEL maintainer="Pablo Rogers <pablorogers@ufu.br>" \
+      org.opencontainers.image.title="CFA Tutorial" \
+      version="4.5.2" \
+      description="RStudio/Quarto environment for CFA Tutorial."
+
+# --- Project tools ---
 USER root
 # Runtime libraries required by Chrome Headless Shell on Ubuntu 24.04.
 RUN apt-get update \
@@ -15,23 +22,42 @@ RUN curl -fsSL "https://github.com/quarto-dev/quarto-cli/releases/download/v${QU
     && dpkg -i /tmp/quarto.deb \
     && rm /tmp/quarto.deb
 
+# --- renv configuration and project directory ---
+ENV RENV_PATHS_CACHE=/renv/cache \
+    RENV_PATHS_LIBRARY=/renv/library \
+    RENV_CONFIG_SANDBOX_ENABLED=FALSE
+RUN mkdir -p /home/rstudio /renv/cache /renv/library \
+    && chown -R rstudio:rstudio /home/rstudio /renv
 WORKDIR /home/rstudio
-ENV RENV_PATHS_CACHE=/home/rstudio/.cache/renv \
-    RENV_PATHS_LIBRARY_ROOT=/home/rstudio/renv/library
+# --- Restore project packages ---
 COPY --chown=rstudio:rstudio renv.lock .Rprofile ./
 COPY --chown=rstudio:rstudio renv/activate.R renv/settings.json ./renv/
 USER rstudio
-RUN R -s -e "renv::restore(prompt = FALSE)"
-# Install the current TinyTeX distribution through the pinned Quarto CLI.
-# Record its version during validation; the TeX repository is not frozen.
-RUN quarto install tinytex --no-prompt
-# Keep the browser in the same user's tool directory used for rendering.
+# Stabilize the recommended Matrix package before restoring its dependants.
+# The container supplies system isolation; use its actual default R library.
+RUN R -s -e "renv::restore(packages = 'Matrix', prompt = FALSE)" \
+    && R -s -e "library(Matrix); stopifnot(file.exists(system.file('libs', 'Matrix.so', package = 'Matrix')))"
+RUN R -s -e "renv::restore(prompt = FALSE)" \
+    && R -s -e "invisible(lapply(c('Matrix', 'vegan', 'mirt', 'dynamic'), loadNamespace))"
+# --- PDF tools: current TeX Live, independent of the base image's old release ---
+# Installing without system symlinks avoids sudo during user-level setup.
+RUN R -s -e "tinytex::install_tinytex(dir = '/home/rstudio/.TinyTeX', force = TRUE, add_path = FALSE)"
+ENV PATH="/home/rstudio/.TinyTeX/bin/x86_64-linux:${PATH}"
+RUN tlmgr --version | grep 'TeX Live.*2026' \
+    && tlmgr update --self --all \
+    && tlmgr install amsfonts unicode-math booktabs caption float pgf environ pdfcol \
+        fontawesome5 tcolorbox fvextra footnotehyper lm luatexbase babel-portuges \
+        selnolig tikzfill hyphen-portuguese \
+    && luaotfload-tool --update --force
+
+# The DOT figure requires a browser when rendering PDF.
 RUN quarto install chrome-headless-shell --no-prompt
-# Fail during the build if the browser cannot start with the installed libraries.
 RUN browser="$(find "$HOME/.local/share/quarto" -type f -name chrome-headless-shell -print -quit)" \
     && test -n "$browser" \
     && timeout 30s "$browser" --no-sandbox --disable-gpu --dump-dom about:blank > /dev/null
+
+# --- Article inputs: no host caches, Git metadata or environment secrets ---
 COPY --chown=rstudio:rstudio . .
 
-# Restore the base image startup user for RStudio Server.
+# --- Standard Rocker startup; no custom entrypoint or persistent mounts ---
 USER root
