@@ -9,9 +9,9 @@ Esta pasta reúne as exportações de apresentação dos resultados analíticos 
 | Pasta | Conteúdo e mapa para as fontes |
 | --- | --- |
 | [Tables/](Tables/README.md) | CSVs de triagem, parâmetros, ajuste, confiabilidade, poder, DDDFI e invariância |
-| [Figures/](Figures/README.md) | PNGs do gráfico Likert, resíduos e distribuições DDDFI |
+| [Figures/](Figures/README.md) | Figuras das seções 2–8: mapa conceitual, modelos, poder, Likert, resíduos, DDDFI e permutação |
 
-As fontes estão nas seções 5–8 de [Article/](../../Article/README.md). A seção 4 apresenta suas figuras e tabelas diretamente no documento e não exporta cópias individuais nesta pasta. O mesmo ocorre com alguns diagramas e histogramas das outras seções.
+As fontes estão em [Article/](../../Article/README.md). As figuras são exportadas pelos QMDs ou pela rotina pós-renderização a partir do HTML. As tabelas têm exportação explícita nos QMDs; nem toda tabela apresentada no documento possui CSV próprio.
 
 ## Instruções de uso
 

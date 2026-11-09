@@ -8,6 +8,10 @@ Esta pasta contém os CSVs das tabelas e dos resíduos exportados pelas seções
 
 | Arquivo | Conteúdo | Seção |
 | --- | --- | --- |
+| `tbl-analytical-power.csv` | Resultado analítico do planejamento amostral | 4 |
+| `tbl-power-cutoff-realistic.csv` | Poder e pontos de corte para N = 150 | 4 |
+| `tbl-power-cutoff-fixed.csv` | Poder e pontos de corte para N = 200 | 4 |
+| `tbl-power-traditional.csv` | Poder com pontos de corte tradicionais para N = 200 | 4 |
 | `tbl-hurdle-summary.csv` | Frequências de sinalização dos cinco critérios C/IER | 5 |
 | `tbl-indicator-cutoffs.csv` | Limiares dos indicadores estatísticos da triagem | 5 |
 | `tbl-analysis-sample-summary.csv` | Trajetória dos registros brutos até a amostra final | 5 |
@@ -36,3 +40,5 @@ Os arquivos são CSVs separados por ponto e vírgula. Os QMDs usam `write_csv2()
 As seções 6–7 usam a calibração; o modelo modificado da seção 8 usa a validação e os testes multigrupo utilizam ambas. Leia os CSVs junto da interpretação no [artigo-fonte](../../../Article/README.md). As diferenças de correlações não são estimativas de covariâncias residuais livres do modelo.
 
 Este inventário descreve as exportações atuais. Uma tabela mostrada no artigo pode não ter CSV próprio; não se pressupõe uma cópia exportada de cada saída.
+
+As tabelas `tbl-power-assumptions` (seção 4) e `tbl-whoqol-modification-evidence` (seção 8) são apresentadas no documento sem CSV próprio nesta pasta. A primeira reúne pressupostos definidos no código; a síntese bibliográfica utiliza o arquivo-fonte `Data/InputData/Metadata/whoqol_modification_evidence.csv`. Os CSVs de poder simulado preservam os valores numéricos sem o arredondamento de apresentação e incluem a coluna `Medida` para identificar as linhas.

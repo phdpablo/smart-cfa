@@ -697,7 +697,7 @@
     "RcppParallel": {
       "Package": "RcppParallel",
       "Version": "6.2.1",
-      "Source": "Repository",
+      "Source": "Local",
       "Type": "Package",
       "Title": "Parallel Programming Tools for 'Rcpp'",
       "Authors@R": "c( person(\"Kevin\", \"Ushey\", role = c(\"aut\", \"cre\"), email = \"kevin@rstudio.com\", comment = c(ORCID = \"0000-0003-2880-7407\")), person(\"JJ\", \"Allaire\", role = c(\"aut\"), email = \"jj@rstudio.com\"), person(\"Romain\", \"Francois\", role = c(\"aut\", \"cph\")), person(\"Gregory\", \"Vandenbrouck\", role = \"aut\"), person(\"Marcus\", \"Geelnard\", role = c(\"aut\", \"cph\"), comment = \"TinyThread library, https://tinythreadpp.bitsnbites.eu/\"), person(\"Hamada S.\", \"Badr\", email = \"badr@jhu.edu\", role = c(\"ctb\"), comment = c(ORCID = \"0000-0002-9808-2344\")), person(\"Dirk\", \"Eddelbuettel\", role = c(\"aut\"), email = \"edd@debian.org\", comment = c(ORCID = \"0000-0001-6419-907X\")), person(family = \"Intel\", role = c(\"aut\", \"cph\"), comment = \"oneTBB library\"), person(family = \"UXL Foundation\", role = c(\"aut\", \"cph\"), comment = \"oneTBB library\"), person(family = \"Microsoft\", role = \"cph\"), person(family = \"Posit, PBC\", role = \"cph\") )",
@@ -720,30 +720,9 @@
       "NeedsCompilation": "yes",
       "Author": "Kevin Ushey [aut, cre] (ORCID: <https://orcid.org/0000-0003-2880-7407>), JJ Allaire [aut], Romain Francois [aut, cph], Gregory Vandenbrouck [aut], Marcus Geelnard [aut, cph] (TinyThread library, https://tinythreadpp.bitsnbites.eu/), Hamada S. Badr [ctb] (ORCID: <https://orcid.org/0000-0002-9808-2344>), Dirk Eddelbuettel [aut] (ORCID: <https://orcid.org/0000-0001-6419-907X>), Intel [aut, cph] (oneTBB library), UXL Foundation [aut, cph] (oneTBB library), Microsoft [cph], Posit, PBC [cph]",
       "Maintainer": "Kevin Ushey <kevin@rstudio.com>",
-      "Repository": "CRAN"
-    },
-    "Rcsdp": {
-      "Package": "Rcsdp",
-      "Version": "0.1.57.6",
-      "Source": "Repository",
-      "Title": "R Interface to the CSDP Semidefinite Programming Library",
-      "Authors@R": "c( person(\"Hector\", \"Corrada Bravo\", email=\"hcorrada@gmail.com\", role=c(\"aut\", \"cre\")), person(\"Florian\", \"Schwendinger\", email=\"FlorianSchwendinger@gmx.at\", role=c(\"ctb\")), person(\"Brian\", \"Borchers\", role=\"aut\"), person(\"Don\", \"van den Bergh\", role=\"ctb\") )",
-      "Description": "R interface to the CSDP semidefinite programming library. Installs version 6.1.1 of CSDP from the COIN-OR website if required. An existing installation of CSDP may be used by passing the proper configure arguments to the installation command. See the INSTALL file for further details.",
-      "LazyLoad": "yes",
-      "Imports": [
-        "methods"
-      ],
-      "Enhances": [
-        "Matrix"
-      ],
-      "License": "CPL-1.0",
-      "URL": "https://github.com/coin-or/Csdp/",
-      "RoxygenNote": "7.0.2",
-      "BugReports": "https://github.com/hcorrada/rcsdp/issues",
-      "NeedsCompilation": "yes",
-      "Author": "Hector Corrada Bravo [aut, cre], Florian Schwendinger [ctb], Brian Borchers [aut], Don van den Bergh [ctb]",
-      "Maintainer": "Hector Corrada Bravo <hcorrada@gmail.com>",
-      "Repository": "CRAN"
+      "Repository": "CRAN",
+      "RemoteType": "local",
+      "RemoteUrl": "_temp/model-fit/packages/RcppParallel_6.2.1.zip"
     },
     "Rdpack": {
       "Package": "Rdpack",
@@ -2336,51 +2315,6 @@
       "Maintainer": "Søren Højsgaard <sorenh@math.aau.dk>",
       "Repository": "CRAN"
     },
-    "downlit": {
-      "Package": "downlit",
-      "Version": "0.4.5",
-      "Source": "Repository",
-      "Title": "Syntax Highlighting and Automatic Linking",
-      "Authors@R": "c( person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = c(\"aut\", \"cre\")), person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\")) )",
-      "Description": "Syntax highlighting of R code, specifically designed for the needs of 'RMarkdown' packages like 'pkgdown', 'hugodown', and 'bookdown'. It includes linking of function calls to their documentation on the web, and automatic translation of ANSI escapes in output to the equivalent HTML.",
-      "License": "MIT + file LICENSE",
-      "URL": "https://downlit.r-lib.org/, https://github.com/r-lib/downlit",
-      "BugReports": "https://github.com/r-lib/downlit/issues",
-      "Depends": [
-        "R (>= 4.0.0)"
-      ],
-      "Imports": [
-        "brio",
-        "desc",
-        "digest",
-        "evaluate",
-        "fansi",
-        "memoise",
-        "rlang",
-        "vctrs",
-        "withr",
-        "yaml"
-      ],
-      "Suggests": [
-        "covr",
-        "htmltools",
-        "jsonlite",
-        "MASS",
-        "MassSpecWavelet",
-        "pkgload",
-        "rmarkdown",
-        "testthat (>= 3.0.0)",
-        "xml2"
-      ],
-      "Config/Needs/website": "tidyverse/tidytemplate",
-      "Config/testthat/edition": "3",
-      "Encoding": "UTF-8",
-      "RoxygenNote": "7.3.3",
-      "NeedsCompilation": "no",
-      "Author": "Hadley Wickham [aut, cre], Posit Software, PBC [cph, fnd]",
-      "Maintainer": "Hadley Wickham <hadley@posit.co>",
-      "Repository": "CRAN"
-    },
     "dplyr": {
       "Package": "dplyr",
       "Version": "1.2.0",
@@ -2559,37 +2493,6 @@
       "NeedsCompilation": "no",
       "Author": "Hadley Wickham [aut, cre], Yihui Xie [aut] (ORCID: <https://orcid.org/0000-0003-0645-5666>), Michael Lawrence [ctb], Thomas Kluyver [ctb], Jeroen Ooms [ctb], Barret Schloerke [ctb], Adam Ryczkowski [ctb], Hiroaki Yutani [ctb], Michel Lang [ctb], Karolis Koncevičius [ctb], Posit Software, PBC [cph, fnd]",
       "Maintainer": "Hadley Wickham <hadley@posit.co>",
-      "Repository": "CRAN"
-    },
-    "fansi": {
-      "Package": "fansi",
-      "Version": "1.0.7",
-      "Source": "Repository",
-      "Title": "ANSI Control Sequence Aware String Functions",
-      "Description": "Counterparts to R string manipulation functions that account for the effects of ANSI text formatting control sequences.",
-      "Authors@R": "c( person(\"Brodie\", \"Gaslam\", email=\"brodie.gaslam@yahoo.com\", role=c(\"aut\", \"cre\")), person(\"Elliott\", \"Sales De Andrade\", role=\"ctb\"), person(given=\"R Core Team\", email=\"R-core@r-project.org\", role=\"cph\", comment=\"UTF8 byte length calcs from src/util.c\" ), person(\"Michael\",\"Chirico\", role=\"ctb\", email=\"michaelchirico4@gmail.com\", comment = c(ORCID=\"0000-0003-0787-087X\") ), person(given = \"Unicode, Inc.\", role = c(\"cph\", \"dtc\"), comment = \"Unicode Character Database derivative data in src/width.c\") )",
-      "Depends": [
-        "R (>= 3.1.0)"
-      ],
-      "License": "GPL-2 | GPL-3",
-      "URL": "https://github.com/brodieG/fansi",
-      "BugReports": "https://github.com/brodieG/fansi/issues",
-      "VignetteBuilder": "knitr",
-      "Suggests": [
-        "unitizer",
-        "knitr",
-        "rmarkdown"
-      ],
-      "Imports": [
-        "grDevices",
-        "utils"
-      ],
-      "RoxygenNote": "7.3.3",
-      "Encoding": "UTF-8",
-      "Collate": "'constants.R' 'fansi-package.R' 'internal.R' 'load.R' 'misc.R' 'nchar.R' 'strwrap.R' 'strtrim.R' 'strsplit.R' 'substr2.R' 'trimws.R' 'tohtml.R' 'unhandled.R' 'normalize.R' 'sgr.R'",
-      "NeedsCompilation": "yes",
-      "Author": "Brodie Gaslam [aut, cre], Elliott Sales De Andrade [ctb], R Core Team [cph] (UTF8 byte length calcs from src/util.c), Michael Chirico [ctb] (ORCID: <https://orcid.org/0000-0003-0787-087X>), Unicode, Inc. [cph, dtc] (Unicode Character Database derivative data in src/width.c)",
-      "Maintainer": "Brodie Gaslam <brodie.gaslam@yahoo.com>",
       "Repository": "CRAN"
     },
     "farver": {

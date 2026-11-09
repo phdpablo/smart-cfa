@@ -8,7 +8,7 @@ A execução do artigo é organizada pelos QMDs de [Article/](../Article/README.
 
 | Pasta | Situação atual |
 | --- | --- |
-| [DataAppendixScripts/](DataAppendixScripts/README.md) | Contém os cinco scripts R ativos, reutilizados pelas seções |
+| [DataAppendixScripts/](DataAppendixScripts/README.md) | Modelos, helpers, persistência e rotinas de pré/pós-renderização |
 | [ProcessingScripts/](ProcessingScripts/README.md) | Contém apenas README; o pré-processamento está na seção 5 |
 | [AnalysisScripts/](AnalysisScripts/README.md) | Contém apenas README; as análises estão nas seções 4 e 6–8 |
 

@@ -13,6 +13,7 @@ Apesar do nome herdado da estrutura do projeto, esta pasta reúne os scripts com
 | `cache_utils.R` | Define `cache_or_run()` para reaproveitar um objeto/RDS ou calcular e salvar um resultado |
 | `cache_loader.R` | Define `cache_load_existing()`; só lê os RDS quando a função é chamada |
 | `pre_render_cache.R` | Pre-render configurado em `_quarto.yml`; cria a pasta intermediária e regrava a definição do loader |
+| `export_figures.R` | Pós-renderização: exporta figuras do HTML para `Output/Results/Figures` e sincroniza a cópia em `docs/Output`, sem executar análises |
 
 As especificações populacionais para planejamento devem ser distinguidas dos modelos ajustados aos dados empíricos. As seções carregam os arquivos de que precisam e mantêm explícitas suas chamadas de estimação e simulação.
 
@@ -22,4 +23,4 @@ Os parâmetros centrais atuais em `helpers.R` são `REP = 10`, `SIM = 1000`, `SE
 
 `cache_or_run()` procura o nome na sessão e depois o RDS. Dados, parâmetros ou modelos modificados não invalidam automaticamente esse resultado. A lista dos oito arquivos persistidos e sua origem está em [Data/IntermediateData/](../../Data/IntermediateData/README.md); o procedimento de recálculo está no [README principal](../../README.md#resultados-salvos-renderização-e-recálculo).
 
-O pre-render não executa simulações nem instala pacotes. Mudanças manuais no loader gerado devem considerar que ele será regravado pelo pre-render. O antigo `render_cleanup.R` e sua chamada pós-render foram retirados da configuração atual.
+O pre-render não executa simulações nem instala pacotes. Mudanças manuais no loader gerado devem considerar que ele será regravado pelo pre-render. O pós-render `export_figures.R` utiliza `xml2` para exportar os recursos do HTML disponível, inclusive com resultados congelados. Preserva os PNGs exportados explicitamente pelos QMDs e não remove arquivos auxiliares. Compara o conteúdo antes de copiar: arquivos idênticos não são regravados, inclusive SVGs e cópias em `docs`. Para atualizar o conteúdo das figuras, renderize primeiro as respectivas seções em HTML.

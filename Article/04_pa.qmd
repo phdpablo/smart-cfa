@@ -9,6 +9,8 @@ source(here::here("Scripts", "DataAppendixScripts", "models.R"))
 source(here::here("Scripts", "DataAppendixScripts", "helpers.R"))
 source(here::here("Scripts", "DataAppendixScripts", "cache_utils.R"))
 source(here::here("Scripts", "DataAppendixScripts", "cache_loader.R"))
+dir.create(here::here("Output", "Results", "Tables"),
+           recursive = TRUE, showWarnings = FALSE)
 ```
 
 Em pesquisas empíricas, a escala psicométrica atua frequentemente como modelo de mensuração de construtos latentes a serem integrados em um modelo estrutural posterior. O planejamento amostral deve fundamentar-se no instrumento específico e na estrutura fatorial a ser estimada, superando regras heurísticas genéricas sobre o número de itens ou parâmetros livres [@kline2023]. Nessa seção, define-se o poder estatístico como a probabilidade de detectar uma omissão estrutural formalmente delimitada antes da coleta de dados.
@@ -140,6 +142,10 @@ A @tbl-analytical-power apresenta as métricas resultantes da derivação analí
 #| echo: false
 
 # Present the analytical power results separately from the plot.
+readr::write_excel_csv2(
+  tidy_sempower(ap_h1model, lang = "pt"),
+  here::here("Output", "Results", "Tables", "tbl-analytical-power.csv")
+)
 table_sempower(ap_h1model, lang = "pt")
 ```
 
@@ -161,6 +167,8 @@ A função `semPower.powerLav()` compara a população com três cargas cruzadas
 
 A rotina autoral `table_sempower()` estrutura esse resultado em tabela padronizada em português. Internamente, `tidy_sempower()` extrai as métricas e `format_metric_val()` ajusta a notação numérica. O tamanho amostral e o poder exibidos correspondem às soluções diretas do cálculo analítico.
 
+`readr::write_excel_csv2()` salva os mesmos dados formatados em `Output/Results/Tables/tbl-analytical-power.csv`, com separador ponto e vírgula e codificação compatível com Excel.
+
 **Execução e resultado**
 
 Execute o bloco para calcular `ap_h1model` e compilar a tabela de indices. O objeto gerado é reaproveitado no gráfico subsequente.
@@ -178,6 +186,12 @@ ap_h1model <- semPower.powerLav(
   modelH0 = analyzemodel,
   lavOptions = list(std.lv = TRUE),
   p = P
+)
+
+# Save the table data as CSV.
+readr::write_excel_csv2(
+  tidy_sempower(ap_h1model, lang = "pt"),
+  here::here("Output", "Results", "Tables", "tbl-analytical-power.csv")
 )
 
 # Present the analytical power results separately from the plot.
@@ -467,6 +481,10 @@ power_cutoff_varying <- rbind(
 colnames(power_cutoff_varying) <- toupper(names(power_varying))
 
 # Present the summary table.
+readr::write_csv2(
+  tibble::rownames_to_column(as.data.frame(power_cutoff_varying), "Medida"),
+  here::here("Output", "Results", "Tables", "tbl-power-cutoff-realistic.csv")
+)
 kable(power_cutoff_varying, digits = 3, align = "c")
 ```
 
@@ -485,6 +503,8 @@ Utilize os objetos `popmodel_varying` e `h1model_varying`, obtidos no callout �
 **Procedimento**
 
 O poder é estimado na condição alternativa, adotando a distribuição sob correta especificação para definir as zonas de rejeição. As rotinas são parametrizadas com `nVal = 150` sob o mesmo nível de significância: `getPowerFit()` quantifica o poder e `getCutoff()` recupera os limiares correspondentes. O bloco consolida ambas as informações em `power_cutoff_varying`, organizando as colunas pelos índices analisados.
+
+`readr::write_csv2()` salva os valores sem arredondamento em `Output/Results/Tables/tbl-power-cutoff-realistic.csv`. A coluna `Medida` preserva os nomes das linhas “Poder” e “Ponto de corte”.
 
 **Execução e resultado**
 
@@ -519,6 +539,12 @@ power_cutoff_varying <- rbind(
 
 # Format the fit-index column labels.
 colnames(power_cutoff_varying) <- toupper(names(power_varying))
+
+# Save the table data as CSV.
+readr::write_csv2(
+  tibble::rownames_to_column(as.data.frame(power_cutoff_varying), "Medida"),
+  here::here("Output", "Results", "Tables", "tbl-power-cutoff-realistic.csv")
+)
 
 # Present the summary table.
 kable(power_cutoff_varying, digits = 3, align = "c")
@@ -702,6 +728,10 @@ power_cutoff_fixed <- rbind(
 colnames(power_cutoff_fixed) <- toupper(names(power_fixed))
 
 # Present the summary table.
+readr::write_csv2(
+  tibble::rownames_to_column(as.data.frame(power_cutoff_fixed), "Medida"),
+  here::here("Output", "Results", "Tables", "tbl-power-cutoff-fixed.csv")
+)
 kable(power_cutoff_fixed, digits = 3, align = "c")
 ```
 
@@ -720,6 +750,8 @@ Utilize os objetos `popmodel_fixed` e `h1model_fixed`, obtidos no callout “Com
 **Procedimento**
 
 O bloco estima o poder na condição alternativa e recupera os limiares na condição de referência, em consonância com a lógica da @tbl-power-cutoff-realistic. Com tamanho amostral constante, dispensa-se o argumento `nVal`. A indexação por `FITS` ordena uniformemente os índices RMSEA, SRMR, CFI e TLI, assegurando alinhamento entre poder e pontos de corte.
+
+`readr::write_csv2()` salva os valores sem arredondamento em `Output/Results/Tables/tbl-power-cutoff-fixed.csv`, com as linhas “Poder” e “Ponto de corte” identificadas na coluna `Medida`.
 
 **Execução e resultado**
 
@@ -752,6 +784,12 @@ power_cutoff_fixed <- rbind(
 
 # Format the fit-index column labels.
 colnames(power_cutoff_fixed) <- toupper(names(power_fixed))
+
+# Save the table data as CSV.
+readr::write_csv2(
+  tibble::rownames_to_column(as.data.frame(power_cutoff_fixed), "Medida"),
+  here::here("Output", "Results", "Tables", "tbl-power-cutoff-fixed.csv")
+)
 
 # Present the summary table.
 kable(power_cutoff_fixed, digits = 3, align = "c")
@@ -851,6 +889,10 @@ colnames(power_traditional_tbl) <- toupper(names(power_traditional))
 rownames(power_traditional_tbl) <- "Poder"
 
 # Present the summary table.
+readr::write_csv2(
+  tibble::rownames_to_column(as.data.frame(power_traditional_tbl), "Medida"),
+  here::here("Output", "Results", "Tables", "tbl-power-traditional.csv")
+)
 kable(power_traditional_tbl, digits = 3, align = "c")
 ```
 
@@ -869,6 +911,8 @@ Utilize os objetos `h1model_fixed`, `RULE_OF_THUMB` e `FITS`, consolidados nas f
 **Procedimento**
 
 O cálculo injeta os limiares heurísticos no parâmetro `cutoff`. O vetor de poder retornado é estruturado em formato tabular, com cabeçalhos identificando cada índice. A operação reaproveita a condição alternativa com tamanho amostral fixado.
+
+`readr::write_csv2()` salva os valores sem arredondamento em `Output/Results/Tables/tbl-power-traditional.csv`; a coluna `Medida` identifica a linha “Poder”.
 
 **Execução e resultado**
 
@@ -892,6 +936,12 @@ power_traditional_tbl <- t(as.data.frame(power_traditional))
 # Label the fit indices and power row.
 colnames(power_traditional_tbl) <- toupper(names(power_traditional))
 rownames(power_traditional_tbl) <- "Poder"
+
+# Save the table data as CSV.
+readr::write_csv2(
+  tibble::rownames_to_column(as.data.frame(power_traditional_tbl), "Medida"),
+  here::here("Output", "Results", "Tables", "tbl-power-traditional.csv")
+)
 
 # Present the summary table.
 kable(power_traditional_tbl, digits = 3, align = "c")
