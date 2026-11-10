@@ -1,29 +1,21 @@
-# InputData Folder
+# Dados de entrada
 
-## Overview
+## Visão geral
 
-The `InputData` folder stores the original, raw data files used as inputs for the analysis. This folder is key for transparency and reproducibility. It holds the data files themselves and metadata that describes the data sources in detail.
+`data.csv` é o arquivo bruto utilizado na aplicação. O arquivo atual contém 1.546 registros e 108 colunas, incluindo identificação, timestamps, variáveis sociodemográficas, outros instrumentos do questionário, três itens de atenção (`CQ1`–`CQ3`) e os itens `Q1`–`Q26` da WHOQOL-Bref.
 
-## Contents
+A fonte associada à base é Rogers, P., Barbosa, F., Peixoto, F., & Silva, D. R. (2024), *Data for “Asset diversification, financial well-being, quality of life, and mental health: a study in Brazil” published by Revista de Contabilidade & Finanças*, Mendeley Data, V2. [DOI: 10.17632/xvzsd8gk63.2](https://doi.org/10.17632/xvzsd8gk63.2). O número de casos do arquivo bruto deste projeto deve ser distinguido de bases já pré-processadas usadas em outros trabalhos.
 
-### 1. Input Data Files
+## Conteúdo
 
--   **Purpose**: Store raw data files in their original format as received or downloaded.
--   **Description**: These files should remain untouched and unaltered from their original state. They provide a clear starting point for any data processing or analysis.
+| Conteúdo | Função |
+| --- | --- |
+| `data.csv` | Entrada empírica da seção 5, antes da elegibilidade, triagem e recodificação |
+| `Metadata/codebook.csv` | Definições das 108 variáveis, na ordem do arquivo bruto |
+| `Metadata/whoqol_modification_evidence.csv` | Síntese de literatura utilizada na fundamentação das modificações |
 
-### 2. Metadata
+## Instruções de uso
 
--   **Purpose**: Provide comprehensive documentation about the data sources and the data itself.
--   **Contents**:
-    -   **Data Sources Guide**: Information about where the data came from. Include URLs, descriptions of how it was collected, and associated methodologies.
-    -   **Codebooks**: Explain the variables within the data files. Include definitions, coding schemes, and other information needed to understand the data.
+O delimitador é ponto e vírgula. A [seção 5](../../Article/05_preprocessing.qmd) utiliza `read_csv2()`, calcula duração a partir de `CREATED` e `MODIFIED`, define elegibilidade e aplica os cinco critérios C/IER. As transformações são gravadas fora desta pasta; não edite o arquivo bruto para corrigir uma saída analítica.
 
-## Guidelines
-
--   **File Organization**: Keep original data files and metadata well-organized and clearly named. This makes identification and access easier.
--   **Documentation**: Document each data file thoroughly. Note its source, date of acquisition, and context needed to understand its content.
--   **Data Integrity**: Do not modify raw data files in this folder. Clean or transform data in subsequent steps. Store those results in different folders (e.g., `IntermediateData` or `AnalysisData`).
-
-## Additional Resources
-
-For more detailed instructions and best practices, refer to the [TIER Protocol 4.0 InputData Guidelines](https://www.projecttier.org/tier-protocol/protocol-4-0/root/data/originaldata/).
+Consulte [Metadata/](Metadata/README.md) para o esquema do codebook e o papel do arquivo de literatura.

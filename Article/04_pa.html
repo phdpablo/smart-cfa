@@ -710,6 +710,7 @@ Tabela&nbsp;4.2: Resultados da abordagem analítica de poder baseada em modelos.
 <p><strong>Procedimento</strong></p>
 <p>A função <code>semPower.powerLav()</code> compara a população com três cargas cruzadas ao modelo de análise que as restringe a zero. O argumento <code>type = "a-priori"</code> especifica a derivação prospectiva de tamanho amostral, enquanto <code>lavOptions = list(std.lv = TRUE)</code> estabelece a identificação por variâncias latentes unitárias. O resultado é atribuído ao objeto <code>ap_h1model</code>.</p>
 <p>A rotina autoral <code>table_sempower()</code> estrutura esse resultado em tabela padronizada em português. Internamente, <code>tidy_sempower()</code> extrai as métricas e <code>format_metric_val()</code> ajusta a notação numérica. O tamanho amostral e o poder exibidos correspondem às soluções diretas do cálculo analítico.</p>
+<p><code><a href="https://readr.tidyverse.org/reference/write_delim.html">readr::write_excel_csv2()</a></code> salva os mesmos dados formatados em <code>Output/Results/Tables/tbl-analytical-power.csv</code>, com separador ponto e vírgula e codificação compatível com Excel.</p>
 <p><strong>Execução e resultado</strong></p>
 <p>Execute o bloco para calcular <code>ap_h1model</code> e compilar a tabela de indices. O objeto gerado é reaproveitado no gráfico subsequente.</p>
 <div class="cell">
@@ -724,6 +725,12 @@ Tabela&nbsp;4.2: Resultados da abordagem analítica de poder baseada em modelos.
 <span>  p <span class="op">=</span> <span class="va">P</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Save the table data as CSV.</span></span>
+<span><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_excel_csv2</a></span><span class="op">(</span></span>
+<span>  <span class="fu">tidy_sempower</span><span class="op">(</span><span class="va">ap_h1model</span>, lang <span class="op">=</span> <span class="st">"pt"</span><span class="op">)</span>,</span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-analytical-power.csv"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
 <span><span class="co"># Present the analytical power results separately from the plot.</span></span>
 <span><span class="fu">table_sempower</span><span class="op">(</span><span class="va">ap_h1model</span>, lang <span class="op">=</span> <span class="st">"pt"</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
@@ -734,7 +741,7 @@ Tabela&nbsp;4.2: Resultados da abordagem analítica de poder baseada em modelos.
 <p>A <a href="#fig-analytical-power" class="quarto-xref">Figura&nbsp;<span>4.1</span></a> ilustra as distribuições central e não central do qui-quadrado. A distribuição sob a hipótese nula representa o comportamento esperado da estatística sob correta especificação estrutural, ao passo que a distribuição não central projeta a dispersão diante da discrepância populacional estipulada. A área de rejeição e a sobreposição das curvas expressam graficamente a relação entre o erro Tipo I e o poder estatístico do teste.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-analytical-power" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Duas curvas em sino representam as distribuições do qui-quadrado sob a hipótese nula e sob a discrepância populacional especificada.">
+<div id="fig-analytical-power" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Duas curvas em sino representam as distribuições do qui-quadrado sob a hipótese nula e sob a discrepância populacional especificada." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-analytical-power-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="04_pa_files/figure-html/fig-analytical-power-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Duas curvas em sino representam as distribuições do qui-quadrado sob a hipótese nula e sob a discrepância populacional especificada." width="768">
 </div>
@@ -840,7 +847,7 @@ Figura&nbsp;4.1: Distribuições central e não central do qui-quadrado da abord
 <p>Apresentam-se duas configurações gráficas da relação entre tamanho amostral e poder estatístico. A primeira adota suavização logística para destacar a trajetória de evolução do poder ao longo do gradiente amostral (<a href="#fig-realistic-power" class="quarto-xref">Figura&nbsp;<span>4.2</span></a>). A segunda exibe diretamente as taxas empíricas de rejeição observadas nas replicações realizadas em cada patamar (<a href="#fig-realistic-curve" class="quarto-xref">Figura&nbsp;<span>4.3</span></a>).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-realistic-power" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Curvas logísticas de poder de RMSEA, SRMR, CFI e TLI entre 101 e 400 participantes.">
+<div id="fig-realistic-power" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Curvas logísticas de poder de RMSEA, SRMR, CFI e TLI entre 101 e 400 participantes." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-realistic-power-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="04_pa_files/figure-html/fig-realistic-power-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Curvas logísticas de poder de RMSEA, SRMR, CFI e TLI entre 101 e 400 participantes." width="768">
 </div>
@@ -885,7 +892,7 @@ Figura&nbsp;4.2: Curvas de poder com suavização logística sob não normalidad
 </div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-realistic-curve" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Valores de poder não suavizados de RMSEA, SRMR, CFI e TLI entre 101 e 400 participantes.">
+<div id="fig-realistic-curve" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Valores de poder não suavizados de RMSEA, SRMR, CFI e TLI entre 101 e 400 participantes." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-realistic-curve-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="04_pa_files/figure-html/fig-realistic-curve-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Valores de poder não suavizados de RMSEA, SRMR, CFI e TLI entre 101 e 400 participantes." width="768">
 </div>
@@ -984,6 +991,7 @@ Tabela&nbsp;4.3: Poder e pontos de corte calibrados pelo modelo para N = 150.
 <p>Utilize os objetos <code>popmodel_varying</code> e <code>h1model_varying</code>, obtidos no callout “Como as simulações com N variável foram realizadas”, e as constantes <code>ALPHA</code> e <code>FITS</code>.</p>
 <p><strong>Procedimento</strong></p>
 <p>O poder é estimado na condição alternativa, adotando a distribuição sob correta especificação para definir as zonas de rejeição. As rotinas são parametrizadas com <code>nVal = 150</code> sob o mesmo nível de significância: <code>getPowerFit()</code> quantifica o poder e <code>getCutoff()</code> recupera os limiares correspondentes. O bloco consolida ambas as informações em <code>power_cutoff_varying</code>, organizando as colunas pelos índices analisados.</p>
+<p><code><a href="https://readr.tidyverse.org/reference/write_delim.html">readr::write_csv2()</a></code> salva os valores sem arredondamento em <code>Output/Results/Tables/tbl-power-cutoff-realistic.csv</code>. A coluna <code>Medida</code> preserva os nomes das linhas “Poder” e “Ponto de corte”.</p>
 <p><strong>Execução e resultado</strong></p>
 <p>Execute o bloco para renderizar a tabela contendo o poder e os pontos de corte calculados para a amostra de 150 indivíduos.</p>
 <div class="cell">
@@ -1012,6 +1020,12 @@ Tabela&nbsp;4.3: Poder e pontos de corte calibrados pelo modelo para N = 150.
 <span></span>
 <span><span class="co"># Format the fit-index column labels.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">power_cutoff_varying</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">toupper</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">power_varying</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Save the table data as CSV.</span></span>
+<span><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv2</a></span><span class="op">(</span></span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">power_cutoff_varying</span><span class="op">)</span>, <span class="st">"Medida"</span><span class="op">)</span>,</span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-power-cutoff-realistic.csv"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Present the summary table.</span></span>
 <span><span class="fu">kable</span><span class="op">(</span><span class="va">power_cutoff_varying</span>, digits <span class="op">=</span> <span class="fl">3</span>, align <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1090,7 +1104,7 @@ Tabela&nbsp;4.3: Poder e pontos de corte calibrados pelo modelo para N = 150.
 <p>Com o tamanho amostral constante, dispensa-se a interpolação logística. A <a href="#fig-power-fixed" class="quarto-xref">Figura&nbsp;<span>4.4</span></a> retrata diretamente o comportamento empírico dos índices nas duas condições populacionais. A separação entre as curvas ilustra a capacidade do teste em evidenciar a má especificação estrutural.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-power-fixed" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Distribuições de RMSEA, SRMR, CFI e TLI nas populações de referência e com cargas cruzadas, mantendo N igual a 200.">
+<div id="fig-power-fixed" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Distribuições de RMSEA, SRMR, CFI e TLI nas populações de referência e com cargas cruzadas, mantendo N igual a 200." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-power-fixed-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="04_pa_files/figure-html/fig-power-fixed-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Distribuições de RMSEA, SRMR, CFI e TLI nas populações de referência e com cargas cruzadas, mantendo N igual a 200." width="768">
 </div>
@@ -1188,6 +1202,7 @@ Tabela&nbsp;4.4: Poder e pontos de corte calibrados pelo modelo em 1.000 replica
 <p>Utilize os objetos <code>popmodel_fixed</code> e <code>h1model_fixed</code>, obtidos no callout “Como as simulações com N fixo foram realizadas”.</p>
 <p><strong>Procedimento</strong></p>
 <p>O bloco estima o poder na condição alternativa e recupera os limiares na condição de referência, em consonância com a lógica da <a href="#tbl-power-cutoff-realistic" class="quarto-xref">Tabela&nbsp;<span>4.3</span></a>. Com tamanho amostral constante, dispensa-se o argumento <code>nVal</code>. A indexação por <code>FITS</code> ordena uniformemente os índices RMSEA, SRMR, CFI e TLI, assegurando alinhamento entre poder e pontos de corte.</p>
+<p><code><a href="https://readr.tidyverse.org/reference/write_delim.html">readr::write_csv2()</a></code> salva os valores sem arredondamento em <code>Output/Results/Tables/tbl-power-cutoff-fixed.csv</code>, com as linhas “Poder” e “Ponto de corte” identificadas na coluna <code>Medida</code>.</p>
 <p><strong>Execução e resultado</strong></p>
 <p>Execute o bloco para gerar a estrutura <code>power_cutoff_fixed</code> e compilar a tabela correspondente.</p>
 <div class="cell">
@@ -1215,6 +1230,12 @@ Tabela&nbsp;4.4: Poder e pontos de corte calibrados pelo modelo em 1.000 replica
 <span><span class="co"># Format the fit-index column labels.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">power_cutoff_fixed</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">toupper</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">power_fixed</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Save the table data as CSV.</span></span>
+<span><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv2</a></span><span class="op">(</span></span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">power_cutoff_fixed</span><span class="op">)</span>, <span class="st">"Medida"</span><span class="op">)</span>,</span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-power-cutoff-fixed.csv"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
 <span><span class="co"># Present the summary table.</span></span>
 <span><span class="fu">kable</span><span class="op">(</span><span class="va">power_cutoff_fixed</span>, digits <span class="op">=</span> <span class="fl">3</span>, align <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
@@ -1228,7 +1249,7 @@ Tabela&nbsp;4.4: Poder e pontos de corte calibrados pelo modelo em 1.000 replica
 <p>A simulação com tamanho amostral fixo é reavaliada mantendo-se inalterados o tamanho amostral, as matrizes populacionais e as propriedades empíricas dos dados, modificando-se estritamente o critério de decisão. A <a href="#fig-power-fixed-traditional" class="quarto-xref">Figura&nbsp;<span>4.5</span></a> exibe a classificação decorrente dos pontos de corte convencionais, e a <a href="#tbl-power-traditional" class="quarto-xref">Tabela&nbsp;<span>4.5</span></a> resume o poder resultante.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-power-fixed-traditional" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="Distribuições de RMSEA, SRMR, CFI e TLI comparadas aos respectivos pontos de corte tradicionais.">
+<div id="fig-power-fixed-traditional" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Distribuições de RMSEA, SRMR, CFI e TLI comparadas aos respectivos pontos de corte tradicionais." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-power-fixed-traditional-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="04_pa_files/figure-html/fig-power-fixed-traditional-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Distribuições de RMSEA, SRMR, CFI e TLI comparadas aos respectivos pontos de corte tradicionais." width="768">
 </div>
@@ -1317,6 +1338,7 @@ Tabela&nbsp;4.5: Poder obtido com pontos de corte tradicionais em 1.000 replica�
 <p>Utilize os objetos <code>h1model_fixed</code>, <code>RULE_OF_THUMB</code> e <code>FITS</code>, consolidados nas fases anteriores.</p>
 <p><strong>Procedimento</strong></p>
 <p>O cálculo injeta os limiares heurísticos no parâmetro <code>cutoff</code>. O vetor de poder retornado é estruturado em formato tabular, com cabeçalhos identificando cada índice. A operação reaproveita a condição alternativa com tamanho amostral fixado.</p>
+<p><code><a href="https://readr.tidyverse.org/reference/write_delim.html">readr::write_csv2()</a></code> salva os valores sem arredondamento em <code>Output/Results/Tables/tbl-power-traditional.csv</code>; a coluna <code>Medida</code> identifica a linha “Poder”.</p>
 <p><strong>Execução e resultado</strong></p>
 <p>Execute o bloco para compilar a estrutura <code>power_traditional_tbl</code> e exibir o poder estatístico associado às regras tradicionais.</p>
 <div class="cell">
@@ -1334,6 +1356,12 @@ Tabela&nbsp;4.5: Poder obtido com pontos de corte tradicionais em 1.000 replica�
 <span><span class="co"># Label the fit indices and power row.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">power_traditional_tbl</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">toupper</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">power_traditional</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">power_traditional_tbl</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"Poder"</span></span>
+<span></span>
+<span><span class="co"># Save the table data as CSV.</span></span>
+<span><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv2</a></span><span class="op">(</span></span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">power_traditional_tbl</span><span class="op">)</span>, <span class="st">"Medida"</span><span class="op">)</span>,</span>
+<span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"Output"</span>, <span class="st">"Results"</span>, <span class="st">"Tables"</span>, <span class="st">"tbl-power-traditional.csv"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Present the summary table.</span></span>
 <span><span class="fu">kable</span><span class="op">(</span><span class="va">power_traditional_tbl</span>, digits <span class="op">=</span> <span class="fl">3</span>, align <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
