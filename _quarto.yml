@@ -34,7 +34,7 @@ book: # https://quarto.org/docs/books/index.html
   author: "Pablo Rogers and Sérgio Murilo Georgeto" # edit your name
   date: today # https://quarto.org/docs/reference/dates.html
   date-format: long # Format for displaying the date (e.g., "August 8, 2024").
-  doi: 10.17605/OSF.IO/NJDQ5 # put your DOI
+  #doi:  # put your DOI
   cover-image: cover.jpg # edit ou exclude this image
   downloads: pdf # https://quarto.org/docs/books/book-output.html#reader-tools
   # Adds a button to download the document as a PDF.
