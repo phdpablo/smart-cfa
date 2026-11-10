@@ -134,7 +134,9 @@ quarto render --to html
 quarto render --to pdf
 ```
 
-Ou gere ambos os formatos com `quarto render --to all`. Abra o `index.html` e o `cfa-tutorial.pdf` gerados no diretório de saída definido em `_quarto.yml` para conferir a leitura. `quarto inspect` verifica a configuração, mas não comprova a execução analítica.
+Para gerar uma cópia editável do artigo completo em Word, execute `quarto render --to docx`. O arquivo `docs/cfa-tutorial.docx` contém a narrativa contínua, sem os blocos didáticos exclusivos do HTML. Antes de fazer inclusões manuais para submissão, salve uma cópia com outro nome fora da pasta `docs`, pois novas renderizações podem substituir os arquivos gerados.
+
+Ou gere os três formatos com `quarto render --to all`. Abra o `index.html` e o `cfa-tutorial.pdf` gerados no diretório de saída definido em `_quarto.yml` para conferir a leitura. `quarto inspect` verifica a configuração, mas não comprova a execução analítica.
 
 O render executa os QMDs na ordem de `book.chapters`. `execute-dir: project` e `here::here()` resolvem os caminhos R a partir da raiz. O pre-render `pre_render_cache.R` prepara `Data/IntermediateData/` e regrava a definição de `cache_load_existing()`; ele não executa simulações nem carrega automaticamente os RDS.
 
