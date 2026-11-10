@@ -160,7 +160,7 @@ window.Quarto = {
 </script>
 <meta property="og:title" content="8&nbsp; Comparações e modificações dos modelos – Planejamento e avaliação de modelos de análise fatorial confirmatória">
 <meta property="og:description" content="">
-<meta property="og:image" content="https://phdpablo.github.io/smart-cfa/Article/08_model_comparison_files/figure-html/fig-adjusted-model-1.png">
+<meta property="og:image" content="https://phdpablo.github.io/cfa-tutorial/Article/08_model_comparison_files/figure-html/fig-adjusted-model-1.png">
 <meta property="og:site_name" content="Planejamento e avaliação de modelos de análise fatorial confirmatória">
 <meta property="og:image:alt" content="Diagrama de quatro fatores correlacionados com 21 indicadores, sem Q5, Q15 e Q24, e covariâncias residuais Q3–Q4 e Q17–Q18.">
 <meta property="og:image:height" content="1536">
@@ -348,7 +348,7 @@ window.Quarto = {
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Planejamento e avaliação de modelos de análise fatorial confirmatória</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="https://github.com/phdpablo/smart-cfa" title="Código fonte" class="quarto-navigation-tool px-1" aria-label="Código fonte"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/phdpablo/cfa-tutorial" title="Código fonte" class="quarto-navigation-tool px-1" aria-label="Código fonte"><i class="bi bi-github"></i></a>
     <a href="../cfa-tutorial.pdf" title="Baixar PDF" class="quarto-navigation-tool px-1" aria-label="Baixar PDF"><i class="bi bi-file-pdf"></i></a>
     <div class="dropdown">
       <a href="" title="Compartilhar" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Compartilhar"><i class="bi bi-share"></i></a>
@@ -590,7 +590,7 @@ Tabela&nbsp;8.1: Síntese das evidências na literatura sobre a representação 
 <p><strong>Finalidade</strong></p>
 <p>Apresentar a síntese bibliográfica que informa a avaliação das possíveis modificações do modelo.</p>
 <p><strong>Preparação</strong></p>
-<p>Utiliza-se o levantamento curado <code>Data/InputData/Metadata/whoqol_modification_evidence.csv</code>, preparado e revisado antes dessa análise.</p>
+<p>Utiliza-se o levantamento curado <code>Data/InputData/whoqol_modification_evidence.csv</code>, preparado e revisado antes dessa análise.</p>
 <p><strong>Procedimento</strong></p>
 <p>O bloco lê o arquivo em <code>modification_evidence</code> e apresenta uma linha por item ou relação, preservando os cabeçalhos e a ordem das prioridades. O levantamento é um insumo da análise: as fontes e a nota de classificação são informadas diretamente abaixo da tabela.</p>
 <p><strong>Execução e resultado</strong></p>
@@ -599,7 +599,7 @@ Tabela&nbsp;8.1: Síntese das evidências na literatura sobre a representação 
 <details class="code-fold"><summary>Código</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Read the author-reviewed literature synthesis prepared before.</span></span>
 <span><span class="va">modification_evidence</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv2</a></span><span class="op">(</span></span>
 <span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span></span>
-<span>    <span class="st">"Data"</span>, <span class="st">"InputData"</span>, <span class="st">"Metadata"</span>, <span class="st">"whoqol_modification_evidence.csv"</span></span>
+<span>    <span class="st">"Data"</span>, <span class="st">"InputData"</span>, <span class="st">"whoqol_modification_evidence.csv"</span></span>
 <span>  <span class="op">)</span>,</span>
 <span>  show_col_types <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
@@ -2168,7 +2168,7 @@ Trizano-Hermosilla, I., &amp; Alvarado, J. M. (2016). Best Alternatives to <span
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/phdpablo\.github\.io\/smart-cfa\/");
+        var filterRegex = new RegExp("https:\/\/phdpablo\.github\.io\/cfa-tutorial\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

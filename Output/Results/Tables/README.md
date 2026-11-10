@@ -2,7 +2,7 @@
 
 ## Visão geral
 
-Esta pasta contém os CSVs das tabelas e dos resíduos exportados pelas seções 5–8 do artigo.
+Esta pasta contém os CSVs das tabelas e dos resíduos exportados pelas seções 4–8 do artigo.
 
 ## Conteúdo
 
@@ -37,8 +37,8 @@ Esta pasta contém os CSVs das tabelas e dos resíduos exportados pelas seções
 
 Os arquivos são CSVs separados por ponto e vírgula. Os QMDs usam `write_csv2()` para tabelas numéricas e `write_excel_csv2()` para algumas tabelas de apresentação. Estas últimas podem conter números já formatados como texto com ponto decimal, mesmo quando o arquivo tem delimitador ponto e vírgula. Confira as colunas antes de importar para cálculo.
 
-As seções 6–7 usam a calibração; o modelo modificado da seção 8 usa a validação e os testes multigrupo utilizam ambas. Leia os CSVs junto da interpretação no [artigo-fonte](../../../Article/README.md). As diferenças de correlações não são estimativas de covariâncias residuais livres do modelo.
+As seções 6–7 usam a calibração; o modelo modificado da seção 8 usa a validação e os testes multigrupo utilizam ambas. Leia os CSVs junto da interpretação no [artigo-fonte](../../../Article/README.md).
 
 Este inventário descreve as exportações atuais. Uma tabela mostrada no artigo pode não ter CSV próprio; não se pressupõe uma cópia exportada de cada saída.
 
-As tabelas `tbl-power-assumptions` (seção 4) e `tbl-whoqol-modification-evidence` (seção 8) são apresentadas no documento sem CSV próprio nesta pasta. A primeira reúne pressupostos definidos no código; a síntese bibliográfica utiliza o arquivo-fonte `Data/InputData/Metadata/whoqol_modification_evidence.csv`. Os CSVs de poder simulado preservam os valores numéricos sem o arredondamento de apresentação e incluem a coluna `Medida` para identificar as linhas.
+As tabelas `tbl-power-assumptions` (seção 4) e `tbl-whoqol-modification-evidence` (seção 8) são apresentadas no documento sem CSV próprio nesta pasta. A primeira reúne pressupostos definidos no código; a síntese bibliográfica utiliza o arquivo-fonte `Data/InputData/whoqol_modification_evidence.csv`. Os CSVs de poder simulado preservam os valores numéricos sem o arredondamento de apresentação e incluem a coluna `Medida` para identificar as linhas.

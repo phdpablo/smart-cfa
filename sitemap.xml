@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://phdpablo.github.io/smart-cfa/index.html</loc>
+    <loc>https://phdpablo.github.io/cfa-tutorial/index.html</loc>
     <lastmod>2026-10-25T14:12:01.668Z</lastmod>
   </url>
   <url>
-    <loc>https://phdpablo.github.io/smart-cfa/Article/01_intro.html</loc>
+    <loc>https://phdpablo.github.io/cfa-tutorial/Article/01_intro.html</loc>
     <lastmod>2026-10-29T20:45:19.007Z</lastmod>
   </url>
   <url>
-    <loc>https://phdpablo.github.io/smart-cfa/Article/02_background.html</loc>
+    <loc>https://phdpablo.github.io/cfa-tutorial/Article/02_background.html</loc>
     <lastmod>2026-10-29T20:45:19.008Z</lastmod>
   </url>
   <url>
-    <loc>https://phdpablo.github.io/smart-cfa/Article/03_model_selection.html</loc>
-    <lastmod>2026-10-29T20:45:19.017Z</lastmod>
+    <loc>https://phdpablo.github.io/cfa-tutorial/Article/03_model_selection.html</loc>
+    <lastmod>2026-11-10T17:38:41.172Z</lastmod>
   </url>
   <url>
-    <loc>https://phdpablo.github.io/smart-cfa/Article/04_pa.html</loc>
+    <loc>https://phdpablo.github.io/cfa-tutorial/Article/04_pa.html</loc>
     <lastmod>2026-11-09T19:23:39.344Z</lastmod>
   </url>
   <url>
-    <loc>https://phdpablo.github.io/smart-cfa/Article/05_preprocessing.html</loc>
+    <loc>https://phdpablo.github.io/cfa-tutorial/Article/05_preprocessing.html</loc>
     <lastmod>2026-10-29T23:38:21.467Z</lastmod>
   </url>
   <url>
-    <loc>https://phdpablo.github.io/smart-cfa/Article/06_estimation.html</loc>
+    <loc>https://phdpablo.github.io/cfa-tutorial/Article/06_estimation.html</loc>
     <lastmod>2026-10-29T20:45:19.019Z</lastmod>
   </url>
   <url>
-    <loc>https://phdpablo.github.io/smart-cfa/Article/07_model_fit.html</loc>
+    <loc>https://phdpablo.github.io/cfa-tutorial/Article/07_model_fit.html</loc>
     <lastmod>2026-10-29T20:45:19.019Z</lastmod>
   </url>
   <url>
-    <loc>https://phdpablo.github.io/smart-cfa/Article/08_model_comparison.html</loc>
-    <lastmod>2026-10-29T20:45:19.021Z</lastmod>
+    <loc>https://phdpablo.github.io/cfa-tutorial/Article/08_model_comparison.html</loc>
+    <lastmod>2026-11-10T18:23:45.440Z</lastmod>
   </url>
   <url>
-    <loc>https://phdpablo.github.io/smart-cfa/Article/09_conclusion.html</loc>
+    <loc>https://phdpablo.github.io/cfa-tutorial/Article/09_conclusion.html</loc>
     <lastmod>2026-11-09T20:53:19.056Z</lastmod>
   </url>
   <url>
-    <loc>https://phdpablo.github.io/smart-cfa/Article/references.html</loc>
+    <loc>https://phdpablo.github.io/cfa-tutorial/Article/references.html</loc>
     <lastmod>2026-10-25T13:48:29.267Z</lastmod>
   </url>
   <url>
-    <loc>https://phdpablo.github.io/smart-cfa/cfa-tutorial.pdf</loc>
-    <lastmod>2026-11-10T00:42:58.841Z</lastmod>
+    <loc>https://phdpablo.github.io/cfa-tutorial/cfa-tutorial.pdf</loc>
+    <lastmod>2026-11-10T18:57:27.805Z</lastmod>
   </url>
 </urlset>

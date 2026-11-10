@@ -90,7 +90,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 
 <meta property="og:title" content="Planejamento e avaliação de modelos de análise fatorial confirmatória">
 <meta property="og:description" content="Um tutorial reprodutível com R e Quarto">
-<meta property="og:image" content="https://phdpablo.github.io/smart-cfa/cover.jpg">
+<meta property="og:image" content="https://phdpablo.github.io/cfa-tutorial/cover.jpg">
 <meta property="og:site_name" content="Planejamento e avaliação de modelos de análise fatorial confirmatória">
 </head>
 
@@ -282,7 +282,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Planejamento e avaliação de modelos de análise fatorial confirmatória</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="https://github.com/phdpablo/smart-cfa" title="Código fonte" class="quarto-navigation-tool px-1" aria-label="Código fonte"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/phdpablo/cfa-tutorial" title="Código fonte" class="quarto-navigation-tool px-1" aria-label="Código fonte"><i class="bi bi-github"></i></a>
     <a href="./cfa-tutorial.pdf" title="Baixar PDF" class="quarto-navigation-tool px-1" aria-label="Baixar PDF"><i class="bi bi-file-pdf"></i></a>
     <div class="dropdown">
       <a href="" title="Compartilhar" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Compartilhar"><i class="bi bi-share"></i></a>
@@ -412,14 +412,14 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
 <p class="subtitle lead">Um tutorial reprodutível com R e Quarto</p>
 <p class="author">Pablo Rogers and Sérgio Murilo Georgeto</p>
 
-<p class="date">9 de novembro de 2026</p>
+<p class="date">10 de novembro de 2026</p>
 </header>
 
 
 
 <section id="sec-abstract" class="level1 unnumbered">
 <h1 class="unnumbered">Resumo</h1><p><img src="cover.jpg" title="Planejamento e avaliação de modelos de análise fatorial confirmatória" class="quarto-cover-image nolightbox img-fluid"></p>
-<p>Este artigo-tutorial integra orientações metodológicas para a Análise Fatorial Confirmatória (AFC) a um projeto executável e reprodutível, direcionado a pesquisadores de ciências sociais aplicadas. O objetivo é sistematizar decisões analíticas fundamentadas na literatura, demonstrar sua implementação em uma aplicação empírica e disponibilizar os materiais que viabilizem examinar, executar e adaptar o percurso apresentado. A aplicação empírica utiliza a escala WHOQOL-Bref e contempla a seleção do modelo de medida, a análise de poder, o pré-processamento, a estimação robusta com tratamento contínuo dos itens, a avaliação do ajuste e a comparação e modificação de modelos concorrentes. A proposta didática vincula cada decisão analítica aos procedimentos computacionais responsáveis pelas tabelas, figuras e estatísticas do artigo. No formato HTML, blocos expansíveis detalham a finalidade, o procedimento e a execução de cada análise, com códigos comentados e hiperlinks para a documentação das funções. A versão em PDF, por sua vez, preserva a leitura contínua tradicional do artigo científico. Dados, funções reutilizáveis, resultados e documentos-fonte são organizados segundo o modelo ARTE (Article Reproducibility Template &amp; Environment), articulando a implementação em R à redação dinâmica em Quarto. Dessa forma, o conjunto fornece um roteiro estruturado para fundamentar as decisões de uma AFC, reproduzir sua aplicação e reutilizar a arquitetura do projeto na elaboração de outros artigos-tutoriais.</p>
+<p>Esse artigo-tutorial integra orientações metodológicas para uma Análise Fatorial Confirmatória (AFC) a um projeto executável e reprodutível. O objetivo foi sistematizar decisões analíticas fundamentadas na literatura, demonstrar sua implementação em uma aplicação empírica e disponibilizar os materiais que viabilizem examinar, executar e adaptar o percurso apresentado. A aplicação empírica utiliza a escala WHOQOL-Bref e contempla a seleção do modelo de medida, a análise de poder, o pré-processamento, a estimação robusta com tratamento contínuo dos itens, a avaliação do ajuste e a comparação e modificação de modelos alternativos. A proposta didática vincula cada decisão analítica aos procedimentos computacionais responsáveis pelas tabelas, figuras e estatísticas do artigo. No formato HTML, blocos expansíveis detalham a finalidade, o procedimento e a execução de cada análise, com códigos comentados e hiperlinks para a documentação das funções. A versão em PDF, por sua vez, preserva a leitura contínua tradicional do artigo científico. Dados, funções reutilizáveis, resultados e documentos-fonte são organizados segundo o modelo ARTE (Article Reproducibility Template &amp; Environment), articulando a implementação em R à redação dinâmica em Quarto. Dessa forma, o conjunto fornece um roteiro estruturado para fundamentar as decisões de uma AFC, reproduzir sua aplicação e reutilizar a arquitetura do projeto na elaboração de outros artigos-tutoriais.</p>
 <p><strong>Palavras-chave:</strong> Análise Fatorial Confirmatória, Modelagem de Equações Estruturais, Validade da Estrutura Interna, Ciência Aberta, Reprodutibilidade, Quarto, <em>lavaan</em>.</p>
 
 
@@ -512,7 +512,7 @@ gtag('config', 'G-2MWSHLX73Q', { 'anonymize_ip': true});
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/phdpablo\.github\.io\/smart-cfa\/");
+        var filterRegex = new RegExp("https:\/\/phdpablo\.github\.io\/cfa-tutorial\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
