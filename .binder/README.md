@@ -2,17 +2,28 @@
 
 ## Visão geral
 
-O Binder disponibiliza uma sessão temporária para renderizar o artigo no navegador, sem instalar R no computador. O ambiente usa R 4.4.2, Quarto 1.9.37 e TeX Live 2026. Jupyter e RStudio são fornecidos pela imagem `rocker/binder:4.4.2`.
+A configuração Binder prepara uma sessão interativa com R 4.4.2, Quarto 1.9.37 e TeX Live 2026. Jupyter e o proxy do RStudio são fornecidos pela imagem base pré-compilada `phdpablo/cfa-tutorial-binder:4.4.2` (hospedada no Docker Hub). O Dockerfile copia os arquivos do repositório da branch ativa (`pt_version`, `en_version`, etc.), garantindo que o ambiente computacional seja idêntico e compartilhado entre as versões, com tempo de inicialização de aproximadamente 1 minuto no mybinder.org.
 
 ## Conteúdo
 
 | Arquivo | Função |
 | --- | --- |
-| `Dockerfile` | Prepara as dependências R, o navegador para diagramas e as ferramentas de PDF, e copia o artigo |
-
-O Dockerfile restaura `Matrix` antes dos demais pacotes de `renv.lock`. O lockfile inclui `Deriv 4.2.0`, compatível com o requisito de R do ambiente, além dos pacotes de links de código e GLB. Os arquivos copiados são filtrados pelo `.dockerignore` da raiz.
+| `Dockerfile` | Constrói a imagem da sessão herdando da base pré-compilada e copiando os arquivos do artigo |
 
 ## Instruções de uso
+
+### Testar localmente
+
+Na raiz do projeto, construa a imagem e inicie a sessão:
+
+```bash
+docker build --platform linux/amd64 -f .binder/Dockerfile -t cfa-tutorial-binder .
+docker run --rm -p 8888:8888 cfa-tutorial-binder
+```
+
+Copie a URL com token exibida no terminal para acessar o JupyterLab (`/lab`) ou RStudio (`/rstudio/`).
+
+### Tentar o serviço público
 
 Abra o [RStudio no Binder](https://mybinder.org/v2/gh/phdpablo/smart-cfa/pt_version?urlpath=rstudio) ou o [JupyterLab](https://mybinder.org/v2/gh/phdpablo/smart-cfa/pt_version?urlpath=lab). A primeira construção pode demorar, pois instala as dependências do artigo.
 
