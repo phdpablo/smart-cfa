@@ -2,7 +2,7 @@
 
 ## Visão geral
 
-Apesar do nome herdado da estrutura do projeto, esta pasta reúne os scripts compartilhados do artigo, não apenas rotinas de apêndice.
+Esta pasta reúne os modelos, parâmetros e funções compartilhados pelas seções do artigo, além das rotinas de pré e pós-renderização.
 
 ## Conteúdo
 
@@ -17,7 +17,7 @@ Apesar do nome herdado da estrutura do projeto, esta pasta reúne os scripts com
 
 As especificações populacionais para planejamento devem ser distinguidas dos modelos ajustados aos dados empíricos. As seções carregam os arquivos de que precisam e mantêm explícitas suas chamadas de estimação e simulação.
 
-Os parâmetros centrais atuais em `helpers.R` são `REP = 10`, `SIM = 1000`, `SEQ = rep(101:400, each = REP)`, `N_TARGET = 200` e `SEED = 123321`. Os helpers de apresentação recebem objetos já calculados; a documentação de propósito, entradas, saídas e exemplos está no próprio arquivo. Ela inclui diagramas coloridos/BW, tabelas dos resultados e gráfico DDDFI por referência, sem exigir um catálogo paralelo neste README.
+Os parâmetros centrais atuais em `helpers.R` são `REP = 10`, `SIM = 1000`, `SEQ = rep(101:400, each = REP)`, `N_TARGET = 200` e `SEED = 123321`. Os helpers de apresentação recebem objetos já calculados; a documentação de propósito, entradas, saídas e exemplos está no próprio arquivo. Ela inclui diagramas coloridos/BW, tabelas dos resultados e gráfico 3DFI por referência, sem exigir um catálogo paralelo neste README.
 
 ## Instruções de uso
 

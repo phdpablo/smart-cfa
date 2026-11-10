@@ -16,7 +16,7 @@ Os documentos HTML e PDF preservam o rigor do enredo científico. No formato HTM
 
 Nos blocos de código em HTML, os nomes de funções destacados como links franqueiam acesso à documentação oficial. Ao passar o cursor sobre o identificador, o link direciona para a consulta de sintaxe, argumentos e funcionamento. As rotinas autorais do projeto são explicadas nos callouts e documentadas nos scripts correspondentes. Acima de cada bloco lógico de código, um comentário sucinto em inglês, iniciado por `#`, resume a operação executada.
 
-Para reproduzir integralmente o trabalho, recomenda-se clonar o repositório do [projeto](https://github.com/phdpablo/smart-cfa) e seguir as orientações metodológicas e de ambiente documentadas no [README](../README.md).
+Para reproduzir integralmente o trabalho, recomenda-se clonar o repositório do [projeto](https://github.com/phdpablo/cfa-tutorial) e seguir as orientações metodológicas e de ambiente documentadas no [README](../README.md).
 
 O bloco abaixo exemplifica e executa a rotina de preparação dessa seção:
 

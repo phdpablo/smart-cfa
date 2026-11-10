@@ -12,10 +12,16 @@ A fonte associada à base é Rogers, P., Barbosa, F., Peixoto, F., & Silva, D. R
 | --- | --- |
 | `data.csv` | Entrada empírica da seção 5, antes da elegibilidade, triagem e recodificação |
 | `Metadata/codebook.csv` | Definições das 108 variáveis, na ordem do arquivo bruto |
-| `Metadata/whoqol_modification_evidence.csv` | Síntese de literatura utilizada na fundamentação das modificações |
+| [whoqol_modification_evidence.csv](whoqol_modification_evidence.csv) | Síntese de literatura utilizada na fundamentação das modificações |
+
+### Evidências para as modificações
+
+[whoqol_modification_evidence.csv](whoqol_modification_evidence.csv) é uma síntese de literatura revisada pelo autor e utilizada em [Article/08_model_comparison.qmd](../../Article/08_model_comparison.qmd). Possui uma linha por item ou relação e três colunas de apresentação: prioridade de atenção, item/relação e síntese das evidências. As categorias Alta, Moderada e Pontual são qualitativas; a ordem dentro de uma categoria não é um ranking.
 
 ## Instruções de uso
 
 O delimitador é ponto e vírgula. A [seção 5](../../Article/05_preprocessing.qmd) utiliza `read_csv2()`, calcula duração a partir de `CREATED` e `MODIFIED`, define elegibilidade e aplica os cinco critérios C/IER. As transformações são gravadas fora desta pasta; não edite o arquivo bruto para corrigir uma saída analítica.
 
-Consulte [Metadata/](Metadata/README.md) para o esquema do codebook e o papel do arquivo de literatura.
+Consulte [Metadata/](Metadata/README.md) para o esquema do codebook.
+
+O arquivo de literatura não é calculado a partir dos índices de modificação da amostra. Fontes e notas de interpretação aparecem junto à tabela do artigo. Preserve essa distinção ao reutilizar o material e revise a síntese antes de alterar a tabela.

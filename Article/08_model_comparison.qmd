@@ -24,7 +24,7 @@ O diagnóstico da @sec-model-fit, realizado na subamostra de calibração, desta
 # Read the author-reviewed literature synthesis prepared before.
 modification_evidence <- readr::read_csv2(
   here::here(
-    "Data", "InputData", "Metadata", "whoqol_modification_evidence.csv"
+    "Data", "InputData", "whoqol_modification_evidence.csv"
   ),
   show_col_types = FALSE
 )
@@ -52,7 +52,7 @@ Apresentar a síntese bibliográfica que informa a avaliação das possíveis mo
 
 **Preparação**
 
-Utiliza-se o levantamento curado `Data/InputData/Metadata/whoqol_modification_evidence.csv`, preparado e revisado antes dessa análise.
+Utiliza-se o levantamento curado `Data/InputData/whoqol_modification_evidence.csv`, preparado e revisado antes dessa análise.
 
 **Procedimento**
 
@@ -69,7 +69,7 @@ Execute o bloco para ler o levantamento e apresentar a tabela, sem gerar ou alte
 # Read the author-reviewed literature synthesis prepared before.
 modification_evidence <- readr::read_csv2(
   here::here(
-    "Data", "InputData", "Metadata", "whoqol_modification_evidence.csv"
+    "Data", "InputData", "whoqol_modification_evidence.csv"
   ),
   show_col_types = FALSE
 )

@@ -30,13 +30,13 @@ No Linux/macOS:
 bash docker/audit.sh
 ```
 
-Os lançadores localizam o Compose pela própria pasta. A imagem padrão é `phdpablo/cfa-tutorial:4.5.2`; a variável `CFA_IMAGE` permite selecionar outra referência compatível. Uma imagem local com essa tag é reutilizada. Se estiver ausente, o Docker tenta baixá-la do registro; esse caminho depende de sua publicação no Docker Hub.
+Os lançadores localizam o Compose pela própria pasta. A imagem padrão é `phdpablo/cfa-tutorial:4.5.2`; a variável `CFA_IMAGE` permite selecionar outra referência compatível. Uma imagem local com essa tag é reutilizada. Se estiver ausente, o Docker baixa a imagem publicada no [Docker Hub](https://hub.docker.com/r/phdpablo/cfa-tutorial).
 
 O serviço gera HTML e PDF dentro do container e exporta `docs` somente após o sucesso da renderização e das verificações. Os principais produtos são `docs/index.html`, `docs/cfa-tutorial.pdf`, `docs/audit-summary.txt` e `docs/audit-inputs.sha256`. A exportação pode substituir arquivos existentes em `docs`. Em caso de falha, consulte as mensagens do terminal; os produtos locais de uma execução anterior podem continuar na pasta.
 
 O container é removido ao encerrar e a imagem permanece disponível para outras execuções. Não há etapa separada de parada nem abertura de RStudio ou Jupyter. Os arquivos-fonte do computador não são montados no container: alterações locais no artigo exigem atualizar a imagem para serem auditadas.
 
-Para construir uma nova imagem, execute separadamente, a partir da raiz:
+A receita de construção é disponibilizada para quem quiser incorporar suas próprias alterações. Essa etapa é opcional para usar a imagem publicada. Para construir uma nova imagem, execute separadamente, a partir da raiz:
 
 ```bash
 docker build --platform linux/amd64 --progress=plain -f docker/Dockerfile -t phdpablo/cfa-tutorial:4.5.2 .

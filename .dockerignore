@@ -32,7 +32,6 @@ PLAN.md
 # Include only the runtime audit script from the Docker tooling.
 docker/*
 !docker/audit-render.sh
-.binder/
 
 # Private environment settings and generated logs/LaTeX
 .env

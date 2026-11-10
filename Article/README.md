@@ -28,6 +28,6 @@ O [index.qmd](../index.qmd) da raiz define o título `Resumo`, a classe `.unnumb
 
 Os caminhos R usam a raiz do projeto; links Markdown para scripts e dados fora desta pasta usam `../`. Os callouts são a camada didática do HTML e, quando marcados com `unless-format="pdf"`, ficam ausentes do PDF. Chunks executáveis recolhíveis produzem resultados; exemplos com `eval: false` apenas mostram o código.
 
-Renderize a partir da raiz. A saída HTML das seções fica em `docs/Article/`; o PDF do livro é único. Pastas como `02_background_files/` são recursos intermediários gerados pelo Quarto/Graphviz e estão ignoradas pelo Git. Os PNGs exportados deliberadamente pelo artigo ficam em `Output/Results/Figures/`.
+Renderize a partir da raiz. A saída HTML das seções fica em `docs/Article/`; o PDF do livro é único. Pastas como `02_background_files/` são recursos intermediários gerados pelo Quarto/Graphviz e estão ignoradas pelo Git. As figuras exportadas pelos QMDs e pela rotina pós-renderização ficam em `Output/Results/Figures/`, em PNG ou SVG; a [documentação das figuras](../Output/Results/Figures/README.md) apresenta o inventário.
 
 Consulte o [README principal](../README.md) antes de renderizar ou recalcular simulações: renderizar um QMD isolado executa seus chunks e ainda pode reutilizar os RDS existentes.
