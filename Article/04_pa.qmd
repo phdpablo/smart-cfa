@@ -56,7 +56,7 @@ kable(
 )
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @tbl-power-assumptions" collapse="true"}
 
@@ -149,7 +149,7 @@ readr::write_excel_csv2(
 table_sempower(ap_h1model, lang = "pt")
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @tbl-analytical-power" collapse="true"}
 
@@ -221,7 +221,7 @@ A @fig-analytical-power ilustra as distribuições central e não central do qui
 plot_sempower(ap_h1model)
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @fig-analytical-power" collapse="true"}
 
@@ -259,7 +259,7 @@ Embora a derivação assintótica forneça uma estimativa inicial objetiva, não
 
 Os tamanhos amostrais variam de 101 a 400 participantes. Para cada tamanho de amostra, geram-se dez replicações sob duas condições populacionais: na condição de referência, os dados reproduzem o modelo de quatro fatores sem cargas cruzadas; na condição alternativa, os dados incorporam as três cargas secundárias, mas são estimados pelo modelo parcimonioso. O confronto dessas condições permite estimar o poder empírico dos índices RMSEA, SRMR, CFI e TLI na identificação da má especificação planejada.
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Como as simulações com N variável foram realizadas" collapse="true"}
 
@@ -348,7 +348,7 @@ plotPowerFit(
 )
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @fig-realistic-power" collapse="true"}
 
@@ -408,7 +408,7 @@ plotPowerFit(
 )
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @fig-realistic-curve" collapse="true"}
 
@@ -488,7 +488,7 @@ readr::write_csv2(
 kable(power_cutoff_varying, digits = 3, align = "c")
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @tbl-power-cutoff-realistic" collapse="true"}
 
@@ -568,7 +568,7 @@ Considerando os resultados das curvas de poder e a necessidade de resguardar a p
 
 A análise com tamanho amostral fixo emprega 1.000 replicações para cada condição populacional. Na primeira, simulam-se dados consistentes com o modelo de referência; na segunda, os dados incorporam as três cargas cruzadas, mantendo-se a estimação pelo modelo parcimonioso. Diferentemente da fase anterior, na qual dez replicações foram distribuídas em múltiplos tamanhos amostrais, essa etapa concentra todas as 1.000 replicações em $N=200$. Essa concentração assegura estimativas mais estáveis do poder estatístico e das distribuições empíricas dos índices de ajuste para esse patamar específico.
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Como as simulações com N fixo foram realizadas" collapse="true"}
 
@@ -657,7 +657,7 @@ plotPowerFit(
 )
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @fig-power-fixed" collapse="true"}
 
@@ -735,7 +735,7 @@ readr::write_csv2(
 kable(power_cutoff_fixed, digits = 3, align = "c")
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @tbl-power-cutoff-fixed" collapse="true"}
 
@@ -828,7 +828,7 @@ plotPowerFit(
 )
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @fig-power-fixed-traditional" collapse="true"}
 
@@ -896,7 +896,7 @@ readr::write_csv2(
 kable(power_traditional_tbl, digits = 3, align = "c")
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @tbl-power-traditional" collapse="true"}
 

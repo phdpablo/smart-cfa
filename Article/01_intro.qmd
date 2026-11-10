@@ -46,7 +46,7 @@ O ARTE propõe a adoção progressiva dessas práticas, estendendo-se da organiz
 
 O artigo é disponibilizado em dois formatos complementares. O PDF preserva a narrativa científica linear, contendo as fundamentações teóricas, os resultados empíricos e suas interpretações dos resultados. O HTML acrescenta uma camada didática interativa: abaixo de tabelas e gráficos, blocos expansíveis detalham a finalidade, a preparação, o procedimento estatístico e a execução das rotinas. O conteúdo desses blocos elucida como os scripts geram cada saída numérica, incorporando comentários objetivos nas linhas de código e hiperlinks para a documentação oficial das funções utilizadas. As rotinas autorais encontram-se documentadas nos scripts do projeto, permitindo modular a profundidade da leitura conforme o interesse do leitor.
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-tip title="Como acompanhar o tutorial" collapse="true"}
 

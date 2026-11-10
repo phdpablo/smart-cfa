@@ -42,7 +42,7 @@ knitr::kable(
 
 **Nota:** A prioridade de atenção na literatura considera a recorrência dos registros e suas implicações para a interpretação do modelo, atribuindo maior peso às cargas cruzadas, seguido da exclusão de itens (cargas baixas) e das covariâncias residuais. A classificação avalia o conjunto das evidências de cada foco. A seleção reúne achados destacados pelas revisões e precedentes recorrentes ou considerados relevantes.
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @tbl-whoqol-modification-evidence" collapse="true"}
 
@@ -112,7 +112,7 @@ O modelo ajustado preserva quatro fatores correlacionados e os três indicadores
 plot_cfa(adjustedzemodel, color = "BW", node_labels = LABELS, what_labels = "no")
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @fig-adjusted-model" collapse="true"}
 
@@ -200,7 +200,7 @@ readr::write_excel_csv2(
 parameter_table_adjusted
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @tbl-adjusted-parameters" collapse="true"}
 
@@ -315,7 +315,7 @@ readr::write_excel_csv2(
 fit_table_adjusted
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @tbl-adjusted-model-fit-global" collapse="true"}
 
@@ -401,7 +401,7 @@ readr::write_excel_csv2(
 reliability_table_adjusted
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @tbl-adjusted-domain-reliability" collapse="true"}
 
@@ -515,7 +515,7 @@ readr::write_excel_csv2(
 dfi_table_adjusted
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @tbl-adjusted-dfi-cutoffs" collapse="true"}
 
@@ -623,7 +623,7 @@ ggplot2::ggsave(
 )
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @fig-dfi-adjusted-fair" collapse="true"}
 
@@ -704,7 +704,7 @@ readr::write_excel_csv2(
 mi_table_adjusted
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @tbl-adjusted-modification-indices-top20" collapse="true"}
 
@@ -790,7 +790,7 @@ ggplot2::ggsave(
 residual_heatmap_adjusted
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @fig-residual-correlations-adjusted" collapse="true"}
 
@@ -852,7 +852,7 @@ A etapa conclusiva afere a estabilidade estrutural do modelo de 21 indicadores a
 
 Embora a invariância métrica seja condição suficiente para a estabilidade estrutural das cargas fatoriais, os níveis escalar e estrito estendem a avaliação, impondo sucessivamente a equivalência dos interceptos e das variâncias residuais [@putnick2016]. Todas as especificações mantêm o estimador MLR/FIML e as covariâncias residuais Q3–Q4 e Q17–Q18 livres em cada subamostra.
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Como a invariância de medida foi configurada" collapse="true"}
 
@@ -955,7 +955,7 @@ readr::write_excel_csv2(
 invariance_test_table
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @tbl-invariance-tests" collapse="true"}
 
@@ -1028,7 +1028,7 @@ readr::write_excel_csv2(
 invariance_fit_table
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @tbl-invariance-fit-changes" collapse="true"}
 
@@ -1078,7 +1078,7 @@ Nos níveis escalar e estrito, os recuos observados no CFI fixaram-se em `r form
 
 A equivalência métrica foi igualmente corroborada por teste de permutação estratificada para as variações de CFI, RMSEA e SRMR [@jorgensen2018]. Para tanto, redistribuíram-se aleatoriamente os rótulos de calibração e validação dentro de cada estrato de integridade de dados (completos vs. omissos), reestimando-se os modelos configural e métrico para averiguar a probabilidade empírica de observar alterações adversas nos índices.
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Como a permutação da invariância métrica foi realizada" collapse="true"}
 
@@ -1173,7 +1173,7 @@ readr::write_excel_csv2(
 permutation_table
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @tbl-invariance-permutation" collapse="true"}
 
@@ -1235,7 +1235,7 @@ hist(perm_metric, AFI = "cfi.robust")
 hist(perm_metric, AFI = "rmsea.robust")
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @fig-invariance-permutation" collapse="true"}
 

@@ -277,7 +277,7 @@ digraph {
 \endgroup
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @fig-cfa-decision-map" collapse="true"}
 

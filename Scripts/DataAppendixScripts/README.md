@@ -14,6 +14,7 @@ Esta pasta reúne os modelos, parâmetros e funções compartilhados pelas seç�
 | `cache_loader.R` | Define `cache_load_existing()`; só lê os RDS quando a função é chamada |
 | `pre_render_cache.R` | Pre-render configurado em `_quarto.yml`; cria a pasta intermediária e regrava a definição do loader |
 | `export_figures.R` | Pós-renderização: exporta figuras do HTML para `Output/Results/Figures` e sincroniza a cópia em `docs/Output`, sem executar análises |
+| `format_docx.R` | Pós-renderização exclusiva do Word: separa tabelas de dados dos agrupamentos de figuras/legendas, aplica fonte de 10 pontos nas células e espaçamento externo de 18 pontos |
 
 As especificações populacionais para planejamento devem ser distinguidas dos modelos ajustados aos dados empíricos. As seções carregam os arquivos de que precisam e mantêm explícitas suas chamadas de estimação e simulação.
 

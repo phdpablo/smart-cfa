@@ -99,7 +99,7 @@ knitr::kable(fit_global_display, format = "pipe", align = c("l", "r", "r"),
 ```
 
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @tbl-model-fit-global" collapse="true"}
 
@@ -256,7 +256,7 @@ knitr::kable(reliability_domains, align = c("l", "l", "r", "r", "r"),
   row.names = FALSE)
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @tbl-domain-reliability" collapse="true"}
 
@@ -407,7 +407,7 @@ sim_h1_empirical <- cache_or_run("sim_h1_empirical", {
 
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Como as simulações empíricas foram realizadas" collapse="true"}
 
@@ -574,7 +574,7 @@ simsem::plotPowerFit(
 )
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @fig-empirical-fit-distributions" collapse="true"}
 
@@ -704,7 +704,7 @@ mi_table_h0
 ```
 
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @tbl-modification-indices-top20" collapse="true"}
 
@@ -798,7 +798,7 @@ ggplot2::ggsave(
 residual_heatmap
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @fig-residual-correlations" collapse="true"}
 

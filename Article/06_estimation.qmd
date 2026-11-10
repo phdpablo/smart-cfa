@@ -23,7 +23,7 @@ O volume residual de respostas ausentes foi tratado por meio do FIML. O procedim
 
 A escala dos fatores latentes foi definida fixando-se suas variâncias em 1. Essa estratégia de identificação permite estimar livremente todas as cargas fatoriais e assegura a mesma métrica nos dois modelos alternativos. Ambas as especificações foram estimadas sobre a mesma subamostra de calibração e sob condições analíticas idênticas. A comparação empírica concentra-se, assim, nas três relações cruzadas adicionais postuladas no modelo H~1~ [@jackson2009; @nye2022].
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Como as amostras de calibração e validação foram obtidas" collapse="true"}
 
@@ -179,7 +179,7 @@ knitr::kable(parameter_estimates, align = c("l", "l", "r", "r", "r", "r"),
   row.names = FALSE)
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @tbl-estimation-parameters" collapse="true"}
 
@@ -326,7 +326,7 @@ estimation_checks |>
   knitr::kable()
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @tbl-estimation-checks" collapse="true"}
 

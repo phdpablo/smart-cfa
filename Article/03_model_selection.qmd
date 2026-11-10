@@ -1,6 +1,6 @@
 # Seleção do modelo de medida {#sec-model-selection}
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-important title="Como as análises estão organizadas" collapse="true"}
 
@@ -61,7 +61,7 @@ Nesse sentido, a partir dos achados de @lin2022, especifica-se o modelo de medid
 plot_cfa(popmodel, color = "BW", node_labels = LABELS)
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @fig-popmodel" collapse="true"}
 
@@ -123,7 +123,7 @@ Mantêm-se as cargas principais de Q8 e Q9 no domínio ambiental e a de Q15 no d
 plot_cfa(h1model, color = "BW", node_labels = LABELS)
 ```
 
-:::: {.content-visible unless-format="pdf"}
+:::: {.content-visible when-format="html"}
 
 ::: {.callout-note title="Racional da @fig-h1model" collapse="true"}
 

@@ -12,6 +12,7 @@ project: # https://quarto.org/docs/projects/quarto-projects.html
     - Rscript Scripts/DataAppendixScripts/pre_render_cache.R
   post-render:
     - Rscript Scripts/DataAppendixScripts/export_figures.R
+    - Rscript Scripts/DataAppendixScripts/format_docx.R
   # if change this key, maybe you have a problem with the structure output
   output-dir: docs # Directory where the rendered output files will be placed.
   # not change this key if you want to deploy in GitHub Pages
@@ -26,7 +27,7 @@ execute: # https://quarto.org/docs/computations/execution-options.html
   message: false # Prevent R code chunk messages from appearing in the output.
   warning: false # Prevent R code chunk warnings from appearing in the output.
 book: # https://quarto.org/docs/books/index.html
-  google-analytics: "G-2MWSHLX73Q" # replace with your Google Analytics tracking ID or remove this line
+  #google-analytics: "G-2MWSHLX73Q" # replace with your Google Analytics tracking ID or remove this line
   favicon: cover.jpg # edit or exclude this image/line
   title: "Planejamento e avaliação de modelos de análise fatorial confirmatória" # edit your title
   subtitle: "Um tutorial reprodutível com R e Quarto" # edit your subtitle
@@ -89,6 +90,14 @@ format: # https://quarto.org/docs/reference/formats/html.html
     fig-height: 5 # Default height (in inches) for figures in HTML output.
     fig-align: left # Default horizontal alignment for figures (left, center, right).
   
+  docx:
+    reference-doc: Article/word-reference.docx
+    toc: false
+    number-sections: true
+    fig-width: 5
+    fig-height: 5
+    fig-align: left
+
   pdf: # https://quarto.org/docs/reference/formats/pdf.html
     documentclass: article # LaTeX document class to use for PDF output.
     papersize: A4 # Paper size for the PDF.
