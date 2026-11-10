@@ -724,6 +724,34 @@
       "RemoteType": "local",
       "RemoteUrl": "_temp/model-fit/packages/RcppParallel_6.2.1.zip"
     },
+    "Rcsdp": {
+      "Package": "Rcsdp",
+      "Version": "0.1.57.6",
+      "Source": "Repository",
+      "Priority": null,
+      "Depends": [
+        null
+      ],
+      "Imports": [
+        "methods"
+      ],
+      "LinkingTo": [
+        null
+      ],
+      "Suggests": [
+        null
+      ],
+      "Enhances": [
+        "Matrix"
+      ],
+      "License": "CPL-1.0",
+      "License_is_FOSS": null,
+      "License_restricts_use": null,
+      "OS_type": null,
+      "NeedsCompilation": "yes",
+      "Repository": "CRAN",
+      "Type": "source"
+    },
     "Rdpack": {
       "Package": "Rdpack",
       "Version": "2.6.6",
@@ -2315,6 +2343,51 @@
       "Maintainer": "Søren Højsgaard <sorenh@math.aau.dk>",
       "Repository": "CRAN"
     },
+    "downlit": {
+      "Package": "downlit",
+      "Version": "0.4.5",
+      "Source": "Repository",
+      "Priority": null,
+      "Depends": [
+        "R (>= 4.0.0)"
+      ],
+      "Imports": [
+        "brio",
+        "desc",
+        "digest",
+        "evaluate",
+        "fansi",
+        "memoise",
+        "rlang",
+        "vctrs",
+        "withr",
+        "yaml"
+      ],
+      "LinkingTo": [
+        null
+      ],
+      "Suggests": [
+        "covr",
+        "htmltools",
+        "jsonlite",
+        "MASS",
+        "MassSpecWavelet",
+        "pkgload",
+        "rmarkdown",
+        "testthat (>= 3.0.0)",
+        "xml2"
+      ],
+      "Enhances": [
+        null
+      ],
+      "License": "MIT + file LICENSE",
+      "License_is_FOSS": null,
+      "License_restricts_use": null,
+      "OS_type": null,
+      "NeedsCompilation": "no",
+      "Repository": "CRAN",
+      "Type": "source"
+    },
     "dplyr": {
       "Package": "dplyr",
       "Version": "1.2.0",
@@ -2494,6 +2567,37 @@
       "Author": "Hadley Wickham [aut, cre], Yihui Xie [aut] (ORCID: <https://orcid.org/0000-0003-0645-5666>), Michael Lawrence [ctb], Thomas Kluyver [ctb], Jeroen Ooms [ctb], Barret Schloerke [ctb], Adam Ryczkowski [ctb], Hiroaki Yutani [ctb], Michel Lang [ctb], Karolis Koncevičius [ctb], Posit Software, PBC [cph, fnd]",
       "Maintainer": "Hadley Wickham <hadley@posit.co>",
       "Repository": "CRAN"
+    },
+    "fansi": {
+      "Package": "fansi",
+      "Version": "1.0.7",
+      "Source": "Repository",
+      "Priority": null,
+      "Depends": [
+        "R (>= 3.1.0)"
+      ],
+      "Imports": [
+        "grDevices",
+        "utils"
+      ],
+      "LinkingTo": [
+        null
+      ],
+      "Suggests": [
+        "unitizer",
+        "knitr",
+        "rmarkdown"
+      ],
+      "Enhances": [
+        null
+      ],
+      "License": "GPL-2 | GPL-3",
+      "License_is_FOSS": null,
+      "License_restricts_use": null,
+      "OS_type": null,
+      "NeedsCompilation": "yes",
+      "Repository": "CRAN",
+      "Type": "source"
     },
     "farver": {
       "Package": "farver",

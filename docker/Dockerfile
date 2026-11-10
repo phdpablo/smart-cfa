@@ -1,17 +1,26 @@
 # --- Base image ---
-# Build from the repository root; verse supplies RStudio, Pandoc and LaTeX.
-FROM rocker/verse:4.5.2
+# Build from the repository root; install only the article's audit environment.
+FROM rocker/r-ver:4.5.2
 
 LABEL maintainer="Pablo Rogers <pablorogers@ufu.br>" \
       org.opencontainers.image.title="CFA Tutorial" \
       version="4.5.2" \
-      description="RStudio/Quarto environment for CFA Tutorial."
+      description="Reproducible HTML/PDF audit of CFA Tutorial."
 
 # --- Project tools ---
 USER root
-# Runtime libraries required by Chrome Headless Shell on Ubuntu 24.04.
+# Build tools and system libraries used by the locked R packages and PDF tools.
+# Includes the runtime libraries required by Chrome Headless Shell on Ubuntu 24.04.
+# No RStudio Server, Jupyter or full tidyverse distribution is installed.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
+        ca-certificates curl wget git xz-utils unzip perl \
+        build-essential gfortran cmake pkg-config \
+        libcurl4-openssl-dev libssl-dev libxml2-dev libicu-dev \
+        libpng-dev libjpeg-dev libtiff-dev libcairo2-dev \
+        libfontconfig1-dev libfreetype6-dev libharfbuzz-dev libfribidi-dev \
+        libblas-dev liblapack-dev libglpk-dev libnlopt-dev libuv1-dev \
+        fonts-dejavu-core fonts-liberation \
         libnss3 libnspr4 libgbm1 libasound2t64 \
         libatk1.0-0t64 libatk-bridge2.0-0t64 libatspi2.0-0t64 \
         libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libxkbcommon0 \
@@ -25,8 +34,11 @@ RUN curl -fsSL "https://github.com/quarto-dev/quarto-cli/releases/download/v${QU
 # --- renv configuration and project directory ---
 ENV RENV_PATHS_CACHE=/renv/cache \
     RENV_PATHS_LIBRARY=/renv/library \
-    RENV_CONFIG_SANDBOX_ENABLED=FALSE
-RUN mkdir -p /home/rstudio /renv/cache /renv/library \
+    RENV_CONFIG_SANDBOX_ENABLED=FALSE \
+    HOME=/home/rstudio
+# Keep the existing audit paths; this is a Unix account, not an IDE service.
+RUN useradd --create-home --user-group --shell /bin/bash rstudio \
+    && mkdir -p /renv/cache /renv/library \
     && chown -R rstudio:rstudio /home/rstudio /renv
 WORKDIR /home/rstudio
 # --- Restore project packages ---
@@ -38,8 +50,8 @@ USER rstudio
 RUN R -s -e "renv::restore(packages = 'Matrix', prompt = FALSE)" \
     && R -s -e "library(Matrix); stopifnot(file.exists(system.file('libs', 'Matrix.so', package = 'Matrix')))"
 RUN R -s -e "renv::restore(prompt = FALSE)" \
-    && R -s -e "invisible(lapply(c('Matrix', 'vegan', 'mirt', 'dynamic'), loadNamespace))"
-# --- PDF tools: current TeX Live, independent of the base image's old release ---
+    && R -s -e "invisible(lapply(c('Matrix', 'vegan', 'mirt', 'dynamic', 'Rcsdp', 'downlit', 'xml2'), loadNamespace)); stopifnot(is.finite(psych::glb.algebraic(matrix(c(1, .4, .3, .4, 1, .5, .3, .5, 1), 3))[['glb']]))"
+# --- PDF tools: install the article's TeX environment on the minimal R base ---
 # Installing without system symlinks avoids sudo during user-level setup.
 RUN R -s -e "tinytex::install_tinytex(dir = '/home/rstudio/.TinyTeX', force = TRUE, add_path = FALSE)"
 ENV PATH="/home/rstudio/.TinyTeX/bin/x86_64-linux:${PATH}"
@@ -59,5 +71,9 @@ RUN browser="$(find "$HOME/.local/share/quarto" -type f -name chrome-headless-sh
 # --- Article inputs: no host caches, Git metadata or environment secrets ---
 COPY --chown=rstudio:rstudio . .
 
-# --- Standard Rocker startup; no custom entrypoint or persistent mounts ---
+# --- Headless audit; only compiled documents are exported to the host ---
 USER root
+COPY docker/audit-render.sh /usr/local/bin/cfa-audit
+RUN sed -i 's/\r$//' /usr/local/bin/cfa-audit && chmod 755 /usr/local/bin/cfa-audit
+ENTRYPOINT ["/bin/bash", "/usr/local/bin/cfa-audit"]
+CMD []

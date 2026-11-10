@@ -29,8 +29,9 @@ PLAN.md
 .agents
 .codex
 
-# Docker tooling is used to build the image, not to render the article.
-docker/
+# Include only the runtime audit script from the Docker tooling.
+docker/*
+!docker/audit-render.sh
 .binder/
 
 # Private environment settings and generated logs/LaTeX

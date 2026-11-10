@@ -16,6 +16,8 @@ library(ggplot2)
 library(dplyr)
 library(here)
 library(knitr)
+library(downlit) # Required by Quarto HTML code hyperlinks.
+library(xml2) # Required by HTML code hyperlinks and figure export.
 library(quantreg)
 library(parallel)
 library(tibble)
@@ -25,6 +27,7 @@ library(readr)
 library(careless)
 library(modi)
 library(psych)
+library(Rcsdp) # Required by psych::glb.algebraic().
 library(likert)
 library(dynamic)
 
