@@ -2,11 +2,11 @@
 
 *Um tutorial reprodutível com R e Quarto*
 
-![Preprint em preparação](https://img.shields.io/badge/Preprint-em%20prepara%C3%A7%C3%A3o-lightgrey) [![Protocolo TIER 4.0](https://img.shields.io/badge/Protocolo%20TIER-4.0-green)](https://www.projecttier.org/tier-protocol/protocol-4-0/) [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Artigo-blue)](https://phdpablo.github.io/cfa-tutorial/) [![Licença](https://img.shields.io/badge/Licen%C3%A7a-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/) [![R](https://img.shields.io/badge/R-4.5.2-orange)](https://www.r-project.org/) [![Quarto](https://img.shields.io/badge/Quarto-1.9.37-orange)](https://quarto.org/) [![Docker](https://img.shields.io/badge/Docker-Compose-orange)](docker/README.md) [![renv](https://img.shields.io/badge/renv-1.2.4-orange)](https://rstudio.github.io/renv/)
+[![Preprint no SciELO Preprints](https://img.shields.io/badge/Preprint-SciELO%20Preprints-blue)](https://doi.org/10.1590/SciELOPreprints.18867) [![Protocolo TIER 4.0](https://img.shields.io/badge/Protocolo%20TIER-4.0-green)](https://www.projecttier.org/tier-protocol/protocol-4-0/) [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Artigo-blue)](https://phdpablo.github.io/cfa-tutorial/) [![Licença](https://img.shields.io/badge/Licen%C3%A7a-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/) [![R](https://img.shields.io/badge/R-4.5.2-orange)](https://www.r-project.org/) [![Quarto](https://img.shields.io/badge/Quarto-1.9.37-orange)](https://quarto.org/) [![Docker](https://img.shields.io/badge/Docker-Compose-orange)](docker/README.md) [![renv](https://img.shields.io/badge/renv-1.2.4-orange)](https://rstudio.github.io/renv/)
 
 Pablo Rogers e Sérgio Murilo Georgeto
 
-> Rogers, P., & Georgeto, S. M. [Ano a definir]. *Planejamento e avaliação de modelos de análise fatorial confirmatória: um tutorial reprodutível com R e Quarto*. [Preprint; repositório e DOI a definir].
+> Rogers, P., & Georgeto, S. M. (2026). *Planejamento e avaliação de modelos de análise fatorial confirmatória: Um tutorial reprodutível com R e Quarto* [Preprint]. SciELO Preprints. [https://doi.org/10.1590/SciELOPreprints.18867](https://doi.org/10.1590/SciELOPreprints.18867).
 
 Este repositório reúne o artigo-tutorial, os dados e os procedimentos computacionais de uma aplicação de análise fatorial confirmatória (AFC) à WHOQOL-Bref. O percurso articula seleção do modelo, análise de poder, triagem de respostas, estimação MLR/FIML, avaliação global e local, modificações fundamentadas e avaliação da estabilidade entre amostras de calibração e validação por invariância de medida.
 
@@ -37,7 +37,7 @@ O artigo-tutorial tem três objetivos:
 
 | Recurso | Descrição | Acesso |
 | --- | --- | --- |
-| 📄 Preprint | Nova versão do artigo | Repositório e DOI a definir |
+| 📄 Preprint | Artigo depositado no SciELO Preprints | [Página do preprint](https://preprints.scielo.org/index.php/scielo/preprint/view/18867) e [DOI](https://doi.org/10.1590/SciELOPreprints.18867) |
 | 🌐 Artigo | Versão disponibilizada no site | [HTML](https://phdpablo.github.io/cfa-tutorial/) e [PDF](https://phdpablo.github.io/cfa-tutorial/cfa-tutorial.pdf) |
 | 🐳 Docker | Imagem pronta para auditoria HTML/PDF | [Docker Hub](https://hub.docker.com/r/phdpablo/cfa-tutorial) e [instruções](docker/README.md) |
 | 📝 Fontes | Resumo, seções, referências e estilo de citação | [Article/](Article/README.md) |
@@ -229,11 +229,23 @@ O comando renderiza e envia o conteúdo publicado ao branch `gh-pages`. A public
 
 ## Citação
 
-A referência do novo preprint será completada após sua disponibilização. Até lá, os dados bibliográficos confirmados são:
+Para citar o artigo depositado no SciELO Preprints:
 
-> Rogers, P., & Georgeto, S. M. [Ano a definir]. *Planejamento e avaliação de modelos de análise fatorial confirmatória: um tutorial reprodutível com R e Quarto*. [Preprint; repositório e DOI a definir].
+> Rogers, P., & Georgeto, S. M. (2026). *Planejamento e avaliação de modelos de análise fatorial confirmatória: Um tutorial reprodutível com R e Quarto* [Preprint]. SciELO Preprints. [https://doi.org/10.1590/SciELOPreprints.18867](https://doi.org/10.1590/SciELOPreprints.18867).
 
-Para identificar a versão computacional utilizada, registre também o commit do repositório e a referência da imagem Docker, quando aplicável. O BibTeX será incluído quando os metadados do novo preprint estiverem definidos.
+```bibtex
+@misc{rogers2026,
+  author       = {Rogers, Pablo and Georgeto, Sérgio Murilo},
+  title        = {Planejamento e avaliação de modelos de análise fatorial confirmatória: Um tutorial reprodutível com {R} e {Quarto}},
+  year         = {2026},
+  howpublished = {SciELO Preprints},
+  note         = {Preprint},
+  doi          = {10.1590/SciELOPreprints.18867},
+  url          = {https://doi.org/10.1590/SciELOPreprints.18867}
+}
+```
+
+Para identificar a versão computacional utilizada, registre também o commit do repositório e a referência da imagem Docker, quando aplicável.
 
 A infraestrutura deriva do ARTE. Referência: Rogers, P., & Limongi, R. (2025). Open Science in Three Acts: Foundations, Practice, and Implementation — Third Act. *BAR — Brazilian Administration Review*, 22(3), e250162. [DOI](https://doi.org/10.1590/1807-7692bar2025250162).
 
