@@ -238,7 +238,7 @@ Para citar o artigo depositado no SciELO Preprints:
   author       = {Rogers, Pablo and Georgeto, Sérgio Murilo},
   title        = {Planejamento e avaliação de modelos de análise fatorial confirmatória: Um tutorial reprodutível com {R} e {Quarto}},
   year         = {2026},
-  howpublished = {SciELO Preprints},
+  publisher    = {SciELO Preprints},
   note         = {Preprint},
   doi          = {10.1590/SciELOPreprints.18867},
   url          = {https://doi.org/10.1590/SciELOPreprints.18867}
