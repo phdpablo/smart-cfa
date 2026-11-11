@@ -35,7 +35,7 @@ book: # https://quarto.org/docs/books/index.html
   author: "Pablo Rogers and Sérgio Murilo Georgeto" # edit your name
   date: today # https://quarto.org/docs/reference/dates.html
   date-format: long # Format for displaying the date (e.g., "August 8, 2024").
-  #doi:  # put your DOI
+  doi: 10.1590/SciELOPreprints.18867
   cover-image: cover.jpg # edit ou exclude this image
   downloads: pdf # https://quarto.org/docs/books/book-output.html#reader-tools
   # Adds a button to download the document as a PDF.
@@ -79,7 +79,8 @@ format: # https://quarto.org/docs/reference/formats/html.html
     toc: true # Includes a table of contents in the HTML output.
     collapse: true # Allows collapsing/expanding sections in the TOC.
     html-math-method: mathjax # Uses MathJax to render mathematical equations.
-    code-link: true # Adds a button to copy code chunks to the clipboard.
+    code-link: true # Links function names to their documentation.
+    code-copy: true # Shows a copy button on code blocks, including BibTeX.
     theme: # https://quarto.org/docs/output-formats/html-themes.html
     # See more theme options at: https://quarto.org/docs/output-formats/html-themes.html
       light: flatly # Light color theme for the website.
